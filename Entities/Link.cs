@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Sprites;
 
 public class Link : ILink
 {
 	private LinkStateMachine stateMachine;
+	private ISprite linkSprite;
 
 	public Link()
 	{
 		stateMachine = new LinkStateMachine();
+		linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
 	}
 	public void ChangeDirection(LinkStateMachine.LinkDirection nextDirection)
     {
@@ -34,13 +38,8 @@ public class Link : ILink
 		stateMachine.Update();
 	}
 
-    public void Draw()
+	public void Draw(SpriteBatch spriteBatch)
     {
-        throw new NotImplementedException();
-    }
-
-    public void UpdateSprite()
-    {
-        throw new NotImplementedException();
+		linkSprite.Draw(spriteBatch);
     }
 }

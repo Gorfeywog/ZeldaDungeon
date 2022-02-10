@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,14 +8,24 @@ namespace ZeldaDungeon.Sprites.LinkSprites
 {
     class DamagedUpLink : ISprite
     {
-        public void Draw(Rectangle pos)
+        private Texture2D spritesheet;
+        private int width;
+        private int height;
+        private Rectangle sourceRectangle;
+        private Rectangle destinationRectangle;
+        public DamagedUpLink(Texture2D spritesheet)
         {
-            throw new NotImplementedException();
+            this.spritesheet = spritesheet;
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            sourceRectangle = new Rectangle(0, 0, width, height);
+            spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangle, Color.Red);
         }
 
         public void Update()
         {
-            throw new NotImplementedException();
+            destinationRectangle = new Rectangle(0, 0, width, height);
         }
     }
 }

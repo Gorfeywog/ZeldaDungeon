@@ -27,6 +27,16 @@ public class LinkStateMachine
 		if (currentState != LinkState.Damaged) currentState = LinkState.Damaged;
 	} 
 
+	public void Idle()
+    {
+		currentState = LinkState.Idle;
+    }
+
+	public void Walking()
+    {
+		currentState = LinkState.Walking;
+    }
+
 	public void Update()
     {
 

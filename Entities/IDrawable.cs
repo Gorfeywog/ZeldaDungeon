@@ -7,6 +7,6 @@ namespace ZeldaDungeon.Entities
     public interface IDrawable
     {
         public void Draw();
-        public void UpdateSprite();
+        public void UpdateSprite(SpriteBatch _spriteBatch);
     }
 }

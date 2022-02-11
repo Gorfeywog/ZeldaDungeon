@@ -7,7 +7,7 @@ namespace ZeldaDungeon.Sprites
 {
     public interface ISprite
     {
-        public void Draw(Rectangle pos); // maybe change the SpriteBatch to be a parameter? unsure if it should be that or a private variable
+        public void Draw(Rectangle pos, SpriteBatch _spriteBatch); // maybe change the SpriteBatch to be a parameter? unsure if it should be that or a private variable. It is decided - Josh
         public void Update();
     }
 }

@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Sprites
     public class LinkSpriteFactory
     {
         private Texture2D linkSpriteSheet;
-        private static readonly int gridX = 32; // how wide each pixel is
+        private static readonly int gridX = 32; // how wide each sprite is
         private static readonly int gridY = 32;
 
         private static LinkSpriteFactory instance = new LinkSpriteFactory();
@@ -51,7 +51,9 @@ namespace ZeldaDungeon.Sprites
         {
             return new AttackingDownLink(linkSpriteSheet, GridToPoint(1,4));
         }
-
+        // Note that Idle sprites just use the first frame of the
+        // walk animation, and the UsingItem sprites do the same.
+        // This should be changed if possible.
         public ISprite CreateIdleLeftLink()
         {
             return new IdleLeftLink(linkSpriteSheet, GridToPoint(0, 2));
@@ -135,7 +137,7 @@ namespace ZeldaDungeon.Sprites
             return new WalkingDownLink(linkSpriteSheet, topLefts);
         }
 
-        private static Point GridToPoint(int x, int y)
+        private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
         {
             return new Point(gridX * x, gridY * y);
         }

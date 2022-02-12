@@ -4,20 +4,20 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ZeldaDungeon.Sprites.BlockSprites;
+using ZeldaDungeon.Sprites.ItemSprites;
 
 namespace ZeldaDungeon.Sprites
 {
-    public class BlockSpriteFactory
+    public class ItemSpriteFactory
     {
-        private Texture2D blockSpriteSheet;
+        private Texture2D itemSpriteSheet;
         private static readonly int gridX = 32; // how wide each sprite is
         private static readonly int gridY = 32;
 
-        private static BlockSpriteFactory instance = new BlockSpriteFactory();
+        private static ItemSpriteFactory instance = new ItemSpriteFactory();
 
         
-        public static BlockSpriteFactory Instance
+        public static ItemSpriteFactory Instance
         {
             get
             {
@@ -25,11 +25,11 @@ namespace ZeldaDungeon.Sprites
             }
         }
 
-        private BlockSpriteFactory() {   }
+        private ItemSpriteFactory() {   }
 
         public void LoadAllTextures(ContentManager content)
         {
-            blockSpriteSheet = content.Load<Texture2D>("blocksprites");
+            itemSpriteSheet = content.Load<Texture2D>("itemsprites");
         }
 
         private static Point GridToPoint(int x, int y) // convert grid position to position in pixels

@@ -6,13 +6,13 @@ using System.Text;
 
 namespace ZeldaDungeon.Sprites.LinkSprites
 {
-    class UILeftLink : ISprite
+    class TrapSprite : ISprite
     {
         private Texture2D spritesheet;
         private static readonly int width = 16;
         private static readonly int height = 16;
         private Rectangle sourceRectangle;
-        public UILeftLink(Texture2D spritesheet, Point topLeft)
+        public TrapSprite(Texture2D spritesheet, Point topLeft)
         {
             this.spritesheet = spritesheet;
             sourceRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);

@@ -9,23 +9,20 @@ namespace ZeldaDungeon.Sprites.LinkSprites
     class AttackingLeftLink : ISprite
     {
         private Texture2D spritesheet;
-        private int width;
-        private int height;
+        private static readonly int width = 27;
+        private static readonly int height = 16;
         private Rectangle sourceRectangle;
-        private Rectangle destinationRectangle;
-        public AttackingLeftLink(Texture2D spritesheet)
+        public AttackingLeftLink(Texture2D spritesheet, Point topLeft)
         {
             this.spritesheet = spritesheet;
+            sourceRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
-            sourceRectangle = new Rectangle(0, 0, width, height);
+            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
             spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangle, Color.White);
         }
 
-        public void Update()
-        {
-            destinationRectangle = new Rectangle(0, 0, width, height);
-        }
+        public void Update() {   } // no animation, no update
     }
 }

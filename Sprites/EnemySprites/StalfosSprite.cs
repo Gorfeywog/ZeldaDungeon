@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ZeldaDungeon.Sprites.LinkSprites
+namespace ZeldaDungeon.Sprites.EnemySprites
 {
-    class WalkingDownLink : ISprite
+    class StalfosSprite
     {
         private Texture2D spritesheet;
         private static readonly int width = 16;
@@ -15,7 +15,7 @@ namespace ZeldaDungeon.Sprites.LinkSprites
         private int frameNo; // index of current frame in the array
         private static readonly int waitTime = 10; // how many Updates to wait between cycling frame
         private int currentWait;
-        public WalkingDownLink(Texture2D spritesheet, Point[] topLefts)
+        public StalfosSprite(Texture2D spritesheet, Point[] topLefts)
         {
             this.spritesheet = spritesheet;
             sourceRectangles = new Rectangle[topLefts.Length];
@@ -39,7 +39,8 @@ namespace ZeldaDungeon.Sprites.LinkSprites
                 currentWait = waitTime;
                 int maxFrames = sourceRectangles.Length;
                 frameNo = (frameNo + 1) % maxFrames;
-            } else
+            }
+            else
             {
                 currentWait--;
             }

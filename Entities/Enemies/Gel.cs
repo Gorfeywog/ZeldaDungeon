@@ -13,11 +13,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int posY;
 		private Random rand;
 
-		public Gel()
+		public Gel(Point position)
 		{
 			GelSprite = EnemySpriteFactory.Instance.CreateGelSprite();
-			posX = 0;
-			posY = 0;
+			posX = position.X;
+			posY = position.Y;
 			rand = new Random();
 		}
 
@@ -51,7 +51,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void UpdateSprite()
 		{
-
+			GelSprite.Update();
 		}
 
 

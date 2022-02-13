@@ -51,7 +51,7 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateGelSprite()
         {
-            Point[] topLefts = { GridToPoint(1, 0), GridToPoint(1, 1) };
+            Point[] topLefts = { GridToPoint(0, 1), GridToPoint(1, 1) };
             return new GelSprite(enemySpriteSheet, topLefts);
         }
 

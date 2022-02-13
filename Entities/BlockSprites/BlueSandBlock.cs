@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace ZeldaDungeon
+namespace ZeldaDungeon.Entities.BlockSprites
 {
 	public class BlueSandBlock : IBlock
 	{

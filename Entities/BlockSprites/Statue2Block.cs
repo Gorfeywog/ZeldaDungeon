@@ -6,7 +6,7 @@ using System.Text;
 using System.Drawing;
 
 
-namespace ZeldaDungeon
+namespace ZeldaDungeon.Entities.BlockSprites
 {
 	public class Statue2Block : IBlock
 	{

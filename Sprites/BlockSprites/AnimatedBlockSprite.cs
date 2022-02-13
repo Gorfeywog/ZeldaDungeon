@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ZeldaDungeon.Sprites.AnimatedBlockSprites
+namespace ZeldaDungeon.Sprites.BlockSprites
 {
     class AnimatedBlockSprite : ISprite
     {

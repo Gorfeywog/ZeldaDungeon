@@ -68,6 +68,11 @@ namespace ZeldaDungeon.Sprites
         {
             return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(3, 1));
         }
+        public ISprite CreateFireBlock()
+        {
+            Point[] topLefts = { GridToPoint(0, 0), GridToPoint(0, 1) };
+            return new AnimatedBlockSprite(blockSpriteSheet, 16, 16, topLefts);
+        }
 
         private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
         {

@@ -1,45 +1,28 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Entities;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon
 {
 	public class StairsBlock : IBlock
 	{
-		private ISprite stairs = createStairsBlock(); // TODO: Check with Luke that this is correct.
-		private Rectangle destRect = new Rectangle(new Point(int 700, int 300)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
-		public Point CurrentPoint
+		private ISprite sprite = BlockSpriteFactory.Instance.CreateStairsBlock(); // TODO: Check with Luke that this is correct.
+		private static int width = 16;
+		private static int height = 16;
+		public Point CurrentPoint { get; set; }
+		public StairsBlock(Point position)
 		{
-			get
-			{
-				return currentPoint;
-			}
-			set
-			{
-				currentPoint = value;
-			}
+			CurrentPoint = position;
 		}
-		public SpriteBatch Sprites
+		public void Draw(SpriteBatch spriteBatch)
 		{
-			get
-			{
-				return sprites;
-			}
-			set
-			{
-				Sprites = value;
-			}
+			sprite.Draw(spriteBatch, CurrentPoint);
 		}
-		public void Draw()
-		{
-			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new System.Drawing.Size(int 32, int 32));
-			stairs.Draw(Sprites, destRect, sourceRect, Color.White);
-		}
-		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
-		{
-			CurrentPoint = topLeft;
-			Sprites = spriteBatch;
-		}
+		public void UpdateSprite() => sprite.Update();
 	}
 }
 

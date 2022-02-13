@@ -21,6 +21,6 @@ namespace ZeldaDungeon.Entities.Items
         {
             sprite.Draw(spriteBatch, CurrentPoint);
         }
-        public void UpdateSprite() => sprite.Update();
+        public void Update() => sprite.Update();
     }
 }

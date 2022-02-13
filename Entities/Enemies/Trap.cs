@@ -39,7 +39,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			TrapSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
+		public void Update()
         {
 			TrapSprite.Update();
         }

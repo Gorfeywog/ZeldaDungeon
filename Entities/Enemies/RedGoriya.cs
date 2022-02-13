@@ -100,7 +100,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			RedGoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
+		public void Update()
 		{
 			RedGoriyaSprite.Update();
 		}

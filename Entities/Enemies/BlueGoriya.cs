@@ -99,7 +99,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			BlueGoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
+		public void Update()
 		{
 			BlueGoriyaSprite.Update();
 		}

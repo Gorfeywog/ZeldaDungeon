@@ -49,7 +49,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			GelSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
+		public void Update()
 		{
 			GelSprite.Update();
 		}

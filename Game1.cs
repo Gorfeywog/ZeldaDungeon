@@ -60,13 +60,12 @@ namespace ZeldaDungeon
         {
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
-            enemies[CurrentEnemyIndex].UpdateSprite();
-            items[CurrentItemIndex].UpdateSprite();
-            blocks[CurrentBlockIndex].UpdateSprite();
-            Player.UpdateSprite();
+            enemies[CurrentEnemyIndex].Update();
+            items[CurrentItemIndex].Update();
+            blocks[CurrentBlockIndex].Update();
+            Player.Update();
 
             enemies[CurrentEnemyIndex].Move();
-            Player.Update();
 
             base.Update(gameTime);
         }

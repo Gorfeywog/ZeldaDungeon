@@ -22,7 +22,7 @@ namespace ZeldaDungeon.Entities.Blocks
         {
             sprite.Draw(spriteBatch, CurrentPoint);
         }
-        public void UpdateSprite() => sprite.Update();
+        public void Update() => sprite.Update();
 
     }
 }

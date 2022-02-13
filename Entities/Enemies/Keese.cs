@@ -43,7 +43,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			KeeseSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
+		public void Update()
 		{
 			KeeseSprite.Update();
 		}

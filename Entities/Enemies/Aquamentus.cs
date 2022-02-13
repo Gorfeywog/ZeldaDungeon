@@ -56,7 +56,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			AquamentusSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
+		public void Update()
 		{
 			AquamentusSprite.Update();
 		}

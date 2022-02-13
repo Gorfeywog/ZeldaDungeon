@@ -37,13 +37,9 @@ public class Link : ILink
 
 	public void Update()
 	{
+		linkSprite.Update();
 		stateMachine.Update();
 	}
-
-	public void UpdateSprite()
-    {
-		linkSprite.Update();
-    }
 
 	public void Draw(SpriteBatch spriteBatch)
     {

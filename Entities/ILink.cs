@@ -10,7 +10,5 @@ namespace ZeldaDungeon.Entities
         public void TakeDamage();
         public void UseItem();
         public void Attack();
-        public void Update();
-
     }
 }

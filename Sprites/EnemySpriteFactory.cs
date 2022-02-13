@@ -76,7 +76,7 @@ namespace ZeldaDungeon.Sprites
         public ISprite createTrapSprite()
         {
             Point topLeft = GridToPoint(0, 7);
-            return new TrapSprite(enemySpriteSheet, topLefts);
+            return new TrapSprite(enemySpriteSheet, topLeft);
         }
 
         public ISprite createBlueGoriyaSpriteLeft()

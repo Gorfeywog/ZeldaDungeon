@@ -64,6 +64,8 @@ namespace ZeldaDungeon
             items[CurrentItemIndex].UpdateSprite();
             blocks[CurrentBlockIndex].UpdateSprite();
             Player.UpdateSprite();
+
+            enemies[CurrentEnemyIndex].Move();
             Player.Update();
 
             base.Update(gameTime);

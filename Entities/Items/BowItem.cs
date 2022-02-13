@@ -3,47 +3,24 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Items
 {
     public class BowItem : IItem
     {
-        private ISprite bow = createBow(); // TODO: Check with Luke that this is correct.
-        private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
-        public Point CurrentPoint
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateBowItem(); // TODO: Check with Luke that this is correct.
+        private static int width = 16;
+        private static int height = 16;
+        public Point CurrentPoint { get; set; }
+        public BowItem(Point position)
         {
-            get
-            {
-                return currentPoint;
-            }
-            set
-            {
-                currentPoint = value;
-
-            }
+            CurrentPoint = position;
         }
-        public SpriteBatch Sprites
+        public void Draw(SpriteBatch spriteBatch)
         {
-            get
-            {
-                return sprites;
-            }
-            set
-            {
-                Sprites = value;
-            }
+            sprite.Draw(spriteBatch, CurrentPoint);
         }
-    public void Draw()
-		{
-			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			bow.Draw(Sprites, destRect, sourceRect, Color.White);
-		}
-		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
-		{
-			CurrentPoint = topLeft;
-            Sprites = spriteBatch;
-		}
-	}
+        public void UpdateSprite() => sprite.Update();
+    }
 }
-

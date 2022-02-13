@@ -61,8 +61,8 @@ namespace ZeldaDungeon
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
             enemies[CurrentEnemyIndex].UpdateSprite();
-            items[CurrentEnemyIndex].UpdateSprite();
-            blocks[CurrentEnemyIndex].UpdateSprite();
+            items[CurrentItemIndex].UpdateSprite();
+            blocks[CurrentBlockIndex].UpdateSprite();
             Player.UpdateSprite();
             Player.Update();
 
@@ -74,8 +74,8 @@ namespace ZeldaDungeon
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             enemies[CurrentEnemyIndex].Draw(_spriteBatch);
-            items[CurrentEnemyIndex].Draw(_spriteBatch);
-            blocks[CurrentEnemyIndex].Draw(_spriteBatch);
+            items[CurrentItemIndex].Draw(_spriteBatch);
+            blocks[CurrentBlockIndex].Draw(_spriteBatch);
             Player.Draw(_spriteBatch);
             base.Draw(gameTime);
             _spriteBatch.End();

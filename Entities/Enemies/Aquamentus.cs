@@ -23,7 +23,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			movingLeft = true;
 		}
 
-		public void Move(SpriteBatch spriteBatch)
+		public void Move()
 		{
 			//One in four chance per move for aquamentus to change direction
 			if (rand.Next(4) == 0)
@@ -39,7 +39,6 @@ namespace ZeldaDungeon.Entities.Enemies
 				posX += 4;
             }
 
-			AquamentusSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
 		public void Attack()
@@ -48,6 +47,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		}
 
 		public void TakeDamage()
+		{
+
+		}
+
+		public void Draw(SpriteBatch spriteBatch)
+		{
+			AquamentusSprite.Draw(spriteBatch, new Point(posX, posY));
+		}
+
+		public void UpdateSprite()
 		{
 
 		}

@@ -27,7 +27,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		}
 
-		public void Move(SpriteBatch spriteBatch)
+		public void Move()
 		{
 			//One in four chance to change directions
 			if (rand.Next(4) == 0) {
@@ -90,6 +90,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		}
 
 		public void TakeDamage()
+		{
+
+		}
+
+		public void Draw(SpriteBatch spriteBatch)
+		{
+			BlueGoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
+		}
+
+		public void UpdateSprite()
 		{
 
 		}

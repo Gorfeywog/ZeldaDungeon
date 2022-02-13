@@ -19,9 +19,9 @@ namespace ZeldaDungeon.Entities.Enemies
 			posY = 0;
 		}
 
-		public void Move(SpriteBatch spriteBatch)
+		public void Move()
 		{
-			TrapSprite.Draw(spriteBatch, new Point(posX, posY));
+
 		}
 
 		public void Attack()
@@ -33,6 +33,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 
 		}
+		
+		public void Draw(SpriteBatch spriteBatch)
+        {
+			TrapSprite.Draw(spriteBatch, new Point(posX, posY));
+		}
+
+		public void UpdateSprite()
+        {
+
+        }
 
 
 

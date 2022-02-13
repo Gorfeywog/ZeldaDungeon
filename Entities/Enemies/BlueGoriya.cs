@@ -19,7 +19,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public BlueGoriya()
 		{
-			BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
+			BlueGoriyaSprite = EnemySpriteFactory.Instance.createBlueGoriyaSpriteLeft();
 			currDirection = GoriyaDirection.Left;
 
 			
@@ -35,22 +35,22 @@ namespace ZeldaDungeon.Entities.Enemies
 				{
 					case 0:
 						currDirection = GoriyaDirection.Left;
-						BlueGoriyaSprite = EnemySpriteFactory.createBlueGoriyaSpriteLeft();
+						BlueGoriyaSprite = EnemySpriteFactory.Instance.createBlueGoriyaSpriteLeft();
 						break;
 
 					case 1:
 						currDirection = GoriyaDirection.Right;
-						BlueGoriyaSprite = EnemySpriteFactory.createBlueGoriyaSpriteRight();
+						BlueGoriyaSprite = EnemySpriteFactory.Instance.createBlueGoriyaSpriteRight();
 						break;
 
 					case 2:
 						currDirection = GoriyaDirection.Up;
-						BlueGoriyaSprite = EnemySpriteFactory.createBlueGoriyaSpriteUp();
+						BlueGoriyaSprite = EnemySpriteFactory.Instance.createBlueGoriyaSpriteUp();
 						break;
 
 					case 3:
 						currDirection = GoriyaDirection.Down;
-						BlueGoriyaSprite = EnemySpriteFactory.createBlueGoriyaSpriteDown();
+						BlueGoriyaSprite = EnemySpriteFactory.Instance.createBlueGoriyaSpriteDown();
 						break;
 
 					default:
@@ -80,8 +80,6 @@ namespace ZeldaDungeon.Entities.Enemies
 				default:
 					break;
 			}
-
-			BlueGoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
 		public void Attack()

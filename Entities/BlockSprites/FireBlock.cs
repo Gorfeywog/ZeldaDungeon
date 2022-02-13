@@ -1,58 +1,30 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using ZeldaDungeon.Entities;
+using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.BlockSprites
+namespace ZeldaDungeon
 {
 	public class FireBlock : IBlock
 	{
-		private int i = 0;
-		private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
-		public Point CurrentPoint
+		public class FireBlock : IBlock
 		{
-			get
+			private ISprite sprite = BlockSpriteFactory.Instance.CreateFireBlock(); // TODO: Check with Luke that this is correct.
+			private static int width = 16;
+			private static int height = 16;
+			public Point CurrentPoint { get; set; }
+			public FireBlock(Point position)
 			{
-				return currentPoint;
+				CurrentPoint = position;
 			}
-			set
+			public void Draw(SpriteBatch spriteBatch)
 			{
-				currentPoint = value;
+				sprite.Draw(spriteBatch, CurrentPoint);
 			}
-		}
-		public SpriteBatch Sprites
-		{
-			get
-			{
-				return sprites;
-			}
-			set
-			{
-				Sprites = value;
-			}
-		}
-
-		ISprite fire = createFire();
-
-		public void Draw()
-		{
-			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			fire.Draw(Sprites, destRect, sourceRect, Color.White);
-		}
-		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
-		{
-			Sprites = spriteBatch;
-			i++;
-			if (i % 4 == 0)
-			{
-				CurrentPoint = topLeft;
-			}
-			else
-			{
-				CurrentPoint = new Point(topLeft.X + 32, topLeft.Y);
-			}
+			public void UpdateSprite() => sprite.Update();
 		}
 	}
 }

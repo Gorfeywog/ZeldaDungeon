@@ -1,47 +1,30 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using ZeldaDungeon.Entities;
+using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.BlockSprites
+namespace ZeldaDungeon
 {
 	public class Statue1Block : IBlock
 	{
-		private ISprite statue = createStatue1Block(); // TODO: Check with Luke that this is correct.
-		private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
-		public Point CurrentPoint
+		public class Statue1Block : IBlock
 		{
-			get
+			private ISprite sprite = BlockSpriteFactory.Instance.CreateStatue1Block(); // TODO: Check with Luke that this is correct.
+			private static int width = 16;
+			private static int height = 16;
+			public Point CurrentPoint { get; set; }
+			public Statue1Block(Point position)
 			{
-				return currentPoint;
+				CurrentPoint = position;
 			}
-			set
+			public void Draw(SpriteBatch spriteBatch)
 			{
-				currentPoint = value;
+				sprite.Draw(spriteBatch, CurrentPoint);
 			}
-		}
-		public SpriteBatch Sprites
-		{
-			get
-			{
-				return sprites;
-			}
-			set
-			{
-				Sprites = value;
-			}
-		}
-		public void Draw()
-		{
-			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			statue.Draw(Sprites, destRect, sourceRect, Color.White);
-		}
-		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
-		{
-			CurrentPoint = topLeft;
-			Sprites = spriteBatch;
+			public void UpdateSprite() => sprite.Update();
 		}
 	}
 }

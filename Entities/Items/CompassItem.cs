@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace ZeldaDungeon.Entities.ItemSprites
+namespace ZeldaDungeon.Entities.Items
 {
-	public class ArrowItem : IItem
+	public class CompassItem : IItem
 	{
-		
-		private ISprite arrow = createArrow(); // TODO: Check with Luke that this is correct.
+		private ISprite compass = createCompass(); // TODO: Check with Luke that this is correct.
 		private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
 		public Point CurrentPoint
 		{
@@ -21,6 +20,7 @@ namespace ZeldaDungeon.Entities.ItemSprites
 			set
 			{
 				currentPoint = value;
+
 			}
 		}
 		public SpriteBatch Sprites
@@ -35,9 +35,9 @@ namespace ZeldaDungeon.Entities.ItemSprites
 			}
 		}
 		public void Draw()
-        {
+		{
 			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			arrow.Draw(Sprites, destRect, sourceRect, Color.White);
+			compass.Draw(Sprites, destRect, sourceRect, Color.White);
 		}
 		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
 		{

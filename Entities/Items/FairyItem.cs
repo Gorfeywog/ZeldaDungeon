@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace ZeldaDungeon.Entities.ItemSprites
+namespace ZeldaDungeon.Entities.Items
 {
-	public class MapItem : IItem
+	public class FairyItem : IItem
 	{
-		private ISprite map = createMap(); // TODO: Check with Luke that this is correct.
+		private int i = 0;
 		private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
 		public Point CurrentPoint
 		{
@@ -33,15 +33,25 @@ namespace ZeldaDungeon.Entities.ItemSprites
 				Sprites = value;
 			}
 		}
+		ISprite fairy = createFairy();
+
 		public void Draw()
 		{
 			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			map.Draw(Sprites, destRect, sourceRect, Color.White);
+			fairy.Draw(Sprites, destRect, sourceRect, Color.White);
 		}
 		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
 		{
-			CurrentPoint = topLeft;
 			Sprites = spriteBatch;
+			i++;
+			if (i % 4 == 0)
+			{
+				CurrentPoint = topLeft;
+			}
+			else
+			{
+				CurrentPoint = new Point(topLeft.X + 32, topLeft.Y); // check the distance between each sprite in the texture atlas and confirm this is correct.
+			}
 		}
 	}
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace ZeldaDungeon.Entities.ItemSprites
+namespace ZeldaDungeon.Entities.Items
 {
 	public class WoodenBoomerangItem : IItem
 	{

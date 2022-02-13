@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace ZeldaDungeon.Entities.ItemSprites
+namespace ZeldaDungeon.Entities.Items
 {
-	public class FairyItem : IItem
+	public class HeartItem : IItem
 	{
 		private int i = 0;
 		private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
@@ -33,12 +33,13 @@ namespace ZeldaDungeon.Entities.ItemSprites
 				Sprites = value;
 			}
 		}
-		ISprite fairy = createFairy();
+
+		ISprite heart = createHeart();
 
 		public void Draw()
 		{
 			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			fairy.Draw(Sprites, destRect, sourceRect, Color.White);
+			heart.Draw(Sprites, destRect, sourceRect, Color.White);
 		}
 		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
 		{
@@ -50,7 +51,7 @@ namespace ZeldaDungeon.Entities.ItemSprites
 			}
 			else
 			{
-				CurrentPoint = new Point(topLeft.X + 32, topLeft.Y); // check the distance between each sprite in the texture atlas and confirm this is correct.
+				CurrentPoint = new Point(topLeft.X + 32, topLeft.Y);
 			}
 		}
 	}

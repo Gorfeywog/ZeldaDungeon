@@ -36,12 +36,12 @@ namespace ZeldaDungeon.Entities.Enemies
 				{
 					case 0:
 						currDirection = RopeDirection.Left;
-						RopeSprite = EnemySpriteFactory.createRopeSpriteLeft();
+						RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
 						break;
 
 					case 1:
 						currDirection = RopeDirection.Right;
-						RopeSprite = EnemySpriteFactory.createRopeSpriteRight();
+						RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteRight();
 						break;
 
 					case 2:

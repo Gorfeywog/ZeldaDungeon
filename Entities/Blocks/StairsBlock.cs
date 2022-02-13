@@ -6,7 +6,7 @@ using System.Text;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon
+namespace ZeldaDungeon.Entities.Blocks
 {
 	public class StairsBlock : IBlock
 	{

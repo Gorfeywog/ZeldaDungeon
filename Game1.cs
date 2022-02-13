@@ -89,6 +89,9 @@ namespace ZeldaDungeon
             items = new List<IItem>();
             blocks = new List<IBlock>();
             // add code here to insert every enemy, item, block to their respective lists
+            Point enemySpawn = new Point(600, 300);
+            Point itemSpawn = new Point(200, 200);
+            Point blockSpawn = new Point(300, 300);
             enemies.Add(new Aquamentus());
             enemies.Add(new BlueGoriya());
             enemies.Add(new Gel());
@@ -97,7 +100,7 @@ namespace ZeldaDungeon
             enemies.Add(new Rope());
             enemies.Add(new Stalfos());
             enemies.Add(new Trap());
-            items.Add(new ArrowItem(new Point(200, 200)));
+            items.Add(new ArrowItem(itemSpawn));
             items.Add(new BombItem(new Point(200, 200)));
             items.Add(new BowItem(new Point(200, 200)));
             items.Add(new ClockItem(new Point(200, 200)));

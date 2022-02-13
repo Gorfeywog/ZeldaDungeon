@@ -87,7 +87,14 @@ namespace ZeldaDungeon
             items = new List<IItem>();
             blocks = new List<IBlock>();
             // add code here to insert every enemy, item, block to their respective lists
+            enemies.Add(new Aquamentus());
+            enemies.Add(new BlueGoriya());
+            enemies.Add(new Gel());
+            enemies.Add(new Keese());
+            enemies.Add(new RedGoriya());
+            enemies.Add(new Rope());
             enemies.Add(new Stalfos());
+            enemies.Add(new Trap());
             items.Add(new ArrowItem(new Point(200, 200)));
             blocks.Add(new FireBlock(new Point(300, 300)));
 

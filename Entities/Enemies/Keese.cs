@@ -13,11 +13,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int posY;
 		private Random rand;
 
-		public Keese()
+		public Keese(Point position)
 		{
 			KeeseSprite = EnemySpriteFactory.Instance.CreateKeeseSprite();
-			posX = 0;
-			posY = 0;
+			posX = position.X;
+			posY = position.Y;
 			rand = new Random();
 		}
 
@@ -45,7 +45,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void UpdateSprite()
 		{
-
+			KeeseSprite.Update();
 		}
 
 

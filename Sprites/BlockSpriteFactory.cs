@@ -32,6 +32,48 @@ namespace ZeldaDungeon.Sprites
             blockSpriteSheet = content.Load<Texture2D>("blocksprites");
         }
 
+        public ISprite CreateBlueFloorBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(4, 1));
+        }
+        public ISprite CreateBlueSandBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(1, 1));
+        }
+        public ISprite CreateBlueUnwalkableGapBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(3, 2));
+        }
+        public ISprite CreateLadderBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(1, 2));
+        }
+        public ISprite CreatePushableBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(0, 1));
+        }
+        public ISprite CreateStairsBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(2, 1));
+        }
+        public ISprite CreateStatue1Block()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(1, 2));
+        }
+        public ISprite CreateStatue2Block()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(2, 2));
+        }
+        public ISprite CreateWhiteBrickBlock()
+        {
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(3, 1));
+        }
+        public ISprite CreateFireBlock()
+        {
+            Point[] topLefts = { GridToPoint(0, 0), GridToPoint(0, 1) };
+            return new AnimatedBlockSprite(blockSpriteSheet, 16, 16, topLefts);
+        }
+
         private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
         {
             return new Point(gridX * x, gridY * y);

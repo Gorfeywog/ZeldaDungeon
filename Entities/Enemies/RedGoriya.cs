@@ -36,22 +36,22 @@ namespace ZeldaDungeon.Entities.Enemies
 				{
 					case 0:
 						currDirection = GoriyaDirection.Left;
-						RedGoriyaSprite = EnemySpriteFactory.createRedGoriyaSpriteLeft();
+						RedGoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
 						break;
 
 					case 1:
 						currDirection = GoriyaDirection.Right;
-						RedGoriyaSprite = EnemySpriteFactory.createRedGoriyaSpriteRight();
+						RedGoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteRight();
 						break;
 
 					case 2:
 						currDirection = GoriyaDirection.Up;
-						RedGoriyaSprite = EnemySpriteFactory.createRedGoriyaSpriteUp();
+						RedGoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteUp();
 						break;
 
 					case 3:
 						currDirection = GoriyaDirection.Down;
-						RedGoriyaSprite = EnemySpriteFactory.createRedGoriyaSpriteDown();
+						RedGoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteDown();
 						break;
 
 					default:

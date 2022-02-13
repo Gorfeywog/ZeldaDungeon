@@ -9,6 +9,7 @@ namespace ZeldaDungeon
     public class KeyboardController : IController
     {
         private KeyboardState state;
+        private KeyboardState oldState;
         private IDictionary<Keys, ICommand> commands;
         public KeyboardController()
         {
@@ -17,13 +18,21 @@ namespace ZeldaDungeon
         }
         public void UpdateState()
         {
+            if (state == null)
+            {
+                oldState = Keyboard.GetState();
+            }
+            else
+            {
+                oldState = state;
+            }
             state = Keyboard.GetState();
         }
         public void ExecuteCommands()
         {
             foreach (Keys k in state.GetPressedKeys())
             {
-                if (commands.ContainsKey(k))
+                if (commands.ContainsKey(k) && oldState.IsKeyUp(k)) // check old state so we only press it once
                 {
                     commands[k].Execute();
                 }

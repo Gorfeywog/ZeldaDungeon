@@ -41,8 +41,10 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            RegisterCommands();
             base.Initialize();
+            RegisterCommands();
+            SetupLists();
+            SetupPlayer();
         }
 
         protected override void LoadContent()
@@ -70,13 +72,13 @@ namespace ZeldaDungeon
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            _spriteBatch.Begin();
             enemies[CurrentEnemyIndex].Draw(_spriteBatch);
             items[CurrentEnemyIndex].Draw(_spriteBatch);
             blocks[CurrentEnemyIndex].Draw(_spriteBatch);
             Player.Draw(_spriteBatch);
-
             base.Draw(gameTime);
+            _spriteBatch.End();
         }
 
         public void SetupLists()

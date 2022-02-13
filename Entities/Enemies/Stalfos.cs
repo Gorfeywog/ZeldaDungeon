@@ -16,8 +16,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Stalfos()
 		{
 			StalfosSprite = EnemySpriteFactory.Instance.CreateStalfosSprite();
-			posX = 0;
-			posY = 0;
+			posX = 400;
+			posY = 200;
 			rand = new Random();
 		}
 
@@ -48,10 +48,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			StalfosSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
-		public void UpdateSprite()
-		{
-
-		}
+		public void UpdateSprite() => StalfosSprite.Update();
 
 
 	}

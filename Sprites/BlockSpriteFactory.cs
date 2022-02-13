@@ -70,7 +70,7 @@ namespace ZeldaDungeon.Sprites
         }
         public ISprite CreateFireBlock()
         {
-            Point[] topLefts = { GridToPoint(0, 0), GridToPoint(0, 1) };
+            Point[] topLefts = { GridToPoint(0, 0), GridToPoint(1, 0) };
             return new AnimatedBlockSprite(blockSpriteSheet, 16, 16, topLefts);
         }
 

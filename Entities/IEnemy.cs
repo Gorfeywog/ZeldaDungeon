@@ -4,5 +4,12 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IEnemy : IDrawable {   }
+    public interface IEnemy
+    {
+        public void Attack();
+
+        public void Move(SpriteBatch spriteBatch);
+
+        public void TakeDamage();
+    }
 }

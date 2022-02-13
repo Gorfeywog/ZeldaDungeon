@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Entities.Blocks;
+using ZeldaDungeon.Entities.Enemies;
+using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon
 {
@@ -44,15 +48,21 @@ namespace ZeldaDungeon
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            ItemSpriteFactory.Instance.LoadAllTextures(Content);
+            LinkSpriteFactory.Instance.LoadAllTextures(Content);
+            BlockSpriteFactory.Instance.LoadAllTextures(Content);
+            EnemySpriteFactory.Instance.LoadAllTextures(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
-            // TODO: Add your update logic here
+            enemies[CurrentEnemyIndex].UpdateSprite();
+            items[CurrentEnemyIndex].UpdateSprite();
+            blocks[CurrentEnemyIndex].UpdateSprite();
+            Player.UpdateSprite();
+            Player.Update();
 
             base.Update(gameTime);
         }
@@ -61,8 +71,10 @@ namespace ZeldaDungeon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-            // adding a change to see if this goes into a new branch
+            enemies[CurrentEnemyIndex].Draw(_spriteBatch);
+            items[CurrentEnemyIndex].Draw(_spriteBatch);
+            blocks[CurrentEnemyIndex].Draw(_spriteBatch);
+            Player.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
@@ -73,7 +85,9 @@ namespace ZeldaDungeon
             items = new List<IItem>();
             blocks = new List<IBlock>();
             // add code here to insert every enemy, item, block to their respective lists
-
+            enemies.Add(new Stalfos());
+            items.Add(new ArrowItem(new Point(200, 200)));
+            blocks.Add(new FireBlock(new Point(300, 300)));
 
             CurrentEnemyIndex = 0;
             CurrentItemIndex = 0;

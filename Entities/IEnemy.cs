@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IEnemy
+    public interface IEnemy : IDrawable
     {
         public void Attack();
 
-        public void Move(SpriteBatch spriteBatch);
+        public void Move();
 
         public void TakeDamage();
     }

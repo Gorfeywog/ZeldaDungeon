@@ -21,7 +21,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			rand = new Random();
 		}
 
-		public void Move(SpriteBatch spriteBatch)
+		public void Move()
 		{
 			if (rand.Next(2) == 0)
 			{
@@ -32,7 +32,6 @@ namespace ZeldaDungeon.Entities.Enemies
 				posY += 4 * rand.Next(3) - 4;
 			}
 
-			GelSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
 		public void Attack()
@@ -41,6 +40,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		}
 
 		public void TakeDamage()
+		{
+
+		}
+
+		public void Draw(SpriteBatch spriteBatch)
+		{
+			GelSprite.Draw(spriteBatch, new Point(posX, posY));
+		}
+
+		public void UpdateSprite()
 		{
 
 		}

@@ -21,12 +21,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			rand = new Random();
 		}
 
-		public void Move(SpriteBatch spriteBatch)
+		public void Move()
 		{
 			posX += 4 * rand.Next(3) - 4;
 			posY += 4 * rand.Next(3) - 4;
 
-			KeeseSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
 		public void Attack()
@@ -35,6 +34,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		}
 
 		public void TakeDamage()
+		{
+
+		}
+
+		public void Draw(SpriteBatch spriteBatch)
+		{
+			KeeseSprite.Draw(spriteBatch, new Point(posX, posY));
+		}
+
+		public void UpdateSprite()
 		{
 
 		}

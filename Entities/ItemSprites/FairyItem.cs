@@ -42,7 +42,7 @@ namespace ZeldaDungeon
 		}
 		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
 		{
-			Sprites = spriteBatch
+			Sprites = spriteBatch;
 			i++;
 			if (i % 4 == 0)
 			{

@@ -96,8 +96,27 @@ namespace ZeldaDungeon
             enemies.Add(new Stalfos());
             enemies.Add(new Trap());
             items.Add(new ArrowItem(new Point(200, 200)));
+            items.Add(new BombItem(new Point(200, 200)));
+            items.Add(new BowItem(new Point(200, 200)));
+            items.Add(new ClockItem(new Point(200, 200)));
+            items.Add(new CompassItem(new Point(200, 200)));
+            items.Add(new FairyItem(new Point(200, 200)));
+            items.Add(new HeartContainerItem(new Point(200, 200)));
+            items.Add(new HeartItem(new Point(200, 200)));
+            items.Add(new KeyItem(new Point(200, 200)));
+            items.Add(new MapItem(new Point(200, 200)));
+            items.Add(new RupyItem(new Point(200, 200)));
+            items.Add(new TriforcePieceItem(new Point(200, 200)));
+            items.Add(new WoodenBoomerangItem(new Point(200, 200)));
+            blocks.Add(new BlueFloorBlock(new Point(300, 300)));
+            blocks.Add(new BlueSandBlock(new Point(300, 300)));
+            blocks.Add(new BlueUnwalkableGapBlock(new Point(300, 300)));
             blocks.Add(new FireBlock(new Point(300, 300)));
-
+            blocks.Add(new LadderBlock(new Point(300, 300)));
+            blocks.Add(new PushableBlock(new Point(300, 300)));
+            blocks.Add(new Statue1Block(new Point(300, 300)));
+            blocks.Add(new Statue2Block(new Point(300, 300)));
+            blocks.Add(new WhiteBrickBlock(new Point(300, 300)));
             CurrentEnemyIndex = 0;
             CurrentItemIndex = 0;
             CurrentBlockIndex = 0;

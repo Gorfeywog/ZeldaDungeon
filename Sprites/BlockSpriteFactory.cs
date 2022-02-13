@@ -46,7 +46,7 @@ namespace ZeldaDungeon.Sprites
         }
         public ISprite CreateLadderBlock()
         {
-            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(1, 2));
+            return new StaticBlockSprite(blockSpriteSheet, 16, 16, GridToPoint(0, 2));
         }
         public ISprite CreatePushableBlock()
         {

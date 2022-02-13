@@ -4,5 +4,8 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface ILink : IDrawable {   }
+    public interface ILink
+    {
+
+    }
 }

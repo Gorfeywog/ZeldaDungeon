@@ -34,71 +34,71 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateArrow()
         {
-            return new ArrowItemSprite(itemSpriteSheet, GridToPoint(0, 2));
+            return new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(0, 2));
         }
 
-        public ISprite CreatBomb()
+        public ISprite CreateBomb()
         {
-            return new BombItemSprite(itemSpriteSheet, GridToPoint(1, 2));
+            return new StaticItemSprite(itemSpriteSheet, 8, 14, GridToPoint(1, 2));
         }
 
         public ISprite CreateBow()
         {
-            return new BowItemSprite(itemSpriteSheet, GridToPoint(3, 2));
+            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(3, 2));
         }
 
         public ISprite CreateClock()
         {
-            return new ClockItemSprite(itemSpriteSheet, GridToPoint(4, 2));
+            return new StaticItemSprite(itemSpriteSheet, 11, 16, GridToPoint(4, 2));
         }
 
         public ISprite CreateCompass()
         {
-            return new CompassItemSprite(itemSpriteSheet, GridToPoint(0, 3));
+            return new StaticItemSprite(itemSpriteSheet, 11, 12, GridToPoint(0, 3));
         }
 
         public ISprite CreateFairy()
         {
             Point[] topLefts = { GridToPoint(0, 0), GridToPoint(1, 0) };
-            return new FairyItemSprite(itemSpriteSheet, topLefts);
+            return new AnimatedItemSprite(itemSpriteSheet, 8, 16, topLefts);
         }
 
         public ISprite CreateHeartContainer()
         {
-            return new HeartContainerItemSprite(itemSpriteSheet, GridToPoint(1, 3));
+            return new StaticItemSprite(itemSpriteSheet, 13, 13, GridToPoint(1, 3));
         }
 
         public ISprite CreateHeart()
         {
             Point[] topLefts = { GridToPoint(2, 0), GridToPoint(3, 0) };
-            return new HeartItemSprite(itemSpriteSheet, topLefts);
+            return new AnimatedItemSprite(itemSpriteSheet, 7, 8, topLefts);
         }
 
         public ISprite CreateKey()
         {
-            return new KeyItemSprite(itemSpriteSheet, GridToPoint(2, 3));
+            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(2, 3));
         }
 
         public ISprite CreateMap()
         {
-            return new MapItemSprite(itemSpriteSheet, GridToPoint(3, 3));
+            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(3, 3));
         }
 
         public ISprite CreateRupy()
         {
             Point[] topLefts = { GridToPoint(0, 1), GridToPoint(1, 1) };
-            return new RupyItemSprite(itemSpriteSheet, topLefts);
+            return new AnimatedItemSprite(itemSpriteSheet, 8, 16, topLefts);
         }
 
         public ISprite CreateTriforcePiece()
         {
             Point[] topLefts = { GridToPoint(2, 1), GridToPoint(3, 1) };
-            return new TriforcePieceItemSprite(itemSpriteSheet, topLefts);
+            return new AnimatedItemSprite(itemSpriteSheet, 10, 10, topLefts);
         }
 
         public ISprite CreateWoodenBoomerang()
         {
-            return new WoodenBoomerangItemSprite(itemSpriteSheet, GridToPoint(1, 2));
+            return new StaticItemSprite(itemSpriteSheet, 5, 8, GridToPoint(1, 2));
         }
 
         private static Point GridToPoint(int x, int y) // convert grid position to position in pixels

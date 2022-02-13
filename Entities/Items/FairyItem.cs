@@ -3,56 +3,24 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Items
 {
-	public class FairyItem : IItem
-	{
-		private int i = 0;
-		private Rectangle destRect = new Rectangle(new Point(700, 300), new Size(32, 32)); // this might need to change. I based it off of paint, but it should be a little left of the middle.
-		public Point CurrentPoint
-		{
-			get
-			{
-				return currentPoint;
-			}
-			set
-			{
-				currentPoint = value;
-			}
-		}
-		public SpriteBatch Sprites
-		{
-			get
-			{
-				return sprites;
-			}
-			set
-			{
-				Sprites = value;
-			}
-		}
-		ISprite fairy = createFairy();
-
-		public void Draw()
-		{
-			Nullable<Rectangle> sourceRect = new Rectangle(CurrentPoint, new Size(32, 32));
-			fairy.Draw(Sprites, destRect, sourceRect, Color.White);
-		}
-		public void UpdateSprite(SpriteBatch spriteBatch, Point topLeft)
-		{
-			Sprites = spriteBatch;
-			i++;
-			if (i % 4 == 0)
-			{
-				CurrentPoint = topLeft;
-			}
-			else
-			{
-				CurrentPoint = new Point(topLeft.X + 32, topLeft.Y); // check the distance between each sprite in the texture atlas and confirm this is correct.
-			}
-		}
-	}
+    public class FairyItem : IItem
+    {
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateFairyItem(); // TODO: Check with Luke that this is correct.
+        private static int width = 16;
+        private static int height = 16;
+        public Point CurrentPoint { get; set; }
+        public FairyItem(Point position)
+        {
+            CurrentPoint = position;
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            sprite.Draw(spriteBatch, CurrentPoint);
+        }
+        public void UpdateSprite() => sprite.Update();
+    }
 }
-

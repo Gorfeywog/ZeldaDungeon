@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ZeldaDungeon.Sprites.EnemySprites
 {
-    class StalfosSprite
+    class StalfosSprite : ISprite
     {
         private Texture2D spritesheet;
         private static readonly int width = 16;

@@ -17,9 +17,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		private enum GoriyaDirection { Left, Right, Up, Down };
 		private GoriyaDirection currDirection;
 
-		public BlueGoriya()
+		public BlueGoriya(Point position)
 		{
 			BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
+			posX = position.X;
+			posY = position.Y;
 			currDirection = GoriyaDirection.Left;
 
 			
@@ -99,7 +101,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void UpdateSprite()
 		{
-
+			BlueGoriyaSprite.Update();
 		}
 
 

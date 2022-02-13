@@ -17,11 +17,13 @@ namespace ZeldaDungeon.Entities.Enemies
 		private enum RopeDirection { Left, Right, Up, Down };
 		private RopeDirection currDirection;
 
-		public Rope()
+		public Rope(Point position)
 		{
 			RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
 			currDirection = RopeDirection.Left;
 
+			posX = position.X;
+			posY = position.Y;
 
 			rand = new Random();
 
@@ -99,7 +101,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void UpdateSprite()
 		{
-
+			RopeSprite.Update();
 		}
 
 

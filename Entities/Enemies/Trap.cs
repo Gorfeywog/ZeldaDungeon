@@ -12,11 +12,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int posX;
 		private int posY;
 
-		public Trap()
+		public Trap(Point position)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
-			posX = 0;
-			posY = 0;
+			posX = position.X;
+			posY = position.Y;
 		}
 
 		public void Move()
@@ -41,7 +41,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void UpdateSprite()
         {
-
+			TrapSprite.Update();
         }
 
 

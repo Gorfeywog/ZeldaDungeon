@@ -14,11 +14,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		private Random rand;
 		private bool movingLeft;
 
-		public Aquamentus()
+		public Aquamentus(Point position)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
-			posX = 0;
-			posY = 0;
+			posX = position.X;
+			posY = position.Y;
 			rand = new Random();
 			movingLeft = true;
 		}
@@ -58,7 +58,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void UpdateSprite()
 		{
-
+			AquamentusSprite.Update();
 		}
 
 

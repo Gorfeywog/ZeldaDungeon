@@ -28,7 +28,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			//One in four chance per move for aquamentus to change direction
 			if (rand.Next(4) == 0)
             {
-				movingLeft = !movingLeft
+				movingLeft = !movingLeft;
             }
 
 			if (movingLeft)

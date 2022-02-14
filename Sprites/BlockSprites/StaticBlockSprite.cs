@@ -22,7 +22,7 @@ namespace ZeldaDungeon.Sprites.BlockSprites
         }
         public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
-            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width*2, height*2);
             spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangle, Color.White);
         }
 

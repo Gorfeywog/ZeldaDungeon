@@ -21,7 +21,7 @@ namespace ZeldaDungeon.Sprites.EnemySprites
         }
         public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
-            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width * 2, height * 2);
+            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width * 3, height * 3);
             spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangle, Color.White);
         }
 

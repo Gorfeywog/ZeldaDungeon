@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int posX;
 		private int posY;
 		private Random rand;
+		private int currentFrame;
 
 
 		private enum GoriyaDirection { Left, Right, Up, Down };
@@ -23,7 +24,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			currDirection = GoriyaDirection.Left;
 			posX = position.X;
 			posY = position.Y;
-
+			currentFrame = 0;
 			rand = new Random();
 
 		}
@@ -64,19 +65,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			switch (currDirection)
 			{
 				case GoriyaDirection.Left:
-					posX -= 4;
+					posX -= 8;
 					break;
 
 				case GoriyaDirection.Right:
-					posX += 4;
+					posX += 8;
 					break;
 
 				case GoriyaDirection.Up:
-					posY -= 4;
+					posY -= 8;
 					break;
 
 				case GoriyaDirection.Down:
-					posX += 4;
+					posY += 8;
 					break;
 
 				default:
@@ -103,6 +104,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
 		{
 			RedGoriyaSprite.Update();
+			currentFrame++;
+			if (currentFrame % 8 == 0)
+			{
+				this.Move();
+			}
 		}
 
 

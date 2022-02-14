@@ -5,20 +5,17 @@ using ZeldaDungeon.Entities;
 
 namespace ZeldaDungeon.Commands
 {
-    public class MoveLink : ICommand
+    public class StopLink : ICommand
     {
         private ILink link;
-        private Direction dir;
-        public MoveLink(ILink link, Direction dir)
+        public StopLink(ILink link)
         {
             this.link = link;
-            this.dir = dir;
         }
 
         public void Execute()
         {
-            link.ChangeDirection(dir);
-            link.StartWalking();
+            link.StopWalking();
         }
     }
 }

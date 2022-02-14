@@ -87,7 +87,6 @@ namespace ZeldaDungeon
             enemies = new List<IEnemy>();
             items = new List<IItem>();
             blocks = new List<IBlock>();
-            // add code here to insert every enemy, item, block to their respective lists
             Point enemySpawn = new Point(600, 300);
             Point itemSpawn = new Point(200, 200);
             Point blockSpawn = new Point(300, 300);
@@ -135,14 +134,19 @@ namespace ZeldaDungeon
         {
             keyboardController.RegisterCommand(Keys.Q, new Quit(this));
             keyboardController.RegisterCommand(Keys.R, new Reset(this));
-            keyboardController.RegisterCommand(Keys.W, new MoveLink(this, LinkStateMachine.LinkDirection.Up));
-            keyboardController.RegisterCommand(Keys.Up, new MoveLink(this, LinkStateMachine.LinkDirection.Up));
-            keyboardController.RegisterCommand(Keys.A, new MoveLink(this, LinkStateMachine.LinkDirection.Left));
-            keyboardController.RegisterCommand(Keys.Left, new MoveLink(this, LinkStateMachine.LinkDirection.Left));
-            keyboardController.RegisterCommand(Keys.S, new MoveLink(this, LinkStateMachine.LinkDirection.Down));
-            keyboardController.RegisterCommand(Keys.Down, new MoveLink(this, LinkStateMachine.LinkDirection.Down));
-            keyboardController.RegisterCommand(Keys.D, new MoveLink(this, LinkStateMachine.LinkDirection.Right));
-            keyboardController.RegisterCommand(Keys.Right, new MoveLink(this, LinkStateMachine.LinkDirection.Right));
+            ICommand linkUp = new MoveLink(Player, Direction.Up);
+            ICommand linkDown = new MoveLink(Player, Direction.Down);
+            ICommand linkLeft = new MoveLink(Player, Direction.Left);
+            ICommand linkRight = new MoveLink(Player, Direction.Right);
+            ICommand linkStop = new StopLink(Player);
+            keyboardController.RegisterHoldCommand(Keys.W, linkUp, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.Up, linkUp, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.A, linkLeft, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.Left, linkLeft, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.S, linkDown, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.Down, linkDown, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.D, linkRight, linkStop);
+            keyboardController.RegisterHoldCommand(Keys.Right, linkRight, linkStop);
             // TODO - add commands for Link using each item
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
             keyboardController.RegisterCommand(Keys.T, new ChangeBlock(this, true));

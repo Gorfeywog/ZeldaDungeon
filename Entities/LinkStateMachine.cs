@@ -1,13 +1,15 @@
 ﻿using System;
+using ZeldaDungeon.Entities;
 
 public class LinkStateMachine
 {
-	public enum LinkDirection { Left, Right, Up, Down };
-	public LinkDirection currentDirection = LinkDirection.Right;
+	// public enum LinkDirection { Left, Right, Up, Down }; // MOVED TO ZeldaDungeon.Entities.Direction
+	public Direction currentDirection = Direction.Right;
 	public enum LinkState { UsingItem, Damaged, Walking, Idle, Attacking };
+	// should it be possible to have a Damaged, Walking link? maybe change Damaged to a boolean?
 	public LinkState currentState = LinkState.Idle;
 
-	public void ChangeDirection(LinkDirection newDirection)
+	public void ChangeDirection(Direction newDirection)
 	{
 		currentDirection = newDirection;
 	}
@@ -29,13 +31,13 @@ public class LinkStateMachine
 
 	public void Idle()
     {
-		currentState = LinkState.Idle;
+		currentState = LinkState.Idle; // TODO - shouldn't there be more logic here?
     }
 
 	public void Walking()
     {
-		currentState = LinkState.Walking;
-    }
+		currentState = LinkState.Walking; // TODO - shouldn't there be more logic here?
+	}
 
 	public void Update()
     {

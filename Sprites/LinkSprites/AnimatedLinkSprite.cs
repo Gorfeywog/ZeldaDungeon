@@ -6,18 +6,20 @@ using System.Text;
 
 namespace ZeldaDungeon.Sprites.LinkSprites
 {
-    class WalkingDownLink : ISprite
+    class AnimatedLinkSprite : ISprite
     {
         private Texture2D spritesheet;
-        private static readonly int width = 16;
-        private static readonly int height = 16;
+        private int width;
+        private int height;
         private Rectangle[] sourceRectangles;
         private int frameNo; // index of current frame in the array
         private static readonly int waitTime = 10; // how many Updates to wait between cycling frame
         private int currentWait;
-        public WalkingDownLink(Texture2D spritesheet, Point[] topLefts)
+        public AnimatedLinkSprite(Texture2D spritesheet, int width, int height, Point[] topLefts)
         {
             this.spritesheet = spritesheet;
+            this.width = width;
+            this.height = height;
             sourceRectangles = new Rectangle[topLefts.Length];
             for (int i = 0; i < topLefts.Length; i++)
             {

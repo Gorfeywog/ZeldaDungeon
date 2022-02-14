@@ -76,22 +76,22 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateUILeftLink()
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 2));
+            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(3, 5));
         }
 
         public ISprite CreateUIRightLink()
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 3));
+            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(4, 5));
         }
 
         public ISprite CreateUIUpLink()
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 0));
+            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(5, 5));
         }
 
         public ISprite CreateUIDownLink()
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 1));
+            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(2, 5));
         }
 
         public ISprite CreateDamagedLeftLink()

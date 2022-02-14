@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,18 +6,20 @@ using System.Text;
 
 namespace ZeldaDungeon.Sprites.EnemySprites
 {
-    class AquamentusSpriteRight : ISprite
+    class AnimatedEnemySprite : ISprite
     {
         private Texture2D spritesheet;
-        private static readonly int width = 24;
-        private static readonly int height = 32;
+        private int width;
+        private int height;
         private Rectangle[] sourceRectangles;
         private int frameNo; // index of current frame in the array
-        private static readonly int waitTime = 10; // how many Updates to wait between cycling frame
+        private static readonly int waitTime = 8; // how many Updates to wait between cycling frame
         private int currentWait;
-        public AquamentusSpriteRight(Texture2D spritesheet, Point[] topLefts)
+        public AnimatedEnemySprite(Texture2D spritesheet, int width, int height, Point[] topLefts)
         {
             this.spritesheet = spritesheet;
+            this.width = width;
+            this.height = height;
             sourceRectangles = new Rectangle[topLefts.Length];
             for (int i = 0; i < topLefts.Length; i++)
             {
@@ -28,7 +30,7 @@ namespace ZeldaDungeon.Sprites.EnemySprites
         }
         public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
-            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width * 2, height * 2);
             spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangles[frameNo], Color.White);
         }
 

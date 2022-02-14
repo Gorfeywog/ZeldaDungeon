@@ -20,6 +20,7 @@ namespace ZeldaDungeon
         private IList<IEnemy> enemies;
         private IList<IItem>  items;
         private IList<IBlock> blocks;
+        private int currentFrame;
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public int CurrentEnemyIndex { get; set; }
         public int CurrentItemIndex { get; set; }
@@ -36,6 +37,8 @@ namespace ZeldaDungeon
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
+            currentFrame = 0;
+
         }
 
         protected override void Initialize()
@@ -58,14 +61,15 @@ namespace ZeldaDungeon
 
         protected override void Update(GameTime gameTime)
         {
+            currentFrame++;
+
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
+
             enemies[CurrentEnemyIndex].Update();
             items[CurrentItemIndex].Update();
             blocks[CurrentBlockIndex].Update();
             Player.Update();
-
-            enemies[CurrentEnemyIndex].Move();
 
             base.Update(gameTime);
         }
@@ -98,6 +102,7 @@ namespace ZeldaDungeon
             enemies.Add(new Rope(enemySpawn));
             enemies.Add(new Stalfos(enemySpawn));
             enemies.Add(new Trap(enemySpawn));
+            enemies.Add(new WallMaster(enemySpawn));
             items.Add(new ArrowItem(itemSpawn));
             items.Add(new BombItem(itemSpawn));
             items.Add(new BowItem(itemSpawn));

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
@@ -6,27 +6,32 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
-	public class Keese : IEnemy
+	public class Fireball : IEnemy
 	{
-		public ISprite KeeseSprite { get; set; }
+		public ISprite FireballSprite { get; set; }
 		private int posX;
 		private int posY;
+		private int xChange;
+		private int yChange;
 		private Random rand;
 		private int currentFrame;
 
-		public Keese(Point position)
+
+		public Fireball(Point position, int xChange, int yChange)
 		{
-			KeeseSprite = EnemySpriteFactory.Instance.CreateKeeseSprite();
+			FireballSprite = EnemySpriteFactory.Instance.CreateFireballSprite();
 			posX = position.X;
 			posY = position.Y;
+			this.xChange = xChange;
+			this.yChange = yChange;
 			rand = new Random();
 			currentFrame = 0;
 		}
 
 		public void Move()
 		{
-			posX += 8 * rand.Next(3) - 8;
-			posY += 8 * rand.Next(3) - 8;
+			posX += xChange;
+			posY += yChange;
 
 		}
 
@@ -42,17 +47,15 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			KeeseSprite.Draw(spriteBatch, new Point(posX, posY));
+			FireballSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
 		public void Update()
 		{
 			currentFrame++;
-			KeeseSprite.Update();
-			if (currentFrame % 8 == 0)
-			{
-				this.Move();
-			}
+
+			this.Move();
+			FireballSprite.Update();
 		}
 
 

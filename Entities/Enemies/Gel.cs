@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int posX;
 		private int posY;
 		private Random rand;
+		private int currentFrame;
 
 		public Gel(Point position)
 		{
@@ -19,17 +20,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			posX = position.X;
 			posY = position.Y;
 			rand = new Random();
+			currentFrame = 0;
 		}
 
 		public void Move()
 		{
-			if (rand.Next(2) == 0)
+			int movingNum = rand.Next(5);
+			if (movingNum < 2)
 			{
-				posX += 4 * rand.Next(3) - 4;
+				posX += 8 * rand.Next(3) - 8;
 			}
-			else
+			else if (movingNum > 2)
 			{
-				posY += 4 * rand.Next(3) - 4;
+				posY += 8 * rand.Next(3) - 8;
 			}
 
 		}
@@ -52,6 +55,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
 		{
 			GelSprite.Update();
+			currentFrame++;
+			if (currentFrame % 8 == 0)
+			{
+				this.Move();
+			}
 		}
 
 

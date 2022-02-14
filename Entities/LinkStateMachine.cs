@@ -104,6 +104,7 @@ public class LinkStateMachine
 					_ => throw new ArgumentOutOfRangeException()
 				};
 			case LinkState.Attacking:
+				/*
 				return CurrentDirection switch
 				{
 					Direction.Up => fac.CreateAttackingUpLink(),
@@ -112,6 +113,7 @@ public class LinkStateMachine
 					Direction.Right => fac.CreateAttackingRightLink(),
 					_ => throw new ArgumentOutOfRangeException()
 				};
+				*/ // those sprites are obseleted! attacking is like using an item! fallthrough!
 			case LinkState.UsingItem:
 				return CurrentDirection switch
 				{

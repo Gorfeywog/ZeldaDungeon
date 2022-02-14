@@ -8,6 +8,7 @@ public class Link : ILink
 {
 	private LinkStateMachine stateMachine;
 	private ISprite linkSprite;
+	private IItem heldItem; // May be null or hold stale data; check the state to see if it's good
 	public Point Position { get; private set; }
 	public Direction Direction { get => stateMachine.CurrentDirection;  }
 
@@ -26,8 +27,10 @@ public class Link : ILink
 		stateMachine.TakeDamage();
     }
 
-	public void UseItem()
+	public void UseItem(IItem item)
     {
+		this.heldItem = item;
+		// put code here to make the item do a thing?
 		stateMachine.UseItem();
     }
 
@@ -62,10 +65,40 @@ public class Link : ILink
 
 	public void Draw(SpriteBatch spriteBatch)
     {
+
+		// logic for link holding stuff out
+		if (stateMachine.CurrentState == LinkStateMachine.LinkState.UsingItem
+			|| stateMachine.CurrentState == LinkStateMachine.LinkState.Attacking)
+        {
+			Point itemPos = Position; // default value so compiler doesn't complain; should be replaced
+			switch (stateMachine.CurrentDirection)
+            {
+				case Direction.Up: itemPos = new Point(Position.X, Position.Y - 32);
+					break;
+				case Direction.Down:
+					itemPos = new Point(Position.X, Position.Y + 16);
+					break;
+				case Direction.Left:
+					itemPos = new Point(Position.X - 32, Position.Y);
+					break;
+				case Direction.Right:
+					itemPos = new Point(Position.X + 16, Position.Y);
+					break;
+			}
+			if (stateMachine.CurrentState == LinkStateMachine.LinkState.UsingItem)
+            {
+				heldItem.CurrentPoint = itemPos;
+				// yes, this moves the actual item.
+				// yes, there is probably a better way to do that.
+				heldItem.Draw(spriteBatch);
+			}
+			else
+            {
+				ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
+				sword.Draw(spriteBatch, itemPos);
+            }
+        }
 		linkSprite.Draw(spriteBatch, Position); 
-		// this is an issue since some sprites have the top left somewhere other than Link's top left,
-		// in particular the sword swing left. Best solution is probably to replace those with
-		// overlapped sprites, or something to that effect.
     }
 
     public void StartWalking()

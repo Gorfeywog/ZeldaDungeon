@@ -7,18 +7,18 @@ namespace ZeldaDungeon.Commands
 {
     public class MoveLink : ICommand
     {
-        private ILink link;
+        private Game1 g;
         private Direction dir;
-        public MoveLink(ILink link, Direction dir)
+        public MoveLink(Game1 g, Direction dir)
         {
-            this.link = link;
+            this.g = g;
             this.dir = dir;
         }
 
         public void Execute()
         {
-            link.ChangeDirection(dir);
-            link.StartWalking();
+            g.Player.ChangeDirection(dir);
+            g.Player.StartWalking();
         }
     }
 }

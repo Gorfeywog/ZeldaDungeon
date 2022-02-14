@@ -42,9 +42,9 @@ namespace ZeldaDungeon
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            RegisterCommands();
             SetupLists();
             SetupPlayer();
+            RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
 
         protected override void LoadContent()
@@ -134,11 +134,11 @@ namespace ZeldaDungeon
         {
             keyboardController.RegisterCommand(Keys.Q, new Quit(this));
             keyboardController.RegisterCommand(Keys.R, new Reset(this));
-            ICommand linkUp = new MoveLink(Player, Direction.Up);
-            ICommand linkDown = new MoveLink(Player, Direction.Down);
-            ICommand linkLeft = new MoveLink(Player, Direction.Left);
-            ICommand linkRight = new MoveLink(Player, Direction.Right);
-            ICommand linkStop = new StopLink(Player);
+            ICommand linkUp = new MoveLink(this, Direction.Up);
+            ICommand linkDown = new MoveLink(this, Direction.Down);
+            ICommand linkLeft = new MoveLink(this, Direction.Left);
+            ICommand linkRight = new MoveLink(this, Direction.Right);
+            ICommand linkStop = new StopLink(this);
             keyboardController.RegisterHoldCommand(Keys.W, linkUp, linkStop);
             keyboardController.RegisterHoldCommand(Keys.Up, linkUp, linkStop);
             keyboardController.RegisterHoldCommand(Keys.A, linkLeft, linkStop);

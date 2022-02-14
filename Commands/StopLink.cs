@@ -7,15 +7,15 @@ namespace ZeldaDungeon.Commands
 {
     public class StopLink : ICommand
     {
-        private ILink link;
-        public StopLink(ILink link)
+        private Game1 g;
+        public StopLink(Game1 g)
         {
-            this.link = link;
+            this.g = g;
         }
 
         public void Execute()
         {
-            link.StopWalking();
+            g.Player.StopWalking();
         }
     }
 }

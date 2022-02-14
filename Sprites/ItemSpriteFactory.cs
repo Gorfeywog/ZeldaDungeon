@@ -106,13 +106,20 @@ namespace ZeldaDungeon.Sprites
                 Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(1, 5)),
                 Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(2, 5)),
                 Direction.Up => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(3, 5)),
-                _ => throw new ArgumentException();
+                _ => throw new ArgumentException()
             };
         }
 
         public ISprite CreateSword(Direction dir)
         {
-
+            return dir switch
+            {
+                Direction.Down => new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(0, 4)),
+                Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 8, GridToPoint(1, 4)),
+                Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 8, GridToPoint(2, 4)),
+                Direction.Up => new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(3, 4)),
+                _ => throw new ArgumentException()
+            };
         }
         private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
         {

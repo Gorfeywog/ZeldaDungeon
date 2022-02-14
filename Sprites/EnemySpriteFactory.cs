@@ -52,7 +52,7 @@ namespace ZeldaDungeon.Sprites
         public ISprite CreateFireballSprite()
         {
             Point[] topLefts = { GridToPoint(0, 11), GridToPoint(1, 11), GridToPoint(2, 11), GridToPoint(3, 11)};
-            return new AnimatedEnemySprite(enemySpriteSheet, 7, 15, topLefts);
+            return new AnimatedEnemySprite(enemySpriteSheet, 8, 16, topLefts);
         }
 
         public ISprite CreateGelSprite()

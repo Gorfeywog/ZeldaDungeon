@@ -11,7 +11,7 @@ namespace ZeldaDungeon
         private KeyboardState state;
         private KeyboardState oldState;
         private IDictionary<Keys, ICommand> regCommands;
-        private IDictionary<Keys, Tuple<ICommand, ICommand>> holdCommands;
+        private IDictionary<Keys, (ICommand, ICommand)> holdCommands;
         public KeyboardController()
         {
             UpdateState(); // don't let state be null
@@ -57,9 +57,9 @@ namespace ZeldaDungeon
         {
             regCommands[k] = c;
         }
-        public void RegisterHoldCommand(Keys c, ICommand onPress, ICommand onRelease)
+        public void RegisterHoldCommand(Keys k, ICommand onPress, ICommand onRelease)
         {
-
+            holdCommands[k] = (onPress, onRelease);
         }
 
     }

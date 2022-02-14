@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites.ItemSprites;
+using ZeldaDungeon.Entities;
 
 namespace ZeldaDungeon.Sprites
 {
@@ -32,24 +33,21 @@ namespace ZeldaDungeon.Sprites
             itemSpriteSheet = content.Load<Texture2D>("itemsprites");
         }
 
-        public ISprite CreateArrow()
-        {
-            return new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(0, 2));
-        }
+        
 
         public ISprite CreateBomb()
         {
-            return new StaticItemSprite(itemSpriteSheet, 8, 14, GridToPoint(1, 2));
+            return new StaticItemSprite(itemSpriteSheet, 8, 14, GridToPoint(0, 2));
         }
 
         public ISprite CreateBow()
         {
-            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(3, 2));
+            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(2, 2));
         }
 
         public ISprite CreateClock()
         {
-            return new StaticItemSprite(itemSpriteSheet, 11, 16, GridToPoint(4, 2));
+            return new StaticItemSprite(itemSpriteSheet, 11, 16, GridToPoint(3, 2));
         }
 
         public ISprite CreateCompass()
@@ -100,7 +98,22 @@ namespace ZeldaDungeon.Sprites
         {
             return new StaticItemSprite(itemSpriteSheet, 5, 8, GridToPoint(1, 2));
         }
+        public ISprite CreateArrow(Direction dir)
+        {
+            return dir switch
+            {
+                Direction.Down => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(0, 5)),
+                Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(1, 5)),
+                Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(2, 5)),
+                Direction.Up => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(3, 5)),
+                _ => throw new ArgumentException();
+            };
+        }
 
+        public ISprite CreateSword(Direction dir)
+        {
+
+        }
         private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
         {
             return new Point(gridX * x, gridY * y);

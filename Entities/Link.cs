@@ -7,7 +7,7 @@ using ZeldaDungeon.Sprites;
 public class Link : ILink
 {
 	private LinkStateMachine stateMachine;
-	private ISprite linkSprite; // this definitely needs to interact with the state machine somehow
+	private ISprite linkSprite;
 	private Point position;
 
 	public Link()
@@ -37,8 +37,23 @@ public class Link : ILink
 
 	public void Update()
 	{
-		linkSprite.Update();
 		stateMachine.Update();
+		linkSprite = stateMachine.LinkSprite(); // TODO - make this not break animations!
+		linkSprite.Update();
+		if (stateMachine.currentState == LinkStateMachine.LinkState.Walking)
+        {
+			// move forward
+			int speed = 1; // TODO - handle speed better
+			Point newPos = stateMachine.currentDirection switch
+			{
+				Direction.Up => new Point(position.X, position.Y - speed),
+				Direction.Down => new Point(position.X, position.Y + speed),
+				Direction.Left => new Point(position.X - speed, position.Y),
+				Direction.Right => new Point(position.X + speed, position.Y),
+				_ => throw new ArgumentException() // bad direction!
+			};
+			position = newPos;
+        }
 	}
 
 	public void Draw(SpriteBatch spriteBatch)

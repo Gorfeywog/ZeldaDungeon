@@ -16,6 +16,7 @@ namespace ZeldaDungeon
         {
             UpdateState(); // don't let state be null
             regCommands = new Dictionary<Keys, ICommand>();
+            holdCommands = new Dictionary<Keys, (ICommand, ICommand)>();
         }
         public void UpdateState()
         {

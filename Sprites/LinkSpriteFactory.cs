@@ -34,25 +34,25 @@ namespace ZeldaDungeon.Sprites
         // up, down, left, right
         public ISprite CreateAttackingLeftLink()
         {
-            return new AttackingLeftLink(linkSpriteSheet, GridToPoint(2,4));
+            return new StaticLinkSprite(linkSpriteSheet, 27, 16, GridToPoint(2,4));
         }
 
         public ISprite CreateAttackingRightLink()
         {
-            return new AttackingRightLink(linkSpriteSheet, GridToPoint(3,4));
+            return new StaticLinkSprite(linkSpriteSheet, 27, 16, GridToPoint(3,4));
         }
 
         public ISprite CreateAttackingUpLink()
         {
-            return new AttackingUpLink(linkSpriteSheet, GridToPoint(0,4));
+            return new StaticLinkSprite(linkSpriteSheet, 16, 27, GridToPoint(0,4));
         }
 
         public ISprite CreateAttackingDownLink()
         {
-            return new AttackingDownLink(linkSpriteSheet, GridToPoint(1,4));
+            return new StaticLinkSprite(linkSpriteSheet, 16, 27, GridToPoint(1,4));
         }
         // Note that Idle sprites just use the first frame of the
-        // walk animation, and the UsingItem sprites do the same.
+        // walk animation.
         // This should be changed if possible.
         public ISprite CreateIdleLeftLink()
         {

@@ -12,28 +12,41 @@ namespace ZeldaDungeon.Sprites.LinkSprites
         private int width;
         private int height;
         private Rectangle[] sourceRectangles;
-        private int frameNo; // index of current frame in the array
+        private bool damaged;
+        private static readonly Color[] damageColors = { Color.Red, Color.White };
+        private static readonly int damageRepeatDelay = 5;
         private static readonly int waitTime = 10; // how many Updates to wait between cycling frame
-        private int currentWait;
-        public AnimatedLinkSprite(Texture2D spritesheet, int width, int height, Point[] topLefts)
+        public AnimatedLinkSprite(Texture2D spritesheet, int width, int height, Point[] topLefts, bool damaged = false)
         {
             this.spritesheet = spritesheet;
             this.width = width;
             this.height = height;
+            this.damaged = damaged;
             sourceRectangles = new Rectangle[topLefts.Length];
             for (int i = 0; i < topLefts.Length; i++)
             {
                 sourceRectangles[i] = new Rectangle(topLefts[i].X, topLefts[i].Y, width, height);
             }
-            frameNo = 0;
-            currentWait = waitTime;
         }
         public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
+            Color currentColor;
+            if (damaged)
+            {
+                currentColor = damageColors[damageColorIndex];
+            }
+            else
+            {
+                currentColor = Color.White;
+            }
             Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
-            spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangles[frameNo], Color.White);
+            spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangles[frameNo], currentColor);
         }
 
+        private int frameNo = 0; // index of current frame in the array
+        private int currentWait = waitTime;
+        private int damageColorTimer = damageRepeatDelay;
+        private int damageColorIndex = 0;
         public void Update()
         {
             if (currentWait == 1)
@@ -44,6 +57,15 @@ namespace ZeldaDungeon.Sprites.LinkSprites
             } else
             {
                 currentWait--;
+            }
+            if (damaged)
+            {
+                damageColorTimer--;
+                if (damageColorTimer == 0)
+                {
+                    damageColorIndex = (damageColorIndex + 1) % damageColors.Length;
+                    damageColorTimer = damageRepeatDelay;
+                }
             }
         }
     }

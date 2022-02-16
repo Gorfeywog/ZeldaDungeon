@@ -20,6 +20,8 @@ namespace ZeldaDungeon
         private IList<IEnemy> enemies;
         private IList<IItem>  items;
         private IList<IBlock> blocks;
+        private List<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
+                                                                         // has to be declared as List to get RemoveAll
         private int currentFrame;
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public int CurrentEnemyIndex { get; set; }
@@ -69,6 +71,15 @@ namespace ZeldaDungeon
             enemies[CurrentEnemyIndex].Update();
             items[CurrentItemIndex].Update();
             blocks[CurrentBlockIndex].Update();
+            foreach (IProjectile p in projectiles)
+            {
+                p.Update();
+                if (p.ReadyToDespawn)
+                {
+                    p.DespawnEffect();
+                }
+            }
+            projectiles.RemoveAll(p => p.ReadyToDespawn); // removes projectiles that are expired (hit wall, timed out, etc.)
             Player.Update();
 
             base.Update(gameTime);
@@ -81,6 +92,10 @@ namespace ZeldaDungeon
             enemies[CurrentEnemyIndex].Draw(_spriteBatch);
             items[CurrentItemIndex].Draw(_spriteBatch);
             blocks[CurrentBlockIndex].Draw(_spriteBatch);
+            foreach (IProjectile p in projectiles)
+            {
+                p.Draw(_spriteBatch);
+            }
             Player.Draw(_spriteBatch);
             base.Draw(gameTime);
             _spriteBatch.End();
@@ -176,6 +191,11 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.I, new ChangeItem(this, false));
             keyboardController.RegisterCommand(Keys.O, new ChangeEnemy(this, true));
             keyboardController.RegisterCommand(Keys.P, new ChangeEnemy(this, false));
+        }
+
+        public void RegisterProjectile(IProjectile p)
+        {
+            projectiles.Add(p);
         }
     }
 }

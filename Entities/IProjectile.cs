@@ -8,8 +8,9 @@ namespace ZeldaDungeon.Entities
 {
     public interface IProjectile : IDrawable
     {
-        public bool CanHurtPlayer{ get; }
-        public bool CanHurtEnemies { get; }
+        public Point CurrentPoint { get; }
+        public bool ReadyToDespawn { get; } // there is probably a smarter way to do this.
+        public void DespawnEffect();
         // anything projectiles should do goes here, I guess?
     }
 }

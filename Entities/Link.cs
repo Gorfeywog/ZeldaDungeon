@@ -66,9 +66,9 @@ public class Link : ILink
 	public void Draw(SpriteBatch spriteBatch)
     {
 
-		// logic for link holding stuff out
-		if (stateMachine.CurrentState == LinkStateMachine.LinkState.UsingItem
-			|| stateMachine.CurrentState == LinkStateMachine.LinkState.Attacking)
+		
+		if (/*stateMachine.CurrentState == LinkStateMachine.LinkState.UsingItem
+			|| */stateMachine.CurrentState == LinkStateMachine.LinkState.Attacking)
         {
 			Point itemPos = Position; // default value so compiler doesn't complain; should be replaced
 			switch (stateMachine.CurrentDirection)
@@ -84,13 +84,6 @@ public class Link : ILink
 				case Direction.Right:
 					itemPos = new Point(Position.X + 16, Position.Y);
 					break;
-			}
-			if (stateMachine.CurrentState == LinkStateMachine.LinkState.UsingItem)
-            {
-				heldItem.CurrentPoint = itemPos;
-				// yes, this moves the actual item.
-				// yes, there is probably a better way to do that.
-				heldItem.Draw(spriteBatch);
 			}
 			else
             {

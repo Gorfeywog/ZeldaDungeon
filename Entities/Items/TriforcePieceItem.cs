@@ -22,5 +22,9 @@ namespace ZeldaDungeon.Entities.Items
             sprite.Draw(spriteBatch, CurrentPoint);
         }
         public void Update() => sprite.Update();
+        public void UseOn(ILink player)
+        {
+            // do nothing, for now
+        }
     }
 }

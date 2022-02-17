@@ -20,6 +20,7 @@ namespace ZeldaDungeon
         private IList<IEnemy> enemies;
         private IList<IItem>  items;
         private IList<IBlock> blocks;
+        private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
         private int currentFrame;
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public int CurrentEnemyIndex { get; set; }
@@ -69,6 +70,21 @@ namespace ZeldaDungeon
             enemies[CurrentEnemyIndex].Update();
             items[CurrentItemIndex].Update();
             blocks[CurrentBlockIndex].Update();
+
+            var toBeRemoved = new List<IProjectile>();
+            foreach (IProjectile p in projectiles)
+            {
+                p.Update();
+                if (p.ReadyToDespawn)
+                {
+                    p.DespawnEffect();
+                    toBeRemoved.Add(p);
+                }
+            }
+            foreach (IProjectile p in toBeRemoved)
+            {
+                projectiles.Remove(p);
+            }
             Player.Update();
 
             base.Update(gameTime);
@@ -81,6 +97,10 @@ namespace ZeldaDungeon
             enemies[CurrentEnemyIndex].Draw(_spriteBatch);
             items[CurrentItemIndex].Draw(_spriteBatch);
             blocks[CurrentBlockIndex].Draw(_spriteBatch);
+            foreach (IProjectile p in projectiles)
+            {
+                p.Draw(_spriteBatch);
+            }
             Player.Draw(_spriteBatch);
             base.Draw(gameTime);
             _spriteBatch.End();
@@ -94,7 +114,7 @@ namespace ZeldaDungeon
             Point enemySpawn = new Point(600, 300);
             Point itemSpawn = new Point(200, 200);
             Point blockSpawn = new Point(300, 300);
-            enemies.Add(new Aquamentus(enemySpawn));
+            enemies.Add(new Aquamentus(enemySpawn, this));
             enemies.Add(new BlueGoriya(enemySpawn));
             enemies.Add(new Gel(enemySpawn));
             enemies.Add(new Keese(enemySpawn));
@@ -104,7 +124,7 @@ namespace ZeldaDungeon
             enemies.Add(new Trap(enemySpawn));
             enemies.Add(new WallMaster(enemySpawn));
             items.Add(new ArrowItem(itemSpawn));
-            items.Add(new BombItem(itemSpawn));
+            items.Add(new BombItem(itemSpawn, this));
             items.Add(new BowItem(itemSpawn));
             items.Add(new ClockItem(itemSpawn));
             items.Add(new CompassItem(itemSpawn));
@@ -135,6 +155,13 @@ namespace ZeldaDungeon
             Player = new Link();
         }
 
+        public void Reset()
+        {
+            projectiles = new List<IProjectile>();
+            SetupLists();
+            SetupPlayer();
+        }
+
         private void RegisterCommands()
         {
             keyboardController.RegisterCommand(Keys.Q, new Quit(this));
@@ -159,7 +186,7 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.Z, linkAttack);
             keyboardController.RegisterCommand(Keys.N, linkAttack);
             Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
-            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn,this)));
             keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ClockItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new CompassItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new FairyItem(dummyItemSpawn)));
@@ -176,6 +203,11 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.I, new ChangeItem(this, false));
             keyboardController.RegisterCommand(Keys.O, new ChangeEnemy(this, true));
             keyboardController.RegisterCommand(Keys.P, new ChangeEnemy(this, false));
+        }
+
+        public void RegisterProjectile(IProjectile p)
+        {
+            projectiles.Add(p);
         }
     }
 }

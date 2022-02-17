@@ -4,6 +4,7 @@ using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
+using ZeldaDungeon.Entities.Projectiles;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -11,23 +12,22 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite AquamentusSprite { get; set; }
 
-		private List<IEnemy> fireballs;
 		private int posX;
 		private int posY;
 		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
+		private Game1 g;
 
 
-
-		public Aquamentus(Point position)
+		public Aquamentus(Point position, Game1 g)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
 			posX = position.X;
 			posY = position.Y;
 			rand = new Random();
 			movingLeft = true;
-			fireballs = new List<IEnemy>();
+			this.g = g;
 			currentFrame = 0;
 		}
 
@@ -52,12 +52,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Attack()
 		{
 			int fireballChange = rand.Next(3) - 1;
-			IEnemy fireballUp = new Fireball(new Point(posX, posY), -4, 1 + fireballChange);
-			IEnemy fireballStraight = new Fireball(new Point(posX, posY), -4, fireballChange);
-			IEnemy fireballDown = new Fireball(new Point(posX, posY), -4, -1 + fireballChange);
-			fireballs.Add(fireballUp);
-			fireballs.Add(fireballStraight);
-			fireballs.Add(fireballDown);
+			IProjectile fireballUp = new Fireball(new Point(posX, posY), -4, 1 + fireballChange);
+			IProjectile fireballStraight = new Fireball(new Point(posX, posY), -4, fireballChange);
+			IProjectile fireballDown = new Fireball(new Point(posX, posY), -4, -1 + fireballChange);
+			g.RegisterProjectile(fireballUp);
+			g.RegisterProjectile(fireballStraight);
+			g.RegisterProjectile(fireballDown);
 		}
 
 		public void TakeDamage()
@@ -68,10 +68,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			AquamentusSprite.Draw(spriteBatch, new Point(posX, posY));
-			foreach (IEnemy fireball in fireballs) {
-				fireball.Draw(spriteBatch);
-            }
-
 		}
 
 		public void Update()
@@ -87,14 +83,6 @@ namespace ZeldaDungeon.Entities.Enemies
 				this.Attack();
             }
 
-			foreach (IEnemy fireball in fireballs)
-			{
-				fireball.Update();
-			}
 		}
-
-
-
-
-	}
+    }
 }

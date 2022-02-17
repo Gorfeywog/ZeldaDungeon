@@ -30,8 +30,8 @@ public class Link : ILink
     public void UseItem(IItem item)
     {
         this.heldItem = item;
-        // put code here to make the item do a thing?
         stateMachine.UseItem();
+        item.UseOn(this);
     }
 
     public void Attack()

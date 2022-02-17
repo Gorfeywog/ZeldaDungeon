@@ -18,7 +18,6 @@ namespace ZeldaDungeon.Entities.Projectiles
         public BombProjectile(Point position, Game1 g)
         {
             CurrentPoint = position;
-            this.dir = dir;
             this.g = g;
         }
         public void Draw(SpriteBatch spriteBatch)

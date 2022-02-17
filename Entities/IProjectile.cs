@@ -9,8 +9,7 @@ namespace ZeldaDungeon.Entities
     public interface IProjectile : IDrawable
     {
         public Point CurrentPoint { get; }
-        public bool ReadyToDespawn { get; } // there is probably a smarter way to do this.
-        public void DespawnEffect();
-        // anything projectiles should do goes here, I guess?
+        public bool ReadyToDespawn { get; } // maybe even move this to IDrawable? it seems pretty useful
+        public void DespawnEffect(); // create explosions, etc.
     }
 }

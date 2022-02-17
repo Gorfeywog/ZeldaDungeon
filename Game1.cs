@@ -115,10 +115,10 @@ namespace ZeldaDungeon
             Point itemSpawn = new Point(200, 200);
             Point blockSpawn = new Point(300, 300);
             enemies.Add(new Aquamentus(enemySpawn, this));
-            enemies.Add(new BlueGoriya(enemySpawn));
+            enemies.Add(new Goriya(enemySpawn, this, false));
             enemies.Add(new Gel(enemySpawn));
             enemies.Add(new Keese(enemySpawn));
-            enemies.Add(new RedGoriya(enemySpawn));
+            enemies.Add(new Goriya(enemySpawn, this, true));
             enemies.Add(new Rope(enemySpawn));
             enemies.Add(new Stalfos(enemySpawn));
             enemies.Add(new Trap(enemySpawn));

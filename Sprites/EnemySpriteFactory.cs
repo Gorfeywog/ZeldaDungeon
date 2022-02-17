@@ -162,6 +162,14 @@ namespace ZeldaDungeon.Sprites
             Point[] topLefts = { GridToPoint(6, 8), GridToPoint(7, 8) };
             return new AnimatedEnemySprite(enemySpriteSheet, 16, 16, topLefts);
         }
+
+        public ISprite CreateCloudSprite()
+        {
+            Point[] topLefts = { GridToPoint(0, 9), GridToPoint(1, 9), GridToPoint(2, 9),
+                GridToPoint(3, 9), GridToPoint(4, 9), GridToPoint(5, 9), GridToPoint(6, 9), /* nice */
+                GridToPoint(7, 9) };
+            return new AnimatedEnemySprite(enemySpriteSheet, 16, 16, topLefts);
+        }
     }
 
 }

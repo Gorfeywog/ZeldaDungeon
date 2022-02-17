@@ -53,6 +53,9 @@ namespace ZeldaDungeon
 
         protected override void LoadContent()
         {
+            // sprites taken from some combination of:
+            // https://nesmaps.com/maps/Zelda/sprites/ZeldaSprites.html
+            // https://www.spriters-resource.com/nes/legendofzelda/
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             ItemSpriteFactory.Instance.LoadAllTextures(Content);
             LinkSpriteFactory.Instance.LoadAllTextures(Content);

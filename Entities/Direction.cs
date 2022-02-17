@@ -6,7 +6,7 @@ namespace ZeldaDungeon.Entities
 {
     public enum Direction
     {
-        Up, Down, Left, Right
+        Up, Down, Left, Right, NE, SE, NW, SW
     }
     // should enum members be in ALL_CAPS?
 }

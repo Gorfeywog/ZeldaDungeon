@@ -18,8 +18,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		private Game1 g;
 		private IProjectile boomerang;
 		private bool isRed;
-		private enum GoriyaDirection { Left, Right, Up, Down };
-		private GoriyaDirection currDirection;
+
+		private Direction currDirection;
 
 		public Goriya(Point position, Game1 g, bool isRed)
 		{
@@ -35,7 +35,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			posX = position.X;
 			posY = position.Y;
 			this.g = g;
-			currDirection = GoriyaDirection.Left;
+			currDirection = Direction.Left;
 			currentFrame = 0;
 			rand = new Random();
 		}
@@ -47,7 +47,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				switch (rand.Next(4))
 				{
 					case 0:
-						currDirection = GoriyaDirection.Left;
+						currDirection = Direction.Left;
 						if (isRed)
 						{
 							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
@@ -59,7 +59,7 @@ namespace ZeldaDungeon.Entities.Enemies
 						break;
 
 					case 1:
-						currDirection = GoriyaDirection.Right;
+						currDirection = Direction.Right;
 						if (isRed)
 						{
 							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteRight();
@@ -71,7 +71,7 @@ namespace ZeldaDungeon.Entities.Enemies
 						break;
 
 					case 2:
-						currDirection = GoriyaDirection.Up;
+						currDirection = Direction.Up;
 						if (isRed)
 						{
 							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteUp();
@@ -83,7 +83,7 @@ namespace ZeldaDungeon.Entities.Enemies
 						break;
 
 					case 3:
-						currDirection = GoriyaDirection.Down;
+						currDirection = Direction.Down;
 						if (isRed)
 						{
 							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteDown();
@@ -102,19 +102,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			//Determines which way to move
 			switch (currDirection)
 			{
-				case GoriyaDirection.Left:
+				case Direction.Left:
 					posX -= 8;
 					break;
 
-				case GoriyaDirection.Right:
+				case Direction.Right:
 					posX += 8;
 					break;
 
-				case GoriyaDirection.Up:
+				case Direction.Up:
 					posY -= 8;
 					break;
 
-				case GoriyaDirection.Down:
+				case Direction.Down:
 					posY += 8;
 					break;
 
@@ -127,19 +127,19 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			switch (currDirection)
 			{
-				case GoriyaDirection.Left:
+				case Direction.Left:
 					boomerang = new Boomerang(new Point(posX, posY), -24, 0);
 					break;
 
-				case GoriyaDirection.Right:
+				case Direction.Right:
 					boomerang = new Boomerang(new Point(posX, posY), 24, 0);
 					break;
 
-				case GoriyaDirection.Up:
+				case Direction.Up:
 					boomerang = new Boomerang(new Point(posX, posY), 0, -24);
 					break;
 
-				case GoriyaDirection.Down:
+				case Direction.Down:
 					boomerang = new Boomerang(new Point(posX, posY), 0, 24);
 					break;
 

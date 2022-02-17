@@ -14,8 +14,7 @@ namespace ZeldaDungeon.Commands
 
         public void Execute()
         {
-            g.SetupLists();
-            g.SetupPlayer();
+            g.Reset();
         }
     }
 }

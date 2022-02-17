@@ -155,6 +155,13 @@ namespace ZeldaDungeon
             Player = new Link();
         }
 
+        public void Reset()
+        {
+            projectiles = new List<IProjectile>();
+            SetupLists();
+            SetupPlayer();
+        }
+
         private void RegisterCommands()
         {
             keyboardController.RegisterCommand(Keys.Q, new Quit(this));

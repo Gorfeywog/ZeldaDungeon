@@ -11,5 +11,8 @@ namespace ZeldaDungeon.Entities
         public Point CurrentPoint { get; }
         public bool ReadyToDespawn { get; } // maybe even move this to IDrawable? it seems pretty useful
         public void DespawnEffect(); // create explosions, etc.
+
+        // add properties relating to what "team" they're on?
+        // as in, whether they hurt Link, hurt enemies, don't do damage?
     }
 }

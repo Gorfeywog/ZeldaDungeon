@@ -7,33 +7,37 @@ using System.Collections.Generic;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
-	public class BlueGoriya : IEnemy
+	public class Goriya : IEnemy
 	{
-		public ISprite BlueGoriyaSprite { get; set; }
+		public ISprite GoriyaSprite { get; set; }
 		private int posX;
 		private int posY;
 		private Random rand;
 		private int currentFrame;
-		private bool isAttacking;
-		List<Boomerang> boomerangs;
-
-
+		private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
+		private Game1 g;
+		private IProjectile boomerang;
+		private bool isRed;
 		private enum GoriyaDirection { Left, Right, Up, Down };
 		private GoriyaDirection currDirection;
 
-		public BlueGoriya(Point position)
+		public Goriya(Point position, Game1 g, bool isRed)
 		{
-			BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
+			this.isRed = isRed;
+			if (isRed)
+            {
+				GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
+			}
+			else
+            {
+				GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
+            }
 			posX = position.X;
 			posY = position.Y;
+			this.g = g;
 			currDirection = GoriyaDirection.Left;
 			currentFrame = 0;
-			isAttacking = false;
-			boomerangs = new List<Boomerang>();
-
-			
 			rand = new Random();
-
 		}
 
 		public void Move()
@@ -44,22 +48,50 @@ namespace ZeldaDungeon.Entities.Enemies
 				{
 					case 0:
 						currDirection = GoriyaDirection.Left;
-						BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
+						if (isRed)
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
+						}
+						else
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
+						}
 						break;
 
 					case 1:
 						currDirection = GoriyaDirection.Right;
-						BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteRight();
+						if (isRed)
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteRight();
+						}
+						else
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteRight();
+						}
 						break;
 
 					case 2:
 						currDirection = GoriyaDirection.Up;
-						BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteUp();
+						if (isRed)
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteUp();
+						}
+						else
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteUp();
+						}
 						break;
 
 					case 3:
 						currDirection = GoriyaDirection.Down;
-						BlueGoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteDown();
+						if (isRed)
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteDown();
+						}
+						else
+						{
+							GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteDown();
+						}
 						break;
 
 					default:
@@ -93,7 +125,6 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			Boomerang boomerang;
 			switch (currDirection)
 			{
 				case GoriyaDirection.Left:
@@ -116,7 +147,7 @@ namespace ZeldaDungeon.Entities.Enemies
 					boomerang = new Boomerang(new Point(posX, posY), -24, 0);
 					break;
 			}
-			boomerangs.Add(boomerang);
+			g.RegisterProjectile(boomerang);
 		}
 
 		public void TakeDamage()
@@ -126,24 +157,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			BlueGoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
-			foreach (Boomerang boomerang in boomerangs)
-			{
-				boomerang.Draw(spriteBatch);
-			}
+			GoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
 		}
 
 		public void Update()
 		{
 			currentFrame++;
-			BlueGoriyaSprite.Update();
-			foreach (Boomerang boomerang in boomerangs)
-			{
-				boomerang.Update();
-				isAttacking = boomerang.IsFlying();
-
-			}
-			if (currentFrame % 8 == 0 && !isAttacking)
+			GoriyaSprite.Update();
+			if (currentFrame % 8 == 0 && !IsAttacking)
 			{
 				this.Move();
 			}

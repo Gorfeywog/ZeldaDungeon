@@ -39,7 +39,7 @@ namespace ZeldaDungeon.Sprites.LinkSprites
             {
                 currentColor = Color.White;
             }
-            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width * 2, height * 2);
             spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangles[frameNo], currentColor);
         }
 

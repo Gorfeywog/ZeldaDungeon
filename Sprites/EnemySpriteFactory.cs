@@ -133,6 +133,12 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedEnemySprite(enemySpriteSheet, 14, 16, topLefts);
         }
 
+        public ISprite CreateBoomerangSprite()
+        {
+            Point[] topLefts = { GridToPoint(0, 10), GridToPoint(1, 10), GridToPoint(2, 10) };
+            return new AnimatedEnemySprite(enemySpriteSheet, 5, 8, topLefts);
+        }
+
         public ISprite CreateWallMasterSpriteSW()
         {
             Point[] topLefts = { GridToPoint(0, 8), GridToPoint(1, 8) };

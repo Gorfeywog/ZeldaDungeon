@@ -27,7 +27,7 @@ namespace ZeldaDungeon.Sprites.LinkSprites
 
         public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
-            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width * 2, height * 2);
             Color currentColor;
             if (damage)
             {

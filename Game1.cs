@@ -20,8 +20,7 @@ namespace ZeldaDungeon
         private IList<IEnemy> enemies;
         private IList<IItem>  items;
         private IList<IBlock> blocks;
-        private List<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
-                                                                         // has to be declared as List to get RemoveAll
+        private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
         private int currentFrame;
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public int CurrentEnemyIndex { get; set; }
@@ -71,15 +70,21 @@ namespace ZeldaDungeon
             enemies[CurrentEnemyIndex].Update();
             items[CurrentItemIndex].Update();
             blocks[CurrentBlockIndex].Update();
+
+            var toBeRemoved = new List<IProjectile>();
             foreach (IProjectile p in projectiles)
             {
                 p.Update();
                 if (p.ReadyToDespawn)
                 {
                     p.DespawnEffect();
+                    toBeRemoved.Add(p);
                 }
             }
-            projectiles.RemoveAll(p => p.ReadyToDespawn); // removes projectiles that are expired (hit wall, timed out, etc.)
+            foreach (IProjectile p in toBeRemoved)
+            {
+                projectiles.Remove(p);
+            }
             Player.Update();
 
             base.Update(gameTime);
@@ -119,7 +124,7 @@ namespace ZeldaDungeon
             enemies.Add(new Trap(enemySpawn));
             enemies.Add(new WallMaster(enemySpawn));
             items.Add(new ArrowItem(itemSpawn));
-            items.Add(new BombItem(itemSpawn));
+            items.Add(new BombItem(itemSpawn, this));
             items.Add(new BowItem(itemSpawn));
             items.Add(new ClockItem(itemSpawn));
             items.Add(new CompassItem(itemSpawn));

@@ -46,7 +46,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 			this.Move();
 			FireballSprite.Update();
 		}
-
+		public void DespawnEffect() { } // don't have anything special to 
 
 
 

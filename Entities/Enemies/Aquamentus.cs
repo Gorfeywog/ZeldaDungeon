@@ -83,14 +83,6 @@ namespace ZeldaDungeon.Entities.Enemies
 				this.Attack();
             }
 
-			foreach (IEnemy fireball in fireballs)
-			{
-				fireball.Update();
-			}
 		}
-
-
-
-
-	}
+    }
 }

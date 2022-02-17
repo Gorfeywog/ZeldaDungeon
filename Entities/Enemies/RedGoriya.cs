@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using System.Collections.Generic;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -13,6 +14,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int posY;
 		private Random rand;
 		private int currentFrame;
+		private bool isAttacking;
+		List<Boomerang> boomerangs;
 
 
 		private enum GoriyaDirection { Left, Right, Up, Down };
@@ -21,10 +24,14 @@ namespace ZeldaDungeon.Entities.Enemies
 		public RedGoriya(Point position)
 		{
 			RedGoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
-			currDirection = GoriyaDirection.Left;
 			posX = position.X;
 			posY = position.Y;
+			currDirection = GoriyaDirection.Left;
 			currentFrame = 0;
+			isAttacking = false;
+			boomerangs = new List<Boomerang>();
+
+
 			rand = new Random();
 
 		}
@@ -83,12 +90,34 @@ namespace ZeldaDungeon.Entities.Enemies
 				default:
 					break;
 			}
-
 		}
 
 		public void Attack()
 		{
-			//TODO Need to add boomerang to spriteSheet
+			Boomerang boomerang;
+			switch (currDirection)
+			{
+				case GoriyaDirection.Left:
+					boomerang = new Boomerang(new Point(posX, posY), -24, 0);
+					break;
+
+				case GoriyaDirection.Right:
+					boomerang = new Boomerang(new Point(posX, posY), 24, 0);
+					break;
+
+				case GoriyaDirection.Up:
+					boomerang = new Boomerang(new Point(posX, posY), 0, -24);
+					break;
+
+				case GoriyaDirection.Down:
+					boomerang = new Boomerang(new Point(posX, posY), 0, 24);
+					break;
+
+				default:
+					boomerang = new Boomerang(new Point(posX, posY), -24, 0);
+					break;
+			}
+			boomerangs.Add(boomerang);
 		}
 
 		public void TakeDamage()
@@ -99,20 +128,31 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			RedGoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
+			foreach (Boomerang boomerang in boomerangs)
+			{
+				boomerang.Draw(spriteBatch);
+			}
 		}
 
 		public void Update()
 		{
-			RedGoriyaSprite.Update();
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+			RedGoriyaSprite.Update();
+			foreach (Boomerang boomerang in boomerangs)
+			{
+				boomerang.Update();
+				isAttacking = boomerang.IsFlying();
+
+			}
+			if (currentFrame % 8 == 0 && !isAttacking)
 			{
 				this.Move();
 			}
+			if (currentFrame % 64 == 0 && rand.Next(4) == 0)
+			{
+				this.Attack();
+			}
+
 		}
-
-
-
-
 	}
 }

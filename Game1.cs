@@ -44,7 +44,6 @@ namespace ZeldaDungeon
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
             SetupLists();
             SetupPlayer();
@@ -126,7 +125,7 @@ namespace ZeldaDungeon
             enemies.Add(new Stalfos(enemySpawn));
             enemies.Add(new Trap(enemySpawn));
             enemies.Add(new WallMaster(enemySpawn));
-            items.Add(new ArrowItem(itemSpawn));
+            items.Add(new ArrowItem(itemSpawn, this));
             items.Add(new BombItem(itemSpawn, this));
             items.Add(new BowItem(itemSpawn));
             items.Add(new ClockItem(itemSpawn));
@@ -190,7 +189,7 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.N, linkAttack);
             Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
             keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn,this)));
-            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ClockItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
             keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new CompassItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new FairyItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new HeartContainerItem(dummyItemSpawn)));

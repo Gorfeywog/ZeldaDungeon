@@ -8,5 +8,4 @@ namespace ZeldaDungeon.Entities
     {
         Up, Down, Left, Right
     }
-    // should enum members be in ALL_CAPS?
 }

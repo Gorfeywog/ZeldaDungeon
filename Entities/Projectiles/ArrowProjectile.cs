@@ -6,7 +6,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-	public class Arrow : IProjectile
+	public class ArrowProjectile : IProjectile
 	{
 		private ISprite ArrowSprite { get; set; }
 		public Point CurrentPoint { get; private set; }
@@ -18,7 +18,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		private int speed = 5;
 
 
-		public Arrow(Point position, Direction dir)
+		public ArrowProjectile(Point position, Direction dir)
 		{
 			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir); // note that it lives on the enemies sheet
 			CurrentPoint = position;

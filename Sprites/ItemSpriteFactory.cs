@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Sprites
     public class ItemSpriteFactory
     {
         private Texture2D itemSpriteSheet;
-        private static readonly int gridX = 32; // how wide each sprite is
+        private static readonly int gridX = 32;
         private static readonly int gridY = 32;
 
         private static ItemSpriteFactory instance = new ItemSpriteFactory();

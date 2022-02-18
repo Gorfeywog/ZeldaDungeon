@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Sprites
     public class BlockSpriteFactory
     {
         private Texture2D blockSpriteSheet;
-        private static readonly int gridX = 32; // how wide each sprite is
+        private static readonly int gridX = 32;
         private static readonly int gridY = 32;
 
         private static BlockSpriteFactory instance = new BlockSpriteFactory();

@@ -4,7 +4,7 @@ using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Enemies
+namespace ZeldaDungeon.Entities.Projectiles
 {
     public class Boomerang : IProjectile
     {

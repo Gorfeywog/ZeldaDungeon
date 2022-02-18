@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Blocks
 {
     public class BlueSandBlock : IBlock
     {
-        private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueSandBlock(); // TODO: Check with Luke that this is correct.
+        private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueSandBlock();
         private static int width = 16;
         private static int height = 16;
         public Point CurrentPoint { get; set; }

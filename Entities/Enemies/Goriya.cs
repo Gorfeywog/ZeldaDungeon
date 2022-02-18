@@ -4,6 +4,7 @@ using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
+using ZeldaDungeon.Entities.Projectiles;
 
 namespace ZeldaDungeon.Entities.Enemies
 {

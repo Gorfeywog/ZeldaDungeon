@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Items
 {
     public class ClockItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateClock(); // TODO: Check with Luke that this is correct.
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateClock();
         private static int width = 16;
         private static int height = 16;
         public Point CurrentPoint { get; set; }

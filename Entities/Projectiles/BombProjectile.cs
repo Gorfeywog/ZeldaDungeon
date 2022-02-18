@@ -9,8 +9,10 @@ namespace ZeldaDungeon.Entities.Projectiles
 {
     public class BombProjectile : IProjectile
     {
-        private static int timerMax = 300; // chosen with no methodology
-        private int timer = timerMax; // counts down
+        private static int fuseTime = 300; // chosen with no methodology
+        private static int smokeTime = 56; // 7*8 for 7 stages of cloud, 8 frames per?
+        private bool isCloud = false;
+        private int timer = fuseTime; // counts down
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); // should projectiles be on their own spritesheet (and thus sprite factory)?
         private Game1 g;
         public Point CurrentPoint { get; private set; }
@@ -30,7 +32,14 @@ namespace ZeldaDungeon.Entities.Projectiles
         }
         public void Update()
         {
+            sprite.Update();
             timer--;
+            if (timer == 0 && !isCloud) // this is kinda hacky but should work for now
+            {
+                isCloud = true;
+                timer = smokeTime;
+                sprite = EnemySpriteFactory.Instance.CreateCloudSprite();
+            }
         }
     }
 }

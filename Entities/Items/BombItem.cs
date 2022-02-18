@@ -26,24 +26,8 @@ namespace ZeldaDungeon.Entities.Items
         private static int offset = 32; // how far to place from Link
         public void UseOn(ILink player)
         {
-            int x = player.Position.X;
-            int y = player.Position.Y;
-            switch (player.Direction)
-            {
-                case Direction.Up:
-                    y -= offset;
-                    break;
-                case Direction.Down:
-                    y += offset;
-                    break;
-                case Direction.Left:
-                    x -= offset;
-                    break;
-                case Direction.Right:
-                    x += offset;
-                    break;
-            }
-            IProjectile proj = new BombProjectile(new Point(x, y), g);
+            Point loc = EntityUtils.Offset(player.Position, player.Direction, offset);
+            IProjectile proj = new BombProjectile(loc, g);
             g.RegisterProjectile(proj);
         }
     }

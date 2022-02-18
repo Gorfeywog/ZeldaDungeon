@@ -32,6 +32,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         }
         public void Update()
         {
+            sprite.Update();
             timer--;
             if (timer == 0 && !isCloud) // this is kinda hacky but should work for now
             {

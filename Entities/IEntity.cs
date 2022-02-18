@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IDrawable
+    public interface IEntity
     {
         public void Draw(SpriteBatch spriteBatch);
         public void Update();

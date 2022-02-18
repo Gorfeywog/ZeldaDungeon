@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IEnemy : IDrawable
+    public interface IEnemy : IEntity
     {
         public void Attack();
 

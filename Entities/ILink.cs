@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface ILink : IDrawable
+    public interface ILink : IEntity
     {
         public Point Position { get; }
         public Direction Direction { get; }

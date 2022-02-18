@@ -20,32 +20,16 @@ namespace ZeldaDungeon.Entities.Projectiles
 
 		public ArrowProjectile(Point position, Direction dir)
 		{
-			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir); // note that it lives on the enemies sheet
+			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir);
 			CurrentPoint = position;
+			orientation = dir;
 			rand = new Random();
 			currentFrame = 0;
 		}
 
 		public void Move()
 		{
-			int newX = CurrentPoint.X;
-			int newY = CurrentPoint.Y;
-			switch (orientation)
-            {
-				case Direction.Up:
-					newY += speed;
-					break;
-				case Direction.Down:
-					newY -= speed;
-					break;
-				case Direction.Left:
-					newX -= speed;
-					break;
-				case Direction.Right:
-					newX += speed;
-					break;
-            }
-			CurrentPoint = new Point(newX, newY);
+			CurrentPoint = EntityUtils.Offset(CurrentPoint, orientation, speed);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)

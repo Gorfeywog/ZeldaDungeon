@@ -18,10 +18,10 @@ namespace ZeldaDungeon.Entities
             switch (d)
             {
                 case Direction.Up:
-                    newY += amtY;
+                    newY -= amtY;
                     break;
                 case Direction.Down:
-                    newY -= amtY;
+                    newY += amtY;
                     break;
                 case Direction.Left:
                     newX -= amtX;

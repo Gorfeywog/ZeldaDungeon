@@ -14,13 +14,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		private Random rand;
 		private int currentFrame;
 
-		private enum RopeDirection { Left, Right, Up, Down };
-		private RopeDirection currDirection;
+		private Direction currDirection;
 
 		public Rope(Point position)
 		{
 			RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
-			currDirection = RopeDirection.Left;
+			currDirection = Direction.Left;
 
 			posX = position.X;
 			posY = position.Y;
@@ -38,21 +37,21 @@ namespace ZeldaDungeon.Entities.Enemies
 				switch (rand.Next(4))
 				{
 					case 0:
-						currDirection = RopeDirection.Left;
+						currDirection = Direction.Left;
 						RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
 						break;
 
 					case 1:
-						currDirection = RopeDirection.Right;
+						currDirection = Direction.Right;
 						RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteRight();
 						break;
 
 					case 2:
-						currDirection = RopeDirection.Up;
+						currDirection = Direction.Up;
 						break;
 
 					case 3:
-						currDirection = RopeDirection.Down;
+						currDirection = Direction.Down;
 						break;
 
 					default:
@@ -63,19 +62,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			//Determines which way to move
 			switch (currDirection)
 			{
-				case RopeDirection.Left:
+				case Direction.Left:
 					posX -= 8;
 					break;
 
-				case RopeDirection.Right:
+				case Direction.Right:
 					posX += 8;
 					break;
 
-				case RopeDirection.Up:
+				case Direction.Up:
 					posY -= 8;
 					break;
 
-				case RopeDirection.Down:
+				case Direction.Down:
 					posY += 8;
 					break;
 

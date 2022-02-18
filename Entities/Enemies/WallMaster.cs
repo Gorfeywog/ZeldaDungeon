@@ -14,14 +14,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		private Random rand;
 		private int currentFrame;
 
-
-		private enum WallMasterDirection { SE, NE, NW, SW };
-		private WallMasterDirection currDirection;
+		private Direction currDirection;
 
 		public WallMaster(Point position)
 		{
 			WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSE();
-			currDirection = WallMasterDirection.SE;
+			currDirection = Direction.SE;
 			posX = position.X;
 			posY = position.Y;
 			currentFrame = 0;
@@ -38,22 +36,22 @@ namespace ZeldaDungeon.Entities.Enemies
 				switch (rand.Next(4))
 				{
 					case 0:
-						currDirection = WallMasterDirection.SE;
+						currDirection = Direction.SE;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSE();
 						break;
 
 					case 1:
-						currDirection = WallMasterDirection.NE;
+						currDirection = Direction.NE;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteNE();
 						break;
 
 					case 2:
-						currDirection = WallMasterDirection.NW;
+						currDirection = Direction.NW;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteNW();
 						break;
 
 					case 3:
-						currDirection = WallMasterDirection.SW;
+						currDirection = Direction.SW;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSW();
 						break;
 
@@ -65,22 +63,22 @@ namespace ZeldaDungeon.Entities.Enemies
 			//Determines which way to move
 			switch (currDirection)
 			{
-				case WallMasterDirection.SE:
+				case Direction.SE:
 					posX += 8;
 					posY += 8;
 					break;
 
-				case WallMasterDirection.NE:
+				case Direction.NE:
 					posX += 8;
 					posY -= 8;
 					break;
 
-				case WallMasterDirection.NW:
+				case Direction.NW:
 					posX -= 8;
 					posY -= 8;
 					break;
 
-				case WallMasterDirection.SW:
+				case Direction.SW:
 					posX -= 8;
 					posY += 8;
 					break;

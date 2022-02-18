@@ -10,9 +10,7 @@ namespace ZeldaDungeon.Entities.Items
 {
     public class BombItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); // TODO: Check with Luke that this is correct.
-        private static int width = 16;
-        private static int height = 16;
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb();
         private Game1 g;
         public Point CurrentPoint { get; set; }
         public BombItem(Point position, Game1 g)
@@ -25,7 +23,7 @@ namespace ZeldaDungeon.Entities.Items
             sprite.Draw(spriteBatch, CurrentPoint);
         }
         public void Update() => sprite.Update();
-        private static int offset = 16; // how far to place from Link
+        private static int offset = 32; // how far to place from Link
         public void UseOn(ILink player)
         {
             int x = player.Position.X;

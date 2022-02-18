@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Items
 {
     public class WoodenBoomerangItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateWoodenBoomerang(); // TODO: Check with Luke that this is correct.
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateWoodenBoomerang();
         private static int width = 16;
         private static int height = 16;
         public Point CurrentPoint { get; set; }

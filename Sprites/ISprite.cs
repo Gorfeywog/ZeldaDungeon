@@ -8,7 +8,7 @@ namespace ZeldaDungeon.Sprites
 {
     public interface ISprite
     {
-        public void Draw(SpriteBatch spriteBatch, Point topLeft); // maybe change the SpriteBatch to be a parameter? unsure if it should be that or a private variable
+        public void Draw(SpriteBatch spriteBatch, Point topLeft);
         public void Update();
     }
 }

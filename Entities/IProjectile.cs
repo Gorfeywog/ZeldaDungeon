@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IProjectile : IDrawable
+    public interface IProjectile : IEntity
     {
         public Point CurrentPoint { get; }
-        public bool ReadyToDespawn { get; } // maybe even move this to IDrawable? it seems pretty useful
+        public bool ReadyToDespawn { get; } // maybe even move this to IEntity? it seems pretty useful
         public void DespawnEffect(); // create explosions, etc.
 
         // add properties relating to what "team" they're on?

@@ -4,11 +4,8 @@ using ZeldaDungeon.Sprites;
 
 public class LinkStateMachine
 {
-	// public enum LinkDirection { Left, Right, Up, Down }; // MOVED TO ZeldaDungeon.Entities.Direction
-	public enum LinkState { UsingItem, Walking, Idle, Attacking };
+	public enum LinkActionState { UsingItem, Walking, Idle, Attacking };
 	public bool Damaged { get; private set; }
-	// should it be possible to have a Damaged, Walking link? maybe change Damaged to a boolean?
-	// would complicate spriting a bit, but it would not be too hard to handle that from a sprite side
 	private Direction currentDirection;
 	public Direction CurrentDirection
     {
@@ -22,8 +19,8 @@ public class LinkStateMachine
 			currentDirection = value;
         }
     }
-	private LinkState currentState;
-	public LinkState CurrentState
+	private LinkActionState currentState;
+	public LinkActionState CurrentState
     {
 		get
         {
@@ -40,7 +37,7 @@ public class LinkStateMachine
 
 	public LinkStateMachine()
     {
-		CurrentState = LinkState.Idle;
+		CurrentState = LinkActionState.Idle;
 		currentDirection = Direction.Right;
 		HasNewSprite = true;
     }
@@ -52,13 +49,13 @@ public class LinkStateMachine
 
 	public void UseItem() 
 	{
-		if (CurrentState != LinkState.UsingItem) CurrentState = LinkState.UsingItem;
+		if (CurrentState != LinkActionState.UsingItem) CurrentState = LinkActionState.UsingItem;
 		itemUseCountdown = itemUseDelay;
 	}
 
 	public void Attack()
 	{
-		if (CurrentState != LinkState.Attacking) CurrentState = LinkState.Attacking;
+		if (CurrentState != LinkActionState.Attacking) CurrentState = LinkActionState.Attacking;
 		itemUseCountdown = itemUseDelay;
 	}
 
@@ -71,12 +68,12 @@ public class LinkStateMachine
 
 	public void Idle()
     {
-		CurrentState = LinkState.Idle;
+		CurrentState = LinkActionState.Idle;
     }
 
 	public void Walking()
     {
-		CurrentState = LinkState.Walking; // TODO - shouldn't there be more logic here?
+		CurrentState = LinkActionState.Walking;
 	}
 
 	private static readonly int damageDelay = 80; // chosen by magic
@@ -107,19 +104,19 @@ public class LinkStateMachine
     {
 		HasNewSprite = false; // just generated a sprite; it must be up to date!
 		LinkSpriteFactory fac = LinkSpriteFactory.Instance;
-		bool d = Damaged; // for brevity
+		bool d = Damaged; 
 		switch (CurrentState)
         {
-			case LinkState.Idle:
+			case LinkActionState.Idle:
 				return CurrentDirection switch
 					{
 						Direction.Up => fac.CreateIdleUpLink(d),
 						Direction.Down => fac.CreateIdleDownLink(d),
 						Direction.Left => fac.CreateIdleLeftLink(d),
 						Direction.Right => fac.CreateIdleRightLink(d),
-						_ => throw new ArgumentOutOfRangeException() // if not a valid direction - throw an exception!
+						_ => throw new ArgumentOutOfRangeException()
 					};
-			case LinkState.Walking:
+			case LinkActionState.Walking:
 				return CurrentDirection switch
 				{
 					Direction.Up => fac.CreateWalkingUpLink(d),
@@ -128,18 +125,8 @@ public class LinkStateMachine
 					Direction.Right => fac.CreateWalkingRightLink(d),
 					_ => throw new ArgumentOutOfRangeException()
 				};
-			case LinkState.Attacking:
-				/*
-				return CurrentDirection switch
-				{
-					Direction.Up => fac.CreateAttackingUpLink(),
-					Direction.Down => fac.CreateAttackingDownLink(),
-					Direction.Left => fac.CreateAttackingLeftLink(),
-					Direction.Right => fac.CreateAttackingRightLink(),
-					_ => throw new ArgumentOutOfRangeException()
-				};
-				*/ // those sprites are obseleted! attacking is like using an item! fallthrough!
-			case LinkState.UsingItem:
+			case LinkActionState.Attacking:
+			case LinkActionState.UsingItem:
 				return CurrentDirection switch
 				{
 					Direction.Up => fac.CreateUIUpLink(d),
@@ -148,17 +135,6 @@ public class LinkStateMachine
 					Direction.Right => fac.CreateUIRightLink(d),
 					_ => throw new ArgumentOutOfRangeException()
 				};
-				/*
-			case LinkState.Damaged:
-				return CurrentDirection switch
-				{
-					Direction.Up => fac.CreateDamagedUpLink(),
-					Direction.Down => fac.CreateDamagedDownLink(),
-					Direction.Left => fac.CreateDamagedLeftLink(),
-					Direction.Right => fac.CreateDamagedRightLink(),
-					_ => throw new ArgumentOutOfRangeException()
-				};
-				*/ // Obsoleted! Damaged is now a modifier!
 			default: throw new ArgumentOutOfRangeException();
 		}
     }

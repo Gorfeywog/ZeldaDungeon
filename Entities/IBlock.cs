@@ -4,5 +4,5 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IBlock : IDrawable { } // 
+    public interface IBlock : IEntity { } // 
 }

@@ -8,13 +8,12 @@ namespace ZeldaDungeon
 {
     public class KeyboardController : IController
     {
-        private KeyboardState state;
+        private KeyboardState state = Keyboard.GetState();
         private KeyboardState oldState;
         private IDictionary<Keys, ICommand> regCommands;
         private IDictionary<Keys, (ICommand, ICommand)> holdCommands;
         public KeyboardController()
         {
-            UpdateState(); // don't let state be null
             regCommands = new Dictionary<Keys, ICommand>();
             holdCommands = new Dictionary<Keys, (ICommand, ICommand)>();
         }
@@ -34,18 +33,15 @@ namespace ZeldaDungeon
         {
             foreach (Keys k in state.GetPressedKeys())
             {
-                // handle traditional commands
                 if (regCommands.ContainsKey(k) && oldState.IsKeyUp(k)) // check old state so we only press it once
                 {
                     regCommands[k].Execute();
                 }
-                // handle hold commands being pressed
                 if (holdCommands.ContainsKey(k) && oldState.IsKeyUp(k))
                 {
                     holdCommands[k].Item1.Execute();
                 }
             }
-            // check for released hold commands
             foreach (Keys k in holdCommands.Keys)
             {
                 if (oldState.IsKeyDown(k) && state.IsKeyUp(k))

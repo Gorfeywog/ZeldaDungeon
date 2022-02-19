@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Sprites
     public class LinkSpriteFactory
     {
         private Texture2D linkSpriteSheet;
-        private static readonly int gridX = 32; // how wide each sprite is
+        private static readonly int gridX = 32;
         private static readonly int gridY = 32;
 
         private static LinkSpriteFactory instance = new LinkSpriteFactory();
@@ -31,7 +31,6 @@ namespace ZeldaDungeon.Sprites
         {
             linkSpriteSheet = content.Load<Texture2D>("linksprites");
         }
-        // note that these 4 are currently unused; they may return at some point?
         public ISprite CreateAttackingLeftLink(bool damaged = false)
         {
             return new StaticLinkSprite(linkSpriteSheet, 27, 16, GridToPoint(2,4), damaged);
@@ -51,9 +50,6 @@ namespace ZeldaDungeon.Sprites
         {
             return new StaticLinkSprite(linkSpriteSheet, 16, 27, GridToPoint(1,4), damaged);
         }
-        // Note that Idle sprites just use the first frame of the
-        // walk animation.
-        // This should be changed if possible.
         public ISprite CreateIdleLeftLink(bool damaged = false)
         {
             return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 2), damaged);
@@ -93,26 +89,6 @@ namespace ZeldaDungeon.Sprites
         {
             return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(2, 5), damaged);
         }
-        /*
-        public ISprite CreateDamagedLeftLink(bool damaged = false)
-        {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 2), true);
-        }
-        public ISprite CreateDamagedRightLink(bool damaged = false)
-        {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 3), true);
-        }
-
-        public ISprite CreateDamagedUpLink(bool damaged = false)
-        {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 0), true);
-        }
-
-        public ISprite CreateDamagedDownLink(bool damaged = false)
-        {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 1), true);
-        }
-        */ // obsoleted; Damaged is a modifier now
         public ISprite CreateWalkingLeftLink(bool damaged = false)
         {
             Point[] topLefts = { GridToPoint(0, 2), GridToPoint(1, 2) };

@@ -47,44 +47,21 @@ public class Link : ILink
             linkSprite = stateMachine.LinkSprite(); // only get a new sprite if we need to
         }
         linkSprite.Update();
-        if (stateMachine.CurrentState == LinkStateMachine.LinkState.Walking)
+        if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
-            // move forward
             int speed = 1; // TODO - handle speed better
-            Point newPos = stateMachine.CurrentDirection switch
-            {
-                Direction.Up => new Point(Position.X, Position.Y - speed),
-                Direction.Down => new Point(Position.X, Position.Y + speed),
-                Direction.Left => new Point(Position.X - speed, Position.Y),
-                Direction.Right => new Point(Position.X + speed, Position.Y),
-                _ => throw new ArgumentException() // bad direction!
-            };
+            Point newPos = EntityUtils.Offset(Position, Direction, speed);
             Position = newPos;
         }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (/*stateMachine.CurrentState == LinkStateMachine.LinkState.UsingItem
-			|| */stateMachine.CurrentState == LinkStateMachine.LinkState.Attacking)
+        if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Attacking)
         {
-            Point itemPos = Position; // default value so compiler doesn't complain; should be replaced
-            switch (stateMachine.CurrentDirection)
-            {
-                case Direction.Up:
-                    itemPos = new Point(Position.X, Position.Y - 32);
-                    break;
-                case Direction.Down:
-                    itemPos = new Point(Position.X, Position.Y + 16);
-                    break;
-                case Direction.Left:
-                    itemPos = new Point(Position.X - 32, Position.Y);
-                    break;
-                case Direction.Right:
-                    itemPos = new Point(Position.X + 16, Position.Y);
-                    break;
-            }
+            Point itemPos = EntityUtils.Offset(Position, Direction, 32);
             ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
+            // TODO - align sword with link's center, not his top-left.
             sword.Draw(spriteBatch, itemPos);
         }
         linkSprite.Draw(spriteBatch, Position);

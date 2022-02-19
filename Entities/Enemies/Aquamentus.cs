@@ -76,11 +76,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			AquamentusSprite.Update();
 			if (currentFrame % 8 == 0)
             {
-				this.Move();
+				Move();
             }
 			if (currentFrame % 64 == 0 && rand.Next(4) == 0)
             {
-				this.Attack();
+				Attack();
             }
 
 		}

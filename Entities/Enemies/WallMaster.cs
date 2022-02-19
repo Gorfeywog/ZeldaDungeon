@@ -30,8 +30,8 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			//One in four chance to change directions
-			if (rand.Next(4) == 0)
+			//One in eight chance to change directions
+			if (rand.Next(8) == 0)
 			{
 				switch (rand.Next(4))
 				{
@@ -110,7 +110,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			if (currentFrame % 8 == 0)
 			{
-				this.Move();
+				Move();
 			}
 		}
 

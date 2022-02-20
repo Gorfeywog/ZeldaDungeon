@@ -138,7 +138,11 @@ namespace ZeldaDungeon.Sprites
             Point[] topLefts = { GridToPoint(0, 10), GridToPoint(1, 10), GridToPoint(2, 10) };
             return new AnimatedEnemySprite(enemySpriteSheet, 5, 8, topLefts);
         }
-
+        public ISprite CreateMagicBoomerangSprite()
+        {
+            Point[] topLefts = { GridToPoint(3, 10), GridToPoint(4, 10), GridToPoint(5, 10) };
+            return new AnimatedEnemySprite(enemySpriteSheet, 5, 8, topLefts);
+        }
         public ISprite CreateWallMasterSpriteSW()
         {
             Point[] topLefts = { GridToPoint(0, 8), GridToPoint(1, 8) };
@@ -169,6 +173,11 @@ namespace ZeldaDungeon.Sprites
                 GridToPoint(3, 9), GridToPoint(4, 9), GridToPoint(5, 9), GridToPoint(6, 9), /* nice */
                 GridToPoint(7, 9) };
             return new AnimatedEnemySprite(enemySpriteSheet, 16, 16, topLefts);
+        }
+
+        public ISprite CreateHitEffectSprite() // should maybe live on a different spritesheet
+        {
+            return new StaticEnemySprite(enemySpriteSheet, 8, 8, GridToPoint(6, 10));
         }
     }
 

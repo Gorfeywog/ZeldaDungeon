@@ -24,6 +24,8 @@ namespace ZeldaDungeon.Entities.Blocks
             sprite.Draw(spriteBatch, CurrentPoint);
         }
         public void Update() => sprite.Update();
+        public void DespawnEffect() { }
+        public bool ReadyToDespawn => false;
     }
 }
 

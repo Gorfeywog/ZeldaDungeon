@@ -4,29 +4,35 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Entities.Projectiles;
 
 namespace ZeldaDungeon.Entities.Items
 {
-    public class TriforcePieceItem : IItem
-    {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateTriforcePiece();
-        private static int width = 16;
-        private static int height = 16;
+	public class MagicArrowItem : IItem
+	{
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateMagicArrow(Direction.Up);
+        private Game1 g;
         public Point CurrentPoint { get; set; }
-        public TriforcePieceItem(Point position)
+        public MagicArrowItem(Point position, Game1 g)
         {
             CurrentPoint = position;
+            this.g=g;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, CurrentPoint);
         }
         public void Update() => sprite.Update();
+
+        private static int offset = 32;
         public void UseOn(ILink player)
         {
-            // do nothing, for now
+            Point loc = EntityUtils.Offset(player.Position, player.Direction, offset);
+            IProjectile proj = new MagicArrowProjectile(loc, player.Direction, g);
+            g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
     }
 }
+

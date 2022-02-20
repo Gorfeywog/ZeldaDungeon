@@ -6,7 +6,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-    public class Boomerang : IProjectile
+    public class GoriyaBoomerang : IProjectile
     {
         public ISprite BoomerangSprite { get; set; }
         public Point CurrentPoint { get => new Point(posX, posY); }
@@ -20,7 +20,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         private int currentFrame;
 
 
-        public Boomerang(Point position, int xChange, int yChange)
+        public GoriyaBoomerang(Point position, int xChange, int yChange)
         {
             BoomerangSprite = EnemySpriteFactory.Instance.CreateBoomerangSprite();
             initPosX = position.X;
@@ -33,7 +33,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             currentFrame = 0;
         }
 
-        public void Move()
+        public void Move() // this should probably be made less jank
         {
             if (currentFrame < Math.Abs(xChange * 2))
             {

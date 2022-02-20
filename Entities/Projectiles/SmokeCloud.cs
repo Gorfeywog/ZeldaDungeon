@@ -7,28 +7,23 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-    public class BombProjectile : IProjectile
+    // this should not be a projectile, but it's not really an enemy, item, or block either, let alone a link. add another interface? implement IEntiy directly?
+    public class SmokeCloud : IProjectile
     {
-        private static int fuseTime = 300; // chosen with no methodology
-        private bool isCloud = false;
-        private int timer = fuseTime; // counts down
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); // should projectiles be on their own spritesheet (and thus sprite factory)?
+        private static int smokeTime = 56; // 7*8 for 7 stages of cloud, 8 frames per?
+        private int timer = smokeTime; // counts down
+        private ISprite sprite = EnemySpriteFactory.Instance.CreateCloudSprite();
         public Point CurrentPoint { get; private set; }
         public bool ReadyToDespawn { get => timer <= 0; }
-        private Game1 g;
-        public BombProjectile(Point position, Game1 g)
+        public SmokeCloud(Point position)
         {
             CurrentPoint = position;
-            this.g = g;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, CurrentPoint);
         }
-        public void DespawnEffect()
-        {
-            g.RegisterProjectile(new SmokeCloud(CurrentPoint));
-        }
+        public void DespawnEffect() { }
         public void Update()
         {
             sprite.Update();

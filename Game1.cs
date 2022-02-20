@@ -74,8 +74,10 @@ namespace ZeldaDungeon
             blocks[CurrentBlockIndex].Update();
 
             var toBeRemoved = new List<IProjectile>();
-            foreach (IProjectile p in projectiles)
+            int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
+            for(int i = 0; i < len; i++)
             {
+                IProjectile p = projectiles[i];
                 p.Update();
                 if (p.ReadyToDespawn)
                 {
@@ -188,10 +190,10 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.Z, linkAttack);
             keyboardController.RegisterCommand(Keys.N, linkAttack);
             Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
-            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn,this)));
+            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn, this)));
             keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new CompassItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new FairyItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new MagicArrowItem(dummyItemSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new Candle(dummyItemSpawn, this, true)));
             keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new HeartContainerItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new HeartItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D7, new LinkUseItem(this, new KeyItem(dummyItemSpawn)));

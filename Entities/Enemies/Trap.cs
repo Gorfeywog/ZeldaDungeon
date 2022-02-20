@@ -43,9 +43,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
 			TrapSprite.Update();
         }
-
-
-
-
+		public void DespawnEffect() { }
+		public bool ReadyToDespawn => false;
 	}
 }

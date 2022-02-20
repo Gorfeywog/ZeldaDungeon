@@ -6,20 +6,21 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-	public class ArrowProjectile : IProjectile
+	public class MagicArrowProjectile : IProjectile
 	{
-		private ISprite ArrowSprite { get; set; }
+		private ISprite MagicArrowSprite { get; set; }
 		public Point CurrentPoint { get; private set; }
 		public bool ReadyToDespawn { get => currentFrame > maxFrame; }
 		private Direction orientation;
-		private static int maxFrame = 60; // chosen arbitrarily
+		private static int maxFrame = 60;
 		private int currentFrame;
-		private int speed = 5;
+		private int speed = 8; // note that this is faster than the regular arrow!
 		private Game1 g;
 
-		public ArrowProjectile(Point position, Direction dir, Game1 g)
+
+		public MagicArrowProjectile(Point position, Direction dir, Game1 g) // should this and regular arrow be the same class?
 		{
-			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir);
+			MagicArrowSprite = ItemSpriteFactory.Instance.CreateMagicArrow(dir);
 			CurrentPoint = position;
 			orientation = dir;
 			currentFrame = 0;
@@ -33,14 +34,14 @@ namespace ZeldaDungeon.Entities.Projectiles
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			ArrowSprite.Draw(spriteBatch, CurrentPoint);
+			MagicArrowSprite.Draw(spriteBatch, CurrentPoint);
 		}
 
 		public void Update()
 		{
 			currentFrame++;
 			this.Move();
-			ArrowSprite.Update();
+			MagicArrowSprite.Update();
 		}
 		public void DespawnEffect() => g.RegisterProjectile(new HitEffect(CurrentPoint));
 	}

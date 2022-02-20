@@ -7,30 +7,29 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-    public class BombProjectile : IProjectile
+    public class CandleFire : IProjectile
     {
-        private static int fuseTime = 300; // chosen with no methodology
-        private bool isCloud = false;
-        private int timer = fuseTime; // counts down
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); // should projectiles be on their own spritesheet (and thus sprite factory)?
+        private static int duration = 300;
+        private int timer = duration; // counts down
+        private ISprite sprite = BlockSpriteFactory.Instance.CreateFireBlock(); // it is probably bad that projectile sprites all over the place
+        private Game1 g;
+        private Direction d;
+        private int speed = 2;
         public Point CurrentPoint { get; private set; }
         public bool ReadyToDespawn { get => timer <= 0; }
-        private Game1 g;
-        public BombProjectile(Point position, Game1 g)
+        public CandleFire(Point position, Direction d)
         {
             CurrentPoint = position;
-            this.g = g;
+            this.d = d;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, CurrentPoint);
         }
-        public void DespawnEffect()
-        {
-            g.RegisterProjectile(new SmokeCloud(CurrentPoint));
-        }
+        public void DespawnEffect() { }
         public void Update()
         {
+            CurrentPoint = EntityUtils.Offset(CurrentPoint, d, speed);
             sprite.Update();
             timer--;
         }

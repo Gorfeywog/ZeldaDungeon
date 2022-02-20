@@ -8,7 +8,6 @@ public class Link : ILink
 {
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
-    private IItem heldItem; // May be null or hold stale data; check the state to see if it's good
     public Point Position { get; private set; }
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
@@ -29,7 +28,6 @@ public class Link : ILink
 
     public void UseItem(IItem item)
     {
-        this.heldItem = item;
         stateMachine.UseItem();
         item.UseOn(this);
     }
@@ -39,6 +37,7 @@ public class Link : ILink
         stateMachine.Attack();
     }
 
+    private int speed = 2; // this should maybe be more dynamic
     public void Update()
     {
         stateMachine.Update();
@@ -49,9 +48,7 @@ public class Link : ILink
         linkSprite.Update();
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
-            int speed = 1; // TODO - handle speed better
-            Point newPos = EntityUtils.Offset(Position, Direction, speed);
-            Position = newPos;
+            Position = EntityUtils.Offset(Position, Direction, speed);
         }
     }
 
@@ -76,4 +73,6 @@ public class Link : ILink
     {
         stateMachine.Idle();
     }
+    public void DespawnEffect() { }
+    public bool ReadyToDespawn => false;
 }

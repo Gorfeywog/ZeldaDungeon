@@ -174,6 +174,11 @@ namespace ZeldaDungeon.Sprites
                 GridToPoint(7, 9) };
             return new AnimatedEnemySprite(enemySpriteSheet, 16, 16, topLefts);
         }
+
+        public ISprite CreateHitEffectSprite() // should maybe live on a different spritesheet
+        {
+            return new StaticEnemySprite(enemySpriteSheet, 8, 8, GridToPoint(6, 10));
+        }
     }
 
 }

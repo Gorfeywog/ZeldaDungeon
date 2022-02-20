@@ -74,8 +74,10 @@ namespace ZeldaDungeon
             blocks[CurrentBlockIndex].Update();
 
             var toBeRemoved = new List<IProjectile>();
-            foreach (IProjectile p in projectiles)
+            int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
+            for(int i = 0; i < len; i++)
             {
+                IProjectile p = projectiles[i];
                 p.Update();
                 if (p.ReadyToDespawn)
                 {

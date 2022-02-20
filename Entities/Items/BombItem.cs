@@ -27,7 +27,7 @@ namespace ZeldaDungeon.Entities.Items
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Position, player.Direction, offset);
-            IProjectile proj = new BombProjectile(loc);
+            IProjectile proj = new BombProjectile(loc, g);
             g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }

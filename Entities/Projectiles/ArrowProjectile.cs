@@ -12,17 +12,18 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public Point CurrentPoint { get; private set; }
 		public bool ReadyToDespawn { get => currentFrame > maxFrame; }
 		private Direction orientation;
-		private static int maxFrame = 400; // chosen arbitrarily; should probably be reduced
+		private static int maxFrame = 60; // chosen arbitrarily
 		private int currentFrame;
 		private int speed = 5;
+		private Game1 g;
 
-
-		public ArrowProjectile(Point position, Direction dir)
+		public ArrowProjectile(Point position, Direction dir, Game1 g)
 		{
 			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir);
 			CurrentPoint = position;
 			orientation = dir;
 			currentFrame = 0;
+			this.g = g;
 		}
 
 		public void Move()
@@ -41,6 +42,6 @@ namespace ZeldaDungeon.Entities.Projectiles
 			this.Move();
 			ArrowSprite.Update();
 		}
-		public void DespawnEffect() { } // TODO - arrows should make a little star thing when they despawn (it's on the enemy spritesheet with the boomerangs)
+		public void DespawnEffect() => g.RegisterProjectile(new HitEffect(CurrentPoint));
 	}
 }

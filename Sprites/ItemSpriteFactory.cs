@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using ZeldaDungeon.Sprites.ItemSprites;
 using ZeldaDungeon.Entities;
 
@@ -109,7 +107,17 @@ namespace ZeldaDungeon.Sprites
                 _ => throw new ArgumentException()
             };
         }
-
+        public ISprite CreateMagicArrow(Direction dir)
+        {
+            return dir switch
+            {
+                Direction.Down => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(0, 6)),
+                Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(1, 6)),
+                Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(2, 6)),
+                Direction.Up => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(3, 6)),
+                _ => throw new ArgumentException()
+            };
+        }
         public ISprite CreateSword(Direction dir)
         {
             return dir switch
@@ -125,7 +133,17 @@ namespace ZeldaDungeon.Sprites
         {
             return new Point(gridX * x, gridY * y);
         }
-
+        public ISprite CreateCandle(bool isRed)
+        {
+            if (isRed)
+            {
+                return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(0, 7));
+            }
+            else
+            {
+                return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(1, 7));
+            }
+        }
         
     }
 }

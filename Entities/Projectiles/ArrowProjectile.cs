@@ -41,6 +41,6 @@ namespace ZeldaDungeon.Entities.Projectiles
 			this.Move();
 			ArrowSprite.Update();
 		}
-		public void DespawnEffect() { }
+		public void DespawnEffect() { } // TODO - arrows should make a little star thing when they despawn (it's on the enemy spritesheet with the boomerangs)
 	}
 }

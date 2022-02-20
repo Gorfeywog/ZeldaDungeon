@@ -30,5 +30,7 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new BombProjectile(loc);
             g.RegisterProjectile(proj);
         }
+        public void DespawnEffect() { }
+        public bool ReadyToDespawn => false;
     }
 }

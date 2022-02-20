@@ -34,6 +34,8 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.RegisterProjectile(proj);
         }
+        public void DespawnEffect() { }
+        public bool ReadyToDespawn => false;
     }
 }
 

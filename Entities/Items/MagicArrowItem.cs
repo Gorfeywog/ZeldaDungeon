@@ -31,6 +31,8 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new MagicArrowProjectile(loc, player.Direction);
             g.RegisterProjectile(proj);
         }
+        public void DespawnEffect() { }
+        public bool ReadyToDespawn => false;
     }
 }
 

@@ -84,5 +84,7 @@ namespace ZeldaDungeon.Entities.Enemies
             }
 
 		}
-    }
+		public void DespawnEffect() { }
+		public bool ReadyToDespawn => false;
+	}
 }

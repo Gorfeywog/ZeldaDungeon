@@ -45,7 +45,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			//One in four chance to change directions
 			if (rand.Next(4) == 0) {
-				switch (rand.Next(4))
+				switch (rand.Next(4)) // consider moving the sprite selection logic to EnemySpriteFactory
 				{
 					case 0:
 						currDirection = Direction.Left;
@@ -175,5 +175,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			}
 
 		}
+		public void DespawnEffect() { }
+		public bool ReadyToDespawn => false;
 	}
 }

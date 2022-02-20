@@ -26,5 +26,7 @@ namespace ZeldaDungeon.Entities.Items
         {
             // do nothing, for now
         }
+        public void DespawnEffect() { }
+        public bool ReadyToDespawn => false;
     }
 }

@@ -54,9 +54,8 @@ namespace ZeldaDungeon.Entities.Enemies
 				this.Move();
 			}
 		}
-
-
-
+		public void DespawnEffect() { }
+		public bool ReadyToDespawn => false;
 
 	}
 }

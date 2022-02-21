@@ -15,15 +15,18 @@ namespace ZeldaDungeon.Entities.Projectiles
         private int velocity;
         private Random rand;
         private int currentFrame;
+        private bool isMagic;
+        // consider adding a bool like "isFriendly" later on
 
-
-        public Boomerang(Point position, Direction dir)
+        public Boomerang(Point position, Direction dir, bool isMagic)
         {
-            BoomerangSprite = EnemySpriteFactory.Instance.CreateBoomerangSprite();
+            var esf = EnemySpriteFactory.Instance;
+            BoomerangSprite = isMagic ? esf.CreateMagicBoomerangSprite() : esf.CreateBoomerangSprite();
             InitPoint = position;
             CurrentPoint = position;
             this.dir = dir;
-            velocity = 8;
+            this.isMagic = isMagic;
+            velocity = isMagic ? 12 : 8; // magic ones go faster
             rand = new Random();
             currentFrame = 0;
         }

@@ -126,7 +126,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			boomerang = new Boomerang(new Point(posX, posY), currDirection);
+			boomerang = new Boomerang(new Point(posX, posY), currDirection, false);
 			g.RegisterProjectile(boomerang);
 		}
 

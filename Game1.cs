@@ -129,6 +129,8 @@ namespace ZeldaDungeon
             enemies.Add(new WallMaster(enemySpawn));
             items.Add(new ArrowItem(itemSpawn, this));
             items.Add(new BombItem(itemSpawn, this));
+            items.Add(new BoomerangItem(itemSpawn, this, false));
+            items.Add(new BoomerangItem(itemSpawn, this, true));
             items.Add(new BowItem(itemSpawn));
             items.Add(new ClockItem(itemSpawn));
             items.Add(new CompassItem(itemSpawn));
@@ -139,7 +141,6 @@ namespace ZeldaDungeon
             items.Add(new MapItem(itemSpawn));
             items.Add(new RupyItem(itemSpawn));
             items.Add(new TriforcePieceItem(itemSpawn));
-            items.Add(new WoodenBoomerangItem(itemSpawn));
             blocks.Add(new BlueFloorBlock(blockSpawn));
             blocks.Add(new BlueSandBlock(blockSpawn));
             blocks.Add(new BlueUnwalkableGapBlock(blockSpawn));
@@ -194,12 +195,12 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
             keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new MagicArrowItem(dummyItemSpawn, this)));
             keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new Candle(dummyItemSpawn, this, true)));
-            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new HeartContainerItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new HeartItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D7, new LinkUseItem(this, new KeyItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D8, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new WoodenBoomerangItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, false)));
+            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, true)));
+            keyboardController.RegisterCommand(Keys.D7, new LinkUseItem(this, new HeartItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D8, new LinkUseItem(this, new KeyItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
             keyboardController.RegisterCommand(Keys.T, new ChangeBlock(this, true));
             keyboardController.RegisterCommand(Keys.Y, new ChangeBlock(this, false));

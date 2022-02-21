@@ -38,8 +38,7 @@ namespace ZeldaDungeon.Entities.Items
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new ArrowProjectile(loc, player.Direction, g);
-            // TODO - make this work
+            IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
             g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }

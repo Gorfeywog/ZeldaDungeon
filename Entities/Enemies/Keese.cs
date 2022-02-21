@@ -51,7 +51,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			KeeseSprite.Update();
 			if (currentFrame % 8 == 0)
 			{
-				this.Move();
+				Move();
 			}
 		}
 		public void DespawnEffect() { }

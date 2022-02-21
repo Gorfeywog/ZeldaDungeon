@@ -9,60 +9,33 @@ namespace ZeldaDungeon.Entities.Projectiles
     public class Boomerang : IProjectile
     {
         public ISprite BoomerangSprite { get; set; }
-        public Point CurrentPoint { get => new Point(posX, posY); }
-        private int posX;
-        private int posY;
-        private int initPosX;
-        private int initPosY;
-        private int xChange;
-        private int yChange;
+        public Point CurrentPoint { get; set; }
+        private Point InitPoint;
+        private Direction dir;
+        private int velocity;
         private Random rand;
         private int currentFrame;
 
 
-        public Boomerang(Point position, int xChange, int yChange)
+        public Boomerang(Point position, Direction dir)
         {
             BoomerangSprite = EnemySpriteFactory.Instance.CreateBoomerangSprite();
-            initPosX = position.X;
-            initPosY = position.Y;
-            posX = position.X;
-            posY = position.Y;
-            this.xChange = xChange;
-            this.yChange = yChange;
+            InitPoint = position;
+            CurrentPoint = position;
+            this.dir = dir;
+            velocity = 8;
             rand = new Random();
             currentFrame = 0;
         }
 
         public void Move() // this should probably be made less jank
         {
-            if (currentFrame < Math.Abs(xChange * 2))
-            {
-                if (xChange > 0)
-                {
-                    posX += xChange - currentFrame;
-                }
-                else
-                {
-                    posX += xChange + currentFrame;
-                }
-            }
-            if (currentFrame < Math.Abs(yChange * 2))
-            {
-                if (yChange > 0)
-                {
-                    posY += yChange - currentFrame;
-                }
-                else
-                {
-                    posY += yChange + currentFrame;
-                }
-            }
-
+            CurrentPoint = EntityUtils.Offset(CurrentPoint, dir, velocity);
         }
 
         public bool ReadyToDespawn
         {
-            get => posX == initPosX && posY == initPosY;
+            get => currentFrame > 0 && CurrentPoint == InitPoint;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -73,7 +46,12 @@ namespace ZeldaDungeon.Entities.Projectiles
         public void Update()
         {
             currentFrame++;
-            this.Move();
+            if (currentFrame % 8 == 0)
+            {
+                velocity--;
+            }
+            Move();
+
             BoomerangSprite.Update();
         }
 

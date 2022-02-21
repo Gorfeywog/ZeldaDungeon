@@ -58,7 +58,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			if (currentFrame % 8 == 0)
 			{
-				this.Move();
+				Move();
 			}
 		}
 		public void DespawnEffect() { }

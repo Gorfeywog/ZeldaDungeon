@@ -30,6 +30,7 @@ namespace ZeldaDungeon.Entities.Items
         private static int offset = 32;
         public void UseOn(ILink player)
         {
+            // uses player.Position rather than player.Center since is about the size of Link
             Point loc = EntityUtils.Offset(player.Position, player.Direction, offset);
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.RegisterProjectile(proj);

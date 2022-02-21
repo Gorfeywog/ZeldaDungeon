@@ -29,6 +29,22 @@ namespace ZeldaDungeon.Entities
                 case Direction.Right:
                     newX += amtX;
                     break;
+                case Direction.NW:
+                    newX -= amtX;
+                    newY -= amtY;
+                    break;
+                case Direction.NE:
+                    newX += amtX;
+                    newY -= amtY;
+                    break;
+                case Direction.SW:
+                    newX -= amtX;
+                    newY += amtY;
+                    break;
+                case Direction.SE:
+                    newX += amtX;
+                    newY += amtY;
+                    break;
                 default: // would be smart to support NW, etc
                     throw new ArgumentException();
             }

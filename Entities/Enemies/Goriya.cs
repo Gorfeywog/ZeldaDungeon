@@ -129,23 +129,23 @@ namespace ZeldaDungeon.Entities.Enemies
 			switch (currDirection)
 			{
 				case Direction.Left:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), -24, 0);
+					boomerang = new Boomerang(new Point(posX, posY), -24, 0);
 					break;
 
 				case Direction.Right:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), 24, 0);
+					boomerang = new Boomerang(new Point(posX, posY), 24, 0);
 					break;
 
 				case Direction.Up:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), 0, -24);
+					boomerang = new Boomerang(new Point(posX, posY), 0, -24);
 					break;
 
 				case Direction.Down:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), 0, 24);
+					boomerang = new Boomerang(new Point(posX, posY), 0, 24);
 					break;
 
 				default:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), -24, 0);
+					boomerang = new Boomerang(new Point(posX, posY), -24, 0);
 					break;
 			}
 			g.RegisterProjectile(boomerang);

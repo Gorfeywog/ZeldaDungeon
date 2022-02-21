@@ -132,11 +132,18 @@ namespace ZeldaDungeon.Sprites
             Point[] topLefts = { GridToPoint(2, 3), GridToPoint(3, 3) };
             return new AnimatedEnemySprite(enemySpriteSheet, 14, 16, topLefts);
         }
-
+        public ISprite CreateStaticBoomerangSprite()
+        {
+            return new StaticEnemySprite(enemySpriteSheet, 5, 8, GridToPoint(0, 10));
+        }
         public ISprite CreateBoomerangSprite()
         {
             Point[] topLefts = { GridToPoint(0, 10), GridToPoint(1, 10), GridToPoint(2, 10) };
             return new AnimatedEnemySprite(enemySpriteSheet, 5, 8, topLefts);
+        }
+        public ISprite CreateStaticMagicBoomerangSprite()
+        {
+            return new StaticEnemySprite(enemySpriteSheet, 5, 8, GridToPoint(3, 10));
         }
         public ISprite CreateMagicBoomerangSprite()
         {

@@ -30,8 +30,8 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			//One in four chance to change directions
-			if (rand.Next(4) == 0)
+			//One in eight chance to change directions
+			if (rand.Next(8) == 0)
 			{
 				switch (rand.Next(4))
 				{
@@ -60,32 +60,9 @@ namespace ZeldaDungeon.Entities.Enemies
 				}
 			}
 
-			//Determines which way to move
-			switch (currDirection)
-			{
-				case Direction.SE:
-					posX += 8;
-					posY += 8;
-					break;
-
-				case Direction.NE:
-					posX += 8;
-					posY -= 8;
-					break;
-
-				case Direction.NW:
-					posX -= 8;
-					posY -= 8;
-					break;
-
-				case Direction.SW:
-					posX -= 8;
-					posY += 8;
-					break;
-
-				default:
-					break;
-			}
+			Point newPos = EntityUtils.Offset(new Point(posX, posY), currDirection, 8);
+			posX = newPos.X;
+			posY = newPos.Y;
 
 		}
 
@@ -110,7 +87,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			if (currentFrame % 8 == 0)
 			{
-				this.Move();
+				Move();
 			}
 		}
 		public void DespawnEffect() { }

@@ -8,6 +8,7 @@ namespace ZeldaDungeon.Entities
     public interface ILink : IEntity
     {
         public Point Position { get; }
+        public Point Center { get; }
         public Direction Direction { get; }
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();

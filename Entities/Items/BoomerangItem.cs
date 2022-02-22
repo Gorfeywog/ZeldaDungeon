@@ -8,15 +8,25 @@ using ZeldaDungeon.Entities.Projectiles;
 
 namespace ZeldaDungeon.Entities.Items
 {
-	public class ArrowItem : IItem
+	public class BoomerangItem : IItem
 	{
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateArrow(Direction.Up);
+        private ISprite sprite;
+        private bool isMagic;
         private Game1 g;
         public Point CurrentPoint { get; set; }
-        public ArrowItem(Point position, Game1 g)
+        public BoomerangItem(Point position, Game1 g, bool isMagic)
         {
             CurrentPoint = position;
-            this.g=g;
+            this.g = g;
+            this.isMagic = isMagic;
+            if (isMagic)
+            {
+                sprite = EnemySpriteFactory.Instance.CreateStaticMagicBoomerangSprite();
+            }
+            else
+            {
+                sprite = EnemySpriteFactory.Instance.CreateStaticBoomerangSprite();
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -28,7 +38,7 @@ namespace ZeldaDungeon.Entities.Items
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new ArrowProjectile(loc, player.Direction, g);
+            IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
             g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }

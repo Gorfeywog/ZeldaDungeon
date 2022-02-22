@@ -6,9 +6,12 @@ using ZeldaDungeon.Sprites;
 
 public class Link : ILink
 {
+    private static int height = 32;
+    private static int width = 32;
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
     public Point Position { get; private set; }
+    public Point Center { get => new Point(Position.X + width / 2, Position.Y + height / 2); } // used to center projectiles
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
     public Link()

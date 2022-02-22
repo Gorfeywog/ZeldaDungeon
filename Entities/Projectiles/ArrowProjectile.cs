@@ -39,7 +39,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public void Update()
 		{
 			currentFrame++;
-			this.Move();
+			Move();
 			ArrowSprite.Update();
 		}
 		public void DespawnEffect() => g.RegisterProjectile(new HitEffect(CurrentPoint));

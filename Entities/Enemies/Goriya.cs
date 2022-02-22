@@ -126,28 +126,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			switch (currDirection)
-			{
-				case Direction.Left:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), -24, 0);
-					break;
-
-				case Direction.Right:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), 24, 0);
-					break;
-
-				case Direction.Up:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), 0, -24);
-					break;
-
-				case Direction.Down:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), 0, 24);
-					break;
-
-				default:
-					boomerang = new GoriyaBoomerang(new Point(posX, posY), -24, 0);
-					break;
-			}
+			boomerang = new Boomerang(new Point(posX, posY), currDirection, false);
 			g.RegisterProjectile(boomerang);
 		}
 
@@ -167,11 +146,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			GoriyaSprite.Update();
 			if (currentFrame % 8 == 0 && !IsAttacking)
 			{
-				this.Move();
+				Move();
 			}
-			if (currentFrame % 64 == 0 && rand.Next(4) == 0)
+			if (currentFrame % 128 == 0 && rand.Next(4) == 0)
 			{
-				this.Attack();
+				Attack();
 			}
 
 		}

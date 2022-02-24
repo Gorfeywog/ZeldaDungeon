@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
@@ -39,7 +40,15 @@ namespace ZeldaDungeon
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
             currentFrame = 0;
-
+            var test = new CSVParser();
+            var csvData = test.parseFile(@"RoomData\room3.csv");
+            using (StreamWriter sw = File.CreateText(@"RoomData\output.txt"))
+            {
+                foreach (List<string> tokens in csvData)
+                {
+                    sw.WriteLine(tokens[0]);
+                }
+            }
         }
 
         protected override void Initialize()

@@ -29,12 +29,12 @@ namespace ZeldaDungeon
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
-            CurrentRoom = new Room(this, @"RooMData\Room0.csv", new Point(0, 0));
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            CurrentRoom = new Room(this, @"RooMData\Room0.csv", new Point(0, 0)); // has to be after LoadContent, since this uses sprites
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }

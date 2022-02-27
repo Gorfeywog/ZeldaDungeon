@@ -12,8 +12,8 @@ namespace ZeldaDungeon.Rooms
 {
     public class Room
     {
-        private bool hasWalls = true; // the ladder rooms don't have walls
-        private IDictionary<Direction, DoorState> doorState = new Dictionary<Direction, DoorState>();
+        private Walls walls = null; // may be null to represent a room without walls!
+        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private const int gridSize = 32;

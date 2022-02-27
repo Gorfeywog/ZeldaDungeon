@@ -11,19 +11,23 @@ namespace ZeldaDungeon
 {
     public class CSVParser
     {
-        private const int width = 16;
-        private const int height = 11;
+        private const int width = 14;
+        private const int wOffset = 2;
+        private const int height = 9;
+        private const int hOffset = 2;
         public CSVParser() { }
         // array corresponds to the room's grid, list stores every entity on a tile?
-        // all rows and columns must have the prescribed dimensions, or bad stuff happens
+        // all rows and columns must have the prescribed dimensions, or bad stuff happens.
+        // for now, this just straight-up ignores the walls; i think we can safely eliminate them
+        // from the csv files, but we may want to indicate doors in some way?
         public IList<String>[,] ParseFile(string path) // should this be static?
         {
             IList<String>[,] tokens = new IList<String>[width,height];
             string[] lines = System.IO.File.ReadAllLines(path);
-            for (int i = 0; i < height; i++) // height *should* match lines.Length
+            for (int i = hOffset; i < height; i++) // height *should* match lines.Length
             {
                 string[] lineBlocks = lines[i].Split(',');
-                for (int j = 0; j < width; j++)
+                for (int j = wOffset; j < width; j++)
                 {
                     string currentBlock = lineBlocks[j];
                     tokens[j, i] = new List<string>(currentBlock.Split(';'));

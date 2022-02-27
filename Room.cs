@@ -22,6 +22,7 @@ namespace ZeldaDungeon
             this.topLeft = topLeft;
             var parser = new CSVParser();
             var data = parser.ParseFile(path);
+            roomEntities = new List<IEntity>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -29,7 +30,7 @@ namespace ZeldaDungeon
                     Point dest = topLeft + new Point(gridSize*i, gridSize * j); // is this reversed?
                     foreach (string s in data[i,j])
                     {
-                        CSVParser.DecodeToken(s, dest, g);
+                        roomEntities.Add(CSVParser.DecodeToken(s, dest, g));
                     }
                 }
             }

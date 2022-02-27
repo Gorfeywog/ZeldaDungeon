@@ -20,6 +20,7 @@ namespace ZeldaDungeon
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public ILink Player { get; private set; }
+        private Room CurrentRoom { get; set; }
 
 
         public Game1()
@@ -28,15 +29,7 @@ namespace ZeldaDungeon
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
-            var test = new CSVParser();
-            var csvData = test.ParseFile(@"RoomData\room3.csv");
-            using (StreamWriter sw = File.CreateText(@"RoomData\output.txt"))
-            {
-                foreach (List<string> tokens in csvData)
-                {
-                    sw.WriteLine(tokens[0]);
-                }
-            }
+            CurrentRoom = new Room(this, @"RooMData\Room0.csv", new Point(0, 0));
         }
 
         protected override void Initialize()
@@ -63,6 +56,7 @@ namespace ZeldaDungeon
 
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
+            CurrentRoom.UpdateAll();
             var toBeRemoved = new List<IProjectile>();
             int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
             for(int i = 0; i < len; i++)
@@ -88,6 +82,7 @@ namespace ZeldaDungeon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
+            CurrentRoom.DrawAll(_spriteBatch);
             foreach (IProjectile p in projectiles)
             {
                 p.Draw(_spriteBatch);

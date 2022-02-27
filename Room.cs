@@ -43,9 +43,18 @@ namespace ZeldaDungeon
         }
         public void UpdateAll()
         {
+            IList<IEntity> toBeRemoved = new List<IEntity>();
             foreach (var ent in roomEntities)
             {
                 ent.Update();
+                if (ent.ReadyToDespawn)
+                {
+                    ent.DespawnEffect();
+                }
+            }
+            foreach (var ent in toBeRemoved)
+            {
+                roomEntities.Remove(ent);
             }
         }
     }

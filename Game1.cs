@@ -8,6 +8,7 @@ using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon
@@ -34,7 +35,7 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            CurrentRoom = new Room(this, @"RooMData\Room0.csv", new Point(0, 0)); // has to be after LoadContent, since this uses sprites
+            CurrentRoom = new Room(this, @"RoomData\Room14.csv", new Point(0, 0)); // has to be after LoadContent, since this uses sprites
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }

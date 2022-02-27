@@ -8,10 +8,12 @@ using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Items;
 
-namespace ZeldaDungeon
+namespace ZeldaDungeon.Rooms
 {
     public class Room
     {
+        private bool hasWalls = true; // the ladder rooms don't have walls
+        private IDictionary<Direction, DoorState> doorState = new Dictionary<Direction, DoorState>();
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private const int gridSize = 32;

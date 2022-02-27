@@ -7,7 +7,7 @@ using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Items;
 
-namespace ZeldaDungeon
+namespace ZeldaDungeon.Rooms
 {
     public class CSVParser
     {

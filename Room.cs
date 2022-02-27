@@ -12,7 +12,8 @@ namespace ZeldaDungeon
 {
     public class Room
     {
-        private IList<IEntity> roomEntities;
+        private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
+        private IList<IBlock> roomBlocks;
         private const int gridSize = 32;
         private Game1 g;
         public Point topLeft { get; private set; }
@@ -22,7 +23,8 @@ namespace ZeldaDungeon
             this.topLeft = topLeft;
             var parser = new CSVParser();
             var data = parser.ParseFile(path);
-            roomEntities = new List<IEntity>();
+            roomEnemies = new List<IEnemy>();
+            roomBlocks = new List<IBlock>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -30,32 +32,60 @@ namespace ZeldaDungeon
                     Point dest = topLeft + new Point(gridSize*i, gridSize * j); // is this reversed?
                     foreach (string s in data[i,j])
                     {
-                        roomEntities.Add(CSVParser.DecodeToken(s, dest, g));
+                        var ent = CSVParser.DecodeToken(s, dest, g);
+                        if (ent is IEnemy en)
+                        {
+                            roomEnemies.Add(en);
+                        }
+                        else if (ent is IBlock b)
+                        {
+                            roomBlocks.Add(b);
+                        }
                     }
                 }
             }
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            foreach (var ent in roomEntities)
+            foreach (var b in roomBlocks) // draw blocks first, for overlap purposes
             {
-                ent.Draw(spriteBatch);
+                b.Draw(spriteBatch);
+            }
+            foreach (var en in roomEnemies)
+            {
+                en.Draw(spriteBatch);
             }
         }
         public void UpdateAll()
         {
-            IList<IEntity> toBeRemoved = new List<IEntity>();
-            foreach (var ent in roomEntities)
+            var blocksToBeRemoved = new List<IBlock>();
+            var enemiesToBeRemoved = new List<IEnemy>();
+
+            foreach (var enemy in roomEnemies)
             {
-                ent.Update();
-                if (ent.ReadyToDespawn)
+                enemy.Update();
+                if (enemy.ReadyToDespawn)
                 {
-                    ent.DespawnEffect();
+                    enemiesToBeRemoved.Add(enemy);
+                    enemy.DespawnEffect();
                 }
             }
-            foreach (var ent in toBeRemoved)
+            foreach (var ent in enemiesToBeRemoved)
             {
-                roomEntities.Remove(ent);
+                roomEnemies.Remove(ent);
+            }
+            foreach (var block in roomBlocks)
+            {
+                block.Update();
+                if (block.ReadyToDespawn)
+                {
+                    blocksToBeRemoved.Add(block);
+                    block.DespawnEffect();
+                }
+            }
+            foreach (var ent in blocksToBeRemoved)
+            {
+                roomBlocks.Remove(ent);
             }
         }
     }

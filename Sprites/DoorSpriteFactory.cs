@@ -39,10 +39,10 @@ namespace ZeldaDungeon.Sprites
             // we abuse the grid layout to simplify the selection / avoid a nested switch
             int directionIndex = dir switch
             {
-                Direction.Up => 0,
+                Direction.Down => 0,
                 Direction.Left => 1,
                 Direction.Right => 2,
-                Direction.Down => 3,
+                Direction.Up => 3,
                 _ => throw new ArgumentException()
             };
             int stateIndex = state switch

@@ -107,13 +107,14 @@ namespace ZeldaDungeon.Rooms
 
         private Point DoorPos(Direction dir)
         {
+            // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
-                Direction.Up => new Point(6 * 32, 0),
-                Direction.Left => new Point(0, 4 * 32),
-                Direction.Right => new Point(12 * 32, 4 * 32),
-                Direction.Down => new Point(6 * 32, 8 * 32)
-            }; // these numbers are wrong, i need to fix them
+                Direction.Up => new Point(224, 0),
+                Direction.Left => new Point(0, 144),
+                Direction.Right => new Point(448, 144),
+                Direction.Down => new Point(224, 288)
+            };
             return topLeft + offset;
         }
     }

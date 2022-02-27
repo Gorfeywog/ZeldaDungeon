@@ -17,19 +17,8 @@ namespace ZeldaDungeon
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardController keyboardController;
-        // lists of enemies, items, blocks that can be displayed
-        private IList<IEnemy> enemies;
-        private IList<IItem>  items;
-        private IList<IBlock> blocks;
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
-        private int currentFrame;
         // which enemy, item, block is being displayed, as an index into the above lists. 
-        public int CurrentEnemyIndex { get; set; }
-        public int CurrentItemIndex { get; set; }
-        public int CurrentBlockIndex { get; set; }
-        public int EnemyCount { get => enemies.Count; }
-        public int ItemCount { get => items.Count; }
-        public int BlockCount { get => blocks.Count;  }
         public ILink Player { get; private set; }
 
 
@@ -39,7 +28,6 @@ namespace ZeldaDungeon
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
-            currentFrame = 0;
             var test = new CSVParser();
             var csvData = test.ParseFile(@"RoomData\room3.csv");
             using (StreamWriter sw = File.CreateText(@"RoomData\output.txt"))
@@ -54,7 +42,6 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            SetupLists();
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
@@ -73,15 +60,9 @@ namespace ZeldaDungeon
 
         protected override void Update(GameTime gameTime)
         {
-            currentFrame++;
 
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
-
-            enemies[CurrentEnemyIndex].Update();
-            items[CurrentItemIndex].Update();
-            blocks[CurrentBlockIndex].Update();
-
             var toBeRemoved = new List<IProjectile>();
             int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
             for(int i = 0; i < len; i++)
@@ -107,9 +88,6 @@ namespace ZeldaDungeon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            enemies[CurrentEnemyIndex].Draw(_spriteBatch);
-            items[CurrentItemIndex].Draw(_spriteBatch);
-            blocks[CurrentBlockIndex].Draw(_spriteBatch);
             foreach (IProjectile p in projectiles)
             {
                 p.Draw(_spriteBatch);
@@ -118,52 +96,6 @@ namespace ZeldaDungeon
             base.Draw(gameTime);
             _spriteBatch.End();
         }
-
-        public void SetupLists()
-        {
-            enemies = new List<IEnemy>();
-            items = new List<IItem>();
-            blocks = new List<IBlock>();
-            Point enemySpawn = new Point(600, 300);
-            Point itemSpawn = new Point(200, 200);
-            Point blockSpawn = new Point(300, 300);
-            enemies.Add(new Aquamentus(enemySpawn, this));
-            enemies.Add(new Goriya(enemySpawn, this, false));
-            enemies.Add(new Gel(enemySpawn));
-            enemies.Add(new Keese(enemySpawn));
-            enemies.Add(new Goriya(enemySpawn, this, true));
-            enemies.Add(new Rope(enemySpawn));
-            enemies.Add(new Stalfos(enemySpawn));
-            enemies.Add(new Trap(enemySpawn));
-            enemies.Add(new WallMaster(enemySpawn));
-            items.Add(new ArrowItem(itemSpawn, this));
-            items.Add(new BombItem(itemSpawn, this));
-            items.Add(new BoomerangItem(itemSpawn, this, false));
-            items.Add(new BoomerangItem(itemSpawn, this, true));
-            items.Add(new BowItem(itemSpawn));
-            items.Add(new ClockItem(itemSpawn));
-            items.Add(new CompassItem(itemSpawn));
-            items.Add(new FairyItem(itemSpawn));
-            items.Add(new HeartContainerItem(itemSpawn));
-            items.Add(new HeartItem(itemSpawn));
-            items.Add(new KeyItem(itemSpawn));
-            items.Add(new MapItem(itemSpawn));
-            items.Add(new RupyItem(itemSpawn));
-            items.Add(new TriforcePieceItem(itemSpawn));
-            blocks.Add(new BlueFloorBlock(blockSpawn));
-            blocks.Add(new BlueSandBlock(blockSpawn));
-            blocks.Add(new BlueUnwalkableGapBlock(blockSpawn));
-            blocks.Add(new FireBlock(blockSpawn));
-            blocks.Add(new LadderBlock(blockSpawn));
-            blocks.Add(new PushableBlock(blockSpawn));
-            blocks.Add(new Statue1Block(blockSpawn));
-            blocks.Add(new Statue2Block(blockSpawn));
-            blocks.Add(new WhiteBrickBlock(blockSpawn));
-            CurrentEnemyIndex = 0;
-            CurrentItemIndex = 0;
-            CurrentBlockIndex = 0;
-        }
-
         public void SetupPlayer()
         {
             Player = new Link();
@@ -172,7 +104,6 @@ namespace ZeldaDungeon
         public void Reset()
         {
             projectiles = new List<IProjectile>();
-            SetupLists();
             SetupPlayer();
         }
 

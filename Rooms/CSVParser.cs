@@ -37,6 +37,7 @@ namespace ZeldaDungeon.Rooms
         {
             return token switch // how handle wr? should wr even be in these files? walls are the same in basically every room, could handle doors specially
             {
+                "npb" => new NonPushableBlock(pos),
                 "wr" => new BlueFloorBlock(pos), // hacky temporary fix; figure out a better solution!
                 "bfb" => new BlueFloorBlock(pos),
                 "bsb" => new BlueSandBlock(pos),

@@ -142,12 +142,6 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-            keyboardController.RegisterCommand(Keys.T, new ChangeBlock(this, true));
-            keyboardController.RegisterCommand(Keys.Y, new ChangeBlock(this, false));
-            keyboardController.RegisterCommand(Keys.U, new ChangeItem(this, true));
-            keyboardController.RegisterCommand(Keys.I, new ChangeItem(this, false));
-            keyboardController.RegisterCommand(Keys.O, new ChangeEnemy(this, true));
-            keyboardController.RegisterCommand(Keys.P, new ChangeEnemy(this, false));
         }
 
         public void RegisterProjectile(IProjectile p)

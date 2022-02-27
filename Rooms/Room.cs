@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Rooms
 {
     public class Room
     {
-        private Walls walls = null; // may be null to represent a room without walls!
+        private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
@@ -31,8 +31,8 @@ namespace ZeldaDungeon.Rooms
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    Point dest = topLeft + new Point(gridSize*i, gridSize * j); // is this reversed?
-                    foreach (string s in data[i,j])
+                    Point dest = topLeft + new Point(gridSize * i, gridSize * j); // is this reversed?
+                    foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
                         if (ent is IEnemy en)
@@ -46,12 +46,26 @@ namespace ZeldaDungeon.Rooms
                     }
                 }
             }
+            // TEMP CODE
+            Direction[] directions = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
+            foreach (var d in directions) {
+                doors[d] = new Door(DoorPos(d), d, DoorState.Locked);
+            }
+            walls = new Walls(topLeft);
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
             foreach (var b in roomBlocks) // draw blocks first, for overlap purposes
             {
                 b.Draw(spriteBatch);
+            }
+            if (walls != null)
+            {
+                walls.Draw(spriteBatch);
+            }
+            foreach (var d in doors)
+            {
+                d.Value.Draw(spriteBatch);
             }
             foreach (var en in roomEnemies)
             {
@@ -89,6 +103,18 @@ namespace ZeldaDungeon.Rooms
             {
                 roomBlocks.Remove(ent);
             }
+        }
+
+        private Point DoorPos(Direction dir)
+        {
+            Point offset = dir switch
+            {
+                Direction.Up => new Point(6 * 32, 0),
+                Direction.Left => new Point(0, 4 * 32),
+                Direction.Right => new Point(12 * 32, 4 * 32),
+                Direction.Down => new Point(6 * 32, 8 * 32)
+            }; // these numbers are wrong, i need to fix them
+            return topLeft + offset;
         }
     }
 }

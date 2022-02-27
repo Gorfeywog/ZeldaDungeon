@@ -50,6 +50,8 @@ namespace ZeldaDungeon
             LinkSpriteFactory.Instance.LoadAllTextures(Content);
             BlockSpriteFactory.Instance.LoadAllTextures(Content);
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
+            DoorSpriteFactory.Instance.LoadAllTextures(Content);
+            SpecialSpriteFactory.Instance.LoadAllTextures(Content);
         }
 
         protected override void Update(GameTime gameTime)

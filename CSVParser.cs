@@ -11,10 +11,8 @@ namespace ZeldaDungeon
 {
     public class CSVParser
     {
-        private const int width = 14;
-        private const int wOffset = 2;
-        private const int height = 9;
-        private const int hOffset = 2;
+        private const int width = 16;
+        private const int height = 11;
         public CSVParser() { }
         // array corresponds to the room's grid, list stores every entity on a tile?
         // all rows and columns must have the prescribed dimensions, or bad stuff happens.
@@ -24,10 +22,10 @@ namespace ZeldaDungeon
         {
             IList<String>[,] tokens = new IList<String>[width,height];
             string[] lines = System.IO.File.ReadAllLines(path);
-            for (int i = hOffset; i < height; i++) // height *should* match lines.Length
+            for (int i = 0; i < height; i++) // height *should* match lines.Length
             {
                 string[] lineBlocks = lines[i].Split(',');
-                for (int j = wOffset; j < width; j++)
+                for (int j = 0; j < width; j++)
                 {
                     string currentBlock = lineBlocks[j];
                     tokens[j, i] = new List<string>(currentBlock.Split(';'));
@@ -39,6 +37,7 @@ namespace ZeldaDungeon
         {
             return token switch // how handle wr? should wr even be in these files? walls are the same in basically every room, could handle doors specially
             {
+                "wr" => new BlueFloorBlock(pos), // hacky temporary fix; figure out a better solution!
                 "bfb" => new BlueFloorBlock(pos),
                 "bsb" => new BlueSandBlock(pos),
                 "bugb" => new BlueUnwalkableGapBlock(pos),

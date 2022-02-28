@@ -10,11 +10,12 @@ public class Link : ILink
     private static int width = 32;
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
+    
     public Rectangle CurrentLoc { get; set; }
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
-    public Link()
+    public Link(Point pos)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();

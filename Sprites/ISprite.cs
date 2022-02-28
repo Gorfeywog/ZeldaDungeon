@@ -8,7 +8,7 @@ namespace ZeldaDungeon.Sprites
 {
     public interface ISprite
     {
-        public void Draw(SpriteBatch spriteBatch, Point topLeft);
+        public void Draw(SpriteBatch spriteBatch, Rectangle sourceRectangle);
         public void Update();
     }
 }

@@ -12,15 +12,15 @@ namespace ZeldaDungeon.Entities.Items
 	{
         private ISprite sprite = ItemSpriteFactory.Instance.CreateArrow(Direction.Up);
         private Game1 g;
-        public Point CurrentPoint { get; set; }
+        public Rectangle CurrentLoc { get; set; }
         public ArrowItem(Point position, Game1 g)
         {
-            CurrentPoint = position;
+            CurrentLoc = new Rectangle(position, new Point(5, 16));
             this.g=g;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentPoint);
+            sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
 

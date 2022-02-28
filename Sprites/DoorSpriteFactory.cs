@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ZeldaDungeon.Sprites.BlockSprites;
+using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Entities;
 
@@ -55,12 +55,8 @@ namespace ZeldaDungeon.Sprites
                 DoorState.Hole => 4,
                 _ => throw new ArgumentException()
             };
-            return new StaticBlockSprite(doorSpriteSheet, 32, 32, GridToPoint(stateIndex, directionIndex));
+            return new StaticSprite(doorSpriteSheet, SpriteUtil.GridToRectangle(stateIndex, directionIndex, 32, 32));
         }
 
-        private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
-        {
-            return new Point(gridX * x, gridY * y);
-        }
     }
 }

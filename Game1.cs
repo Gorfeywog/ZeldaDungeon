@@ -176,7 +176,7 @@ namespace ZeldaDungeon
         public void TeleportToRoom(int index)
         {
             CurrentRoomIndex = index;
-            Player.Position = CurrentRoom.linkDefaultSpawn;
+            Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -186,7 +186,7 @@ namespace ZeldaDungeon
             {
                 // TODO - check door state for validity of this!
                 CurrentRoomIndex = newIndex;
-                Player.Position = CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir));
+                Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
             }
         }
 

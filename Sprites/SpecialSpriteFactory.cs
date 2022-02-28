@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ZeldaDungeon.Sprites.BlockSprites;
+using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Entities;
 
@@ -36,7 +36,7 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateWalls()
         {
-            return new StaticBlockSprite(wallsSprite, 256, 176, new Point());
+            return new StaticSprite(wallsSprite, new Rectangle(0, 0, 256, 176));
         }
     }
 }

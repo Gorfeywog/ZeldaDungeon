@@ -35,7 +35,7 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            CurrentRoom = new Room(this, @"RoomData\Room14.csv", new Point(0, 0)); // has to be after LoadContent, since this uses sprites
+            CurrentRoom = new Room(this, @"RoomData\Room14.csv"); // has to be after LoadContent, since this uses sprites
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
@@ -83,8 +83,9 @@ namespace ZeldaDungeon
 
         protected override void Draw(GameTime gameTime)
         {
+            Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(_spriteBatch);
             foreach (IProjectile p in projectiles)
             {
@@ -96,7 +97,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link();
+            Player = new Link(CurrentRoom.topLeft);
         }
 
         public void Reset()

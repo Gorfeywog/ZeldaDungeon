@@ -17,14 +17,15 @@ namespace ZeldaDungeon.Rooms
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private const int gridSize = 32;
+        private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point topLeft { get; private set; }
-        public Room(Game1 g, string path, Point topLeft)
+        public Room(Game1 g, string path)
         {
             this.g = g;
-            this.topLeft = topLeft;
-            var parser = new CSVParser();
-            var data = parser.ParseFile(path);
+            var parser = new CSVParser(path);
+            var data = parser.ParseRoomLayout();
+            this.topLeft = parser.ParsePos();
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
             for (int i = 0; i < data.GetLength(0); i++)
@@ -46,10 +47,10 @@ namespace ZeldaDungeon.Rooms
                     }
                 }
             }
-            // TEMP CODE
-            Direction[] directions = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
-            foreach (var d in directions) {
-                doors[d] = new Door(DoorPos(d), d, DoorState.Locked);
+            DoorState[] states = parser.ParseDoorState();
+            for (int i = 0; i < 4; i++) {
+                Direction d = directions[i];
+                doors[d] = new Door(DoorPos(d), d, states[i]);
             }
             walls = new Walls(topLeft);
         }

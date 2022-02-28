@@ -13,15 +13,18 @@ namespace ZeldaDungeon.Rooms
     {
         private const int width = 16;
         private const int height = 11;
-        public CSVParser() { }
+        private string[] lines;
+        public CSVParser(String path)
+        {
+            lines = System.IO.File.ReadAllLines(path);
+        }
         // array corresponds to the room's grid, list stores every entity on a tile?
         // all rows and columns must have the prescribed dimensions, or bad stuff happens.
         // for now, this just straight-up ignores the walls; i think we can safely eliminate them
         // from the csv files, but we may want to indicate doors in some way?
-        public IList<String>[,] ParseFile(string path) // should this be static?
+        public IList<String>[,] ParseRoomLayout() // should this be static?
         {
-            IList<String>[,] tokens = new IList<String>[width,height];
-            string[] lines = System.IO.File.ReadAllLines(path);
+            IList<String>[,] tokens = new IList<String>[width, height];
             for (int i = 0; i < height; i++) // height *should* match lines.Length
             {
                 string[] lineBlocks = lines[i].Split(',');
@@ -32,6 +35,31 @@ namespace ZeldaDungeon.Rooms
                 }
             }
             return tokens;
+        }
+        public DoorState[] ParseDoorState()
+        {
+            DoorState[] states = new DoorState[4];
+            string[] lastRow = lines[height].Split(',');
+            for (int i = 0; i < 4; i++)
+            {
+                states[i] = lastRow[i] switch
+                {
+                    "od" => DoorState.Open,
+                    "cd" => DoorState.Closed,
+                    "nd" => DoorState.None,
+                    "ld" => DoorState.Locked,
+                    "hd" => DoorState.Hole,
+                    _ => throw new ArgumentException()
+                };
+            }
+            return states;
+        }
+        public Point ParsePos()
+        {
+            string[] lastRow = lines[height].Split(',');
+            int rawX = int.Parse(lastRow[4]);
+            int rawY = int.Parse(lastRow[5]);
+            return new Point(rawX * 512, rawY * 352); // 512 and 352 are width and height of a room, respectively
         }
         public static IEntity DecodeToken(string token, Point pos, Game1 g)
         {

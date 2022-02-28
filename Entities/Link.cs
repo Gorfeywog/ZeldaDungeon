@@ -14,10 +14,11 @@ public class Link : ILink
     public Point Center { get => new Point(Position.X + width / 2, Position.Y + height / 2); } // used to center projectiles
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
-    public Link()
+    public Link(Point pos)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
+        Position = pos;
     }
     public void ChangeDirection(Direction nextDirection)
     {

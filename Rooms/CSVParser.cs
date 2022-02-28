@@ -13,9 +13,11 @@ namespace ZeldaDungeon.Rooms
     {
         private const int width = 16;
         private const int height = 11;
+        private string path; // used for debugging
         private string[] lines;
         public CSVParser(String path)
         {
+            this.path = path;
             lines = System.IO.File.ReadAllLines(path);
         }
         // array corresponds to the room's grid, list stores every entity on a tile?
@@ -61,7 +63,7 @@ namespace ZeldaDungeon.Rooms
             int rawY = int.Parse(lastRow[5]);
             return new Point(rawX * 512, rawY * 352); // 512 and 352 are width and height of a room, respectively
         }
-        public static IEntity DecodeToken(string token, Point pos, Game1 g)
+        public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {
             return token switch // how handle wr? should wr even be in these files? walls are the same in basically every room, could handle doors specially
             {
@@ -99,6 +101,7 @@ namespace ZeldaDungeon.Rooms
                 "ri" => new RupyItem(pos),
                 "tpi" => new TriforcePieceItem(pos),
                 "wbi" => new BoomerangItem(pos, g, false),
+                "" => null,
                 _ => throw new ArgumentOutOfRangeException() // again, still need to handle wr somehow probably
             };
         }

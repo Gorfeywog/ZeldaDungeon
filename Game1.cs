@@ -21,7 +21,9 @@ namespace ZeldaDungeon
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public ILink Player { get; private set; }
-        private Room CurrentRoom { get; set; }
+        private IList<Room> rooms = new List<Room>();
+        private int CurrentRoomIndex;
+        private Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
 
 
         public Game1()
@@ -35,7 +37,11 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            CurrentRoom = new Room(this, @"RoomData\Room14.csv"); // has to be after LoadContent, since this uses sprites
+            for (int i = 0; i <= 16; i++)
+            {
+                rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
+            }
+            CurrentRoomIndex = 3; 
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }

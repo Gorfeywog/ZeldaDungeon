@@ -9,24 +9,23 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Keese : IEnemy
 	{
 		public ISprite KeeseSprite { get; set; }
-		private int posX;
-		private int posY;
+
+		public Rectangle CurrentLoc {get; set;}
+
 		private Random rand;
 		private int currentFrame;
 
 		public Keese(Point position)
 		{
 			KeeseSprite = EnemySpriteFactory.Instance.CreateKeeseSprite();
-			posX = position.X;
-			posY = position.Y;
+			CurrentLoc = new Rectangle(position, new Point(16, 10));
 			rand = new Random();
 			currentFrame = 0;
 		}
 
 		public void Move()
 		{
-			posX += 8 * rand.Next(3) - 8;
-			posY += 8 * rand.Next(3) - 8;
+			CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size);
 
 		}
 
@@ -42,7 +41,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			KeeseSprite.Draw(spriteBatch, new Point(posX, posY));
+			KeeseSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

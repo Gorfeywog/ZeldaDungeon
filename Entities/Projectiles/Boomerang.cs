@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Projectiles
     public class Boomerang : IProjectile
     {
         public ISprite BoomerangSprite { get; set; }
-        public Point CurrentPoint { get; set; }
+        public Rectangle CurrentLoc { get; set; }
         private Point InitPoint;
         private Direction dir;
         private int velocity;
@@ -23,7 +23,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             var esf = EnemySpriteFactory.Instance;
             BoomerangSprite = isMagic ? esf.CreateMagicBoomerangSprite() : esf.CreateBoomerangSprite();
             InitPoint = position;
-            CurrentPoint = position;
+            CurrentLoc = new Rectangle(position, new Point(5, 8));
             this.dir = dir;
             this.isMagic = isMagic;
             velocity = isMagic ? 12 : 8; // magic ones go faster
@@ -33,17 +33,17 @@ namespace ZeldaDungeon.Entities.Projectiles
 
         public void Move() // this should probably be made less jank
         {
-            CurrentPoint = EntityUtils.Offset(CurrentPoint, dir, velocity);
+            CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, dir, velocity), CurrentLoc.Size);
         }
 
         public bool ReadyToDespawn
         {
-            get => currentFrame > 0 && CurrentPoint == InitPoint;
+            get => currentFrame > 0 && CurrentLoc.Location == InitPoint;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            BoomerangSprite.Draw(spriteBatch, CurrentPoint);
+            BoomerangSprite.Draw(spriteBatch, CurrentLoc);
         }
 
         public void Update()

@@ -9,8 +9,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class WallMaster : IEnemy
 	{
 		public ISprite WallMasterSprite { get; set; }
-		private int posX;
-		private int posY;
+		public Rectangle CurrentLoc { get; set; }
 		private Random rand;
 		private int currentFrame;
 
@@ -20,8 +19,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSE();
 			currDirection = Direction.SE;
-			posX = position.X;
-			posY = position.Y;
+			CurrentLoc = new Rectangle(position, new Point(16, 16));
 			currentFrame = 0;
 
 			rand = new Random();
@@ -60,9 +58,8 @@ namespace ZeldaDungeon.Entities.Enemies
 				}
 			}
 
-			Point newPos = EntityUtils.Offset(new Point(posX, posY), currDirection, 8);
-			posX = newPos.X;
-			posY = newPos.Y;
+			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, 8);
+			CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
 
 		}
 
@@ -78,7 +75,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			WallMasterSprite.Draw(spriteBatch, new Point(posX, posY));
+			WallMasterSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

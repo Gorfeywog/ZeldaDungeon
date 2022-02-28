@@ -13,10 +13,10 @@ namespace ZeldaDungeon.Entities.Items
         private ISprite sprite;
         private bool isMagic;
         private Game1 g;
-        public Point CurrentPoint { get; set; }
+        public Rectangle CurrentLoc { get; set; }
         public BoomerangItem(Point position, Game1 g, bool isMagic)
         {
-            CurrentPoint = position;
+            CurrentLoc = new Rectangle(position, new Point(5, 8));
             this.g = g;
             this.isMagic = isMagic;
             if (isMagic)
@@ -30,7 +30,7 @@ namespace ZeldaDungeon.Entities.Items
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentPoint);
+            sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
 

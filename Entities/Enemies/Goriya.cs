@@ -11,8 +11,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Goriya : IEnemy
 	{
 		public ISprite GoriyaSprite { get; set; }
-		private int posX;
-		private int posY;
+		public Rectangle CurrentLoc { get; set; }
+
 		private Random rand;
 		private int currentFrame;
 		private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
@@ -33,8 +33,7 @@ namespace ZeldaDungeon.Entities.Enemies
             {
 				GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
             }
-			posX = position.X;
-			posY = position.Y;
+			CurrentLoc = new Rectangle(position, new Point(14, 16));
 			this.g = g;
 			currDirection = Direction.Left;
 			currentFrame = 0;
@@ -104,19 +103,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			switch (currDirection)
 			{
 				case Direction.Left:
-					posX -= 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
 					break;
 
 				case Direction.Right:
-					posX += 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
 					break;
 
 				case Direction.Up:
-					posY -= 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - 8), CurrentLoc.Size);
 					break;
 
 				case Direction.Down:
-					posY += 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8), CurrentLoc.Size);
 					break;
 
 				default:
@@ -126,7 +125,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			boomerang = new Boomerang(new Point(posX, posY), currDirection, false);
+			boomerang = new Boomerang(CurrentLoc.Location, currDirection, false);
 			g.RegisterProjectile(boomerang);
 		}
 
@@ -137,7 +136,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			GoriyaSprite.Draw(spriteBatch, new Point(posX, posY));
+			GoriyaSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

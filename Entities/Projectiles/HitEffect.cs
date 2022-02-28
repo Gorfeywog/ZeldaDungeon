@@ -13,15 +13,15 @@ namespace ZeldaDungeon.Entities.Projectiles
         private static int effectTime = 56;
         private int timer = effectTime; // counts down
         private ISprite sprite = EnemySpriteFactory.Instance.CreateHitEffectSprite();
-        public Point CurrentPoint { get; private set; }
+        public Rectangle CurrentLoc { get; set; }
         public bool ReadyToDespawn { get => timer <= 0; }
         public HitEffect(Point position)
         {
-            CurrentPoint = position;
+            CurrentLoc = new Rectangle(position, new Point(8,8));
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentPoint);
+            sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void DespawnEffect() { }
         public void Update()

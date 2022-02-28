@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
-using ZeldaDungeon.Sprites.ItemSprites;
+using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities;
 
 namespace ZeldaDungeon.Sprites
@@ -10,11 +10,8 @@ namespace ZeldaDungeon.Sprites
     public class ItemSpriteFactory
     {
         private Texture2D itemSpriteSheet;
-        private static readonly int gridX = 32;
-        private static readonly int gridY = 32;
 
         private static ItemSpriteFactory instance = new ItemSpriteFactory();
-
         
         public static ItemSpriteFactory Instance
         {
@@ -29,81 +26,79 @@ namespace ZeldaDungeon.Sprites
         public void LoadAllTextures(ContentManager content)
         {
             itemSpriteSheet = content.Load<Texture2D>("itemsprites");
-        }
-
-        
+        }    
 
         public ISprite CreateBomb()
         {
-            return new StaticItemSprite(itemSpriteSheet, 8, 14, GridToPoint(0, 2));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 8, 14));
         }
 
         public ISprite CreateBow()
         {
-            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(2, 2));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 2, 8, 16));
         }
 
         public ISprite CreateClock()
         {
-            return new StaticItemSprite(itemSpriteSheet, 11, 16, GridToPoint(3, 2));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 2, 11, 16));
         }
 
         public ISprite CreateCompass()
         {
-            return new StaticItemSprite(itemSpriteSheet, 11, 12, GridToPoint(0, 3));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 3, 11, 12));
         }
 
         public ISprite CreateFairy()
         {
-            Point[] topLefts = { GridToPoint(0, 0), GridToPoint(1, 0) };
-            return new AnimatedItemSprite(itemSpriteSheet, 8, 16, topLefts);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, 8, 16), SpriteUtil.GridToRectangle(1, 0, 8, 16) };
+            return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateHeartContainer()
         {
-            return new StaticItemSprite(itemSpriteSheet, 13, 13, GridToPoint(1, 3));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 3, 13, 13));
         }
 
         public ISprite CreateHeart()
         {
-            Point[] topLefts = { GridToPoint(2, 0), GridToPoint(3, 0) };
-            return new AnimatedItemSprite(itemSpriteSheet, 7, 8, topLefts);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 0, 7, 8), SpriteUtil.GridToRectangle(3, 0, 7, 8) };
+            return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateKey()
         {
-            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(2, 3));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 3, 8, 16));
         }
 
         public ISprite CreateMap()
         {
-            return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(3, 3));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 3, 8, 16));
         }
 
         public ISprite CreateRupy()
         {
-            Point[] topLefts = { GridToPoint(0, 1), GridToPoint(1, 1) };
-            return new AnimatedItemSprite(itemSpriteSheet, 8, 16, topLefts);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, 8, 16), SpriteUtil.GridToRectangle(1, 1, 8, 16) };
+            return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateTriforcePiece()
         {
-            Point[] topLefts = { GridToPoint(2, 1), GridToPoint(3, 1) };
-            return new AnimatedItemSprite(itemSpriteSheet, 10, 10, topLefts);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 1, 10, 10), SpriteUtil.GridToRectangle(3, 1, 10, 10) };
+            return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateWoodenBoomerang()
         {
-            return new StaticItemSprite(itemSpriteSheet, 5, 8, GridToPoint(1, 2));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 2, 5, 8));
         }
         public ISprite CreateArrow(Direction dir)
         {
             return dir switch
             {
-                Direction.Down => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(0, 5)),
-                Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(1, 5)),
-                Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(2, 5)),
-                Direction.Up => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(3, 5)),
+                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 5, 5, 16)),
+                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 5, 16, 5)),
+                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 5, 16, 5)),
+                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 5, 5, 16)),
                 _ => throw new ArgumentException()
             };
         }
@@ -111,10 +106,10 @@ namespace ZeldaDungeon.Sprites
         {
             return dir switch
             {
-                Direction.Down => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(0, 6)),
-                Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(1, 6)),
-                Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 5, GridToPoint(2, 6)),
-                Direction.Up => new StaticItemSprite(itemSpriteSheet, 5, 16, GridToPoint(3, 6)),
+                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 6, 5, 16)),
+                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 6, 16, 5)),
+                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 6, 16, 5)),
+                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 6, 5, 16)),
                 _ => throw new ArgumentException()
             };
         }
@@ -122,26 +117,22 @@ namespace ZeldaDungeon.Sprites
         {
             return dir switch
             {
-                Direction.Down => new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(0, 4)),
-                Direction.Left => new StaticItemSprite(itemSpriteSheet, 16, 8, GridToPoint(1, 4)),
-                Direction.Right => new StaticItemSprite(itemSpriteSheet, 16, 8, GridToPoint(2, 4)),
-                Direction.Up => new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(3, 4)),
+                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 4, 8, 16)),
+                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 4, 16, 8)),
+                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 4, 16, 8)),
+                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 4, 8, 16)),
                 _ => throw new ArgumentException()
             };
-        }
-        private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
-        {
-            return new Point(gridX * x, gridY * y);
         }
         public ISprite CreateCandle(bool isRed)
         {
             if (isRed)
             {
-                return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(0, 7));
+                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, 8, 16));
             }
             else
             {
-                return new StaticItemSprite(itemSpriteSheet, 8, 16, GridToPoint(1, 7));
+                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 7, 8, 16));
             }
         }
         

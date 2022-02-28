@@ -10,15 +10,16 @@ public class Link : ILink
     private static int width = 32;
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
-    public Point Position { get; set; } // set must be public so Game1 can teleport Link between rooms
-    public Point Center { get => new Point(Position.X + width / 2, Position.Y + height / 2); } // used to center projectiles
+    
+    public Rectangle CurrentLoc { get; set; }
+    public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
     public Link(Point pos)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
-        Position = pos;
+        CurrentLoc = new Rectangle(0, 0, 16, 16);
     }
     public void ChangeDirection(Direction nextDirection)
     {
@@ -52,7 +53,7 @@ public class Link : ILink
         linkSprite.Update();
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
-            Position = EntityUtils.Offset(Position, Direction, speed);
+            CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
         }
     }
 
@@ -60,12 +61,21 @@ public class Link : ILink
     {
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Attacking)
         {
-            Point itemPos = EntityUtils.Offset(Position, Direction, 32);
+            Point size;
+            if (Direction == Direction.Left || Direction == Direction.Right)
+            {
+                size = new Point(16, 7);
+            }
+            else
+            {
+                size = new Point(7, 16);
+            }
+            Rectangle itemPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Center, Direction, 24), size);
             ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
             // TODO - align sword with link's center, not his top-left.
             sword.Draw(spriteBatch, itemPos);
         }
-        linkSprite.Draw(spriteBatch, Position);
+        linkSprite.Draw(spriteBatch, CurrentLoc);
     }
 
     public void StartWalking()

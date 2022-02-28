@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 	public class Fireball : IProjectile
 	{
 		public ISprite FireballSprite { get; private set; }
-		public Point CurrentPoint { get; private set; }
+		public Rectangle CurrentLoc { get; set; }
 		public bool ReadyToDespawn { get => currentFrame > maxFrame; }
 		private static int maxFrame = 400; // chosen arbitrarily
 		private int xChange;
@@ -21,7 +21,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public Fireball(Point position, int xChange, int yChange)
 		{
 			FireballSprite = EnemySpriteFactory.Instance.CreateFireballSprite(); // note that it lives on the enemies sheet
-			CurrentPoint = position;
+			CurrentLoc = new Rectangle(position, new Point(8, 10));
 			this.xChange = xChange;
 			this.yChange = yChange;
 			rand = new Random();
@@ -30,14 +30,14 @@ namespace ZeldaDungeon.Entities.Projectiles
 
 		public void Move()
 		{
-			int newX = CurrentPoint.X + xChange;
-			int newY = CurrentPoint.Y + yChange;
-			CurrentPoint = new Point(newX, newY);
+			int newX = CurrentLoc.X + xChange;
+			int newY = CurrentLoc.Y + yChange;
+			CurrentLoc = new Rectangle(new Point(newX, newY), CurrentLoc.Size);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			FireballSprite.Draw(spriteBatch, CurrentPoint);
+			FireballSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

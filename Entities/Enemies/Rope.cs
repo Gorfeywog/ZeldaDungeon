@@ -9,8 +9,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Rope : IEnemy
 	{
 		public ISprite RopeSprite { get; set; }
-		private int posX;
-		private int posY;
+		public Rectangle CurrentLoc { get; set; }
 		private Random rand;
 		private int currentFrame;
 
@@ -21,8 +20,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
 			currDirection = Direction.Left;
 
-			posX = position.X;
-			posY = position.Y;
+			CurrentLoc = new Rectangle(position, new Point(15, 15));
 			currentFrame = 0;
 
 			rand = new Random();
@@ -63,19 +61,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			switch (currDirection)
 			{
 				case Direction.Left:
-					posX -= 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
 					break;
 
 				case Direction.Right:
-					posX += 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
 					break;
 
 				case Direction.Up:
-					posY -= 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - 8), CurrentLoc.Size);
 					break;
 
 				case Direction.Down:
-					posY += 8;
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8), CurrentLoc.Size);
 					break;
 
 				default:
@@ -96,7 +94,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			RopeSprite.Draw(spriteBatch, new Point(posX, posY));
+			RopeSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

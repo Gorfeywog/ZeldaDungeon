@@ -7,7 +7,6 @@ namespace ZeldaDungeon.Entities
 {
     public interface ILink : IEntity
     {
-        public Point Position { get; set;  }
         public Point Center { get; }
         public Direction Direction { get; }
         public void ChangeDirection(Direction nextDirection);

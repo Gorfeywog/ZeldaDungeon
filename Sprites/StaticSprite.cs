@@ -4,32 +4,43 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ZeldaDungeon.Sprites.LinkSprites
+
+namespace ZeldaDungeon.Sprites
 {
-    class StaticLinkSprite : ISprite
+    class StaticSprite : ISprite
     {
         private Texture2D spritesheet;
-        private int width;
-        private int height;
-        private bool damage;
         private Rectangle sourceRectangle;
+
         private static readonly Color[] damageColors = { Color.Red, Color.White };
         private static readonly int damageRepeatDelay = 5;
-        public StaticLinkSprite(Texture2D spritesheet, int width, int height, Point topLeft) : this(spritesheet, width, height, topLeft, false) { } // chained to the other one. use default arg instead maybe?
-        public StaticLinkSprite(Texture2D spritesheet, int width, int height, Point topLeft, bool damage)
+        private bool damaged;
+        private int damageColorTimer = damageRepeatDelay;
+        private int damageColorIndex = 0;
+
+        public StaticSprite(Texture2D spritesheet, Rectangle sourceRectangle)
         {
-            this.spritesheet = spritesheet;
-            this.width = width;
-            this.height = height;
-            this.damage = damage;
-            sourceRectangle = new Rectangle(topLeft.X, topLeft.Y, width, height);
+            InitiateConstructor(spritesheet, sourceRectangle, false);
+        }
+        public StaticSprite(Texture2D spritesheet, Rectangle sourceRectangle, bool damaged)
+        {
+            InitiateConstructor(spritesheet, sourceRectangle, damaged);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Point topLeft)
+        private void InitiateConstructor(Texture2D spritesheet, Rectangle sourceRectangle, bool damaged)
         {
-            Rectangle destinationRectangle = new Rectangle(topLeft.X, topLeft.Y, width * 2, height * 2);
+            this.spritesheet = spritesheet;
+            this.sourceRectangle = sourceRectangle;
+            this.damaged = damaged;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle)
+        {
+            destinationRectangle.Size = new Point(destinationRectangle.Width * SpriteUtil.SCALE_FACTOR,
+                destinationRectangle.Height * SpriteUtil.SCALE_FACTOR);
+
             Color currentColor;
-            if (damage)
+            if (damaged)
             {
                 currentColor = damageColors[damageColorIndex];
             }
@@ -37,14 +48,13 @@ namespace ZeldaDungeon.Sprites.LinkSprites
             {
                 currentColor = Color.White;
             }
+
             spriteBatch.Draw(spritesheet, destinationRectangle, sourceRectangle, currentColor);
         }
 
-        private int damageColorTimer = damageRepeatDelay;
-        private int damageColorIndex = 0;
         public void Update()
         {
-            if (damage)
+            if (damaged)
             {
                 damageColorTimer--;
                 if (damageColorTimer == 0)

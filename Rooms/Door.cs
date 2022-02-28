@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Rooms
         public Direction Dir { get; private set; }
         public DoorState State { get; private set; }
         public Point CurrentPoint { get; private set; }
+        public bool CanPass { get => State == DoorState.Open || State == DoorState.Hole; }
         public Door(Point position, Direction dir, DoorState state)
         {
             CurrentPoint = position;

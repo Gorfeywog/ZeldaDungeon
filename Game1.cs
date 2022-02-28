@@ -2,11 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon
@@ -16,20 +18,12 @@ namespace ZeldaDungeon
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardController keyboardController;
-        // lists of enemies, items, blocks that can be displayed
-        private IList<IEnemy> enemies;
-        private IList<IItem>  items;
-        private IList<IBlock> blocks;
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
-        private int currentFrame;
-        // which enemy, item, block is being displayed, as an index into the above lists. 
-        public int CurrentEnemyIndex { get; set; }
-        public int CurrentItemIndex { get; set; }
-        public int CurrentBlockIndex { get; set; }
-        public int EnemyCount { get => enemies.Count; }
-        public int ItemCount { get => items.Count; }
-        public int BlockCount { get => blocks.Count;  }
         public ILink Player { get; private set; }
+        private IList<Room> rooms;
+        public int CurrentRoomIndex { get; private set; }
+        public int RoomCount { get => rooms.Count; }
+        private Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
 
 
         public Game1()
@@ -38,14 +32,12 @@ namespace ZeldaDungeon
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
-            currentFrame = 0;
-
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-            SetupLists();
+            SetupRooms();
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
@@ -60,19 +52,16 @@ namespace ZeldaDungeon
             LinkSpriteFactory.Instance.LoadAllTextures(Content);
             BlockSpriteFactory.Instance.LoadAllTextures(Content);
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
+            DoorSpriteFactory.Instance.LoadAllTextures(Content);
+            SpecialSpriteFactory.Instance.LoadAllTextures(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            currentFrame++;
 
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
-
-            enemies[CurrentEnemyIndex].Update();
-            items[CurrentItemIndex].Update();
-            blocks[CurrentBlockIndex].Update();
-
+            CurrentRoom.UpdateAll();
             var toBeRemoved = new List<IProjectile>();
             int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
             for(int i = 0; i < len; i++)
@@ -96,11 +85,11 @@ namespace ZeldaDungeon
 
         protected override void Draw(GameTime gameTime)
         {
+            // consider also scaling by a matrix, maybe?
+            Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
-            enemies[CurrentEnemyIndex].Draw(_spriteBatch);
-            items[CurrentItemIndex].Draw(_spriteBatch);
-            blocks[CurrentBlockIndex].Draw(_spriteBatch);
+            _spriteBatch.Begin(transformMatrix: translator);
+            CurrentRoom.DrawAll(_spriteBatch);
             foreach (IProjectile p in projectiles)
             {
                 p.Draw(_spriteBatch);
@@ -109,61 +98,23 @@ namespace ZeldaDungeon
             base.Draw(gameTime);
             _spriteBatch.End();
         }
-
-        public void SetupLists()
-        {
-            enemies = new List<IEnemy>();
-            items = new List<IItem>();
-            blocks = new List<IBlock>();
-            Point enemySpawn = new Point(600, 300);
-            Point itemSpawn = new Point(200, 200);
-            Point blockSpawn = new Point(300, 300);
-            enemies.Add(new Aquamentus(enemySpawn, this));
-            enemies.Add(new Goriya(enemySpawn, this, false));
-            enemies.Add(new Gel(enemySpawn));
-            enemies.Add(new Keese(enemySpawn));
-            enemies.Add(new Goriya(enemySpawn, this, true));
-            enemies.Add(new Rope(enemySpawn));
-            enemies.Add(new Stalfos(enemySpawn));
-            enemies.Add(new Trap(enemySpawn));
-            enemies.Add(new WallMaster(enemySpawn));
-            items.Add(new ArrowItem(itemSpawn, this));
-            items.Add(new BombItem(itemSpawn, this));
-            items.Add(new BoomerangItem(itemSpawn, this, false));
-            items.Add(new BoomerangItem(itemSpawn, this, true));
-            items.Add(new BowItem(itemSpawn));
-            items.Add(new ClockItem(itemSpawn));
-            items.Add(new CompassItem(itemSpawn));
-            items.Add(new FairyItem(itemSpawn));
-            items.Add(new HeartContainerItem(itemSpawn));
-            items.Add(new HeartItem(itemSpawn));
-            items.Add(new KeyItem(itemSpawn));
-            items.Add(new MapItem(itemSpawn));
-            items.Add(new RupyItem(itemSpawn));
-            items.Add(new TriforcePieceItem(itemSpawn));
-            blocks.Add(new BlueFloorBlock(blockSpawn));
-            blocks.Add(new BlueSandBlock(blockSpawn));
-            blocks.Add(new BlueUnwalkableGapBlock(blockSpawn));
-            blocks.Add(new FireBlock(blockSpawn));
-            blocks.Add(new LadderBlock(blockSpawn));
-            blocks.Add(new PushableBlock(blockSpawn));
-            blocks.Add(new Statue1Block(blockSpawn));
-            blocks.Add(new Statue2Block(blockSpawn));
-            blocks.Add(new WhiteBrickBlock(blockSpawn));
-            CurrentEnemyIndex = 0;
-            CurrentItemIndex = 0;
-            CurrentBlockIndex = 0;
-        }
-
         public void SetupPlayer()
         {
-            Player = new Link();
+            Player = new Link(CurrentRoom.linkDefaultSpawn);
+        }
+        public void SetupRooms()
+        {
+            rooms = new List<Room>();
+            for (int i = 0; i <= 16; i++)
+            {
+                rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
+            }
+            CurrentRoomIndex = 0;
         }
 
         public void Reset()
         {
             projectiles = new List<IProjectile>();
-            SetupLists();
             SetupPlayer();
         }
 
@@ -190,6 +141,8 @@ namespace ZeldaDungeon
             keyboardController.RegisterHoldCommand(Keys.Right, linkRight, linkStopRight);
             keyboardController.RegisterCommand(Keys.Z, linkAttack);
             keyboardController.RegisterCommand(Keys.N, linkAttack);
+            keyboardController.RegisterCommand(Keys.O, new DecRoom(this));
+            keyboardController.RegisterCommand(Keys.P, new IncRoom(this));
             Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
             keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn, this)));
             keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
@@ -202,17 +155,47 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-            keyboardController.RegisterCommand(Keys.T, new ChangeBlock(this, true));
-            keyboardController.RegisterCommand(Keys.Y, new ChangeBlock(this, false));
-            keyboardController.RegisterCommand(Keys.U, new ChangeItem(this, true));
-            keyboardController.RegisterCommand(Keys.I, new ChangeItem(this, false));
-            keyboardController.RegisterCommand(Keys.O, new ChangeEnemy(this, true));
-            keyboardController.RegisterCommand(Keys.P, new ChangeEnemy(this, false));
         }
 
         public void RegisterProjectile(IProjectile p)
         {
             projectiles.Add(p);
+        }
+
+        public void TeleportToRoom(int index)
+        {
+            CurrentRoomIndex = index;
+            Player.Position = CurrentRoom.linkDefaultSpawn;
+        }
+        public void UseRoomDoor(Direction dir)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            int newIndex = GridToRoomIndex(newGridPos);
+            // TODO - add logic here to check if this is valid!
+            CurrentRoomIndex = newIndex;
+            Player.Position = CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir));
+        }
+
+        public void UnlockRoomDoor(Direction dir)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            int newIndex = GridToRoomIndex(newGridPos);
+            CurrentRoom.UnlockDoor(dir);
+            rooms[newIndex].UnlockDoor(EntityUtils.OppositeOf(dir));
+        }
+
+        public int GridToRoomIndex(Point p) => GridToRoomIndex(p.X, p.Y);
+        public int GridToRoomIndex(int x, int y) // if no such room exists return -1 as an error value
+        {
+            for (int i = 0; i < RoomCount; i++)
+            {
+                Room r = rooms[i];
+                if (r.gridPos.X == x && r.gridPos.Y == y)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

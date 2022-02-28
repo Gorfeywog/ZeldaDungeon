@@ -10,14 +10,15 @@ public class Link : ILink
     private static int width = 32;
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
-    public Point Position { get; private set; }
+    public Point Position { get; set; } // set must be public so Game1 can teleport Link between rooms
     public Point Center { get => new Point(Position.X + width / 2, Position.Y + height / 2); } // used to center projectiles
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
-    public Link()
+    public Link(Point pos)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
+        Position = pos;
     }
     public void ChangeDirection(Direction nextDirection)
     {

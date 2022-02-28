@@ -22,7 +22,8 @@ namespace ZeldaDungeon
         // which enemy, item, block is being displayed, as an index into the above lists. 
         public ILink Player { get; private set; }
         private IList<Room> rooms = new List<Room>();
-        private int CurrentRoomIndex;
+        public int CurrentRoomIndex { get; private set; }
+        public int RoomCount { get => rooms.Count; }
         private Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
 
 
@@ -135,6 +136,8 @@ namespace ZeldaDungeon
             keyboardController.RegisterHoldCommand(Keys.Right, linkRight, linkStopRight);
             keyboardController.RegisterCommand(Keys.Z, linkAttack);
             keyboardController.RegisterCommand(Keys.N, linkAttack);
+            keyboardController.RegisterCommand(Keys.O, new DecRoom(this));
+            keyboardController.RegisterCommand(Keys.P, new IncRoom(this));
             Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
             keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn, this)));
             keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
@@ -152,6 +155,12 @@ namespace ZeldaDungeon
         public void RegisterProjectile(IProjectile p)
         {
             projectiles.Add(p);
+        }
+
+        public void TeleportToRoom(int index)
+        {
+            CurrentRoomIndex = index;
+            Player.Position = CurrentRoom.linkDefaultSpawn;
         }
     }
 }

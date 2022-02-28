@@ -20,6 +20,7 @@ namespace ZeldaDungeon.Rooms
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point topLeft { get; private set; }
+        public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
             this.g = g;
@@ -32,7 +33,7 @@ namespace ZeldaDungeon.Rooms
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    Point dest = topLeft + new Point(gridSize * i, gridSize * j); // is this reversed?
+                    Point dest = topLeft + new Point(gridSize * i, gridSize * j);
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
@@ -53,6 +54,7 @@ namespace ZeldaDungeon.Rooms
                 doors[d] = new Door(DoorPos(d), d, states[i]);
             }
             walls = new Walls(topLeft);
+            linkDefaultSpawn = topLeft + new Point(32 * 4); // TODO - there should be some logic for the ladder rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {

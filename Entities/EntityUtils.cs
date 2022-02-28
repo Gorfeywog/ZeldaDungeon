@@ -50,5 +50,20 @@ namespace ZeldaDungeon.Entities
             }
             return new Point(newX, newY);
         }
+        public static Direction OppositeOf(Direction dir)
+        {
+            return dir switch
+            {
+                Direction.Up => Direction.Down,
+                Direction.Down => Direction.Up,
+                Direction.Left => Direction.Right,
+                Direction.Right => Direction.Left,
+                Direction.NW => Direction.SE,
+                Direction.SE => Direction.NW,
+                Direction.NE => Direction.SW,
+                Direction.SW => Direction.NE,
+                _ => throw new ArgumentException()
+            };
+        }
     }
 }

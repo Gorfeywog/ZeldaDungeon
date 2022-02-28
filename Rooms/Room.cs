@@ -19,14 +19,15 @@ namespace ZeldaDungeon.Rooms
         private const int gridSize = 32;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
-        public Point topLeft { get; private set; }
+        public Point gridPos { get; private set; }
+        public Point topLeft { get => gridPos * new Point(512, 352); } // maybe cache this somehow?
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
             this.g = g;
             var parser = new CSVParser(path);
             var data = parser.ParseRoomLayout();
-            this.topLeft = parser.ParsePos() * new Point(512, 352);
+            this.gridPos = parser.ParsePos();
             // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
@@ -117,9 +118,16 @@ namespace ZeldaDungeon.Rooms
                 Direction.Up => new Point(224, 0),
                 Direction.Left => new Point(0, 144),
                 Direction.Right => new Point(448, 144),
-                Direction.Down => new Point(224, 288)
+                Direction.Down => new Point(224, 288),
+                _ => throw new ArgumentException()
             };
             return topLeft + offset;
+        }
+
+        public Point LinkDoorSpawn(Direction dir)
+        {
+            Point doorPos = DoorPos(dir);
+            return EntityUtils.Offset(doorPos, dir, -32);
         }
     }
 }

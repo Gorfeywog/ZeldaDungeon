@@ -162,5 +162,27 @@ namespace ZeldaDungeon
             CurrentRoomIndex = index;
             Player.Position = CurrentRoom.linkDefaultSpawn;
         }
+        public void UseRoomDoor(Direction dir)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            int newIndex = GridToRoomIndex(newGridPos);
+            // TODO - add logic here to check if this is valid!
+            CurrentRoomIndex = newIndex;
+            Player.Position = CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir));
+        }
+
+        public int GridToRoomIndex(Point p) => GridToRoomIndex(p.X, p.Y);
+        public int GridToRoomIndex(int x, int y) // if no such room exists return -1 as an error value
+        {
+            for (int i = 0; i < RoomCount; i++)
+            {
+                Room r = rooms[i];
+                if (r.gridPos.X == x && r.gridPos.Y == y)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 }

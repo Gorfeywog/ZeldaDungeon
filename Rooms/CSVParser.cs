@@ -61,7 +61,7 @@ namespace ZeldaDungeon.Rooms
             string[] lastRow = lines[height].Split(',');
             int rawX = int.Parse(lastRow[4]);
             int rawY = int.Parse(lastRow[5]);
-            return new Point(rawX * 512, rawY * 352); // 512 and 352 are width and height of a room, respectively
+            return new Point(rawX, rawY);
         }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {

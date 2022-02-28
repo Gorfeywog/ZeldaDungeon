@@ -26,7 +26,8 @@ namespace ZeldaDungeon.Rooms
             this.g = g;
             var parser = new CSVParser(path);
             var data = parser.ParseRoomLayout();
-            this.topLeft = parser.ParsePos();
+            this.topLeft = parser.ParsePos() * new Point(512, 352);
+            // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
             for (int i = 0; i < data.GetLength(0); i++)

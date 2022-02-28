@@ -19,9 +19,8 @@ namespace ZeldaDungeon
         private SpriteBatch _spriteBatch;
         private KeyboardController keyboardController;
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
-        // which enemy, item, block is being displayed, as an index into the above lists. 
         public ILink Player { get; private set; }
-        private IList<Room> rooms = new List<Room>();
+        private IList<Room> rooms;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         private Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -38,11 +37,7 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            for (int i = 0; i <= 16; i++)
-            {
-                rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
-            }
-            CurrentRoomIndex = 3; 
+            SetupRooms();
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
@@ -90,6 +85,7 @@ namespace ZeldaDungeon
 
         protected override void Draw(GameTime gameTime)
         {
+            // consider also scaling by a matrix, maybe?
             Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin(transformMatrix: translator);
@@ -104,7 +100,16 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.topLeft);
+            Player = new Link(CurrentRoom.linkDefaultSpawn);
+        }
+        public void SetupRooms()
+        {
+            rooms = new List<Room>();
+            for (int i = 0; i <= 16; i++)
+            {
+                rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
+            }
+            CurrentRoomIndex = 0;
         }
 
         public void Reset()
@@ -169,6 +174,14 @@ namespace ZeldaDungeon
             // TODO - add logic here to check if this is valid!
             CurrentRoomIndex = newIndex;
             Player.Position = CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir));
+        }
+
+        public void UnlockRoomDoor(Direction dir)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            int newIndex = GridToRoomIndex(newGridPos);
+            CurrentRoom.UnlockDoor(dir);
+            rooms[newIndex].UnlockDoor(EntityUtils.OppositeOf(dir));
         }
 
         public int GridToRoomIndex(Point p) => GridToRoomIndex(p.X, p.Y);

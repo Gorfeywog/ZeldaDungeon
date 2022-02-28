@@ -129,5 +129,10 @@ namespace ZeldaDungeon.Rooms
             Point doorPos = DoorPos(dir);
             return EntityUtils.Offset(doorPos, dir, -32);
         }
+
+        public void UnlockDoor(Direction dir) // only call through Game1, so it can unlock the corresponding door
+        {
+            doors[dir].Unlock();
+        }
     }
 }

@@ -26,6 +26,13 @@ namespace ZeldaDungeon.Rooms
             sprite.Draw(spriteBatch, CurrentPoint);
         }
         public void Update() => sprite.Update();
+        public void Unlock()
+        {
+            if (State == DoorState.Locked)
+            {
+                State = DoorState.Open;
+            }
+        }
     }
 }
 

@@ -26,11 +26,10 @@ namespace ZeldaDungeon.Entities.Projectiles
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         private Direction[] doorDirections = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
-        private const float explodeDist = 10; // chosen arbitrarily - should be tweaked
+        private const float explodeDist = 80; // chosen arbitrarily - should be tweaked
         public void DespawnEffect()
         {
             g.RegisterProjectile(new SmokeCloud(CurrentLoc.Location));
-            // this block doesn't seem to be working but i'm not sure why
             foreach (var d in doorDirections)
             {
                 Point p = g.CurrentRoom.DoorPos(d) + new Point(32, 32); // add 32, 32 to get center rather than topleft

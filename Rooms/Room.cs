@@ -110,7 +110,7 @@ namespace ZeldaDungeon.Rooms
             }
         }
 
-        private Point DoorPos(Direction dir)
+        public Point DoorPos(Direction dir)
         {
             // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
@@ -130,9 +130,15 @@ namespace ZeldaDungeon.Rooms
             return EntityUtils.Offset(doorPos, dir, -32);
         }
 
-        public void UnlockDoor(Direction dir) // only call through Game1, so it can unlock the corresponding door
+        // only call these through Game1, so it can unlock/explode the corresponding door on other side
+        // for each of these, return value is just whether "something happened"
+        public bool UnlockDoor(Direction dir) 
         {
-            doors[dir].Unlock();
+            return doors[dir].Unlock();
+        }
+        public bool ExplodeDoor(Direction dir)
+        {
+            return doors[dir].Explode();
         }
     }
 }

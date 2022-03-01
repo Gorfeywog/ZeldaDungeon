@@ -24,7 +24,7 @@ namespace ZeldaDungeon
         private IList<Room> rooms;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
-        private Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
+        public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
 
 
         public Game1()
@@ -168,7 +168,7 @@ namespace ZeldaDungeon
             mouseController.RegisterCommand(new Rectangle(448, 144, 64, 64), new LinkUseDoor(this, Direction.Right));
         }
 
-        public void RegisterProjectile(IProjectile p)
+        public void RegisterProjectile(IProjectile p) // strongly consider moving this to either Room or a dedicated type
         {
             projectiles.Add(p);
         }
@@ -201,12 +201,24 @@ namespace ZeldaDungeon
             }
         }
 
+        public void ExplodeRoomDoor(Direction dir)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            int newIndex = GridToRoomIndex(newGridPos);
+            if (newIndex > -1)
+            {
+                CurrentRoom.ExplodeDoor(dir);
+                rooms[newIndex].ExplodeDoor(EntityUtils.OppositeOf(dir));
+            }
+        }
+
         public int GridToRoomIndex(Point p) => GridToRoomIndex(p.X, p.Y);
         public int GridToRoomIndex(int x, int y) // if no such room exists return -1 as an error value
         {
             for (int i = 0; i < RoomCount; i++)
             {
                 Room r = rooms[i];
+                // using a loop here is maybe not ideal, but there will only ever be ~20 rooms
                 if (r.gridPos.X == x && r.gridPos.Y == y)
                 {
                     return i;

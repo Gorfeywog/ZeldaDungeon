@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Rooms
         public Direction Dir { get; private set; }
         public DoorState State { get; private set; }
         public Point CurrentPoint { get; private set; }
+        public Rectangle CurrentRect { get => new Rectangle(CurrentPoint.X, CurrentPoint.Y, 64, 64); }
         public bool CanPass { get => State == DoorState.Open || State == DoorState.Hole; }
         public Door(Point position, Direction dir, DoorState state)
         {
@@ -24,7 +25,7 @@ namespace ZeldaDungeon.Rooms
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentPoint);
+            sprite.Draw(spriteBatch, CurrentRect);
         }
         public void Update() => sprite.Update();
         public void Unlock()

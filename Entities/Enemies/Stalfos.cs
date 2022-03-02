@@ -16,7 +16,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Stalfos(Point position)
 		{
 			StalfosSprite = EnemySpriteFactory.Instance.CreateStalfosSprite();
-			CurrentLoc = new Rectangle(position, new Point(16, 16));
+			int width = (int)SpriteUtil.SpriteSize.StalfosX;
+			int height = (int)SpriteUtil.SpriteSize.StalfosY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			rand = new Random();
 			currentFrame = 0;
 		}

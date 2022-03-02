@@ -18,7 +18,9 @@ namespace ZeldaDungeon.Entities.Projectiles
         private Game1 g;
         public BombProjectile(Point position, Game1 g)
         {
-            CurrentLoc = new Rectangle(position, new Point(8, 14));
+            int width = (int)SpriteUtil.SpriteSize.BombWidth;
+			int height = (int)SpriteUtil.SpriteSize.BombLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g = g;
         }
         public void Draw(SpriteBatch spriteBatch)

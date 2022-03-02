@@ -33,7 +33,9 @@ namespace ZeldaDungeon.Entities.Enemies
             {
 				GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
             }
-			CurrentLoc = new Rectangle(position, new Point(14, 16));
+			int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+			int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			this.g = g;
 			currDirection = Direction.Left;
 			currentFrame = 0;

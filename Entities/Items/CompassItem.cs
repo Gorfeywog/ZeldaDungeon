@@ -15,7 +15,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public CompassItem(Point position)
         {
-            CurrentLoc = new Rectangle(position, new Point(11, 12));
+            int width = (int)SpriteUtil.SpriteSize.CompassWidth;
+			int height = (int)SpriteUtil.SpriteSize.CompassLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

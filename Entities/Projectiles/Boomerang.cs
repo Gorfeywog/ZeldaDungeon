@@ -23,7 +23,9 @@ namespace ZeldaDungeon.Entities.Projectiles
             var esf = EnemySpriteFactory.Instance;
             BoomerangSprite = isMagic ? esf.CreateMagicBoomerangSprite() : esf.CreateBoomerangSprite();
             InitPoint = position;
-            CurrentLoc = new Rectangle(position, new Point(5, 8));
+            int width = (int)SpriteUtil.SpriteSize.BoomerangX;
+			int height = (int)SpriteUtil.SpriteSize.BoomerangY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.dir = dir;
             this.isMagic = isMagic;
             velocity = isMagic ? 12 : 8; // magic ones go faster

@@ -17,7 +17,9 @@ namespace ZeldaDungeon.Entities.Projectiles
         public bool ReadyToDespawn { get => timer <= 0; }
         public HitEffect(Point position)
         {
-            CurrentLoc = new Rectangle(position, new Point(8,8));
+            int width = (int)SpriteUtil.SpriteSize.HitEffectX;
+            int height = (int)SpriteUtil.SpriteSize.HitEffectY;
+            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

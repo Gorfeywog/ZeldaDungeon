@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-
+/*
 namespace ZeldaDungeon.Entities
 {
     class Collision
@@ -22,3 +22,4 @@ namespace ZeldaDungeon.Entities
         // for each object in similar x-position, check for y-position within object square.
     }
 }
+*/

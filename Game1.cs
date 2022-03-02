@@ -18,6 +18,7 @@ namespace ZeldaDungeon
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardController keyboardController;
+        private MouseController mouseController;
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
         public ILink Player { get; private set; }
         private IList<Room> rooms;
@@ -32,11 +33,15 @@ namespace ZeldaDungeon
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             keyboardController = new KeyboardController();
+            mouseController = new MouseController();
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            _graphics.PreferredBackBufferWidth = 256*2;  // make window the size of a room, so there's no weird dead space
+            _graphics.PreferredBackBufferHeight = 176*2; // probably should change this whenever we introduce UI
+            _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
             SetupRooms();
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
@@ -61,6 +66,8 @@ namespace ZeldaDungeon
 
             keyboardController.UpdateState();
             keyboardController.ExecuteCommands();
+            mouseController.UpdateState();
+            mouseController.ExecuteCommands();
             CurrentRoom.UpdateAll();
             var toBeRemoved = new List<IProjectile>();
             int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
@@ -155,6 +162,10 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
+            mouseController.RegisterCommand(new Rectangle(224, 0, 64, 64), new LinkUseDoor(this, Direction.Up));
+            mouseController.RegisterCommand(new Rectangle(224, 288, 64, 64), new LinkUseDoor(this, Direction.Down));
+            mouseController.RegisterCommand(new Rectangle(0, 144, 64, 64), new LinkUseDoor(this, Direction.Left));
+            mouseController.RegisterCommand(new Rectangle(448, 144, 64, 64), new LinkUseDoor(this, Direction.Right));
         }
 
         public void RegisterProjectile(IProjectile p)
@@ -165,23 +176,29 @@ namespace ZeldaDungeon
         public void TeleportToRoom(int index)
         {
             CurrentRoomIndex = index;
-            Player.Position = CurrentRoom.linkDefaultSpawn;
+            Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
         }
         public void UseRoomDoor(Direction dir)
         {
             Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
-            // TODO - add logic here to check if this is valid!
-            CurrentRoomIndex = newIndex;
-            Player.Position = CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir));
+            if (newIndex > -1)
+            {
+                // TODO - check door state for validity of this!
+                CurrentRoomIndex = newIndex;
+                Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
+            }
         }
 
         public void UnlockRoomDoor(Direction dir)
         {
             Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
-            CurrentRoom.UnlockDoor(dir);
-            rooms[newIndex].UnlockDoor(EntityUtils.OppositeOf(dir));
+            if (newIndex > -1)
+            {
+                CurrentRoom.UnlockDoor(dir);
+                rooms[newIndex].UnlockDoor(EntityUtils.OppositeOf(dir));
+            }
         }
 
         public int GridToRoomIndex(Point p) => GridToRoomIndex(p.X, p.Y);

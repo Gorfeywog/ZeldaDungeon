@@ -6,75 +6,72 @@ namespace ZeldaDungeon.Entities
 {
     class HandleCollision
     {
-        List<IEntity> levelObjects;
-        List<IEntity> potentialCollision;
-        IDictionary<IEntity, Direction> collisions;
-        IEntity actualEntity;
-        int dx;
-        int dy;
-        public HandleCollision(List<IEntity> levelObjects, IEntity actualEntity)
+        List<IEntity> LevelObjects;
+        IDictionary<IEntity, Direction> Collisions;
+        IEntity ActualEntity;
+        int dx, dy;
+
+        public HandleCollision(List<IEntity> LevelObjects, IEntity ActualEntity)
         {
-            this.levelObjects = levelObjects;
-            this.actualEntity = actualEntity;
-            collisions = new Dictionary<IEntity, Direction>();
+            this.LevelObjects = LevelObjects;
+            this.ActualEntity = ActualEntity;
+            Collisions = new Dictionary<IEntity, Direction>();
         }
 
-        private void parseForProximity()
+        private void DetectCollision()
         {
-            foreach (IEntity currentEntity in levelObjects)
+            foreach (IEntity CurrentEntity in LevelObjects)
             {
-                // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches.
-                // Easier to visualize in a picture.
-                if (actualEntity.CurrentLoc.X < (currentEntity.CurrentLoc.X + currentEntity.CurrentLoc.Width)
-                    && currentEntity.CurrentLoc.X < (actualEntity.CurrentLoc.X + actualEntity.CurrentLoc.Width))
+                // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
+                // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.
+                if (ActualEntity.CurrentLoc.X < (CurrentEntity.CurrentLoc.X + CurrentEntity.CurrentLoc.Width)
+                    && CurrentEntity.CurrentLoc.X < (ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width)
+                    && ActualEntity.CurrentLoc.Y < (CurrentEntity.CurrentLoc.Y + CurrentEntity.CurrentLoc.Height)
+                    && CurrentEntity.CurrentLoc.Y < (ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height))
                 {
-                    potentialCollision.Add(currentEntity);
+                    Collisions.Add(CurrentEntity, DetectDirection(CurrentEntity));
                 }
             }
         }
 
-        private void detectCollision()
+        private Direction DetectDirection(IEntity CurrentEntity)
         {
-            foreach (IEntity currentEntity in potentialCollision)
+            dx = ActualEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.X;
+            dy = ActualEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Y;
+            // If dx > dy, we know it's either a top or bottom collision.
+            if (Math.Abs(dx) > Math.Abs(dy))
             {
-                if (actualEntity.CurrentLoc.Y < (currentEntity.CurrentLoc.Y + currentEntity.CurrentLoc.Height)
-                    && currentEntity.CurrentLoc.Y < (actualEntity.CurrentLoc.Y + actualEntity.CurrentLoc.Height))
-                {
-                    dx = actualEntity.CurrentLoc.X - currentEntity.CurrentLoc.X;
-                    dy = actualEntity.CurrentLoc.Y - currentEntity.CurrentLoc.Y;
-                    // If dx > dy, we know it's either a top or bottom collision.
-                    if (Math.Abs(dx) > Math.Abs(dy))
-                    {
-                        // If dy is positive, the actualEntity was hit from the top.
-                        // If negative, it was hit from the bottom.
-                        if (dy > 0) collisions.Add(currentEntity, Direction.Up);
-                        else collisions.Add(currentEntity, Direction.Down);
-                    } 
-                    // If dy > dx, we know it's either a left or right collision.
-                    else
-                    {
-                        // If dx is positive, the actualEntity was hit from the left.
-                        // If negative, it was hit from the right.
-                        if (dx > 0) collisions.Add(currentEntity, Direction.Left);
-                        else collisions.Add(currentEntity, Direction.Right);
-                    }
-                }
+                // If dy is positive, the actualEntity was hit from the top.
+                // If negative, it was hit from the bottom.
+                if (dy > 0) return Direction.Up;
+                else return Direction.Down;
+            } 
+            // If dy > dx, we know it's either a left or right collision.
+            else
+            {
+                // If dx is positive, the actualEntity was hit from the left.
+                // If negative, it was hit from the right.
+                if (dx > 0) return Direction.Left;
+                else return Direction.Right;
             }
         }
+
+        // TODO:
+        // Handle entities that can be walked through
+        // Create an actual collision handler, rename this
+        // Handle what happens when dx = dy
+        // Implement this to every dynamic entity's update method
+
+        // NOTE:
+        // Haven't been able to test it but I think detection is implemented correctly. I wanted to 
+        // discuss how you guys want to go about implementing the actual handler. Also, I feel like
+        // I should just make this class a utility class for the handler and take out the constructor.
 
         public void Update()
         {
-            parseForProximity();
-            detectCollision();
-            foreach (KeyValuePair<IEntity, Direction> collision in collisions)
-            {
-                Console.WriteLine("Collided with " + collision.Key.ToString() +" from the " + collision.Value.ToString() +".\n");
-            }
+            DetectCollision();
         }
-        // TODO:
-        // Handle entities that can be walked through
-        // Create actual reactions to the collision, right now it just detects it
-        // Handle what happens when dx = dy
-        // Implement this to every dynamic entity's update method
+
+
     }
 }

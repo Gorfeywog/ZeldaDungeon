@@ -25,9 +25,20 @@ namespace ZeldaDungeon.Entities.Projectiles
         {
             sprite.Draw(spriteBatch, CurrentLoc);
         }
+        private Direction[] doorDirections = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
+        private const float explodeDist = 80; // chosen arbitrarily - should be tweaked
         public void DespawnEffect()
         {
             g.RegisterProjectile(new SmokeCloud(CurrentLoc.Location));
+            foreach (var d in doorDirections)
+            {
+                Point p = g.CurrentRoom.DoorPos(d) + new Point(32, 32); // add 32, 32 to get center rather than topleft
+                Point offset = CurrentLoc.Center - p;
+                if (offset.ToVector2().Length() < explodeDist)
+                {
+                    g.ExplodeRoomDoor(d);
+                }
+            }
         }
         public void Update()
         {

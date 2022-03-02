@@ -16,6 +16,7 @@ namespace ZeldaDungeon.Rooms
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
+        private IList<IItem> pickups;
         private const int gridSize = 32;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -31,6 +32,7 @@ namespace ZeldaDungeon.Rooms
             // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
+            pickups = new List<IItem>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -46,6 +48,10 @@ namespace ZeldaDungeon.Rooms
                         else if (ent is IBlock b)
                         {
                             roomBlocks.Add(b);
+                        }
+                        else if (ent is IItem pickup)
+                        {
+                            pickups.Add(pickup);
                         }
                     }
                 }
@@ -72,6 +78,10 @@ namespace ZeldaDungeon.Rooms
             {
                 d.Value.Draw(spriteBatch);
             }
+            foreach (var i in pickups)
+            {
+                i.Draw(spriteBatch);
+            }
             foreach (var en in roomEnemies)
             {
                 en.Draw(spriteBatch);
@@ -81,6 +91,7 @@ namespace ZeldaDungeon.Rooms
         {
             var blocksToBeRemoved = new List<IBlock>();
             var enemiesToBeRemoved = new List<IEnemy>();
+            var pickupsToBeRemoved = new List<IItem>();
 
             foreach (var enemy in roomEnemies)
             {
@@ -94,6 +105,19 @@ namespace ZeldaDungeon.Rooms
             foreach (var ent in enemiesToBeRemoved)
             {
                 roomEnemies.Remove(ent);
+            }
+            foreach (var pickup in pickups)
+            {
+                pickup.Update();
+                if (pickup.ReadyToDespawn)
+                {
+                    pickupsToBeRemoved.Add(pickup);
+                    pickup.DespawnEffect();
+                }
+            }
+            foreach (var pickup in pickupsToBeRemoved)
+            {
+                pickups.Remove(pickup);
             }
             foreach (var block in roomBlocks)
             {

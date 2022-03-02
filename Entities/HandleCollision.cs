@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-
+/*
 namespace ZeldaDungeon.Entities
 {
     class HandleCollision
@@ -76,3 +76,4 @@ namespace ZeldaDungeon.Entities
 
     }
 }
+*/

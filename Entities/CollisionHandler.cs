@@ -109,7 +109,7 @@ namespace ZeldaDungeon.Entities
         {
             DetectCollision();
             foreach (KeyValuePair<IEntity, Direction> Collision in Collisions){
-                HandleCollision(Collision.Key.GetType, )
+               // HandleCollision(Collision.Key.GetType, )
             }
         }
 

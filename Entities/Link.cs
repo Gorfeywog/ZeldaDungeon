@@ -47,6 +47,10 @@ public class Link : ILink
     }
     public bool CanPickUp() => stateMachine.CurrentState == LinkStateMachine.LinkActionState.Idle
         || stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking;
+    public void AddItem(IItem item)
+    {
+        inv.AddItem(item);
+    }
 
     public void UseItem(IItem item)
     {

@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private ISprite sprite = ItemSpriteFactory.Instance.CreateRupy();
 
         public Rectangle CurrentLoc { get; set; }
+        public bool HoldsUp { get => false; }
         public RupyPickup(Point position)
         {
             int width = (int)SpriteUtil.SpriteSize.RupyWidth;

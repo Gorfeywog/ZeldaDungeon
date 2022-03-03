@@ -13,6 +13,8 @@ namespace ZeldaDungeon.Entities.Pickups
         private static int width = 16;
         private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
+        public bool HoldsUp { get => true; }
+
         public KeyPickup(Point position)
         {
             int width = (int)SpriteUtil.SpriteSize.KeyWidth;

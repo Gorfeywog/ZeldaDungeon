@@ -13,6 +13,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb();
         private Game1 g;
         public Rectangle CurrentLoc { get; set; }
+        public bool HoldsUp { get => false; }
         public BombPickup(Point position, Game1 g)
         {
             int width = (int)SpriteUtil.SpriteSize.BombWidth;            

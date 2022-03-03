@@ -12,6 +12,8 @@ namespace ZeldaDungeon.Entities.Pickups
         private ISprite sprite = ItemSpriteFactory.Instance.CreateMap();
 
         public Rectangle CurrentLoc { get; set; }
+        public bool HoldsUp { get => true; }
+
         public MapPickup(Point position)
         {
             int width = (int)SpriteUtil.SpriteSize.MapWidth;

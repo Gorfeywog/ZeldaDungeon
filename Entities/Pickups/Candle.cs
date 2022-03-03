@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Entities.Pickups
 {
@@ -14,6 +15,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private Game1 g;
         private bool isRed; // red ones can be used more than once per room
         public Rectangle CurrentLoc { get; set; }
+        public bool HoldsUp { get => true; }
         public Candle(Point position, Game1 g, bool isRed)
         {
             int width = (int)SpriteUtil.SpriteSize.CandleWidth;
@@ -32,10 +34,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private static int offset = 32;
         public void PickUp(ILink player)
         {
-            // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link
-            Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
-            IProjectile proj = new CandleFire(loc, player.Direction);
-            g.RegisterProjectile(proj);
+            player.AddItem(new CandleItem(g, isRed));
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

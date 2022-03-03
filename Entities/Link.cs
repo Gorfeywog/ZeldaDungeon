@@ -9,6 +9,9 @@ public class Link : ILink
 
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
+    private IPickup heldItem; // null if he isn't holding an item up
+    private const int heldItemMaxTime = 10; // how long he holds an item up
+    private int heldItemCountDown;
     
     public Rectangle CurrentLoc { get; set; }
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
@@ -32,10 +35,16 @@ public class Link : ILink
         stateMachine.TakeDamage();
     }
 
-    public void UsePickup(IPickup item)
+    public void PickUp(IPickup item)
     {
-        stateMachine.UsePickup();
-        item.UseOn(this);
+        stateMachine.PickUp();
+        heldItem = item;
+        item.PickUp(this);
+    }
+
+    public void UseItem(IItem item)
+    {
+
     }
 
     public void Attack()

@@ -109,5 +109,20 @@ namespace ZeldaDungeon.Sprites
             Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, 16, 16), SpriteUtil.GridToRectangle(1, 1, 16, 16) };
             return new AnimatedSprite(linkSpriteSheet, sourceRectangles, damaged);
         }
+        private static Random r = new Random();
+        private static int evilChance = 10;
+        public ISprite CreatePickupLink(bool damaged = false)
+        {
+            Rectangle sourceRectangle;
+            if (r.Next(evilChance) == 0)
+            {
+                sourceRectangle = SpriteUtil.GridToRectangle(2, 3, 16, 16);
+            }
+            else
+            {
+                sourceRectangle = SpriteUtil.GridToRectangle(3, 3, 16, 16);
+            }
+            return new StaticSprite(linkSpriteSheet, sourceRectangle, damaged);
+        }
     }
 }

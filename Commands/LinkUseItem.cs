@@ -15,6 +15,6 @@ namespace ZeldaDungeon.Commands
             this.item = item;
         }
 
-        public void Execute() => g.Player.UsePickup(item);
+        public void Execute() => g.Player.PickUp(item);
     }
 }

@@ -16,6 +16,7 @@ namespace ZeldaDungeon.Rooms
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
+        private IList<IItem> pickups;
         private const int gridSize = 32;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -31,6 +32,7 @@ namespace ZeldaDungeon.Rooms
             // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
+            pickups = new List<IItem>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -46,6 +48,10 @@ namespace ZeldaDungeon.Rooms
                         else if (ent is IBlock b)
                         {
                             roomBlocks.Add(b);
+                        }
+                        else if (ent is IItem pickup)
+                        {
+                            pickups.Add(pickup);
                         }
                     }
                 }
@@ -72,6 +78,10 @@ namespace ZeldaDungeon.Rooms
             {
                 d.Value.Draw(spriteBatch);
             }
+            foreach (var i in pickups)
+            {
+                i.Draw(spriteBatch);
+            }
             foreach (var en in roomEnemies)
             {
                 en.Draw(spriteBatch);
@@ -81,6 +91,7 @@ namespace ZeldaDungeon.Rooms
         {
             var blocksToBeRemoved = new List<IBlock>();
             var enemiesToBeRemoved = new List<IEnemy>();
+            var pickupsToBeRemoved = new List<IItem>();
 
             foreach (var enemy in roomEnemies)
             {
@@ -94,6 +105,19 @@ namespace ZeldaDungeon.Rooms
             foreach (var ent in enemiesToBeRemoved)
             {
                 roomEnemies.Remove(ent);
+            }
+            foreach (var pickup in pickups)
+            {
+                pickup.Update();
+                if (pickup.ReadyToDespawn)
+                {
+                    pickupsToBeRemoved.Add(pickup);
+                    pickup.DespawnEffect();
+                }
+            }
+            foreach (var pickup in pickupsToBeRemoved)
+            {
+                pickups.Remove(pickup);
             }
             foreach (var block in roomBlocks)
             {
@@ -110,7 +134,7 @@ namespace ZeldaDungeon.Rooms
             }
         }
 
-        private Point DoorPos(Direction dir)
+        public Point DoorPos(Direction dir)
         {
             // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
@@ -130,9 +154,15 @@ namespace ZeldaDungeon.Rooms
             return EntityUtils.Offset(doorPos, dir, -32);
         }
 
-        public void UnlockDoor(Direction dir) // only call through Game1, so it can unlock the corresponding door
+        // only call these through Game1, so it can unlock/explode the corresponding door on other side
+        // for each of these, return value is just whether "something happened"
+        public bool UnlockDoor(Direction dir) 
         {
-            doors[dir].Unlock();
+            return doors[dir].Unlock();
+        }
+        public bool ExplodeDoor(Direction dir)
+        {
+            return doors[dir].Explode();
         }
     }
 }

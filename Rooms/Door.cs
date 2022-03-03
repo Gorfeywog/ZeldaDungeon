@@ -12,8 +12,17 @@ namespace ZeldaDungeon.Rooms
     {
         private ISprite sprite;
         public Direction Dir { get; private set; }
-        public DoorState State { get; private set; }
         public Rectangle CurrentLoc { get; set; }
+        private DoorState state;
+        public DoorState State 
+        {
+            get => state; 
+            private set 
+            {
+                state = value;
+                this.sprite = DoorSpriteFactory.Instance.CreateDoor(Dir, value);
+            }
+        }
         public bool CanPass { get => State == DoorState.Open || State == DoorState.Hole; }
         public Door(Point position, Direction dir, DoorState state)
         {
@@ -27,12 +36,25 @@ namespace ZeldaDungeon.Rooms
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void Unlock()
+
+        // return value is whether anything was actually unlocked/blown up for each of these
+        public bool Unlock()
         {
             if (State == DoorState.Locked)
             {
                 State = DoorState.Open;
+                return true;
             }
+            return false;
+        }
+        public bool Explode()
+        {
+            if (State == DoorState.BlockedHole)
+            {
+                State = DoorState.Hole;
+                return true;
+            }
+            return false;
         }
     }
 }

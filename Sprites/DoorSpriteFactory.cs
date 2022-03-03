@@ -48,9 +48,9 @@ namespace ZeldaDungeon.Sprites
             int stateIndex = state switch
             {
                 DoorState.None => 0,
+                DoorState.BlockedHole => 0,
                 DoorState.Open => 1,
                 DoorState.Locked => 2,
-                DoorState.BlockedHole => 3,
                 DoorState.Closed => 3,
                 DoorState.Hole => 4,
                 _ => throw new ArgumentException()

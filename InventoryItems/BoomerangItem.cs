@@ -10,6 +10,7 @@ namespace ZeldaDungeon.Entities.Items
 {
 	public class BoomerangItem : IItem
 	{
+        public bool Consumable { get => false; }
         private bool isMagic;
         private Game1 g;
         public BoomerangItem(Game1 g, bool isMagic)

@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities
         public void StopWalking();
         public void TakeDamage();
         public void PickUp(IPickup pickup);
+        public bool CanPickUp();
         public void UseItem(IItem item);
         public void Attack();
     }

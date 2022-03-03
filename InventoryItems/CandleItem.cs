@@ -10,6 +10,7 @@ namespace ZeldaDungeon.Entities.Items
 {
 	public class CandleItem : IItem
 	{
+        public bool Consumable { get => false; }
         private Game1 g;
         private bool isRed; // red ones can be used more than once per room
         public CandleItem(Game1 g, bool isRed)

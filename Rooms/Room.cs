@@ -92,7 +92,7 @@ namespace ZeldaDungeon.Rooms
             var blocksToBeRemoved = new List<IBlock>();
             var enemiesToBeRemoved = new List<IEnemy>();
             var pickupsToBeRemoved = new List<IPickup>();
-
+            bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
             foreach (var enemy in roomEnemies)
             {
                 enemy.Update();
@@ -110,6 +110,12 @@ namespace ZeldaDungeon.Rooms
                 {
                     pickupsToBeRemoved.Add(pickup);
                     pickup.DespawnEffect();
+                }
+                else if (!hasPickup && pickup.CurrentLoc.Intersects(g.Player.CurrentLoc)) // maybe let collisionhandler do this stuff?
+                {
+                    hasPickup = true;
+                    g.Player.PickUp(pickup);
+                    pickupsToBeRemoved.Add(pickup);
                 }
             }
             pickupsToBeRemoved.ForEach(p => pickups.Remove(p));

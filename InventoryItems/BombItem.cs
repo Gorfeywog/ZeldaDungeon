@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Items
     public class BombItem : IItem
     {
         private Game1 g;
+        public bool Consumable { get => true; }
         public BombItem(Game1 g)
         {
 

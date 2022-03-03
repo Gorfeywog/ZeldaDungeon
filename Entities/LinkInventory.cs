@@ -8,22 +8,20 @@ namespace ZeldaDungeon.Entities
 {
     public class LinkInventory
     {
-        private IDictionary<string, int> itemCount; // maps item names to counts. using names is kinda weird, but IPickups don't really work for this either?
-                                                    // figuring out a less awful solution is a good future goal. an enum type might be sane?
-                                                    // all values must be positive, we just remove entries if count drops to 0.
+        private IDictionary<IItem, int> itemCount;
 
         public LinkInventory()
         {
-            itemCount = new Dictionary<string, int>();
+            itemCount = new Dictionary<IItem, int>();
         }
 
         // returns true and decrements count if we can consume the item, if count was zero returns false
-        public bool UsePickup(string itemName)
+        public bool UseItem(IItem item)
         {
-            if (itemCount.ContainsKey(itemName))
+            if (itemCount.ContainsKey(item))
             {
-                int ct = itemCount[itemName];
-                itemCount[itemName] = ct - 1;
+                int ct = itemCount[item];
+                itemCount[item] = item.Consumable ? ct - 1 : ct; // only decrement if it's consumable
                 return true;
             }
             else
@@ -31,14 +29,14 @@ namespace ZeldaDungeon.Entities
                 return false;
             }
         }
-        public void PickupPickup(string itemName)
+        public void AddItem(IItem item)
         {
-            int ct = itemCount.ContainsKey(itemName) ? itemCount[itemName] : 0;
-            itemCount[itemName] = ct + 1;
+            int ct = itemCount.ContainsKey(item) ? itemCount[item] : 0;
+            itemCount[item] = ct + 1;
         }
-        public bool HasPickup(string itemName)
+        public bool HasItem(IItem item)
         {
-            return itemCount.ContainsKey(itemName);
+            return itemCount.ContainsKey(item);
         }
     }
 }

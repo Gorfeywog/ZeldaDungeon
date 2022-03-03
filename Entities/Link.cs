@@ -9,10 +9,12 @@ public class Link : ILink
 
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
-    private IPickup heldItem; // null if he isn't holding an item up
+    private IPickup heldItem; // null if he has never held an item up, may hold stale data
+                              // note that it's a pickup and not a real item
     private const int heldItemMaxTime = 10; // how long he holds an item up
     private int heldItemCountDown;
-    
+    public LinkInventory inv { get; private set; }
+
     public Rectangle CurrentLoc { get; set; }
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
@@ -23,6 +25,7 @@ public class Link : ILink
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
         int width = (int)SpriteUtil.SpriteSize.LinkX;
         int height = (int)SpriteUtil.SpriteSize.LinkY;
+        inv = new LinkInventory();
         CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
     }
     public void ChangeDirection(Direction nextDirection)
@@ -35,16 +38,22 @@ public class Link : ILink
         stateMachine.TakeDamage();
     }
 
-    public void PickUp(IPickup item)
+    public void PickUp(IPickup pickup)
     {
         stateMachine.PickUp();
-        heldItem = item;
-        item.PickUp(this);
+        heldItem = pickup;
+        pickup.PickUp(this);
     }
+    public bool CanPickUp() => stateMachine.CurrentState == LinkStateMachine.LinkActionState.Idle
+        || stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking;
 
     public void UseItem(IItem item)
     {
-
+        if (inv.HasItem(item)) // check if the item is ready to use? (like, arrows need a bow, etc.)
+        {
+            stateMachine.UseItem();
+            item.UseOn(this);
+        }
     }
 
     public void Attack()
@@ -95,6 +104,7 @@ public class Link : ILink
             oldPos.X = CurrentLoc.X;
             oldPos.Y = CurrentLoc.Y - height;
             heldItem.CurrentLoc = oldPos;
+            heldItem.Draw(spriteBatch);
         }
         linkSprite.Draw(spriteBatch, CurrentLoc);
     }

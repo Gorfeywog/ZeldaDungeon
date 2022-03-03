@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Items
 	public class ArrowItem : IItem
 	{
         private Game1 g;
+        public bool Consumable { get => true; }
         public ArrowItem(Game1 g)
         {
             this.g=g;

@@ -89,7 +89,10 @@ namespace ZeldaDungeon.Rooms
                 "se" => new Stalfos(pos),
                 "te" => new Trap(pos),
                 "wme" => new WallMaster(pos),
-                "ai" => new ArrowPickup(pos, g),
+                "ai1" => new ArrowPickup(pos, g),
+                "ai2" => new MagicArrowPickup(pos, g),
+                "ci1" => new Candle(pos, g, false),
+                "ci2" => new Candle(pos, g, true),
                 "bomi" => new BombPickup(pos, g),
                 "bowi" => new BowPickup(pos),
                 "cli" => new ClockPickup(pos),
@@ -102,6 +105,8 @@ namespace ZeldaDungeon.Rooms
                 "ri" => new RupyPickup(pos),
                 "tpi" => new TriforcePiecePickup(pos),
                 "wbi" => new BoomerangPickup(pos, g, false),
+                "wbi1" => new BoomerangPickup(pos, g, false),
+                "wbi2" => new BoomerangPickup(pos, g, true),
                 "" => null,
                 _ => throw new ArgumentOutOfRangeException() // again, still need to handle wr somehow probably
             };

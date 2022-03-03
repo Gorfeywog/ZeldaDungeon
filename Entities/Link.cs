@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
 public class Link : ILink

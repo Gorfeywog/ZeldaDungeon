@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Entities;
 
-namespace ZeldaDungeon.Entities
+namespace ZeldaDungeon.InventoryItems
 {
     // these are inventory-type items, not items on the ground
     // we need functioning equality because of the dict used in LinkInventory

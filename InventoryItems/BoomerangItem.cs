@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.Entities;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.InventoryItems
 {
-	public class BoomerangItem : IItem
+    public class BoomerangItem : IItem
 	{
         public bool Consumable { get => false; }
         private bool isMagic;

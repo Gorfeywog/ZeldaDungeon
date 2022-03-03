@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.InventoryItems
 {
     public class BombItem : IItem
     {

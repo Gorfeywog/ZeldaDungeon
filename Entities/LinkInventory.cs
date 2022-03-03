@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Text;
+using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Entities
 {

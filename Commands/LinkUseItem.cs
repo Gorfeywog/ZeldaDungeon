@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Commands
 {
-    public class LinkUsePickup : ICommand
+    public class LinkUseItem : ICommand
     {
         private Game1 g;
-        private IPickup item;
-        public LinkUsePickup(Game1 g, IPickup item)
+        private IItem item;
+        public LinkUseItem(Game1 g, IItem item)
         {
             this.g = g;
             this.item = item;
         }
 
-        public void Execute() => g.Player.PickUp(item);
+        public void Execute() => g.Player.UseItem(item);
     }
 }

@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
-        private IList<IEntity> roomEntities; // Used for collision handling
+        public IList<IEntity> roomEntities; // Used for collision handling
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IItem> pickups;
@@ -32,6 +32,7 @@ namespace ZeldaDungeon.Rooms
             this.gridPos = parser.ParsePos();
             // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
+            roomEntities = new List<IEntity>();
             roomBlocks = new List<IBlock>();
             pickups = new List<IItem>();
             for (int i = 0; i < data.GetLength(0); i++)

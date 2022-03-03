@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 
@@ -10,16 +11,20 @@ public class Link : ILink
     private static int width = 32;
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
+    public List<IEntity> entityList { get; set; }
+    private CollisionHandler collision;
     
     public Rectangle CurrentLoc { get; set; }
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
-    public Link(Point pos)
+    public Link(Point pos, List<IEntity> entityList)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
         CurrentLoc = new Rectangle(0, 0, 16, 16);
+        this.entityList = entityList;
+        collision = new CollisionHandler(entityList, this);
     }
     public void ChangeDirection(Direction nextDirection)
     {
@@ -51,9 +56,15 @@ public class Link : ILink
             linkSprite = stateMachine.LinkSprite(); // only get a new sprite if we need to
         }
         linkSprite.Update();
+
+        collision.changeRooms(entityList);
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
-            CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
+            if (!collision.WillHitBlock(new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size)))
+            {
+                CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
+            }
+            
         }
     }
 

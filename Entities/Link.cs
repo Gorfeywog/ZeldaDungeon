@@ -18,7 +18,6 @@ public class Link : ILink
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
-
         int width = (int)SpriteUtil.SpriteSize.LinkX;
         int height = (int)SpriteUtil.SpriteSize.LinkY;
         CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));

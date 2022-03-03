@@ -6,8 +6,7 @@ using ZeldaDungeon.Sprites;
 
 public class Link : ILink
 {
-    private static int height = 32;
-    private static int width = 32;
+
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
     

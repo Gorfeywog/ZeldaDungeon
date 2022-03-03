@@ -6,17 +6,16 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
-	public class Trap : IEnemy
+	public class OldMan : IEnemy
 	{
-		public ISprite TrapSprite { get; set; }
+		public ISprite OldManSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 
-		public Trap(Point position)
+		public OldMan(Point position)
 		{
-			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
-			int width = (int)SpriteUtil.SpriteSize.TrapX;
-			int height = (int)SpriteUtil.SpriteSize.TrapY;
-			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+			OldManSprite = EnemySpriteFactory.Instance.CreateOldManSprite();
+			CurrentLoc = new Rectangle(position, new Point(((int)SpriteUtil.SpriteSize.OldManX - 8) * SpriteUtil.SCALE_FACTOR,
+				(int)SpriteUtil.SpriteSize.OldManY * SpriteUtil.SCALE_FACTOR));
 		}
 
 		public void Move()
@@ -36,12 +35,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		
 		public void Draw(SpriteBatch spriteBatch)
         {
-			TrapSprite.Draw(spriteBatch, CurrentLoc);
+			OldManSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()
         {
-			TrapSprite.Update();
+			OldManSprite.Update();
         }
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

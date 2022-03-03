@@ -15,7 +15,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public ArrowItem(Point position, Game1 g)
         {
-            CurrentLoc = new Rectangle(position, new Point(5, 16));
+            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
+			int height = (int)SpriteUtil.SpriteSize.ArrowLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g=g;
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -18,7 +18,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Keese(Point position)
 		{
 			KeeseSprite = EnemySpriteFactory.Instance.CreateKeeseSprite();
-			CurrentLoc = new Rectangle(position, new Point(16, 10));
+			int width = (int)SpriteUtil.SpriteSize.KeeseX;
+			int height = (int)SpriteUtil.SpriteSize.KeeseY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			rand = new Random();
 			currentFrame = 0;
 		}

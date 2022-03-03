@@ -16,7 +16,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public Candle(Point position, Game1 g, bool isRed)
         {
-            CurrentLoc = new Rectangle(position, new Point(8, 16));
+            int width = (int)SpriteUtil.SpriteSize.CandleWidth;
+			int height = (int)SpriteUtil.SpriteSize.CandleLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g = g;
             this.isRed = isRed;
             sprite = ItemSpriteFactory.Instance.CreateCandle(isRed);

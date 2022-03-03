@@ -7,8 +7,7 @@ using ZeldaDungeon.Sprites;
 
 public class Link : ILink
 {
-    private static int height = 32;
-    private static int width = 32;
+
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
     public List<IEntity> entityList { get; set; }
@@ -18,6 +17,7 @@ public class Link : ILink
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
+<<<<<<< HEAD
     public Link(Point pos, List<IEntity> entityList)
     {
         stateMachine = new LinkStateMachine();
@@ -25,6 +25,15 @@ public class Link : ILink
         CurrentLoc = new Rectangle(0, 0, 16, 16);
         this.entityList = entityList;
         collision = new CollisionHandler(entityList, this);
+=======
+    public Link(Point position)
+    {
+        stateMachine = new LinkStateMachine();
+        linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
+        int width = (int)SpriteUtil.SpriteSize.LinkX;
+        int height = (int)SpriteUtil.SpriteSize.LinkY;
+        CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+>>>>>>> master
     }
     public void ChangeDirection(Direction nextDirection)
     {
@@ -73,15 +82,17 @@ public class Link : ILink
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Attacking)
         {
             Point size;
+            int width = (int)SpriteUtil.SpriteSize.SwordWidth * SpriteUtil.SCALE_FACTOR;
+            int length = (int)SpriteUtil.SpriteSize.SwordLength * SpriteUtil.SCALE_FACTOR;
             if (Direction == Direction.Left || Direction == Direction.Right)
             {
-                size = new Point(16, 7);
+                size = new Point(length, width);
             }
             else
             {
-                size = new Point(7, 16);
+                size = new Point(width, length);
             }
-            Rectangle itemPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Center, Direction, 24), size);
+            Rectangle itemPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Center, Direction, 6 * SpriteUtil.SCALE_FACTOR), size);
             ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
             // TODO - align sword with link's center, not his top-left.
             sword.Draw(spriteBatch, itemPos);

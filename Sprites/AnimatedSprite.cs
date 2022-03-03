@@ -38,8 +38,6 @@ namespace ZeldaDungeon.Sprites
         }
         public void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle)
         {
-            destinationRectangle.Size = new Point(destinationRectangle.Width * SpriteUtil.SCALE_FACTOR,
-                destinationRectangle.Height * SpriteUtil.SCALE_FACTOR);
 
             Color currentColor;
             if (damaged)

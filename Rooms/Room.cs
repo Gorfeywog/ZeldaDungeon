@@ -7,6 +7,7 @@ using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Rooms
 {
@@ -18,7 +19,7 @@ namespace ZeldaDungeon.Rooms
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IItem> pickups;
-        private const int gridSize = 32;
+        private int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point gridPos { get; private set; }
@@ -105,10 +106,7 @@ namespace ZeldaDungeon.Rooms
                     enemy.DespawnEffect();
                 }
             }
-            foreach (var ent in enemiesToBeRemoved)
-            {
-                roomEnemies.Remove(ent);
-            }
+            enemiesToBeRemoved.ForEach(e => roomEnemies.Remove(e));
             foreach (var pickup in pickups)
             {
                 pickup.Update();
@@ -118,10 +116,7 @@ namespace ZeldaDungeon.Rooms
                     pickup.DespawnEffect();
                 }
             }
-            foreach (var pickup in pickupsToBeRemoved)
-            {
-                pickups.Remove(pickup);
-            }
+            pickupsToBeRemoved.ForEach(p => pickups.Remove(p));
             foreach (var block in roomBlocks)
             {
                 block.Update();
@@ -131,10 +126,7 @@ namespace ZeldaDungeon.Rooms
                     block.DespawnEffect();
                 }
             }
-            foreach (var ent in blocksToBeRemoved)
-            {
-                roomBlocks.Remove(ent);
-            }
+            blocksToBeRemoved.ForEach(b => roomBlocks.Remove(b));
         }
 
         public Point DoorPos(Direction dir)
@@ -142,10 +134,10 @@ namespace ZeldaDungeon.Rooms
             // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
-                Direction.Up => new Point(224, 0),
-                Direction.Left => new Point(0, 144),
-                Direction.Right => new Point(448, 144),
-                Direction.Down => new Point(224, 288),
+                Direction.Up => new Point(112 * SpriteUtil.SCALE_FACTOR, 0),
+                Direction.Left => new Point(0, 72 * SpriteUtil.SCALE_FACTOR),
+                Direction.Right => new Point(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR),
+                Direction.Down => new Point(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR),
                 _ => throw new ArgumentException()
             };
             return topLeft + offset;
@@ -154,7 +146,7 @@ namespace ZeldaDungeon.Rooms
         public Point LinkDoorSpawn(Direction dir)
         {
             Point doorPos = DoorPos(dir);
-            return EntityUtils.Offset(doorPos, dir, -32);
+            return EntityUtils.Offset(doorPos, dir, -16 * SpriteUtil.SCALE_FACTOR);
         }
 
         // only call these through Game1, so it can unlock/explode the corresponding door on other side

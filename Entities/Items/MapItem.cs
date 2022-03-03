@@ -14,7 +14,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public MapItem(Point position)
         {
-            CurrentLoc = new Rectangle(position, new Point(8, 16));
+            int width = (int)SpriteUtil.SpriteSize.MapWidth;
+			int height = (int)SpriteUtil.SpriteSize.MapLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

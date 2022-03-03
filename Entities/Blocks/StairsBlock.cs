@@ -14,7 +14,9 @@ namespace ZeldaDungeon.Entities.Blocks
 		public Rectangle CurrentLoc { get; set; }
 		public StairsBlock(Point position)
 		{
-			CurrentLoc = new Rectangle(position, new Point(16, 16));
+			int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
+			int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 		}
 		public void Draw(SpriteBatch spriteBatch)
 		{

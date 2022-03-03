@@ -13,6 +13,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 
+		private int initX;
+
 		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
@@ -22,7 +24,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Aquamentus(Point position, Game1 g)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
-			CurrentLoc = new Rectangle(position, new Point(24, 32));
+			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
+			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+			initX = position.X;
 
 			rand = new Random();
 			movingLeft = true;
@@ -41,9 +46,17 @@ namespace ZeldaDungeon.Entities.Enemies
 			if (movingLeft)
             {
 				CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
+				if (CurrentLoc.X < initX - 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+				{
+					movingLeft = !movingLeft;
+				}
 			} else
             {
 				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
+				if (CurrentLoc.X > initX + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+				{
+					movingLeft = !movingLeft;
+				}
 			}
 
 		}
@@ -51,9 +64,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Attack()
 		{
 			int fireballChange = rand.Next(3) - 1;
-			IProjectile fireballUp = new Fireball(CurrentLoc.Location, -4, 1 + fireballChange);
-			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, -4, fireballChange);
-			IProjectile fireballDown = new Fireball(CurrentLoc.Location, -4, -1 + fireballChange);
+			int fireballVel = -4;
+			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, 1 + fireballChange);
+			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange);
+			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, -1 + fireballChange);
 			g.RegisterProjectile(fireballUp);
 			g.RegisterProjectile(fireballStraight);
 			g.RegisterProjectile(fireballDown);

@@ -34,6 +34,7 @@ namespace ZeldaDungeon.InventoryItems
             }
             g.RegisterProjectile(proj);
         }
+        public bool CanUseOn(ILink player) => player.HasItem(new BowItem());
         public bool Equals(IItem other)
         {
             if (other is ArrowItem otherArrow)

@@ -27,6 +27,8 @@ namespace ZeldaDungeon.InventoryItems
             IProjectile proj = new BombProjectile(loc, g);
             g.RegisterProjectile(proj);
         }
+
+        public bool CanUseOn(ILink player) => true;
         public bool Equals(IItem other)
         {
             if (other is BombItem otherBomb)

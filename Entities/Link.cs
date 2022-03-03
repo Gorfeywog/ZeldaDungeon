@@ -61,6 +61,11 @@ public class Link : ILink
         }
     }
 
+    public bool HasItem(IItem item)
+    {
+        return inv.HasItem(item);
+    }
+
     public void Attack()
     {
         stateMachine.Attack();

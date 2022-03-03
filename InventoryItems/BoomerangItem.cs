@@ -27,6 +27,9 @@ namespace ZeldaDungeon.InventoryItems
             IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
             g.RegisterProjectile(proj);
         }
+
+        public bool CanUseOn(ILink player) => true; // check if it has returned yet?
+                                                    // also, TODO: make boomerangs return.
         public bool Equals(IItem other)
         {
             if (other is BoomerangItem otherBoom)

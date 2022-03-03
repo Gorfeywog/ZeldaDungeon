@@ -13,6 +13,8 @@ namespace ZeldaDungeon.InventoryItems
         public bool Consumable { get => false; }
         public BowItem() { }
         public void UseOn(ILink player) { }
+
+        public bool CanUseOn(ILink player) => true;
         public bool Equals(IItem other)
         {
             return other is BowItem;

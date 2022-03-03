@@ -16,8 +16,11 @@ namespace ZeldaDungeon.Entities
         public void TakeDamage();
         public void PickUp(IPickup pickup);
         public bool CanPickUp();
+        // could eliminate AddItem and HasItem if we exposed the inventory, but that would maybe
+        // be bad for coupling?
         public void AddItem(IItem item);
         public void UseItem(IItem item);
+        public bool HasItem(IItem item);
         public void Attack();
     }
 }

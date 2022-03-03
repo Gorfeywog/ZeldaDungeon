@@ -9,25 +9,25 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PickupGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
-  </PickupGroup>
-  <PickupGroup>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
-  </PickupGroup>
-  <PickupGroup>
+  </ItemGroup>
+  <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
-  </PickupGroup>
-  <PickupGroup>
+  </ItemGroup>
+  <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
-  </PickupGroup>
-  <PickupGroup>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
-  </PickupGroup>
-  <PickupGroup>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="RoomData\room0.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -79,5 +79,5 @@
     <None Update="RoomData\room9.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </PickupGroup>
+  </ItemGroup>
 </Project>

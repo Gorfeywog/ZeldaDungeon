@@ -10,21 +10,13 @@ namespace ZeldaDungeon.Entities.Items
 {
     public class BombItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb();
         private Game1 g;
-        public Rectangle CurrentLoc { get; set; }
-        public BombItem(Point position, Game1 g)
+        public BombItem(Game1 g)
         {
-            int width = (int)SpriteUtil.SpriteSize.BombWidth;            
-            int height = (int)SpriteUtil.SpriteSize.BombLength;            
-            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+
             this.g = g;
         }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            sprite.Draw(spriteBatch, CurrentLoc);
-        }
-        public void Update() => sprite.Update();
+
         private static int offset = 32; // how far to place from Link
         public void UseOn(ILink player)
         {
@@ -33,8 +25,6 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new BombProjectile(loc, g);
             g.RegisterProjectile(proj);
         }
-        public void DespawnEffect() { }
-        public bool ReadyToDespawn => false;
     }
 }
 

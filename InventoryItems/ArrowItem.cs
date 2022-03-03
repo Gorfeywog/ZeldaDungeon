@@ -10,22 +10,11 @@ namespace ZeldaDungeon.Entities.Items
 {
 	public class ArrowItem : IItem
 	{
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateArrow(Direction.Up);
         private Game1 g;
-        public Rectangle CurrentLoc { get; set; }
-        public ArrowItem(Point position, Game1 g)
+        public ArrowItem(Game1 g)
         {
-            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
-			int height = (int)SpriteUtil.SpriteSize.ArrowLength;
-			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g=g;
         }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            sprite.Draw(spriteBatch, CurrentLoc);
-        }
-        public void Update() => sprite.Update();
-
         private static int offset = 32;
         public void UseOn(ILink player)
         {
@@ -33,8 +22,6 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new ArrowProjectile(loc, player.Direction, g);
             g.RegisterProjectile(proj);
         }
-        public void DespawnEffect() { }
-        public bool ReadyToDespawn => false;
     }
 }
 

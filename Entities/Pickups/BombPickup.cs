@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Pickups
@@ -29,7 +30,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private static int offset = 32; // how far to place from Link
         public void PickUp(ILink link)
         {
-
+            link.AddItem(new BombItem(g));
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

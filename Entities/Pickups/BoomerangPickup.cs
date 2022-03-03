@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Entities.Pickups
 {
@@ -40,9 +41,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private static int offset = 32;
         public void PickUp(ILink player)
         {
-            Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
-            g.RegisterProjectile(proj);
+            player.AddItem(new BoomerangItem(g, isMagic));
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

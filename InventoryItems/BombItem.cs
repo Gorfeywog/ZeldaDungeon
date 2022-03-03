@@ -25,6 +25,17 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new BombProjectile(loc, g);
             g.RegisterProjectile(proj);
         }
+        public bool Equals(IItem other)
+        {
+            if (other is BombItem otherBomb)
+            {
+                return this.g == otherBomb.g;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

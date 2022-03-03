@@ -22,6 +22,17 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new ArrowProjectile(loc, player.Direction, g);
             g.RegisterProjectile(proj);
         }
+        public bool Equals(IItem other)
+        {
+            if (other is ArrowItem otherArrow)
+            {
+                return this.g == otherArrow.g;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

@@ -26,12 +26,9 @@ namespace ZeldaDungeon.Entities.Pickups
         }
         public void Update() => sprite.Update();
         private static int offset = 32; // how far to place from Link
-        public void PickUp(ILink player)
+        public void PickUp(ILink link)
         {
-            // uses player.Position rather than player.Center since is about the size of Link
-            Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
-            IProjectile proj = new BombProjectile(loc, g);
-            g.RegisterProjectile(proj);
+
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

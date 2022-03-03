@@ -8,11 +8,11 @@ using ZeldaDungeon.Entities.Projectiles;
 
 namespace ZeldaDungeon.Entities.Items
 {
-	public class Candle : IItem
+	public class CandleItem : IItem
 	{
         private Game1 g;
         private bool isRed; // red ones can be used more than once per room
-        public Candle(Game1 g, bool isRed)
+        public CandleItem(Game1 g, bool isRed)
         {
             this.g = g;
             this.isRed = isRed;
@@ -24,6 +24,17 @@ namespace ZeldaDungeon.Entities.Items
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.RegisterProjectile(proj);
+        }
+        public bool Equals(IItem other)
+        {
+            if (other is CandleItem otherCandle)
+            {
+                return this.g == otherCandle.g && (this.isRed == otherCandle.isRed);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

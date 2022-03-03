@@ -24,6 +24,10 @@ namespace ZeldaDungeon.Entities.Pickups
         {
             sprite.Draw(spriteBatch, CurrentLoc);
         }
+        public void PickUp(ILink link) 
+        {
+
+        }
         public void Update() => sprite.Update();
 
         private static int offset = 32;

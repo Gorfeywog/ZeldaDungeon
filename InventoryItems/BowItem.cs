@@ -9,8 +9,11 @@ namespace ZeldaDungeon.Entities.Items
 {
     public class BowItem : IItem
     {
-        public Rectangle CurrentLoc { get; set; }
         public BowItem() { }
         public void UseOn(ILink player) { }
+        public bool Equals(IItem other)
+        {
+            return other is BowItem;
+        }
     }
 }

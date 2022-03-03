@@ -25,6 +25,17 @@ namespace ZeldaDungeon.Entities.Items
             IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
             g.RegisterProjectile(proj);
         }
+        public bool Equals(IItem other)
+        {
+            if (other is BoomerangItem otherBoom)
+            {
+                return this.g == otherBoom.g && (this.isMagic == otherBoom.isMagic);
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 {
     public class BombProjectile : IProjectile
     {
-        private static int fuseTime = 300; // chosen with no methodology
+        private static int fuseTime = 60; // chosen with no methodology
         private bool isCloud = false;
         private int timer = fuseTime; // counts down
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); // should projectiles be on their own spritesheet (and thus sprite factory)?

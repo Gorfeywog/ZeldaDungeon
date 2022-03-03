@@ -140,6 +140,8 @@ public class LinkStateMachine
 					Direction.Right => fac.CreateUIRightLink(d),
 					_ => throw new ArgumentOutOfRangeException()
 				};
+			case LinkActionState.PickingUp:
+				return fac.CreatePickupLink(d);
 			default: throw new ArgumentOutOfRangeException();
 		}
     }

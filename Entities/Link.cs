@@ -87,6 +87,15 @@ public class Link : ILink
             // TODO - align sword with link's center, not his top-left.
             sword.Draw(spriteBatch, itemPos);
         }
+        else if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.PickingUp)
+        {
+            int height = heldItem.CurrentLoc.Height;
+            Point destPoint = new Point(CurrentLoc.X, CurrentLoc.Y - height);
+            Rectangle oldPos = heldItem.CurrentLoc;
+            oldPos.X = CurrentLoc.X;
+            oldPos.Y = CurrentLoc.Y - height;
+            heldItem.CurrentLoc = oldPos;
+        }
         linkSprite.Draw(spriteBatch, CurrentLoc);
     }
 

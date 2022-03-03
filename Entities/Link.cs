@@ -17,24 +17,18 @@ public class Link : ILink
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
-<<<<<<< HEAD
-    public Link(Point pos, List<IEntity> entityList)
-    {
-        stateMachine = new LinkStateMachine();
-        linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
-        CurrentLoc = new Rectangle(0, 0, 16, 16);
-        this.entityList = entityList;
-        collision = new CollisionHandler(entityList, this);
-=======
-    public Link(Point position)
+
+    public Link(Point position, List<IEntity> entityList)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
         int width = (int)SpriteUtil.SpriteSize.LinkX;
         int height = (int)SpriteUtil.SpriteSize.LinkY;
         CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
->>>>>>> master
+        this.entityList = entityList;
+        collision = new CollisionHandler(entityList, this);
     }
+
     public void ChangeDirection(Direction nextDirection)
     {
         stateMachine.ChangeDirection(nextDirection);

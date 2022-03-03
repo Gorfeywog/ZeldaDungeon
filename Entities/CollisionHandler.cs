@@ -79,13 +79,8 @@ namespace ZeldaDungeon.Entities
                 // If negative, it was hit from the bottom.
                 if (dy > 0) return Direction.Up;
                 else return Direction.Down;
-<<<<<<< HEAD
             }
             // If dy > dx, we know it's either a left or right collision.
-=======
-            } 
-            // If dy >= dx, we know it's either a left or right collision.
->>>>>>> master
             else
             {
                 // If dx is positive, the actualEntity was hit from the left.

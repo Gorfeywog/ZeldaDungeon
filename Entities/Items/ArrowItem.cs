@@ -29,8 +29,8 @@ namespace ZeldaDungeon.Entities.Items
         private static int offset = 32;
         public void UseOn(ILink player)
         {
-            Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new ArrowProjectile(loc, player.Direction, g);
+         //   Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
+            IProjectile proj = new ArrowProjectile(player.Center, player.Direction, g);
             g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }

@@ -29,7 +29,7 @@ namespace ZeldaDungeon.Entities.Items
         }
         public void Update() => sprite.Update();
 
-        private static int offset = 32;
+        private static int offset = 16 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
             // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link

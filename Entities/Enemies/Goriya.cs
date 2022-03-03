@@ -149,7 +149,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Move();
 			}
-			if (currentFrame % 128 == 0 && rand.Next(4) == 0)
+			if (currentFrame % 128 == 0 && rand.Next(2) == 0)
 			{
 				Attack();
 			}

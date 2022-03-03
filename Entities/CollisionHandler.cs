@@ -4,18 +4,56 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    class HandleCollision
+    class CollisionHandler
     {
         List<IEntity> LevelObjects;
         IDictionary<IEntity, Direction> Collisions;
         IEntity ActualEntity;
         int dx, dy;
 
-        public HandleCollision(List<IEntity> LevelObjects, IEntity ActualEntity)
+        public CollisionHandler(List<IEntity> LevelObjects, IEntity ActualEntity)
         {
             this.LevelObjects = LevelObjects;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
+        }
+
+        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IEnemy type)
+        {
+            // Link takes damage
+        }
+
+        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IBlock type)
+        {
+            // Stop movement
+        }
+
+        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IItem type)
+        {
+            // if the item is on the floor, pick up the item.
+        }
+        private void HandleCollision(IEnemy enemy, KeyValuePair<IEntity, Direction> collision, IBlock type)
+        {
+            // Stop movement
+        }
+
+        private void HandleCollision(IEnemy enemy, KeyValuePair<IEntity, Direction> collision, IItem type)
+        {
+            // If the item was thrown by Link, take damage. Knockback??
+        }
+
+        private void HandleCollision(IBlock PushedBlock, KeyValuePair<IEntity, Direction> collision, IBlock type)
+        {
+            // Stop movement
+        }
+
+
+
+
+
+        private void HandleCollision(IItem item, KeyValuePair<IEntity, Direction> collision, IBlock type)
+        {
+            // Basically only for boomerangs, stop the movement early and return.
         }
 
         private void DetectCollision()
@@ -70,6 +108,9 @@ namespace ZeldaDungeon.Entities
         public void Update()
         {
             DetectCollision();
+            foreach (KeyValuePair<IEntity, Direction> Collision in Collisions){
+               // HandleCollision(Collision.Key.GetType, )
+            }
         }
 
 

@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Rooms
     {
         private ISprite sprite;
         public Direction Dir { get; private set; }
+        public Rectangle CurrentLoc { get; set; }
         private DoorState state;
         public DoorState State 
         {
@@ -22,19 +23,17 @@ namespace ZeldaDungeon.Rooms
                 this.sprite = DoorSpriteFactory.Instance.CreateDoor(Dir, value);
             }
         }
-        public Point CurrentPoint { get; private set; }
-        public Rectangle CurrentRect { get => new Rectangle(CurrentPoint.X, CurrentPoint.Y, 32, 32); }
         public bool CanPass { get => State == DoorState.Open || State == DoorState.Hole; }
         public Door(Point position, Direction dir, DoorState state)
         {
-            CurrentPoint = position;
+            CurrentLoc = new Rectangle(position, new Point(32, 32));
             this.Dir = dir;
             this.State = state;
             this.sprite = DoorSpriteFactory.Instance.CreateDoor(Dir, State);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentRect);
+            sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
 

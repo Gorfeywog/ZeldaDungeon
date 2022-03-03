@@ -22,7 +22,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Aquamentus(Point position, Game1 g)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
-			CurrentLoc = new Rectangle(position, new Point(24, 32));
+			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
+			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 
 			rand = new Random();
 			movingLeft = true;
@@ -51,9 +53,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Attack()
 		{
 			int fireballChange = rand.Next(3) - 1;
-			IProjectile fireballUp = new Fireball(CurrentLoc.Location, -4, 1 + fireballChange);
-			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, -4, fireballChange);
-			IProjectile fireballDown = new Fireball(CurrentLoc.Location, -4, -1 + fireballChange);
+			int fireballVel = -4;
+			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, 1 + fireballChange);
+			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange);
+			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, -1 + fireballChange);
 			g.RegisterProjectile(fireballUp);
 			g.RegisterProjectile(fireballStraight);
 			g.RegisterProjectile(fireballDown);

@@ -15,7 +15,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public BombItem(Point position, Game1 g)
         {
-            CurrentLoc = new Rectangle(position, new Point(8, 14));
+            int width = (int)SpriteUtil.SpriteSize.BombWidth;            
+            int height = (int)SpriteUtil.SpriteSize.BombLength;            
+            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g = g;
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -35,3 +37,4 @@ namespace ZeldaDungeon.Entities.Items
         public bool ReadyToDespawn => false;
     }
 }
+

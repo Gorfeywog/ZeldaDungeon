@@ -17,7 +17,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Gel(Point position)
 		{
 			GelSprite = EnemySpriteFactory.Instance.CreateGelSprite();
-			CurrentLoc = new Rectangle(position, new Point(8, 9));
+			int width = (int)SpriteUtil.SpriteSize.GelX;
+			int height = (int)SpriteUtil.SpriteSize.GelY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			rand = new Random();
 			currentFrame = 0;
 		}

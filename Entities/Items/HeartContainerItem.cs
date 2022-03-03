@@ -15,7 +15,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public HeartContainerItem(Point position)
         {
-            CurrentLoc = new Rectangle(position, new Point(13, 13));
+            int width = (int)SpriteUtil.SpriteSize.HeartContainerWidth;
+			int height = (int)SpriteUtil.SpriteSize.HeartContainerLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

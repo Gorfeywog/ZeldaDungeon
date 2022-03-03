@@ -20,7 +20,9 @@ namespace ZeldaDungeon.Entities.Enemies
 			RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
 			currDirection = Direction.Left;
 
-			CurrentLoc = new Rectangle(position, new Point(15, 15));
+			int width = (int)SpriteUtil.SpriteSize.RopeX;
+			int height = (int)SpriteUtil.SpriteSize.RopeY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 
 			rand = new Random();

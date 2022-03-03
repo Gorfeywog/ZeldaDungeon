@@ -16,7 +16,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public BoomerangItem(Point position, Game1 g, bool isMagic)
         {
-            CurrentLoc = new Rectangle(position, new Point(5, 8));
+            int width = (int)SpriteUtil.SpriteSize.BoomerangX;
+			int height = (int)SpriteUtil.SpriteSize.BoomerangY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g = g;
             this.isMagic = isMagic;
             if (isMagic)

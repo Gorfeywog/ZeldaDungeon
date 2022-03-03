@@ -21,13 +21,15 @@ namespace ZeldaDungeon.Entities.Projectiles
 		{
 			MagicArrowSprite = ItemSpriteFactory.Instance.CreateMagicArrow(dir);
 			Point size;
+			int width = (int)SpriteUtil.SpriteSize.ArrowWidth * SpriteUtil.SCALE_FACTOR;
+			int length = (int)SpriteUtil.SpriteSize.ArrowLength * SpriteUtil.SCALE_FACTOR;
 			if (dir == Direction.Left || dir == Direction.Right)
 			{
-				size = new Point(16, 5);
+				size = new Point(length, width);
 			}
 			else
 			{
-				size = new Point(5, 16);
+				size = new Point(width, length);
 			}
 			CurrentLoc = new Rectangle(position, size);
 			orientation = dir;

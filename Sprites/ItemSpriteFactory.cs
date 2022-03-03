@@ -30,109 +30,142 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateBomb()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 8, 14));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 
+               (int) SpriteUtil.SpriteSize.BombWidth, (int)SpriteUtil.SpriteSize.BombLength));
         }
 
         public ISprite CreateBow()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 2, 8, 16));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 2, 
+               (int) SpriteUtil.SpriteSize.BowWidth, (int) SpriteUtil.SpriteSize.BowLength));
         }
 
         public ISprite CreateClock()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 2, 11, 16));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 2, 
+               (int) SpriteUtil.SpriteSize.ClockWidth , (int)SpriteUtil.SpriteSize.ClockLength ));
         }
 
         public ISprite CreateCompass()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 3, 11, 12));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 3, 
+                (int)SpriteUtil.SpriteSize.CompassWidth, (int)SpriteUtil.SpriteSize.CompassLength ));
         }
 
         public ISprite CreateFairy()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, 8, 16), SpriteUtil.GridToRectangle(1, 0, 8, 16) };
+            int width = (int)SpriteUtil.SpriteSize.FairyWidth;
+            int length = (int)SpriteUtil.SpriteSize.FairyLength;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, width, length), 
+                SpriteUtil.GridToRectangle(1, 0, width, length) };
             return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateHeartContainer()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 3, 13, 13));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 3, 
+                (int)SpriteUtil.SpriteSize.HeartContainerWidth, (int)SpriteUtil.SpriteSize.HeartContainerLength));
         }
 
         public ISprite CreateHeart()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 0, 7, 8), SpriteUtil.GridToRectangle(3, 0, 7, 8) };
+            int width = (int)SpriteUtil.SpriteSize.HeartWidth;
+            int length = (int)SpriteUtil.SpriteSize.HeartLength;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 0, width, length), 
+                SpriteUtil.GridToRectangle(3, 0, width, length) };
             return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateKey()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 3, 8, 16));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 3, 
+                (int)SpriteUtil.SpriteSize.KeyWidth, (int)SpriteUtil.SpriteSize.KeyLength));
         }
 
         public ISprite CreateMap()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 3, 8, 16));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 3, 
+                (int)SpriteUtil.SpriteSize.MapWidth, (int)SpriteUtil.SpriteSize.MapLength));
         }
 
         public ISprite CreateRupy()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, 8, 16), SpriteUtil.GridToRectangle(1, 1, 8, 16) };
+            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
+            int length = (int)SpriteUtil.SpriteSize.RupyLength;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, width, length), SpriteUtil.GridToRectangle(1, 1, width, length) };
             return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateTriforcePiece()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 1, 10, 10), SpriteUtil.GridToRectangle(3, 1, 10, 10) };
+            int width = (int)SpriteUtil.SpriteSize.TriforceWidth;
+            int length = (int)SpriteUtil.SpriteSize.TriforceLength;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 1, width, length), SpriteUtil.GridToRectangle(3, 1, width, length) };
             return new AnimatedSprite(itemSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateWoodenBoomerang()
         {
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 2, 5, 8));
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 2, 
+                (int)SpriteUtil.SpriteSize.BoomerangX, (int)SpriteUtil.SpriteSize.BoomerangY));
         }
         public ISprite CreateArrow(Direction dir)
         {
+            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
+            int length = (int)SpriteUtil.SpriteSize.ArrowLength;
+
             return dir switch
             {
-                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 5, 5, 16)),
-                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 5, 16, 5)),
-                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 5, 16, 5)),
-                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 5, 5, 16)),
+                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 5, width, length)),
+                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 5, length, width)),
+                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 5, length, width)),
+                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 5, width, length)),
                 _ => throw new ArgumentException()
             };
         }
         public ISprite CreateMagicArrow(Direction dir)
         {
+            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
+            int length = (int)SpriteUtil.SpriteSize.ArrowLength;
+
             return dir switch
             {
-                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 6, 5, 16)),
-                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 6, 16, 5)),
-                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 6, 16, 5)),
-                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 6, 5, 16)),
+                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 6, width, length)),
+                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 6, length, width)),
+                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 6, length, width)),
+                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 6, width, length)),
                 _ => throw new ArgumentException()
             };
         }
         public ISprite CreateSword(Direction dir)
         {
+            int width = (int)SpriteUtil.SpriteSize.SwordWidth;
+            int length = (int)SpriteUtil.SpriteSize.SwordLength;
+
             return dir switch
             {
-                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 4, 8, 16)),
-                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 4, 16, 8)),
-                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 4, 16, 8)),
-                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 4, 8, 16)),
+                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 4, width, length)),
+                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 4, length, width)),
+                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 4, length, width)),
+                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 4, width, length)),
                 _ => throw new ArgumentException()
             };
         }
         public ISprite CreateCandle(bool isRed)
         {
+            int width = (int)SpriteUtil.SpriteSize.CandleWidth;
+            int length = (int)SpriteUtil.SpriteSize.CandleLength;
             if (isRed)
             {
-                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, 8, 16));
+                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, width, length));
             }
             else
             {
-                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 7, 8, 16));
+                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 7, width, length));
             }
         }
         

@@ -19,7 +19,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSE();
 			currDirection = Direction.SE;
-			CurrentLoc = new Rectangle(position, new Point(16, 16));
+			int width = (int)SpriteUtil.SpriteSize.WallMasterX;
+			int height = (int)SpriteUtil.SpriteSize.WallMasterY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 
 			rand = new Random();

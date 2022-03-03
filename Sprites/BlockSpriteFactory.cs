@@ -31,43 +31,55 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateBlueFloorBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(4, 1, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(4, 1, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateBlueSandBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(1, 1, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(1, 1, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateBlueUnwalkableGapBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(3, 2, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(3, 2, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateLadderBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreatePushableBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 1, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 1, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateStairsBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(2, 1, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(2, 1, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateStatue1Block()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(1, 2, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(1, 2, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateStatue2Block()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(2, 2, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(2, 2, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateWhiteBrickBlock()
         {
-            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(3, 1, 16, 16));
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(3, 1, 
+                (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateFireBlock()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, 16, 16), SpriteUtil.GridToRectangle(1, 0, 16, 16) };
+            int width = (int) SpriteUtil.SpriteSize.GenericBlockX;
+            int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, width, height), 
+                SpriteUtil.GridToRectangle(1, 0, width, height) };
             return new AnimatedSprite(blockSpriteSheet, sourceRectangles);
         }
 

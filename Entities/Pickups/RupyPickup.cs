@@ -23,7 +23,7 @@ namespace ZeldaDungeon.Entities.Pickups
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void UseOn(ILink player)
+        public void PickUp(ILink player)
         {
             // do nothing, for now
         }

@@ -30,7 +30,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
 
         private static int offset = 32;
-        public void UseOn(ILink player)
+        public void PickUp(ILink player)
         {
             // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);

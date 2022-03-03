@@ -27,7 +27,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
 
         private static int offset = 32;
-        public void UseOn(ILink player)
+        public void PickUp(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
             IProjectile proj = new MagicArrowProjectile(loc, player.Direction, g);

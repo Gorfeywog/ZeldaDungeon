@@ -28,7 +28,7 @@ namespace ZeldaDungeon.Entities
             // Stop movement
         }
 
-        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IItem type)
+        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IPickup type)
         {
             // if the item is on the floor, pick up the item.
         }
@@ -37,7 +37,7 @@ namespace ZeldaDungeon.Entities
             // Stop movement
         }
 
-        private void HandleCollision(IEnemy enemy, KeyValuePair<IEntity, Direction> collision, IItem type)
+        private void HandleCollision(IEnemy enemy, KeyValuePair<IEntity, Direction> collision, IPickup type)
         {
             // If the item was thrown by Link, take damage. Knockback??
         }
@@ -51,7 +51,7 @@ namespace ZeldaDungeon.Entities
 
 
 
-        private void HandleCollision(IItem item, KeyValuePair<IEntity, Direction> collision, IBlock type)
+        private void HandleCollision(IPickup item, KeyValuePair<IEntity, Direction> collision, IBlock type)
         {
             // Basically only for boomerangs, stop the movement early and return.
         }

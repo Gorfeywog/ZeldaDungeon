@@ -6,19 +6,22 @@ using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-	public class MagicArrowItem : IItem
+	public class Candle : IPickup
 	{
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateMagicArrow(Direction.Up);
+        private ISprite sprite;
         private Game1 g;
+        private bool isRed; // red ones can be used more than once per room
         public Rectangle CurrentLoc { get; set; }
-        public MagicArrowItem(Point position, Game1 g)
+        public Candle(Point position, Game1 g, bool isRed)
         {
-            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
-			int height = (int)SpriteUtil.SpriteSize.ArrowLength;
+            int width = (int)SpriteUtil.SpriteSize.CandleWidth;
+			int height = (int)SpriteUtil.SpriteSize.CandleLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            this.g=g;
+            this.g = g;
+            this.isRed = isRed;
+            sprite = ItemSpriteFactory.Instance.CreateCandle(isRed);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -29,8 +32,9 @@ namespace ZeldaDungeon.Entities.Items
         private static int offset = 32;
         public void UseOn(ILink player)
         {
-            Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new MagicArrowProjectile(loc, player.Direction, g);
+            // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link
+            Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
+            IProjectile proj = new CandleFire(loc, player.Direction);
             g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }

@@ -6,7 +6,7 @@ using System.Text;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Entities.Pickups;
 
 namespace ZeldaDungeon.Rooms
 {
@@ -16,7 +16,7 @@ namespace ZeldaDungeon.Rooms
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
-        private IList<IItem> pickups;
+        private IList<IPickup> pickups;
         private const int gridSize = 32;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Rooms
             // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
-            pickups = new List<IItem>();
+            pickups = new List<IPickup>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -49,7 +49,7 @@ namespace ZeldaDungeon.Rooms
                         {
                             roomBlocks.Add(b);
                         }
-                        else if (ent is IItem pickup)
+                        else if (ent is IPickup pickup)
                         {
                             pickups.Add(pickup);
                         }
@@ -91,7 +91,7 @@ namespace ZeldaDungeon.Rooms
         {
             var blocksToBeRemoved = new List<IBlock>();
             var enemiesToBeRemoved = new List<IEnemy>();
-            var pickupsToBeRemoved = new List<IItem>();
+            var pickupsToBeRemoved = new List<IPickup>();
 
             foreach (var enemy in roomEnemies)
             {

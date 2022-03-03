@@ -4,31 +4,31 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Entities.Projectiles;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class FairyItem : IItem
-    {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateFairy();
-        private static int width = 16;
-        private static int height = 16;
+	public class ArrowPickup : IPickup
+	{
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateArrow(Direction.Up);
+        private Game1 g;
         public Rectangle CurrentLoc { get; set; }
-        public FairyItem(Point position)
+        public ArrowPickup(Point position, Game1 g)
         {
-            int width = (int)SpriteUtil.SpriteSize.FairyWidth;
-			int height = (int)SpriteUtil.SpriteSize.FairyLength;
+            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
+			int height = (int)SpriteUtil.SpriteSize.ArrowLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            this.g=g;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void UseOn(ILink player)
-        {
-            // do nothing, for now
-        }
+
+        private static int offset = 32;
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
     }
 }
+

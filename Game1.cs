@@ -7,7 +7,7 @@ using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
@@ -151,17 +151,17 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.N, linkAttack);
             keyboardController.RegisterCommand(Keys.O, new DecRoom(this));
             keyboardController.RegisterCommand(Keys.P, new IncRoom(this));
-            Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
-            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new MagicArrowItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new Candle(dummyItemSpawn, this, true)));
-            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, false)));
-            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, true)));
-            keyboardController.RegisterCommand(Keys.D7, new LinkUseItem(this, new HeartItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D8, new LinkUseItem(this, new KeyItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
+            Point dummyPickupSpawn = new Point(0); // the position doesn't matter since it only appears through Link
+            keyboardController.RegisterCommand(Keys.D1, new LinkUsePickup(this, new BombPickup(dummyPickupSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D2, new LinkUsePickup(this, new ArrowPickup(dummyPickupSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D3, new LinkUsePickup(this, new MagicArrowPickup(dummyPickupSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D4, new LinkUsePickup(this, new Candle(dummyPickupSpawn, this, true)));
+            keyboardController.RegisterCommand(Keys.D5, new LinkUsePickup(this, new BoomerangPickup(dummyPickupSpawn, this, false)));
+            keyboardController.RegisterCommand(Keys.D6, new LinkUsePickup(this, new BoomerangPickup(dummyPickupSpawn, this, true)));
+            keyboardController.RegisterCommand(Keys.D7, new LinkUsePickup(this, new HeartPickup(dummyPickupSpawn)));
+            keyboardController.RegisterCommand(Keys.D8, new LinkUsePickup(this, new KeyPickup(dummyPickupSpawn)));
+            keyboardController.RegisterCommand(Keys.D9, new LinkUsePickup(this, new RupyPickup(dummyPickupSpawn)));
+            keyboardController.RegisterCommand(Keys.D0, new LinkUsePickup(this, new TriforcePiecePickup(dummyPickupSpawn)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
             mouseController.RegisterCommand(new Rectangle(224, 0, 64, 64), new LinkUseDoor(this, Direction.Up));
             mouseController.RegisterCommand(new Rectangle(224, 288, 64, 64), new LinkUseDoor(this, Direction.Down));

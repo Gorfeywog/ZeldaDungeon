@@ -5,7 +5,8 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IItem : IEntity {
+    // these are inventory-type items, not items on the ground
+    public interface IItem {
         public void UseOn(ILink player);
     }
 }

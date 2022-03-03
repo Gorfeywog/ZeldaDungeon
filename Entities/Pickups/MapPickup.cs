@@ -5,18 +5,17 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class ClockItem : IItem
+    public class MapPickup : IPickup
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateClock();
-        private static int width = 16;
-        private static int height = 16;
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateMap();
+
         public Rectangle CurrentLoc { get; set; }
-        public ClockItem(Point position)
+        public MapPickup(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.ClockWidth;
-			int height = (int)SpriteUtil.SpriteSize.ClockLength;
+            int width = (int)SpriteUtil.SpriteSize.MapWidth;
+			int height = (int)SpriteUtil.SpriteSize.MapLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -4,7 +4,7 @@ using ZeldaDungeon.Sprites;
 
 public class LinkStateMachine
 {
-	public enum LinkActionState { UsingItem, Walking, Idle, Attacking };
+	public enum LinkActionState { UsingPickup, Walking, Idle, Attacking };
 	public bool Damaged { get; private set; }
 	private Direction currentDirection;
 	public Direction CurrentDirection
@@ -47,9 +47,9 @@ public class LinkStateMachine
 		CurrentDirection = newDirection;
 	}
 
-	public void UseItem() 
+	public void UsePickup() 
 	{
-		if (CurrentState != LinkActionState.UsingItem) CurrentState = LinkActionState.UsingItem;
+		if (CurrentState != LinkActionState.UsingPickup) CurrentState = LinkActionState.UsingPickup;
 		itemUseCountdown = itemUseDelay;
 	}
 
@@ -126,7 +126,7 @@ public class LinkStateMachine
 					_ => throw new ArgumentOutOfRangeException()
 				};
 			case LinkActionState.Attacking:
-			case LinkActionState.UsingItem:
+			case LinkActionState.UsingPickup:
 				return CurrentDirection switch
 				{
 					Direction.Up => fac.CreateUIUpLink(d),

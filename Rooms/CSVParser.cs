@@ -5,7 +5,7 @@ using System.Text;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Entities.Pickups;
 
 namespace ZeldaDungeon.Rooms
 {
@@ -89,19 +89,19 @@ namespace ZeldaDungeon.Rooms
                 "se" => new Stalfos(pos),
                 "te" => new Trap(pos),
                 "wme" => new WallMaster(pos),
-                "ai" => new ArrowItem(pos, g),
-                "bomi" => new BombItem(pos, g),
-                "bowi" => new BowItem(pos),
-                "cli" => new ClockItem(pos),
-                "coi" => new CompassItem(pos),
-                "fi" => new FairyItem(pos),
-                "hci" => new HeartContainerItem(pos),
-                "hi" => new HeartItem(pos),
-                "ki" => new KeyItem(pos),
-                "mi" => new MapItem(pos),
-                "ri" => new RupyItem(pos),
-                "tpi" => new TriforcePieceItem(pos),
-                "wbi" => new BoomerangItem(pos, g, false),
+                "ai" => new ArrowPickup(pos, g),
+                "bomi" => new BombPickup(pos, g),
+                "bowi" => new BowPickup(pos),
+                "cli" => new ClockPickup(pos),
+                "coi" => new CompassPickup(pos),
+                "fi" => new FairyPickup(pos),
+                "hci" => new HeartContainerPickup(pos),
+                "hi" => new HeartPickup(pos),
+                "ki" => new KeyPickup(pos),
+                "mi" => new MapPickup(pos),
+                "ri" => new RupyPickup(pos),
+                "tpi" => new TriforcePiecePickup(pos),
+                "wbi" => new BoomerangPickup(pos, g, false),
                 "" => null,
                 _ => throw new ArgumentOutOfRangeException() // again, still need to handle wr somehow probably
             };

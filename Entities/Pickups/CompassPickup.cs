@@ -5,17 +5,18 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class RupyItem : IItem
+    public class CompassPickup : IPickup
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateRupy();
-
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateCompass();
+        private static int width = 16;
+        private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
-        public RupyItem(Point position)
+        public CompassPickup(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
-			int height = (int)SpriteUtil.SpriteSize.RupyLength;
+            int width = (int)SpriteUtil.SpriteSize.CompassWidth;
+			int height = (int)SpriteUtil.SpriteSize.CompassLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)

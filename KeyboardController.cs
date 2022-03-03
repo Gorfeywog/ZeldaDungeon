@@ -39,14 +39,14 @@ namespace ZeldaDungeon
                 }
                 if (holdCommands.ContainsKey(k) && oldState.IsKeyUp(k))
                 {
-                    holdCommands[k].Item1.Execute();
+                    holdCommands[k].Pickup1.Execute();
                 }
             }
             foreach (Keys k in holdCommands.Keys)
             {
                 if (oldState.IsKeyDown(k) && state.IsKeyUp(k))
                 {
-                    holdCommands[k].Item2.Execute();
+                    holdCommands[k].Pickup2.Execute();
                 }
             }
         }

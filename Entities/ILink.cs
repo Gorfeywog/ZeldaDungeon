@@ -13,7 +13,7 @@ namespace ZeldaDungeon.Entities
         public void StartWalking();
         public void StopWalking();
         public void TakeDamage();
-        public void UseItem(IItem item);
+        public void UsePickup(IPickup item);
         public void Attack();
     }
 }

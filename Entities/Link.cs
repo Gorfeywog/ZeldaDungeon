@@ -32,9 +32,9 @@ public class Link : ILink
         stateMachine.TakeDamage();
     }
 
-    public void UseItem(IItem item)
+    public void UsePickup(IPickup item)
     {
-        stateMachine.UseItem();
+        stateMachine.UsePickup();
         item.UseOn(this);
     }
 

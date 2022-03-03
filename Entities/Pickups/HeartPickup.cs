@@ -5,19 +5,19 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class TriforcePieceItem : IItem
+    public class HeartPickup : IPickup
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateTriforcePiece();
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateHeart();
         private static int width = 16;
         private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
-        public TriforcePieceItem(Point position)
+        public HeartPickup(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.TriforceWidth;
-            int height = (int)SpriteUtil.SpriteSize.TriforceLength;
-            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            int width = (int)SpriteUtil.SpriteSize.HeartWidth;
+			int height = (int)SpriteUtil.SpriteSize.HeartLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -5,18 +5,17 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class HeartContainerItem : IItem
+    public class RupyPickup : IPickup
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateHeartContainer();
-        private static int width = 16;
-        private static int height = 16;
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateRupy();
+
         public Rectangle CurrentLoc { get; set; }
-        public HeartContainerItem(Point position)
+        public RupyPickup(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.HeartContainerWidth;
-			int height = (int)SpriteUtil.SpriteSize.HeartContainerLength;
+            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
+			int height = (int)SpriteUtil.SpriteSize.RupyLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)

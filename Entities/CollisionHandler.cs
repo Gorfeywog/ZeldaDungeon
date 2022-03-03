@@ -6,59 +6,53 @@ namespace ZeldaDungeon.Entities
 {
     class CollisionHandler
     {
-        List<IEntity> LevelObjects;
+        List<IEntity> roomEntities;
         IDictionary<IEntity, Direction> Collisions;
         IEntity ActualEntity;
         int dx, dy;
 
-        public CollisionHandler(List<IEntity> LevelObjects, IEntity ActualEntity)
+        public CollisionHandler(List<IEntity> roomEntities, IEntity ActualEntity)
         {
-            this.LevelObjects = LevelObjects;
+            this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
         }
 
-        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IEnemy type)
+        private void HandleCollisionPlayerEnemy(ILink player, KeyValuePair<IEntity, Direction> collision)
         {
-            // Link takes damage
+            player.TakeDamage();
+            // This is all this does, right?
         }
 
-        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IBlock type)
+        private void HandleCollisionPlayerBlock(ILink player, KeyValuePair<IEntity, Direction> collision)
+        {
+            player.StopWalking();
+            // Probably not implemented right but sounds good for now.
+        }
+
+        private void HandleCollisionPlayerItem(ILink player, KeyValuePair<IEntity, Direction> collision)
+        {
+            // Will be changed, implement after refactoring.
+        }
+        private void HandleCollisionEnemyBlock(IEnemy enemy, KeyValuePair<IEntity, Direction> collision)
+        {
+            // Don't know how to do this yet.
+        }
+
+        private void HandleCollisionEnemyItem(IEnemy enemy, KeyValuePair<IEntity, Direction> collision)
+        {
+            // Will be changed, implement after refactoring.
+            // Might be changed to EnemyProjectile.
+        }
+
+        private void HandleCollisionBlockBlock(IBlock PushedBlock, KeyValuePair<IEntity, Direction> collision)
         {
             // Stop movement
-        }
-
-        private void HandleCollision(ILink player, KeyValuePair<IEntity, Direction> collision, IItem type)
-        {
-            // if the item is on the floor, pick up the item.
-        }
-        private void HandleCollision(IEnemy enemy, KeyValuePair<IEntity, Direction> collision, IBlock type)
-        {
-            // Stop movement
-        }
-
-        private void HandleCollision(IEnemy enemy, KeyValuePair<IEntity, Direction> collision, IItem type)
-        {
-            // If the item was thrown by Link, take damage. Knockback??
-        }
-
-        private void HandleCollision(IBlock PushedBlock, KeyValuePair<IEntity, Direction> collision, IBlock type)
-        {
-            // Stop movement
-        }
-
-
-
-
-
-        private void HandleCollision(IItem item, KeyValuePair<IEntity, Direction> collision, IBlock type)
-        {
-            // Basically only for boomerangs, stop the movement early and return.
         }
 
         private void DetectCollision()
         {
-            foreach (IEntity CurrentEntity in LevelObjects)
+            foreach (IEntity CurrentEntity in roomEntities)
             {
                 // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
                 // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.
@@ -83,7 +77,7 @@ namespace ZeldaDungeon.Entities
                 // If negative, it was hit from the bottom.
                 if (dy > 0) return Direction.Up;
                 else return Direction.Down;
-            } 
+            }
             // If dy > dx, we know it's either a left or right collision.
             else
             {
@@ -108,11 +102,44 @@ namespace ZeldaDungeon.Entities
         public void Update()
         {
             DetectCollision();
-            foreach (KeyValuePair<IEntity, Direction> Collision in Collisions){
-               // HandleCollision(Collision.Key.GetType, )
+            foreach (KeyValuePair<IEntity, Direction> Collision in Collisions)
+            {
+                if (ActualEntity is ILink)
+                {
+                    if (Collision.Key is IEnemy)
+                    {
+                        HandleCollisionPlayerEnemy((ILink)ActualEntity, Collision);
+                    }
+                    else if (Collision.Key is IBlock)
+                    {
+                        HandleCollisionPlayerBlock((ILink)ActualEntity, Collision);
+                    }
+                    else if (Collision.Key is IItem)
+                    {
+                        HandleCollisionPlayerItem((ILink)ActualEntity, Collision);
+                    }
+                }
+                else if (ActualEntity is IEnemy)
+                {
+                    if (Collision.Key is IBlock)
+                    {
+                        HandleCollisionEnemyBlock((IEnemy)ActualEntity, Collision);
+                    }
+                    else if (Collision.Key is IItem)
+                    {
+                        //Might be changed to IProjectile
+                        HandleCollisionEnemyItem((IEnemy)ActualEntity, Collision);
+                    }
+                }
+                else if (ActualEntity is IBlock)
+                {
+                    if (Collision.Key is IBlock)
+                    {
+                        HandleCollisionBlockBlock((IBlock)ActualEntity, Collision);
+                    }
+                }
             }
+
         }
-
-
     }
 }

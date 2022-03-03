@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
+        private IList<IEntity> roomEntities; // Used for collision handling
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IItem> pickups;
@@ -41,6 +42,7 @@ namespace ZeldaDungeon.Rooms
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
+                        roomEntities.Add(ent);
                         if (ent is IEnemy en)
                         {
                             roomEnemies.Add(en);

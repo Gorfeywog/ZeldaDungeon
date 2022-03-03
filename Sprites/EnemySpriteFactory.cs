@@ -77,6 +77,11 @@ namespace ZeldaDungeon.Sprites
             return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(0, 7, 16, 16));
         }
 
+        public ISprite CreateOldManSprite()
+        {
+            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(1, 7, 16, 16));
+        }
+
         public ISprite CreateBlueGoriyaSpriteLeft()
         {
             Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 2, 14, 16), SpriteUtil.GridToRectangle(5, 2, 14, 16) };

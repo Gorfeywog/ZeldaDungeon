@@ -19,7 +19,9 @@ namespace ZeldaDungeon.Entities.Projectiles
         public bool ReadyToDespawn { get => timer <= 0; }
         public CandleFire(Point position, Direction d)
         {
-            CurrentLoc = new Rectangle(position, new Point(16,16));
+            int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
+            int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
+            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.d = d;
         }
         public void Draw(SpriteBatch spriteBatch)

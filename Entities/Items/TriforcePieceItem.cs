@@ -15,7 +15,9 @@ namespace ZeldaDungeon.Entities.Items
         public Rectangle CurrentLoc { get; set; }
         public TriforcePieceItem(Point position)
         {
-            CurrentLoc = new Rectangle(position, new Point(10,10));
+            int width = (int)SpriteUtil.SpriteSize.TriforceWidth;
+            int height = (int)SpriteUtil.SpriteSize.TriforceLength;
+            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

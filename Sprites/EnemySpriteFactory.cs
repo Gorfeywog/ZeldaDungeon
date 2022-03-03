@@ -31,50 +31,71 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateKeeseSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 4, 16, 10), SpriteUtil.GridToRectangle(1, 4, 16, 10) };
+            int width = (int)SpriteUtil.SpriteSize.KeeseX;
+            int height = (int)SpriteUtil.SpriteSize.KeeseY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 4, width, height), SpriteUtil.GridToRectangle(1, 4, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateAquamentusSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, 24, 32), SpriteUtil.GridToRectangle(1, 0, 24, 32) };
+            int width = (int)SpriteUtil.SpriteSize.AquamentusX;
+            int height = (int)SpriteUtil.SpriteSize.AquamentusY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, width, height), SpriteUtil.GridToRectangle(1, 0, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateFireballSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 11, 8, 10), SpriteUtil.GridToRectangle(1, 11, 8, 10),
-                SpriteUtil.GridToRectangle(2, 11, 8, 10), SpriteUtil.GridToRectangle(3, 11, 8, 10)};
+            int width = (int)SpriteUtil.SpriteSize.FireballX;
+            int height = (int)SpriteUtil.SpriteSize.FireballY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 11, width, height), SpriteUtil.GridToRectangle(1, 11, width, height),
+                SpriteUtil.GridToRectangle(2, 11, width, height), SpriteUtil.GridToRectangle(3, 11, width, height)};
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateGelSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, 8, 9), SpriteUtil.GridToRectangle(1, 1, 8, 9) };
+            int width = (int)SpriteUtil.SpriteSize.GelX;
+            int height = (int)SpriteUtil.SpriteSize.GelY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, width, height), SpriteUtil.GridToRectangle(1, 1, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateRopeSpriteLeft()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 5, 15, 15), SpriteUtil.GridToRectangle(1, 5, 15, 15) };
+            int width = (int)SpriteUtil.SpriteSize.RopeX;
+            int height = (int)SpriteUtil.SpriteSize.RopeY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 5, width, height), SpriteUtil.GridToRectangle(1, 5, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateRopeSpriteRight()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 5, 15, 15), SpriteUtil.GridToRectangle(3, 5, 15, 15) };
+            int width = (int)SpriteUtil.SpriteSize.RopeX;
+            int height = (int)SpriteUtil.SpriteSize.RopeY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 5, width, height), SpriteUtil.GridToRectangle(3, 5, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateStalfosSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 6, 16, 16), SpriteUtil.GridToRectangle(1, 6, 16, 16) };
+            int width = (int)SpriteUtil.SpriteSize.StalfosX;
+            int height = (int)SpriteUtil.SpriteSize.StalfosY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 6, width, height), SpriteUtil.GridToRectangle(1, 6, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateTrapSprite()
         {
-            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(0, 7, 16, 16));
+            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(0, 7, (int)SpriteUtil.SpriteSize.TrapX, (int)SpriteUtil.SpriteSize.TrapY));
         }
 
         public ISprite CreateOldManSprite()
@@ -84,106 +105,159 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateBlueGoriyaSpriteLeft()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 2, 14, 16), SpriteUtil.GridToRectangle(5, 2, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 2, width, height), SpriteUtil.GridToRectangle(5, 2, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateBlueGoriyaSpriteRight()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(6, 2, 14 ,16), SpriteUtil.GridToRectangle(7, 2, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(6, 2, width, height), SpriteUtil.GridToRectangle(7, 2, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateBlueGoriyaSpriteUp()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 2, 14, 16), SpriteUtil.GridToRectangle(1, 2, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 2, width, height), SpriteUtil.GridToRectangle(1, 2, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateBlueGoriyaSpriteDown()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 2, 14, 16), SpriteUtil.GridToRectangle(3, 2, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 2, width, height), SpriteUtil.GridToRectangle(3, 2, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateRedGoriyaSpriteLeft()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 3, 14, 16), SpriteUtil.GridToRectangle(5, 3, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 3, width, height), SpriteUtil.GridToRectangle(5, 3, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateRedGoriyaSpriteRight()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(6, 3, 14, 16), SpriteUtil.GridToRectangle(7, 3, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(6, 3, width, height), SpriteUtil.GridToRectangle(7, 3, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateRedGoriyaSpriteUp()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 3, 14, 16), SpriteUtil.GridToRectangle(1, 3, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 3, width, height), SpriteUtil.GridToRectangle(1, 3, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateRedGoriyaSpriteDown()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 3, 14, 16), SpriteUtil.GridToRectangle(3, 3, 14, 16) };
+            int width = (int)SpriteUtil.SpriteSize.GoriyaX;
+            int height = (int)SpriteUtil.SpriteSize.GoriyaY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 3, width, height), SpriteUtil.GridToRectangle(3, 3, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
         public ISprite CreateStaticBoomerangSprite()
         {
-            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(0, 10, 5, 8));
+            int width = (int)SpriteUtil.SpriteSize.BoomerangX;
+            int height = (int)SpriteUtil.SpriteSize.BoomerangY;
+
+            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(0, 10, width, height));
         }
         public ISprite CreateBoomerangSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 10, 5, 8), 
-                SpriteUtil.GridToRectangle(1, 10, 5, 8), SpriteUtil.GridToRectangle(2, 10, 5, 8) };
+            int width = (int)SpriteUtil.SpriteSize.BoomerangX;
+            int height = (int)SpriteUtil.SpriteSize.BoomerangY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 10, width, height), 
+                SpriteUtil.GridToRectangle(1, 10, width, height), SpriteUtil.GridToRectangle(2, 10, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
         public ISprite CreateStaticMagicBoomerangSprite()
         {
-            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(3, 10, 5, 8));
+            int width = (int)SpriteUtil.SpriteSize.BoomerangX;
+            int height = (int)SpriteUtil.SpriteSize.BoomerangY;
+
+            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(3, 10, width, height));
         }
         public ISprite CreateMagicBoomerangSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(3, 10, 5, 8), 
-                SpriteUtil.GridToRectangle(4, 10, 5, 8), SpriteUtil.GridToRectangle(5, 10, 5, 8) };
+            int width = (int)SpriteUtil.SpriteSize.BoomerangX;
+            int height = (int)SpriteUtil.SpriteSize.BoomerangY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(3, 10, width, height), 
+                SpriteUtil.GridToRectangle(4, 10, 5, 8), SpriteUtil.GridToRectangle(5, 10, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
         public ISprite CreateWallMasterSpriteSW()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 8, 16, 16), SpriteUtil.GridToRectangle(1, 8, 16, 16) };
+            int width = (int)SpriteUtil.SpriteSize.WallMasterX;
+            int height = (int)SpriteUtil.SpriteSize.WallMasterY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 8, width, height), SpriteUtil.GridToRectangle(1, 8, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateWallMasterSpriteSE()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 8, 16, 16), SpriteUtil.GridToRectangle(3, 8, 16, 16) };
+            int width = (int)SpriteUtil.SpriteSize.WallMasterX;
+            int height = (int)SpriteUtil.SpriteSize.WallMasterY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(2, 8, width, height), SpriteUtil.GridToRectangle(3, 8, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateWallMasterSpriteNW()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 8, 16, 16), SpriteUtil.GridToRectangle(5, 8, 16, 16) };
+            int width = (int)SpriteUtil.SpriteSize.WallMasterX;
+            int height = (int)SpriteUtil.SpriteSize.WallMasterY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(4, 8, width, height), SpriteUtil.GridToRectangle(5, 8, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateWallMasterSpriteNE()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(6, 8, 16, 16), SpriteUtil.GridToRectangle(7, 8, 16, 16) };
+            int width = (int)SpriteUtil.SpriteSize.WallMasterX;
+            int height = (int)SpriteUtil.SpriteSize.WallMasterY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(6, 8, width, height), SpriteUtil.GridToRectangle(7, 8, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateCloudSprite()
         {
-            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 9, 16, 16), SpriteUtil.GridToRectangle(1, 9, 16, 16), 
-                SpriteUtil.GridToRectangle(2, 9, 16, 16), SpriteUtil.GridToRectangle(3, 9, 16, 16), SpriteUtil.GridToRectangle(4, 9, 16, 16),
-                SpriteUtil.GridToRectangle(5, 9, 16, 16), SpriteUtil.GridToRectangle(6, 9, 16, 16), SpriteUtil.GridToRectangle(7, 9, 16, 16) };
+            int width = (int) SpriteUtil.SpriteSize.CloudX;
+            int height = (int) SpriteUtil.SpriteSize.CloudY;
+
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 9, width, height), SpriteUtil.GridToRectangle(1, 9, width, height), 
+                SpriteUtil.GridToRectangle(2, 9, width, height), SpriteUtil.GridToRectangle(3, 9, width, height), 
+                SpriteUtil.GridToRectangle(4, 9, width, height), SpriteUtil.GridToRectangle(5, 9, width, height), 
+                SpriteUtil.GridToRectangle(6, 9, width, height), SpriteUtil.GridToRectangle(7, 9, width, height) };
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateHitEffectSprite() // should maybe live on a different spritesheet
         {
-            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(6, 10, 8, 8));
+            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(6, 10, 
+               (int) SpriteUtil.SpriteSize.HitEffectX, (int) SpriteUtil.SpriteSize.HitEffectY));
         }
     }
 

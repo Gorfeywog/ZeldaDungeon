@@ -14,7 +14,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Trap(Point position)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
-			CurrentLoc = new Rectangle(position, new Point(16, 16));
+			int width = (int)SpriteUtil.SpriteSize.TrapX;
+			int height = (int)SpriteUtil.SpriteSize.TrapY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 		}
 
 		public void Move()

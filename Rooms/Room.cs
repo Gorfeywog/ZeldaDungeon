@@ -102,10 +102,7 @@ namespace ZeldaDungeon.Rooms
                     enemy.DespawnEffect();
                 }
             }
-            foreach (var ent in enemiesToBeRemoved)
-            {
-                roomEnemies.Remove(ent);
-            }
+            enemiesToBeRemoved.ForEach(e => roomEnemies.Remove(e));
             foreach (var pickup in pickups)
             {
                 pickup.Update();
@@ -115,10 +112,7 @@ namespace ZeldaDungeon.Rooms
                     pickup.DespawnEffect();
                 }
             }
-            foreach (var pickup in pickupsToBeRemoved)
-            {
-                pickups.Remove(pickup);
-            }
+            pickupsToBeRemoved.ForEach(p => pickups.Remove(p));
             foreach (var block in roomBlocks)
             {
                 block.Update();
@@ -128,10 +122,7 @@ namespace ZeldaDungeon.Rooms
                     block.DespawnEffect();
                 }
             }
-            foreach (var ent in blocksToBeRemoved)
-            {
-                roomBlocks.Remove(ent);
-            }
+            blocksToBeRemoved.ForEach(b => roomBlocks.Remove(b));
         }
 
         public Point DoorPos(Direction dir)

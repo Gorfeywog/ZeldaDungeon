@@ -83,6 +83,7 @@ namespace ZeldaDungeon.Rooms
                 "ge" => new Gel(pos),
                 "gre" => new Goriya(pos, g, true),
                 "gbe" => new Goriya(pos, g, false),
+                "om" => new OldMan(pos),
                 "ke" => new Keese(pos),
                 "re" => new Rope(pos),
                 "se" => new Stalfos(pos),

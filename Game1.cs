@@ -116,12 +116,13 @@ namespace ZeldaDungeon
             {
                 rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
             }
-            CurrentRoomIndex = 0;
+            CurrentRoomIndex = 1;
         }
 
         public void Reset()
         {
             projectiles = new List<IProjectile>();
+            SetupRooms();
             SetupPlayer();
         }
 

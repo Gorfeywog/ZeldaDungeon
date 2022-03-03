@@ -98,6 +98,11 @@ namespace ZeldaDungeon.Sprites
             return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(0, 7, (int)SpriteUtil.SpriteSize.TrapX, (int)SpriteUtil.SpriteSize.TrapY));
         }
 
+        public ISprite CreateOldManSprite()
+        {
+            return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(1, 7, 16, 16));
+        }
+
         public ISprite CreateBlueGoriyaSpriteLeft()
         {
             int width = (int)SpriteUtil.SpriteSize.GoriyaX;

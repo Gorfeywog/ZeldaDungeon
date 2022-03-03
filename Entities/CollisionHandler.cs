@@ -84,7 +84,7 @@ namespace ZeldaDungeon.Entities
                 if (dy > 0) return Direction.Up;
                 else return Direction.Down;
             } 
-            // If dy > dx, we know it's either a left or right collision.
+            // If dy >= dx, we know it's either a left or right collision.
             else
             {
                 // If dx is positive, the actualEntity was hit from the left.

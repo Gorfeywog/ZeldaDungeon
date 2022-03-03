@@ -122,6 +122,7 @@ namespace ZeldaDungeon
         public void Reset()
         {
             projectiles = new List<IProjectile>();
+            SetupRooms();
             SetupPlayer();
         }
 

@@ -19,7 +19,7 @@ public class Link : ILink
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
-        CurrentLoc = new Rectangle(0, 0, 16, 16);
+        CurrentLoc = new Rectangle(pos.X, pos.Y, 16, 16);
     }
     public void ChangeDirection(Direction nextDirection)
     {

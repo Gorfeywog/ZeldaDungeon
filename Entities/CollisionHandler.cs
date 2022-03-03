@@ -33,7 +33,7 @@ namespace ZeldaDungeon.Entities
             }
             foreach (IBlock block in roomBlocks)
             {
-                if (!(block is BlueFloorBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
             }
             return false;
         }

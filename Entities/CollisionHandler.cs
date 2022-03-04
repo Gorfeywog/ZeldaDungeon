@@ -40,15 +40,19 @@ namespace ZeldaDungeon.Entities
         {
             foreach (IBlock block in blockEntities)
             {
-                if (isFlying) 
+                /*                if (isFlying) 
+                                {
+                                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
+                                    {
+                                        return true;
+                                    }
+                                    else return false;
+                                }*/
+                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc))
                 {
-                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
-                    {
-                        return true;
-                    }
-                    else return false;
+                    if (!(isFlying && !(block is BlueUnwalkableGapBlock))) return true;
                 }
-                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                
             }
             return false;
         }

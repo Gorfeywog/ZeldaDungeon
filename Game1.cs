@@ -114,7 +114,7 @@ namespace ZeldaDungeon
         public void SetupRooms()
         {
             rooms = new List<Room>();
-            for (int i = 0; i <= TotalRoomCount; i++)
+            for (int i = 0; i <= TotalRoomCount; i++) // this loop is godawful! learn how files work!
             {
                 rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
             }

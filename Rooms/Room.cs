@@ -15,7 +15,7 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
-		public IList<IEntity> roomEntities; // Used for collision handling
+		public IList<IEntity> roomEntities; // Used for collision handling - evil!
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IPickup> pickups;
@@ -24,6 +24,7 @@ namespace ZeldaDungeon.Rooms
         private Game1 g;
         public Point gridPos { get; private set; }
         public Point topLeft { get => gridPos * new Point(512, 352); } // maybe cache this somehow?
+        private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
@@ -36,6 +37,7 @@ namespace ZeldaDungeon.Rooms
             roomBlocks = new List<IBlock>();
             roomEntities = new List<IEntity>();
             pickups = new List<IPickup>();
+            // this evil nested loop should probably live in its own method
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -66,6 +68,7 @@ namespace ZeldaDungeon.Rooms
                 doors[d] = new Door(DoorPos(d), d, states[i]);
             }
             walls = new Walls(topLeft);
+            linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = topLeft + new Point(32 * 4); // TODO - there should be some logic for the ladder rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
@@ -148,11 +151,16 @@ namespace ZeldaDungeon.Rooms
             };
             return topLeft + offset;
         }
-
         public Point LinkDoorSpawn(Direction dir)
         {
-            Point doorPos = DoorPos(dir);
-            return EntityUtils.Offset(doorPos, dir, -32);
+            int index = dir switch
+            {
+                Direction.Left => 0,
+                Direction.Down => 1,
+                Direction.Right => 2,
+                Direction.Up => 3
+            };
+            return topLeft + linkDoorSpawns[index];
         }
 
         // only call these through Game1, so it can unlock/explode the corresponding door on other side

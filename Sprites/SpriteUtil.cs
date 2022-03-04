@@ -18,7 +18,10 @@ namespace ZeldaDungeon.Sprites
         public static readonly int Y_POS_TOP = 0;
         public static readonly int Y_POS_BOTTOM = 144;
 
-        public static readonly int LINK_DEFAULT_SPAWN = 64;
+        //Default position of link
+        public static readonly int LINK_DEFAULT_SPAWN = 32;
+
+        //Room sizes
         public static readonly int ROOM_WIDTH = 256;
         public static readonly int ROOM_HEIGHT = 176;
 

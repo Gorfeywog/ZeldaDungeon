@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-
+		private CollisionHandler collision;
 		private int initX;
 
 		private bool movingLeft;
@@ -26,6 +26,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+			collision = new CollisionHandler((List<IEntity>)g.CurrentRoom.roomEntities, this);
 			initX = position.X;
 
 			movingLeft = true;
@@ -43,14 +44,20 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			if (movingLeft)
             {
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
+				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size)))
+                {
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
+				}
 				if (CurrentLoc.X < initX - 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
 				{
 					movingLeft = !movingLeft;
 				}
 			} else
             {
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
+				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size)))
+                {
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
+				}
 				if (CurrentLoc.X > initX + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
 				{
 					movingLeft = !movingLeft;

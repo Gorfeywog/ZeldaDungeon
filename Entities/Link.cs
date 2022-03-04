@@ -57,6 +57,7 @@ public class Link : ILink
         if (inv.HasItem(item)) // check if the item is ready to use? (like, arrows need a bow, etc.)
         {
             stateMachine.UseItem();
+            inv.UseItem(item);
             item.UseOn(this);
         }
     }

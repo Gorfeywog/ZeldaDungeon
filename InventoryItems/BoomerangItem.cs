@@ -41,6 +41,10 @@ namespace ZeldaDungeon.InventoryItems
                 return false;
             }
         }
+        public override int GetHashCode()
+        {
+            return "boomerang".GetHashCode() ^ g.GetHashCode() ^ isMagic.GetHashCode();
+        }
     }
 }
 

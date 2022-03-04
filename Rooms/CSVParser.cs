@@ -22,9 +22,7 @@ namespace ZeldaDungeon.Rooms
         }
         // array corresponds to the room's grid, list stores every entity on a tile?
         // all rows and columns must have the prescribed dimensions, or bad stuff happens.
-        // for now, this just straight-up ignores the walls; i think we can safely eliminate them
-        // from the csv files, but we may want to indicate doors in some way?
-        public IList<String>[,] ParseRoomLayout() // should this be static?
+        public IList<String>[,] ParseRoomLayout()
         {
             IList<String>[,] tokens = new IList<String>[width, height];
             for (int i = 0; i < height; i++) // height *should* match lines.Length
@@ -65,7 +63,7 @@ namespace ZeldaDungeon.Rooms
         }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {
-            return token switch // how handle wr? should wr even be in these files? walls are the same in basically every room, could handle doors specially
+            return token switch
             {
                 "npb" => new NonPushableBlock(pos),
                 "wr" => new BlueFloorBlock(pos), // hacky temporary fix; figure out a better solution!
@@ -108,7 +106,7 @@ namespace ZeldaDungeon.Rooms
                 "wbi1" => new BoomerangPickup(pos, g, false),
                 "wbi2" => new BoomerangPickup(pos, g, true),
                 "" => null,
-                _ => throw new ArgumentOutOfRangeException() // again, still need to handle wr somehow probably
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
     }

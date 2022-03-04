@@ -40,6 +40,10 @@ namespace ZeldaDungeon.InventoryItems
                 return false;
             }
         }
+        public override int GetHashCode()
+        {
+            return "candle".GetHashCode() ^ g.GetHashCode() ^ isRed.GetHashCode();
+        }
     }
 }
 

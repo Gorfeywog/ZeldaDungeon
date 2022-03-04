@@ -12,49 +12,35 @@ namespace ZeldaDungeon.Rooms
     {
         private ISprite sprite;
         public Direction Dir { get; private set; }
-        public Rectangle CurrentLoc { get; set; }
-        private DoorState state;
-        public DoorState State 
-        {
-            get => state; 
-            private set 
-            {
-                state = value;
-                this.sprite = DoorSpriteFactory.Instance.CreateDoor(Dir, value);
-            }
-        }
+        public DoorState State { get; private set; }
+        public Point CurrentPoint { get; private set; }
         public bool CanPass { get => State == DoorState.Open || State == DoorState.Hole; }
         public Door(Point position, Direction dir, DoorState state)
         {
-            CurrentLoc = new Rectangle(position, new Point(32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR));
+            CurrentPoint = position;
             this.Dir = dir;
             this.State = state;
             this.sprite = DoorSpriteFactory.Instance.CreateDoor(Dir, State);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentLoc);
+            sprite.Draw(spriteBatch, new Rectangle(CurrentPoint.X, CurrentPoint.Y, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR));
         }
         public void Update() => sprite.Update();
-
-        // return value is whether anything was actually unlocked/blown up for each of these
         public bool Unlock()
         {
             if (State == DoorState.Locked)
             {
                 State = DoorState.Open;
-                return true;
             }
-            return false;
+            return State != DoorState.Locked;
+            // Just wanted the code to be compilable, don't actually know what you wanted here.
         }
-        public bool Explode()
+
+        internal bool Explode()
         {
-            if (State == DoorState.BlockedHole)
-            {
-                State = DoorState.Hole;
-                return true;
-            }
-            return false;
+            throw new NotImplementedException();
+            // Just wanted the code to be compilable, don't actually know what you wanted here.
         }
     }
 }

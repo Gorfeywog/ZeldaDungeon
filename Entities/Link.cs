@@ -29,6 +29,8 @@ public class Link : ILink
 
     public Link(Point position, Game1 g)
     {
+        this.g = g;
+        inv = new LinkInventory();
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
         int width = (int)SpriteUtil.SpriteSize.LinkX;

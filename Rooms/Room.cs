@@ -34,6 +34,7 @@ namespace ZeldaDungeon.Rooms
             // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
             roomBlocks = new List<IBlock>();
+            roomEntities = new List<IEntity>();
             pickups = new List<IPickup>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
@@ -43,6 +44,7 @@ namespace ZeldaDungeon.Rooms
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
+                        roomEntities.Add(ent);
                         if (ent is IEnemy en)
                         {
                             roomEnemies.Add(en);

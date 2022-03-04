@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Gel : IEnemy
 	{
 		public ISprite GelSprite { get; set; }
-		private Random rand;
+		private Random SpriteUtil.Rand;
 		private int currentFrame;
 
 		public Rectangle CurrentLoc { get; set; }
@@ -20,20 +20,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.GelX;
 			int height = (int)SpriteUtil.SpriteSize.GelY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			rand = new Random();
 			currentFrame = 0;
 		}
 
 		public void Move()
 		{
-			int movingNum = rand.Next(5);
+			int movingNum = SpriteUtil.Rand.Next(5);
 			if (movingNum < 2)
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y), CurrentLoc.Size);
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * SpriteUtil.Rand.Next(3) - 8, CurrentLoc.Y), CurrentLoc.Size);
 			}
 			else if (movingNum > 2)
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size);
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * SpriteUtil.Rand.Next(3) - 8), CurrentLoc.Size);
 			}
 
 		}

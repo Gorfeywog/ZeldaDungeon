@@ -122,9 +122,11 @@ public class Link : ILink
             {
                 size = new Point(width, length);
             }
-            Rectangle itemPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Center, Direction, 6 * SpriteUtil.SCALE_FACTOR), size);
+            Rectangle itemPos = new Rectangle(CurrentLoc.Center, size);
+            itemPos.Offset(CurrentLoc.Center - itemPos.Center);
+            itemPos.Location = EntityUtils.Offset(itemPos.Location, Direction, 12 * SpriteUtil.SCALE_FACTOR);
             ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
-            // TODO - align sword with link's center, not his top-left.
+
             sword.Draw(spriteBatch, itemPos);
         }
 		else if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.PickingUp)

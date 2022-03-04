@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite StalfosSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		private Random rand;
+
 		private int currentFrame;
 		public CollisionHandler collision { get; set; }
 		public EntityList roomEntities;
@@ -21,7 +21,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.StalfosX;
 			int height = (int)SpriteUtil.SpriteSize.StalfosY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			rand = new Random();
+
 			currentFrame = 0;
 			collision = new CollisionHandler(roomEntities, this);
 		}
@@ -33,19 +33,17 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			int DistanceToMove = rand.Next(3);
-			if (rand.Next(2) == 0)
+			int DistanceToMove = SpriteUtil.Rand.Next(3);
+			Rectangle newPos;
+			if (SpriteUtil.Rand.Next(2) == 0)
             {
-				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove - 8, CurrentLoc.Y), CurrentLoc.Size)))
-                {
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove - 8, CurrentLoc.Y), CurrentLoc.Size); ;
-				}
+				newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove - 8, CurrentLoc.Y), CurrentLoc.Size);
+				if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+
 			} else
 			{
-				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove - 8), CurrentLoc.Size)))
-                {
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove - 8), CurrentLoc.Size);
-				}
+				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove - 8), CurrentLoc.Size);
+				if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 			}
 
 		}

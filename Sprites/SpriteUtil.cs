@@ -7,7 +7,7 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 2; // Scale factor of destination rectangles 
+        public static readonly int SCALE_FACTOR = 3; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
 
         //Global random number generator for use in all classes

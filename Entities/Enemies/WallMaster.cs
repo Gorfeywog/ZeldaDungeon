@@ -12,7 +12,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 		public CollisionHandler collision { get; set; }
 		private EntityList roomEntities;
-		private Random rand;
 		private int currentFrame;
 		private Direction currDirection;
 
@@ -24,8 +23,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.WallMasterY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-
-			rand = new Random();
 			collision = new CollisionHandler(roomEntities, this);
 
 		}
@@ -38,9 +35,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in eight chance to change directions
-			if (rand.Next(8) == 0)
+			if (SpriteUtil.Rand.Next(8) == 0)
 			{
-				switch (rand.Next(4))
+				switch (SpriteUtil.Rand.Next(4))
 				{
 					case 0:
 						currDirection = Direction.SE;

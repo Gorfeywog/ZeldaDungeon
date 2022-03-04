@@ -14,7 +14,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public EntityList roomEntities;
 		public Rectangle CurrentLoc {get; set;}
 
-		private Random rand;
 		private int currentFrame;
 
 		public Keese(Point position)
@@ -23,7 +22,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.KeeseX;
 			int height = (int)SpriteUtil.SpriteSize.KeeseY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			rand = new Random();
 			currentFrame = 0;
 			collision = new CollisionHandler(roomEntities, this);
 		}
@@ -36,10 +34,12 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			int DistanceToMove = rand.Next(3);
-			if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + (8 * DistanceToMove) - 8, CurrentLoc.Y + (8 * DistanceToMove) - 8), CurrentLoc.Size)))
+			int DistanceToMoveX = SpriteUtil.Rand.Next(3);
+			int DistanceToMoveY = SpriteUtil.Rand.Next(3);
+			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMoveX - 8, CurrentLoc.Y + 8 * DistanceToMoveY - 8), CurrentLoc.Size);
+			if (!collision.WillHitBlock(newPos))
             {
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + (8 * DistanceToMove) - 8, CurrentLoc.Y + (8 * DistanceToMove) - 8), CurrentLoc.Size);
+				CurrentLoc = newPos;
 			}
 		}
 

@@ -6,7 +6,7 @@ using System.Text;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Rooms
@@ -19,12 +19,13 @@ namespace ZeldaDungeon.Rooms
         public IList<IEntity> roomEntities; // Used for collision
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
-        private IList<IItem> pickups;
-        private int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
+        private IList<IPickup> pickups;
+        private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point gridPos { get; private set; }
         public Point topLeft { get => gridPos * new Point(512, 352); } // maybe cache this somehow?
+        private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
@@ -37,7 +38,9 @@ namespace ZeldaDungeon.Rooms
             roomEntities = new List<IEntity>();
             roomEntitiesEL = new EntityList(roomEntities);
             roomBlocks = new List<IBlock>();
-            pickups = new List<IItem>();
+            roomEntities = new List<IEntity>();
+            pickups = new List<IPickup>();
+            // this evil nested loop should probably live in its own method
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -55,7 +58,7 @@ namespace ZeldaDungeon.Rooms
                         {
                             roomBlocks.Add(b);
                         }
-                        else if (ent is IItem pickup)
+                        else if (ent is IPickup pickup)
                         {
                             pickups.Add(pickup);
                         }
@@ -68,6 +71,7 @@ namespace ZeldaDungeon.Rooms
                 doors[d] = new Door(DoorPos(d), d, states[i]);
             }
             walls = new Walls(topLeft);
+            linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = topLeft + new Point(32 * 4); // TODO - there should be some logic for the ladder rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
@@ -97,8 +101,8 @@ namespace ZeldaDungeon.Rooms
         {
             var blocksToBeRemoved = new List<IBlock>();
             var enemiesToBeRemoved = new List<IEnemy>();
-            var pickupsToBeRemoved = new List<IItem>();
-
+            var pickupsToBeRemoved = new List<IPickup>();
+            bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
             foreach (var enemy in roomEnemies)
             {
                 enemy.Update();
@@ -116,6 +120,12 @@ namespace ZeldaDungeon.Rooms
                 {
                     pickupsToBeRemoved.Add(pickup);
                     pickup.DespawnEffect();
+                }
+                else if (!hasPickup && pickup.CurrentLoc.Intersects(g.Player.CurrentLoc)) // maybe let collisionhandler do this stuff?
+                {
+                    hasPickup = true;
+                    g.Player.PickUp(pickup);
+                    pickupsToBeRemoved.Add(pickup);
                 }
             }
             pickupsToBeRemoved.ForEach(p => pickups.Remove(p));
@@ -144,11 +154,16 @@ namespace ZeldaDungeon.Rooms
             };
             return topLeft + offset;
         }
-
         public Point LinkDoorSpawn(Direction dir)
         {
-            Point doorPos = DoorPos(dir);
-            return EntityUtils.Offset(doorPos, dir, -16 * SpriteUtil.SCALE_FACTOR);
+            int index = dir switch
+            {
+                Direction.Left => 0,
+                Direction.Down => 1,
+                Direction.Right => 2,
+                Direction.Up => 3
+            };
+            return topLeft + linkDoorSpawns[index];
         }
 
         // only call these through Game1, so it can unlock/explode the corresponding door on other side

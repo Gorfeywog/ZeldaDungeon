@@ -5,10 +5,20 @@ using System.Text;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Entities.Pickups;
 
 namespace ZeldaDungeon.Rooms
 {
+    /*
+     * LAYOUT OF A VALID CSV FILE:
+     * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, items, etc.
+     * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
+     * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*.
+     * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door.
+     *      note that for top and bottom doors, Link spawns on the seam of two tiles. To account for this, these must be parsed
+     *      as a floating point type! for the default door spawns, this is 2;5,7.5;8,13;5,7.5;2
+     * nothing here yet, possibly a boolean to represent whether it's a normal room (walls and doors) or a ladder room
+     */
     public class CSVParser
     {
         private const int width = 16;
@@ -22,9 +32,7 @@ namespace ZeldaDungeon.Rooms
         }
         // array corresponds to the room's grid, list stores every entity on a tile?
         // all rows and columns must have the prescribed dimensions, or bad stuff happens.
-        // for now, this just straight-up ignores the walls; i think we can safely eliminate them
-        // from the csv files, but we may want to indicate doors in some way?
-        public IList<String>[,] ParseRoomLayout() // should this be static?
+        public IList<String>[,] ParseRoomLayout()
         {
             IList<String>[,] tokens = new IList<String>[width, height];
             for (int i = 0; i < height; i++) // height *should* match lines.Length
@@ -41,10 +49,10 @@ namespace ZeldaDungeon.Rooms
         public DoorState[] ParseDoorState()
         {
             DoorState[] states = new DoorState[4];
-            string[] lastRow = lines[height].Split(',');
+            string[] doorRow = lines[height+1].Split(',');
             for (int i = 0; i < 4; i++)
             {
-                states[i] = lastRow[i] switch
+                states[i] = doorRow[i] switch
                 {
                     "od" => DoorState.Open,
                     "cd" => DoorState.Closed,
@@ -58,17 +66,33 @@ namespace ZeldaDungeon.Rooms
         }
         public Point ParsePos()
         {
-            string[] lastRow = lines[height].Split(',');
-            int rawX = int.Parse(lastRow[4]);
-            int rawY = int.Parse(lastRow[5]);
+            string[] posRow = lines[height].Split(';');
+            int rawX = int.Parse(posRow[0]);
+            int rawY = int.Parse(posRow[1]);
             return new Point(rawX, rawY);
+        }
+
+        public Point[] ParseLinkSpawns(int tileSize) // tileSize should be 32 at the default scale, for instance
+        {
+            var spawns = new Point[4];
+            string[] spawnsRow = lines[height + 2].Split(',');
+            for (int i = 0; i < 4; i++)
+            {
+                string[] spawn = spawnsRow[i].Split(';');
+                float rawX = float.Parse(spawn[0]);
+                int fixedX = (int)Math.Round(rawX * tileSize);
+                float rawY = float.Parse(spawn[1]);
+                int fixedY = (int)Math.Round(rawY * tileSize);
+                spawns[i] = new Point(fixedX, fixedY);
+            }
+            return spawns;
         }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {
-            return token switch // how handle wr? should wr even be in these files? walls are the same in basically every room, could handle doors specially
+            return token switch
             {
                 "npb" => new NonPushableBlock(pos),
-                "wr" => new BlueUnwalkableGapBlock(pos), // hacky temporary fix; figure out a better solution!
+                "wr" => new BlueUnwalkableGapBlock(pos),
                 "bfb" => new BlueFloorBlock(pos),
                 "bsb" => new BlueSandBlock(pos),
                 "bugb" => new BlueUnwalkableGapBlock(pos),
@@ -89,22 +113,28 @@ namespace ZeldaDungeon.Rooms
                 "se" => new Stalfos(pos),
                 "te" => new Trap(pos),
                 "wme" => new WallMaster(pos),
-                "ai" => new ArrowItem(pos, g),
-                "bomi" => new BombItem(pos, g),
-                "bowi" => new BowItem(pos),
-                "cli" => new ClockItem(pos),
-                "coi" => new CompassItem(pos),
-                "fi" => new FairyItem(pos),
-                "hci" => new HeartContainerItem(pos),
-                "hi" => new HeartItem(pos),
-                "ki" => new KeyItem(pos),
-                "mi" => new MapItem(pos),
-                "ri" => new RupyItem(pos),
-                "tpi" => new TriforcePieceItem(pos),
-                "wbi" => new BoomerangItem(pos, g, false),
+                "ai1" => new ArrowPickup(pos, g, false),
+                "ai2" => new ArrowPickup(pos, g, true),
+                "ci1" => new Candle(pos, g, false),
+                "ci2" => new Candle(pos, g, true),
+                "bomi" => new BombPickup(pos, g),
+                "bowi" => new BowPickup(pos),
+                "cli" => new ClockPickup(pos),
+                "coi" => new CompassPickup(pos),
+                "fi" => new FairyPickup(pos),
+                "hci" => new HeartContainerPickup(pos),
+                "hi" => new HeartPickup(pos),
+                "ki" => new KeyPickup(pos),
+                "mi" => new MapPickup(pos),
+                "ri" => new RupyPickup(pos),
+                "tpi" => new TriforcePiecePickup(pos),
+                "wbi" => new BoomerangPickup(pos, g, false),
+                "wbi1" => new BoomerangPickup(pos, g, false),
+                "wbi2" => new BoomerangPickup(pos, g, true),
                 "" => null,
-                _ => throw new ArgumentOutOfRangeException() // again, still need to handle wr somehow probably
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
+        
     }
 }

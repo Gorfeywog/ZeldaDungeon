@@ -7,6 +7,7 @@ using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Rooms
 {
@@ -17,8 +18,8 @@ namespace ZeldaDungeon.Rooms
         public IList<IEntity> roomEntities; // Used for collision handling
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
-        private IList<IPickup> pickups;
-        private const int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
+        private IList<IItem> pickups;
+        private int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point gridPos { get; private set; }
@@ -34,7 +35,7 @@ namespace ZeldaDungeon.Rooms
             roomEnemies = new List<IEnemy>();
             roomEntities = new List<IEntity>();
             roomBlocks = new List<IBlock>();
-            pickups = new List<IPickup>();
+            pickups = new List<IItem>();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -52,7 +53,7 @@ namespace ZeldaDungeon.Rooms
                         {
                             roomBlocks.Add(b);
                         }
-                        else if (ent is IPickup pickup)
+                        else if (ent is IItem pickup)
                         {
                             pickups.Add(pickup);
                         }
@@ -94,8 +95,8 @@ namespace ZeldaDungeon.Rooms
         {
             var blocksToBeRemoved = new List<IBlock>();
             var enemiesToBeRemoved = new List<IEnemy>();
-            var pickupsToBeRemoved = new List<IPickup>();
-            bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
+            var pickupsToBeRemoved = new List<IItem>();
+
             foreach (var enemy in roomEnemies)
             {
                 enemy.Update();
@@ -113,12 +114,6 @@ namespace ZeldaDungeon.Rooms
                 {
                     pickupsToBeRemoved.Add(pickup);
                     pickup.DespawnEffect();
-                }
-                else if (!hasPickup && pickup.CurrentLoc.Intersects(g.Player.CurrentLoc)) // maybe let collisionhandler do this stuff?
-                {
-                    hasPickup = true;
-                    g.Player.PickUp(pickup);
-                    pickupsToBeRemoved.Add(pickup);
                 }
             }
             pickupsToBeRemoved.ForEach(p => pickups.Remove(p));

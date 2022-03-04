@@ -5,7 +5,7 @@ using System.Text;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Pickups;
+using ZeldaDungeon.Entities.Items;
 
 namespace ZeldaDungeon.Rooms
 {
@@ -22,7 +22,9 @@ namespace ZeldaDungeon.Rooms
         }
         // array corresponds to the room's grid, list stores every entity on a tile?
         // all rows and columns must have the prescribed dimensions, or bad stuff happens.
-        public IList<String>[,] ParseRoomLayout()
+        // for now, this just straight-up ignores the walls; i think we can safely eliminate them
+        // from the csv files, but we may want to indicate doors in some way?
+        public IList<String>[,] ParseRoomLayout() // should this be static?
         {
             IList<String>[,] tokens = new IList<String>[width, height];
             for (int i = 0; i < height; i++) // height *should* match lines.Length
@@ -63,7 +65,7 @@ namespace ZeldaDungeon.Rooms
         }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {
-            return token switch
+            return token switch // how handle wr? should wr even be in these files? walls are the same in basically every room, could handle doors specially
             {
                 "npb" => new NonPushableBlock(pos),
                 "wr" => new BlueUnwalkableGapBlock(pos), // hacky temporary fix; figure out a better solution!
@@ -87,26 +89,21 @@ namespace ZeldaDungeon.Rooms
                 "se" => new Stalfos(pos),
                 "te" => new Trap(pos),
                 "wme" => new WallMaster(pos),
-                "ai1" => new ArrowPickup(pos, g, false),
-                "ai2" => new ArrowPickup(pos, g, true),
-                "ci1" => new Candle(pos, g, false),
-                "ci2" => new Candle(pos, g, true),
-                "bomi" => new BombPickup(pos, g),
-                "bowi" => new BowPickup(pos),
-                "cli" => new ClockPickup(pos),
-                "coi" => new CompassPickup(pos),
-                "fi" => new FairyPickup(pos),
-                "hci" => new HeartContainerPickup(pos),
-                "hi" => new HeartPickup(pos),
-                "ki" => new KeyPickup(pos),
-                "mi" => new MapPickup(pos),
-                "ri" => new RupyPickup(pos),
-                "tpi" => new TriforcePiecePickup(pos),
-                "wbi" => new BoomerangPickup(pos, g, false),
-                "wbi1" => new BoomerangPickup(pos, g, false),
-                "wbi2" => new BoomerangPickup(pos, g, true),
+                "ai" => new ArrowItem(pos, g),
+                "bomi" => new BombItem(pos, g),
+                "bowi" => new BowItem(pos),
+                "cli" => new ClockItem(pos),
+                "coi" => new CompassItem(pos),
+                "fi" => new FairyItem(pos),
+                "hci" => new HeartContainerItem(pos),
+                "hi" => new HeartItem(pos),
+                "ki" => new KeyItem(pos),
+                "mi" => new MapItem(pos),
+                "ri" => new RupyItem(pos),
+                "tpi" => new TriforcePieceItem(pos),
+                "wbi" => new BoomerangItem(pos, g, false),
                 "" => null,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException() // again, still need to handle wr somehow probably
             };
         }
     }

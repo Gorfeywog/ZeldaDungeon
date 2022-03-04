@@ -10,6 +10,6 @@ Sprint_2:
 					makes the accessing of sprites much easier.
 		- Entities - Contains the bulk of our implementations for sprint_2: interfaces for each game framework's function, state machine for Link, and classes that implement
 					 the function of the blocks, items, enemies, and projectiles.
-		- Sprites - Contains the ISprite interface, which is implemented by the classes contained in BlockSprites, EnemySprites, PickupSprites, and LinkSprites. To reduce the amount of 
+		- Sprites - Contains the ISprite interface, which is implemented by the classes contained in BlockSprites, EnemySprites, ItemSprites, and LinkSprites. To reduce the amount of 
 					classes our project contains, we used two classes for each possible sprite to be generated on the screen: animated and static. The sprite factories are also held here, 
 					which handles what sprites from the texture atlas will be passed into the animated or static sprite classes.

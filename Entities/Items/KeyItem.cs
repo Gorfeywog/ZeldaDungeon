@@ -5,19 +5,18 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Pickups
+namespace ZeldaDungeon.Entities.Items
 {
-    public class CompassPickup : IPickup
+    public class KeyItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateCompass();
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateKey();
         private static int width = 16;
         private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
-        public bool HoldsUp { get => true; }
-        public CompassPickup(Point position)
+        public KeyItem(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.CompassWidth;
-			int height = (int)SpriteUtil.SpriteSize.CompassLength;
+            int width = (int)SpriteUtil.SpriteSize.KeyWidth;
+			int height = (int)SpriteUtil.SpriteSize.KeyLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -25,7 +24,7 @@ namespace ZeldaDungeon.Entities.Pickups
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void PickUp(ILink player)
+        public void UseOn(ILink player)
         {
             // do nothing, for now
         }

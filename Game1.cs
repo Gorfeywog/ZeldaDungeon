@@ -7,8 +7,7 @@ using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.InventoryItems;
-using ZeldaDungeon.Entities.Pickups;
+using ZeldaDungeon.Entities.Items;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
@@ -110,11 +109,10 @@ namespace ZeldaDungeon
         {
             Player = new Link(CurrentRoom.linkDefaultSpawn, (List<IEntity>)CurrentRoom.roomEntities);
         }
-        private const int TotalRoomCount = 17;
         public void SetupRooms()
         {
             rooms = new List<Room>();
-            for (int i = 0; i <= TotalRoomCount; i++)
+            for (int i = 0; i <= 16; i++)
             {
                 rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
             }
@@ -153,12 +151,17 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.N, linkAttack);
             keyboardController.RegisterCommand(Keys.O, new DecRoom(this));
             keyboardController.RegisterCommand(Keys.P, new IncRoom(this));
-            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(this)));
-            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(this, false)));
-            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new ArrowItem(this, true)));
-            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new CandleItem(this, true)));
-            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(this, false)));
-            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(this, true)));
+            Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
+            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new MagicArrowItem(dummyItemSpawn, this)));
+            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new Candle(dummyItemSpawn, this, true)));
+            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, false)));
+            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, true)));
+            keyboardController.RegisterCommand(Keys.D7, new LinkUseItem(this, new HeartItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D8, new LinkUseItem(this, new KeyItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
             mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 0, 32 * SpriteUtil.SCALE_FACTOR, 
                 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));

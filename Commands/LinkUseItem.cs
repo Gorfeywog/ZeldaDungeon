@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities;
-using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Commands
 {

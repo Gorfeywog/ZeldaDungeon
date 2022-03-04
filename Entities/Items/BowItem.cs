@@ -5,18 +5,18 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Pickups
+namespace ZeldaDungeon.Entities.Items
 {
-    public class RupyPickup : IPickup
+    public class BowItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateRupy();
-
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateBow();
+        private static int width = 16;
+        private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
-        public bool HoldsUp { get => false; }
-        public RupyPickup(Point position)
+        public BowItem(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
-			int height = (int)SpriteUtil.SpriteSize.RupyLength;
+            int width = (int)SpriteUtil.SpriteSize.BowWidth;
+			int height = (int)SpriteUtil.SpriteSize.BowLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -24,7 +24,7 @@ namespace ZeldaDungeon.Entities.Pickups
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void PickUp(ILink player)
+        public void UseOn(ILink player)
         {
             // do nothing, for now
         }

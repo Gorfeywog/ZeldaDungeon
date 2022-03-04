@@ -5,20 +5,30 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
-using ZeldaDungeon.Entities;
 
-namespace ZeldaDungeon.InventoryItems
+namespace ZeldaDungeon.Entities.Items
 {
-    public class CandleItem : IItem
+	public class Candle : IItem
 	{
-        public bool Consumable { get => false; }
+        private ISprite sprite;
         private Game1 g;
         private bool isRed; // red ones can be used more than once per room
-        public CandleItem(Game1 g, bool isRed)
+        public Rectangle CurrentLoc { get; set; }
+        public Candle(Point position, Game1 g, bool isRed)
         {
+            int width = (int)SpriteUtil.SpriteSize.CandleWidth;
+			int height = (int)SpriteUtil.SpriteSize.CandleLength;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.g = g;
             this.isRed = isRed;
+            sprite = ItemSpriteFactory.Instance.CreateCandle(isRed);
         }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            sprite.Draw(spriteBatch, CurrentLoc);
+        }
+        public void Update() => sprite.Update();
+
         private static int offset = 32;
         public void UseOn(ILink player)
         {
@@ -27,23 +37,8 @@ namespace ZeldaDungeon.InventoryItems
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.RegisterProjectile(proj);
         }
-
-        public bool CanUseOn(ILink player) => true; // check for using blue candle only once per room?
-        public bool Equals(IItem other)
-        {
-            if (other is CandleItem otherCandle)
-            {
-                return this.g == otherCandle.g && (this.isRed == otherCandle.isRed);
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public override int GetHashCode()
-        {
-            return "candle".GetHashCode() ^ g.GetHashCode() ^ isRed.GetHashCode();
-        }
+        public void DespawnEffect() { }
+        public bool ReadyToDespawn => false;
     }
 }
 

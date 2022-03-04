@@ -5,25 +5,20 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
-using ZeldaDungeon.InventoryItems;
 
-namespace ZeldaDungeon.Entities.Pickups
+namespace ZeldaDungeon.Entities.Items
 {
-	public class Candle : IPickup
+	public class MagicArrowItem : IItem
 	{
-        private ISprite sprite;
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateMagicArrow(Direction.Up);
         private Game1 g;
-        private bool isRed; // red ones can be used more than once per room
         public Rectangle CurrentLoc { get; set; }
-        public bool HoldsUp { get => true; }
-        public Candle(Point position, Game1 g, bool isRed)
+        public MagicArrowItem(Point position, Game1 g)
         {
-            int width = (int)SpriteUtil.SpriteSize.CandleWidth;
-			int height = (int)SpriteUtil.SpriteSize.CandleLength;
+            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
+			int height = (int)SpriteUtil.SpriteSize.ArrowLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            this.g = g;
-            this.isRed = isRed;
-            sprite = ItemSpriteFactory.Instance.CreateCandle(isRed);
+            this.g=g;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -32,9 +27,11 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
 
         private static int offset = 32;
-        public void PickUp(ILink player)
+        public void UseOn(ILink player)
         {
-            player.AddItem(new CandleItem(g, isRed));
+            Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
+            IProjectile proj = new MagicArrowProjectile(loc, player.Direction, g);
+            g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

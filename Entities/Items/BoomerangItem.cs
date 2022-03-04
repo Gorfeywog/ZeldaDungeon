@@ -5,18 +5,16 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 using ZeldaDungeon.Entities.Projectiles;
-using ZeldaDungeon.InventoryItems;
 
-namespace ZeldaDungeon.Entities.Pickups
+namespace ZeldaDungeon.Entities.Items
 {
-	public class BoomerangPickup : IPickup
+	public class BoomerangItem : IItem
 	{
         private ISprite sprite;
         private bool isMagic;
         private Game1 g;
         public Rectangle CurrentLoc { get; set; }
-        public bool HoldsUp { get => true; }
-        public BoomerangPickup(Point position, Game1 g, bool isMagic)
+        public BoomerangItem(Point position, Game1 g, bool isMagic)
         {
             int width = (int)SpriteUtil.SpriteSize.BoomerangX;
 			int height = (int)SpriteUtil.SpriteSize.BoomerangY;
@@ -39,9 +37,11 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
 
         private static int offset = 32;
-        public void PickUp(ILink player)
+        public void UseOn(ILink player)
         {
-            player.AddItem(new BoomerangItem(g, isMagic));
+            Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
+            IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
+            g.RegisterProjectile(proj);
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

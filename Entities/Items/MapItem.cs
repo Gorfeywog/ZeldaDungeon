@@ -5,19 +5,17 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Pickups
+namespace ZeldaDungeon.Entities.Items
 {
-    public class HeartPickup : IPickup
+    public class MapItem : IItem
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateHeart();
-        private static int width = 16;
-        private static int height = 16;
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateMap();
+
         public Rectangle CurrentLoc { get; set; }
-        public bool HoldsUp { get => false; }
-        public HeartPickup(Point position)
+        public MapItem(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.HeartWidth;
-			int height = (int)SpriteUtil.SpriteSize.HeartLength;
+            int width = (int)SpriteUtil.SpriteSize.MapWidth;
+			int height = (int)SpriteUtil.SpriteSize.MapLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -25,9 +23,9 @@ namespace ZeldaDungeon.Entities.Pickups
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void PickUp(ILink player)
+        public void UseOn(ILink player)
         {
-            // heal link, once that's a thing we can do
+            // do nothing, for now
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

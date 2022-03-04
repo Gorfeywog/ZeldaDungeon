@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 	public class ArrowProjectile : IProjectile
 	{
 		private ISprite ArrowSprite { get; set; }
-		public Point CurrentPoint { get; private set; }
+		public Rectangle CurrentLoc { get; set; }
 		public bool ReadyToDespawn { get => currentFrame > maxFrame; }
 		private Direction orientation;
 		private static int maxFrame = 60; // chosen arbitrarily
@@ -20,7 +20,18 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public ArrowProjectile(Point position, Direction dir, Game1 g)
 		{
 			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir);
-			CurrentPoint = position;
+			Point size;
+			int width = (int)SpriteUtil.SpriteSize.ArrowWidth * SpriteUtil.SCALE_FACTOR;
+			int length = (int)SpriteUtil.SpriteSize.ArrowLength * SpriteUtil.SCALE_FACTOR;
+			if (dir == Direction.Left || dir == Direction.Right)
+			{
+				size = new Point(length, width);
+			}
+			else
+			{
+				size = new Point(width, length);
+			}
+			CurrentLoc = new Rectangle(position, size);
 			orientation = dir;
 			currentFrame = 0;
 			this.g = g;
@@ -28,12 +39,12 @@ namespace ZeldaDungeon.Entities.Projectiles
 
 		public void Move()
 		{
-			CurrentPoint = EntityUtils.Offset(CurrentPoint, orientation, speed);
+			CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, orientation, speed), CurrentLoc.Size);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			ArrowSprite.Draw(spriteBatch, CurrentPoint);
+			ArrowSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()
@@ -42,6 +53,6 @@ namespace ZeldaDungeon.Entities.Projectiles
 			Move();
 			ArrowSprite.Update();
 		}
-		public void DespawnEffect() => g.RegisterProjectile(new HitEffect(CurrentPoint));
+		public void DespawnEffect() => g.RegisterProjectile(new HitEffect(CurrentLoc.Location));
 	}
 }

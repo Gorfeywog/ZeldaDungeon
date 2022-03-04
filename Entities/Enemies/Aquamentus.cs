@@ -11,9 +11,10 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Aquamentus : IEnemy
 	{
 		public ISprite AquamentusSprite { get; set; }
+		public Rectangle CurrentLoc { get; set; }
+		private CollisionHandler collision;
+		private int initX;
 
-		private int posX;
-		private int posY;
 		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
@@ -23,8 +24,11 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Aquamentus(Point position, Game1 g)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
-			posX = position.X;
-			posY = position.Y;
+			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
+			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+			collision = new CollisionHandler((List<IEntity>)g.CurrentRoom.roomEntities, this);
+			initX = position.X;
 			rand = new Random();
 			movingLeft = true;
 			this.g = g;
@@ -41,20 +45,35 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			if (movingLeft)
             {
-				posX -= 8;
+				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size)))
+                {
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
+				}
+				if (CurrentLoc.X < initX - 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+				{
+					movingLeft = !movingLeft;
+				}
 			} else
             {
-				posX += 8;
-            }
+				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size)))
+                {
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
+				}
+				if (CurrentLoc.X > initX + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+				{
+					movingLeft = !movingLeft;
+				}
+			}
 
 		}
 
 		public void Attack()
 		{
 			int fireballChange = rand.Next(3) - 1;
-			IProjectile fireballUp = new Fireball(new Point(posX, posY), -4, 1 + fireballChange);
-			IProjectile fireballStraight = new Fireball(new Point(posX, posY), -4, fireballChange);
-			IProjectile fireballDown = new Fireball(new Point(posX, posY), -4, -1 + fireballChange);
+			int fireballVel = -4;
+			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, 1 + fireballChange);
+			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange);
+			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, -1 + fireballChange);
 			g.RegisterProjectile(fireballUp);
 			g.RegisterProjectile(fireballStraight);
 			g.RegisterProjectile(fireballDown);
@@ -67,7 +86,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			AquamentusSprite.Draw(spriteBatch, new Point(posX, posY));
+			AquamentusSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

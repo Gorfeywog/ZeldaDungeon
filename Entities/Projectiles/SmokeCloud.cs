@@ -13,15 +13,17 @@ namespace ZeldaDungeon.Entities.Projectiles
         private static int smokeTime = 56; // 7*8 for 7 stages of cloud, 8 frames per?
         private int timer = smokeTime; // counts down
         private ISprite sprite = EnemySpriteFactory.Instance.CreateCloudSprite();
-        public Point CurrentPoint { get; private set; }
+        public Rectangle CurrentLoc { get; set; }
         public bool ReadyToDespawn { get => timer <= 0; }
         public SmokeCloud(Point position)
         {
-            CurrentPoint = position;
+            int width = (int)SpriteUtil.SpriteSize.CloudX;
+			int height = (int)SpriteUtil.SpriteSize.CloudY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, CurrentPoint);
+            sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void DespawnEffect() { }
         public void Update()

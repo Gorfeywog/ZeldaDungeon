@@ -9,16 +9,16 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Stalfos : IEnemy
 	{
 		public ISprite StalfosSprite { get; set; }
-		private int posX;
-		private int posY;
+		public Rectangle CurrentLoc { get; set; }
 		private Random rand;
 		private int currentFrame;
 
 		public Stalfos(Point position)
 		{
 			StalfosSprite = EnemySpriteFactory.Instance.CreateStalfosSprite();
-			posX = position.X;
-			posY = position.Y;
+			int width = (int)SpriteUtil.SpriteSize.StalfosX;
+			int height = (int)SpriteUtil.SpriteSize.StalfosY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			rand = new Random();
 			currentFrame = 0;
 		}
@@ -27,10 +27,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			if (rand.Next(2) == 0)
             {
-				posX += 8 * rand.Next(3) - 8;
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y), CurrentLoc.Size); ;
 			} else
 			{
-				posY += 8 * rand.Next(3) - 8;
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size);
 			}
 
 		}
@@ -47,7 +47,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			StalfosSprite.Draw(spriteBatch, new Point(posX, posY));
+			StalfosSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

@@ -9,14 +9,14 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Trap : IEnemy
 	{
 		public ISprite TrapSprite { get; set; }
-		private int posX;
-		private int posY;
+		public Rectangle CurrentLoc { get; set; }
 
 		public Trap(Point position)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
-			posX = position.X;
-			posY = position.Y;
+			int width = (int)SpriteUtil.SpriteSize.TrapX;
+			int height = (int)SpriteUtil.SpriteSize.TrapY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 		}
 
 		public void Move()
@@ -36,7 +36,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		
 		public void Draw(SpriteBatch spriteBatch)
         {
-			TrapSprite.Draw(spriteBatch, new Point(posX, posY));
+			TrapSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()

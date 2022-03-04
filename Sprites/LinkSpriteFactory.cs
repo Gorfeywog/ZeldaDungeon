@@ -4,19 +4,16 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ZeldaDungeon.Sprites.LinkSprites;
+using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Sprites
 {
     public class LinkSpriteFactory
     {
         private Texture2D linkSpriteSheet;
-        private static readonly int gridX = 32;
-        private static readonly int gridY = 32;
 
         private static LinkSpriteFactory instance = new LinkSpriteFactory();
 
-        
         public static LinkSpriteFactory Instance
         {
             get
@@ -33,89 +30,99 @@ namespace ZeldaDungeon.Sprites
         }
         public ISprite CreateAttackingLeftLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 27, 16, GridToPoint(2,4), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(2,4, 27, 16), damaged);
         }
 
         public ISprite CreateAttackingRightLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 27, 16, GridToPoint(3,4), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(3,4, 27, 16), damaged);
         }
 
         public ISprite CreateAttackingUpLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 27, GridToPoint(0,4), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0,4, 16, 27), damaged);
         }
 
         public ISprite CreateAttackingDownLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 27, GridToPoint(1,4), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(1,4, 16, 27), damaged);
         }
         public ISprite CreateIdleLeftLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 2), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 16, 16), damaged);
         }
 
         public ISprite CreateIdleRightLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 3), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0, 3, 16, 16), damaged);
         }
 
         public ISprite CreateIdleUpLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 0), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0, 0, 16, 16), damaged);
         }
 
         public ISprite CreateIdleDownLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(0, 1), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0, 1, 16, 16), damaged);
         }
 
         public ISprite CreateUILeftLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(3, 5), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(3, 5, 16, 16), damaged);
         }
 
         public ISprite CreateUIRightLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(4, 5), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(4, 5, 16, 16), damaged);
         }
 
         public ISprite CreateUIUpLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(5, 5), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(5, 5, 16, 16), damaged);
         }
 
         public ISprite CreateUIDownLink(bool damaged = false)
         {
-            return new StaticLinkSprite(linkSpriteSheet, 16, 16, GridToPoint(2, 5), damaged);
+            return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(2, 5, 16, 16), damaged);
         }
         public ISprite CreateWalkingLeftLink(bool damaged = false)
         {
-            Point[] topLefts = { GridToPoint(0, 2), GridToPoint(1, 2) };
-            return new AnimatedLinkSprite(linkSpriteSheet, 16, 16, topLefts, damaged);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 2, 16, 16), SpriteUtil.GridToRectangle(1, 2, 16, 16) };
+            return new AnimatedSprite(linkSpriteSheet, sourceRectangles, damaged);
         }
 
         public ISprite CreateWalkingRightLink(bool damaged = false)
         {
-            Point[] topLefts = { GridToPoint(0, 3), GridToPoint(1, 3) };
-            return new AnimatedLinkSprite(linkSpriteSheet, 16, 16, topLefts, damaged);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 3, 16, 16), SpriteUtil.GridToRectangle(1, 3, 16, 16) };
+            return new AnimatedSprite(linkSpriteSheet, sourceRectangles, damaged);
         }
 
         public ISprite CreateWalkingUpLink(bool damaged = false)
         {
-            Point[] topLefts = { GridToPoint(0, 0), GridToPoint(1, 0) };
-            return new AnimatedLinkSprite(linkSpriteSheet, 16, 16, topLefts, damaged);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 0, 16, 16), SpriteUtil.GridToRectangle(1, 0, 16, 16) };
+            return new AnimatedSprite(linkSpriteSheet, sourceRectangles, damaged);
         }
 
         public ISprite CreateWalkingDownLink(bool damaged = false)
         {
-            Point[] topLefts = { GridToPoint(0, 1), GridToPoint(1, 1) };
-            return new AnimatedLinkSprite(linkSpriteSheet, 16, 16, topLefts, damaged);
+            Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, 16, 16), SpriteUtil.GridToRectangle(1, 1, 16, 16) };
+            return new AnimatedSprite(linkSpriteSheet, sourceRectangles, damaged);
         }
-
-        private static Point GridToPoint(int x, int y) // convert grid position to position in pixels
+        private static Random r = new Random();
+        private static int evilChance = 10;
+        public ISprite CreatePickupLink(bool damaged = false)
         {
-            return new Point(gridX * x, gridY * y);
+            Rectangle sourceRectangle;
+            if (r.Next(evilChance) == 0)
+            {
+                sourceRectangle = SpriteUtil.GridToRectangle(2, 3, 16, 16);
+            }
+            else
+            {
+                sourceRectangle = SpriteUtil.GridToRectangle(3, 3, 16, 16);
+            }
+            return new StaticSprite(linkSpriteSheet, sourceRectangle, damaged);
         }
     }
 }

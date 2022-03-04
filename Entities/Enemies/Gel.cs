@@ -9,16 +9,17 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Gel : IEnemy
 	{
 		public ISprite GelSprite { get; set; }
-		private int posX;
-		private int posY;
 		private Random rand;
 		private int currentFrame;
+
+		public Rectangle CurrentLoc { get; set; }
 
 		public Gel(Point position)
 		{
 			GelSprite = EnemySpriteFactory.Instance.CreateGelSprite();
-			posX = position.X;
-			posY = position.Y;
+			int width = (int)SpriteUtil.SpriteSize.GelX;
+			int height = (int)SpriteUtil.SpriteSize.GelY;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			rand = new Random();
 			currentFrame = 0;
 		}
@@ -28,11 +29,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			int movingNum = rand.Next(5);
 			if (movingNum < 2)
 			{
-				posX += 8 * rand.Next(3) - 8;
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y), CurrentLoc.Size);
 			}
 			else if (movingNum > 2)
 			{
-				posY += 8 * rand.Next(3) - 8;
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size);
 			}
 
 		}
@@ -49,7 +50,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			GelSprite.Draw(spriteBatch, new Point(posX, posY));
+			GelSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
 		public void Update()
@@ -63,5 +64,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;
+
 	}
 }

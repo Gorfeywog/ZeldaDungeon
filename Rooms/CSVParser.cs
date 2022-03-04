@@ -12,9 +12,11 @@ namespace ZeldaDungeon.Rooms
     /*
      * LAYOUT OF A VALID CSV FILE:
      * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, items, etc.
-     * 1 row of 2 entries representing an ordered pair, representing the location of the room
+     * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
      * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*.
      * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door.
+     *      note that for top and bottom doors, Link spawns on the seam of two tiles. To account for this, these must be parsed
+     *      as a floating point type! for the default door spawns, this is 2;5,7.5;8,13;5,7.5;2
      * nothing here yet, possibly a boolean to represent whether it's a normal room (walls and doors) or a ladder room
      */
     public class CSVParser
@@ -64,7 +66,7 @@ namespace ZeldaDungeon.Rooms
         }
         public Point ParsePos()
         {
-            string[] posRow = lines[height].Split(',');
+            string[] posRow = lines[height].Split(';');
             int rawX = int.Parse(posRow[0]);
             int rawY = int.Parse(posRow[1]);
             return new Point(rawX, rawY);
@@ -117,5 +119,6 @@ namespace ZeldaDungeon.Rooms
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+        
     }
 }

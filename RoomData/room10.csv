@@ -9,5 +9,6 @@ wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
-3,2
+3;2
 ld,hd,od,nd
+2;5,7.5;8,13;5,7.5;2

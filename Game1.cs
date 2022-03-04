@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
@@ -104,7 +105,8 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, this);
+            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntitiesEL);
+            Player.UpdateList(CurrentRoom.roomEntitiesEL);
         }
         private const string roomDataPath = @"RoomData";
         public void SetupRooms()
@@ -180,7 +182,8 @@ namespace ZeldaDungeon
         {
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
-            Player.roomEntities = CurrentRoom.roomEntitiesEL;
+            Player.UpdateList(CurrentRoom.roomEntitiesEL);
+            entityList.UpdateList(CurrentRoom.roomEntitiesEL);
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -191,9 +194,9 @@ namespace ZeldaDungeon
                 // TODO - check door state for validity of this!
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
-                Player.roomEntities = CurrentRoom.roomEntitiesEL;
-                entityList.UpdateList(CurrentRoom.roomEntitiesEL);
             }
+            Player.UpdateList(CurrentRoom.roomEntitiesEL);
+            entityList.UpdateList(CurrentRoom.roomEntitiesEL);
         }
 
         public void UnlockRoomDoor(Direction dir)

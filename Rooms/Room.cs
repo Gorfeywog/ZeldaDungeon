@@ -38,7 +38,6 @@ namespace ZeldaDungeon.Rooms
             roomEntities = new List<IEntity>();
             roomEntitiesEL = new EntityList(roomEntities);
             roomBlocks = new List<IBlock>();
-            roomEntities = new List<IEntity>();
             pickups = new List<IPickup>();
             // this evil nested loop should probably live in its own method
             for (int i = 0; i < data.GetLength(0); i++)

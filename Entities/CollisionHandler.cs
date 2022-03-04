@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
@@ -32,7 +33,7 @@ namespace ZeldaDungeon.Entities
             blockEntities.Clear();
             foreach (IEntity ent in roomEntities)
             {
-                if (ent is IBlock) blockEntities.Add((IBlock)ent);
+                if (ent is IBlock block) blockEntities.Add(block);
             }
         }
         public bool WillHitBlock(Rectangle nextLoc)
@@ -41,9 +42,8 @@ namespace ZeldaDungeon.Entities
             {
                 if (isFlying) 
                 {
-                    if (block is BlueUnwalkableGapBlock && DetectCollision(nextLoc, block.CurrentLoc)) 
+                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
                     {
-                        Console.WriteLine("Gets through the if statement.");
                         return true;
                     }
                     else return false;

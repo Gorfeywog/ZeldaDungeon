@@ -15,6 +15,7 @@ namespace ZeldaDungeon.Entities
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();
         public void StopWalking();
+        public void UpdateList(EntityList roomEntities);
         public void TakeDamage();
         public void PickUp(IPickup pickup);
         public bool CanPickUp();

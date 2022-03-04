@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using System.Diagnostics;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -41,6 +42,10 @@ namespace ZeldaDungeon.Entities.Enemies
             {
 				CurrentLoc = newPos;
 			}
+            else
+            {
+				Debug.WriteLine("It finally failed!!!!");
+            }
 		}
 
 		public void Attack()

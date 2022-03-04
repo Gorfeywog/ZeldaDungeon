@@ -140,10 +140,10 @@ namespace ZeldaDungeon.Rooms
             // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
-                Direction.Up => new Point(224, 0),
-                Direction.Left => new Point(0, 144),
-                Direction.Right => new Point(448, 144),
-                Direction.Down => new Point(224, 288),
+                Direction.Up => new Point(112 * SpriteUtil.SCALE_FACTOR, 0),
+                Direction.Left => new Point(0, 72 * SpriteUtil.SCALE_FACTOR),
+                Direction.Right => new Point(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR),
+                Direction.Down => new Point(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR),
                 _ => throw new ArgumentException()
             };
             return topLeft + offset;

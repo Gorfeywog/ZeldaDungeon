@@ -4,16 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class BombItem : IItem
+    public class BombPickup : IPickup
     {
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb();
         private Game1 g;
         public Rectangle CurrentLoc { get; set; }
-        public BombItem(Point position, Game1 g)
+        public bool HoldsUp { get => false; }
+        public BombPickup(Point position, Game1 g)
         {
             int width = (int)SpriteUtil.SpriteSize.BombWidth;            
             int height = (int)SpriteUtil.SpriteSize.BombLength;            
@@ -26,12 +28,9 @@ namespace ZeldaDungeon.Entities.Items
         }
         public void Update() => sprite.Update();
         private static int offset = 32; // how far to place from Link
-        public void UseOn(ILink player)
+        public void PickUp(ILink link)
         {
-            // uses player.Position rather than player.Center since is about the size of Link
-            Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
-            IProjectile proj = new BombProjectile(loc, g);
-            g.RegisterProjectile(proj);
+            link.AddItem(new BombItem(g));
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

@@ -5,17 +5,20 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Items
+namespace ZeldaDungeon.Entities.Pickups
 {
-    public class RupyItem : IItem
+    public class KeyPickup : IPickup
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateRupy();
-
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateKey();
+        private static int width = 16;
+        private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
-        public RupyItem(Point position)
+        public bool HoldsUp { get => true; }
+
+        public KeyPickup(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
-			int height = (int)SpriteUtil.SpriteSize.RupyLength;
+            int width = (int)SpriteUtil.SpriteSize.KeyWidth;
+			int height = (int)SpriteUtil.SpriteSize.KeyLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -23,7 +26,7 @@ namespace ZeldaDungeon.Entities.Items
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        public void UseOn(ILink player)
+        public void PickUp(ILink player)
         {
             // do nothing, for now
         }

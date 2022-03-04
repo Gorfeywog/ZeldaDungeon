@@ -71,6 +71,22 @@ namespace ZeldaDungeon.Rooms
             int rawY = int.Parse(posRow[1]);
             return new Point(rawX, rawY);
         }
+
+        public Point[] ParseLinkSpawns(int tileSize) // tileSize should be 32 at the default scale, for instance
+        {
+            var spawns = new Point[4];
+            string[] spawnsRow = lines[height + 2].Split(',');
+            for (int i = 0; i < 4; i++)
+            {
+                string[] spawn = spawnsRow[i].Split(';');
+                float rawX = float.Parse(spawn[0]);
+                int fixedX = (int)Math.Round(rawX * tileSize);
+                float rawY = float.Parse(spawn[1]);
+                int fixedY = (int)Math.Round(rawY * tileSize);
+                spawns[i] = new Point(fixedX, fixedY);
+            }
+            return spawns;
+        }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {
             return token switch

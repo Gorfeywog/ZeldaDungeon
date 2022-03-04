@@ -7,7 +7,8 @@ using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
-using ZeldaDungeon.Entities.Items;
+using ZeldaDungeon.InventoryItems;
+using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
@@ -39,8 +40,8 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 256*SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
-            _graphics.PreferredBackBufferHeight = 176*SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
+            _graphics.PreferredBackBufferWidth = 256*2;  // make window the size of a room, so there's no weird dead space
+            _graphics.PreferredBackBufferHeight = 176*2; // probably should change this whenever we introduce UI
             _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
             SetupRooms();
             SetupPlayer();
@@ -107,12 +108,13 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, (List<IEntity>)CurrentRoom.roomEntities);
+            Player = new Link(CurrentRoom.linkDefaultSpawn);
         }
+        private const int TotalRoomCount = 17;
         public void SetupRooms()
         {
             rooms = new List<Room>();
-            for (int i = 0; i <= 16; i++)
+            for (int i = 0; i <= TotalRoomCount; i++)
             {
                 rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
             }
@@ -151,26 +153,17 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.N, linkAttack);
             keyboardController.RegisterCommand(Keys.O, new DecRoom(this));
             keyboardController.RegisterCommand(Keys.P, new IncRoom(this));
-            Point dummyItemSpawn = new Point(0); // the position doesn't matter since it only appears through Link
-            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new MagicArrowItem(dummyItemSpawn, this)));
-            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new Candle(dummyItemSpawn, this, true)));
-            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, false)));
-            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(dummyItemSpawn, this, true)));
-            keyboardController.RegisterCommand(Keys.D7, new LinkUseItem(this, new HeartItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D8, new LinkUseItem(this, new KeyItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D9, new LinkUseItem(this, new RupyItem(dummyItemSpawn)));
-            keyboardController.RegisterCommand(Keys.D0, new LinkUseItem(this, new TriforcePieceItem(dummyItemSpawn)));
+            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(this)));
+            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(this, false)));
+            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new ArrowItem(this, true)));
+            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new CandleItem(this, true)));
+            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(this, false)));
+            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(this, true)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-            mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 0, 32 * SpriteUtil.SCALE_FACTOR, 
-                32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
-            mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR,
-                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
-            mouseController.RegisterCommand(new Rectangle(0, 72 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR,
-                32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
-            mouseController.RegisterCommand(new Rectangle(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR,
-                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
+            mouseController.RegisterCommand(new Rectangle(224, 0, 64, 64), new LinkUseDoor(this, Direction.Up));
+            mouseController.RegisterCommand(new Rectangle(224, 288, 64, 64), new LinkUseDoor(this, Direction.Down));
+            mouseController.RegisterCommand(new Rectangle(0, 144, 64, 64), new LinkUseDoor(this, Direction.Left));
+            mouseController.RegisterCommand(new Rectangle(448, 144, 64, 64), new LinkUseDoor(this, Direction.Right));
         }
 
         public void RegisterProjectile(IProjectile p) // strongly consider moving this to either Room or a dedicated type
@@ -182,7 +175,6 @@ namespace ZeldaDungeon
         {
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
-            Player.entityList = (List<IEntity>)CurrentRoom.roomEntities;
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -193,7 +185,6 @@ namespace ZeldaDungeon
                 // TODO - check door state for validity of this!
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
-                Player.entityList = (List<IEntity>)CurrentRoom.roomEntities;
             }
         }
 

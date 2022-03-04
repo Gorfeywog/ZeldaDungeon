@@ -13,7 +13,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public ISprite GoriyaSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 
-		private Random rand;
 		private int currentFrame;
 		private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
 		private Game1 g;
@@ -39,14 +38,13 @@ namespace ZeldaDungeon.Entities.Enemies
 			this.g = g;
 			currDirection = Direction.Left;
 			currentFrame = 0;
-			rand = new Random();
 		}
 
 		public void Move()
 		{
 			//One in four chance to change directions
-			if (rand.Next(4) == 0) {
-				switch (rand.Next(4)) // consider moving the sprite selection logic to EnemySpriteFactory
+			if (SpriteUtil.Rand.Next(4) == 0) {
+				switch (SpriteUtil.Rand.Next(4)) // consider moving the sprite selection logic to EnemySpriteFactory
 				{
 					case 0:
 						currDirection = Direction.Left;
@@ -149,7 +147,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Move();
 			}
-			if (currentFrame % 128 == 0 && rand.Next(2) == 0)
+			if (currentFrame % 128 == 0 && SpriteUtil.Rand.Next(2) == 0)
 			{
 				Attack();
 			}

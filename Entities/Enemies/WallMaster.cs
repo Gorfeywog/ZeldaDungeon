@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite WallMasterSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		private Random rand;
+
 		private int currentFrame;
 
 		private Direction currDirection;
@@ -24,16 +24,15 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 
-			rand = new Random();
 
 		}
 
 		public void Move()
 		{
 			//One in eight chance to change directions
-			if (rand.Next(8) == 0)
+			if (SpriteUtil.Rand.Next(8) == 0)
 			{
-				switch (rand.Next(4))
+				switch (SpriteUtil.Rand.Next(4))
 				{
 					case 0:
 						currDirection = Direction.SE;

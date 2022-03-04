@@ -15,7 +15,6 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		private int initX;
 
-		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
 		private Game1 g;
@@ -29,7 +28,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			initX = position.X;
 
-			rand = new Random();
 			movingLeft = true;
 			this.g = g;
 			currentFrame = 0;
@@ -38,7 +36,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in four chance per move for aquamentus to change direction
-			if (rand.Next(4) == 0)
+			if (SpriteUtil.Rand.Next(4) == 0)
             {
 				movingLeft = !movingLeft;
             }
@@ -63,7 +61,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			int fireballChange = rand.Next(3) - 1;
+			int fireballChange = SpriteUtil.Rand.Next(3) - 1;
 			int fireballVel = -4;
 			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, 1 + fireballChange);
 			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange);
@@ -91,7 +89,7 @@ namespace ZeldaDungeon.Entities.Enemies
             {
 				Move();
             }
-			if (currentFrame % 64 == 0 && rand.Next(4) == 0)
+			if (currentFrame % 64 == 0 && SpriteUtil.Rand.Next(4) == 0)
             {
 				Attack();
             }

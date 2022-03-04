@@ -9,6 +9,14 @@ using ZeldaDungeon.Entities.Pickups;
 
 namespace ZeldaDungeon.Rooms
 {
+    /*
+     * LAYOUT OF A VALID CSV FILE:
+     * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, items, etc.
+     * 1 row of 2 entries representing an ordered pair, representing the location of the room
+     * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*.
+     * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door.
+     * nothing here yet, possibly a boolean to represent whether it's a normal room (walls and doors) or a ladder room
+     */
     public class CSVParser
     {
         private const int width = 16;
@@ -39,10 +47,10 @@ namespace ZeldaDungeon.Rooms
         public DoorState[] ParseDoorState()
         {
             DoorState[] states = new DoorState[4];
-            string[] lastRow = lines[height].Split(',');
+            string[] doorRow = lines[height+1].Split(',');
             for (int i = 0; i < 4; i++)
             {
-                states[i] = lastRow[i] switch
+                states[i] = doorRow[i] switch
                 {
                     "od" => DoorState.Open,
                     "cd" => DoorState.Closed,
@@ -56,9 +64,9 @@ namespace ZeldaDungeon.Rooms
         }
         public Point ParsePos()
         {
-            string[] lastRow = lines[height].Split(',');
-            int rawX = int.Parse(lastRow[4]);
-            int rawY = int.Parse(lastRow[5]);
+            string[] posRow = lines[height].Split(',');
+            int rawX = int.Parse(posRow[0]);
+            int rawY = int.Parse(posRow[1]);
             return new Point(rawX, rawY);
         }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!

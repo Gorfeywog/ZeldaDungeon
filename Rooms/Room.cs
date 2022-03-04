@@ -151,7 +151,7 @@ namespace ZeldaDungeon.Rooms
 
         public Point LinkDoorSpawn(Direction dir)
         {
-            Point doorPos = DoorPos(dir);
+            Point doorPos = doors[dir].CurrentLoc.Center;
             return EntityUtils.Offset(doorPos, dir, -32);
         }
 

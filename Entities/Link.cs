@@ -14,8 +14,6 @@ public class Link : ILink
     private ISprite linkSprite;
 	private IPickup heldItem; // null if he has never held an item up, may hold stale data
                               // note that it's a pickup and not a real item
-    private const int heldItemMaxTime = 10; // how long he holds an item up
-    private int heldItemCountDown;
 	private LinkInventory inv { get; set; }
     private Game1 g;
 
@@ -23,9 +21,9 @@ public class Link : ILink
     private CollisionHandler collision;
     
     public Rectangle CurrentLoc { get; set; }
-    public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
+    public Point Center { get => CurrentLoc.Center; }
     public Direction Direction { get => stateMachine.CurrentDirection; }
-
+    
 
     public Link(Point position, Game1 g)
     {

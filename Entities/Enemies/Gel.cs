@@ -37,13 +37,13 @@ namespace ZeldaDungeon.Entities.Enemies
 			Rectangle newPos;
 			if (movingNum < 2)
 			{
-				newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove-8), CurrentLoc.Size);
+				newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove-8, CurrentLoc.Y), CurrentLoc.Size);
 				if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 				
 			}
 			else if (movingNum > 2)
 			{
-				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove - 8), CurrentLoc.Size);
+				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove-8), CurrentLoc.Size);
 				if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 			}
 

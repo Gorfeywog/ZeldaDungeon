@@ -43,6 +43,7 @@ namespace ZeldaDungeon
             _graphics.PreferredBackBufferHeight = 176 * SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
             _graphics.ApplyChanges();                                            // but I like the idea of fixing the size.
             SetupRooms();
+            entityList = new EntityList(CurrentRoom.roomEntities);
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
@@ -59,7 +60,7 @@ namespace ZeldaDungeon
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
             DoorSpriteFactory.Instance.LoadAllTextures(Content);
             SpecialSpriteFactory.Instance.LoadAllTextures(Content);
-            entityList = new EntityList(CurrentRoom.roomEntities);
+
         }
 
         protected override void Update(GameTime gameTime)

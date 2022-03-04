@@ -9,7 +9,6 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Gel : IEnemy
 	{
 		public ISprite GelSprite { get; set; }
-		private Random SpriteUtil.Rand;
 		private int currentFrame;
 
 		public Rectangle CurrentLoc { get; set; }

@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities.Blocks;
+using ZeldaDungeon.Entities.Enemies;
 
 namespace ZeldaDungeon.Entities
 {
     public class CollisionHandler
     {
         EntityList roomEntities;
+        IList<IBlock> blockEntities;
         IDictionary<IEntity, Direction> Collisions;
         IEntity ActualEntity;
+        bool isFlying;
         int dx, dy;
 
         public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
@@ -18,22 +21,27 @@ namespace ZeldaDungeon.Entities
             this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
+            if (ActualEntity is Keese || ActualEntity is WallMaster) isFlying = true;
+            else isFlying = false;
+            blockEntities = new List<IBlock>();
         }
 
         public void ChangeRooms(EntityList newList)
         {
             roomEntities = newList;
+            blockEntities.Clear();
+            foreach (IEntity ent in roomEntities)
+            {
+                if (ent is IBlock) blockEntities.Add((IBlock)ent);
+            }
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
-            IList<IBlock> roomBlocks = new List<IBlock>();
-            foreach (IEntity ent in roomEntities)
+            foreach (IBlock block in blockEntities)
             {
-                if (ent is IBlock) roomBlocks.Add((IBlock)ent);
-            }
-            foreach (IBlock block in roomBlocks)
-            {
-                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                if (isFlying && block is BlueUnwalkableGapBlock 
+                    && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                else if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
             }
             return false;
         }

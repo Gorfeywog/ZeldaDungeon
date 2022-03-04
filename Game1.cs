@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
-using ZeldaDungeon.Entities.Blocks;
-using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.InventoryItems;
-using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
@@ -20,7 +18,7 @@ namespace ZeldaDungeon
         private SpriteBatch _spriteBatch;
         private KeyboardController keyboardController;
         private MouseController mouseController;
-        private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
+        private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type, or move it into Room?
         public ILink Player { get; private set; }
         private IList<Room> rooms;
         public int CurrentRoomIndex { get; private set; }
@@ -42,7 +40,7 @@ namespace ZeldaDungeon
             base.Initialize();
             _graphics.PreferredBackBufferWidth = 256 * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
             _graphics.PreferredBackBufferHeight = 176 * SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
-            _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
+            _graphics.ApplyChanges();                                            // but I like the idea of fixing the size.
             SetupRooms();
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
@@ -71,8 +69,7 @@ namespace ZeldaDungeon
             mouseController.ExecuteCommands();
             CurrentRoom.UpdateAll();
             var toBeRemoved = new List<IProjectile>();
-            int len = projectiles.Count; // despawn effects may register new projectiles, so can't foreach
-            for(int i = 0; i < len; i++)
+            for(int i = 0; i < projectiles.Count; i++)
             {
                 IProjectile p = projectiles[i];
                 p.Update();
@@ -82,10 +79,7 @@ namespace ZeldaDungeon
                     toBeRemoved.Add(p);
                 }
             }
-            foreach (IProjectile p in toBeRemoved)
-            {
-                projectiles.Remove(p);
-            }
+            toBeRemoved.ForEach(p => projectiles.Remove(p));
             Player.Update();
 
             base.Update(gameTime);
@@ -93,9 +87,8 @@ namespace ZeldaDungeon
 
         protected override void Draw(GameTime gameTime)
         {
-            // consider also scaling by a matrix, maybe?
             Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black); // this affects at least the old man room, maybe some others too
             _spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(_spriteBatch);
             foreach (IProjectile p in projectiles)
@@ -110,13 +103,18 @@ namespace ZeldaDungeon
         {
             Player = new Link(CurrentRoom.linkDefaultSpawn, this);
         }
-        private const int TotalRoomCount = 17;
+        private const string roomDataPath = @"RoomData";
         public void SetupRooms()
         {
             rooms = new List<Room>();
-            for (int i = 0; i <= TotalRoomCount; i++) // this loop is godawful! learn how files work!
+            var paths = Directory.GetFiles(roomDataPath);
+            Array.Sort(paths); // likely unnecessary, but ensures that room numbering internally is sane
+            foreach (string path in Directory.GetFiles(roomDataPath) )
             {
-                rooms.Add(new Room(this, @"RoomData\Room" + i + ".csv")); // has to be after LoadContent, since this uses sprites
+                if (path.EndsWith(".csv"))
+                {
+                    rooms.Add(new Room(this, path));
+                }
             }
             CurrentRoomIndex = 1;
         }

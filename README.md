@@ -13,3 +13,6 @@ Sprint_2:
 		- Sprites - Contains the ISprite interface, which is implemented by the classes contained in BlockSprites, EnemySprites, ItemSprites, and LinkSprites. To reduce the amount of 
 					classes our project contains, we used two classes for each possible sprite to be generated on the screen: animated and static. The sprite factories are also held here, 
 					which handles what sprites from the texture atlas will be passed into the animated or static sprite classes.
+
+Notable changes from the original NES game includes the wall master enemy was changed from orthogonal movement to diagonal movement. The group decided to make it a flying enemy, 
+similar to the keese, rather than a walking enemy.

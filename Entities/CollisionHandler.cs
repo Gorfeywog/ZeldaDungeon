@@ -8,19 +8,19 @@ namespace ZeldaDungeon.Entities
 {
     class CollisionHandler
     {
-        List<IEntity> roomEntities;
+        IList<IEntity> roomEntities;
         IDictionary<IEntity, Direction> Collisions;
         IEntity ActualEntity;
         int dx, dy;
 
-        public CollisionHandler(List<IEntity> roomEntities, IEntity ActualEntity)
+        public CollisionHandler(IList<IEntity> roomEntities, IEntity ActualEntity)
         {
             this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
         }
 
-        public void changeRooms(List<IEntity> newList)
+        public void changeRooms(IList<IEntity> newList)
         {
             roomEntities = newList;
         }

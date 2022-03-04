@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using ZeldaDungeon;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
@@ -16,8 +17,9 @@ public class Link : ILink
     private const int heldItemMaxTime = 10; // how long he holds an item up
     private int heldItemCountDown;
 	private LinkInventory inv { get; set; }
+    private Game1 g;
 
-    public List<IEntity> entityList { get; set; }
+    private IList<IEntity> EntityList { get => g.CurrentRoom.roomEntities; }
     private CollisionHandler collision;
     
     public Rectangle CurrentLoc { get; set; }
@@ -25,15 +27,14 @@ public class Link : ILink
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
 
-    public Link(Point position, List<IEntity> entityList)
+    public Link(Point position, Game1 g)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
         int width = (int)SpriteUtil.SpriteSize.LinkX;
         int height = (int)SpriteUtil.SpriteSize.LinkY;
         CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-        this.entityList = entityList;
-        collision = new CollisionHandler(entityList, this);
+        collision = new CollisionHandler(EntityList, this);
     }
 
     public void ChangeDirection(Direction nextDirection)
@@ -93,7 +94,7 @@ public class Link : ILink
         }
         linkSprite.Update();
 
-        collision.changeRooms(entityList);
+        collision.changeRooms(EntityList);
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
             if (!collision.WillHitBlock(new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size)))

@@ -108,7 +108,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, (List<IEntity>)CurrentRoom.roomEntities);
+            Player = new Link(CurrentRoom.linkDefaultSpawn, this);
         }
         private const int TotalRoomCount = 17;
         public void SetupRooms()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
 public class Link : ILink
@@ -45,7 +46,7 @@ public class Link : ILink
         stateMachine.TakeDamage();
     }
 
-    public void UseItem(IItempublic void PickUp(IPickup pickup)
+    public void PickUp(IPickup pickup)
     {
         if (pickup.HoldsUp)
         {

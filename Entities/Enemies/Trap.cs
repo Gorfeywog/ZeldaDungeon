@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public ISprite TrapSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 
+		public CollisionHandler collision { get; set; }
 		public Trap(Point position)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
@@ -19,9 +20,14 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 		}
 
+		public void UpdateList(EntityList roomEntities)
+		{
+			//this.roomEntities = roomEntities;
+		}
+
 		public void Move()
 		{
-
+			//No movement so collision handling not necessary
 		}
 
 		public void Attack()

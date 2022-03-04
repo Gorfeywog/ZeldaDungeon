@@ -8,6 +8,10 @@ namespace ZeldaDungeon.Entities
 {
     public interface IEnemy : IEntity
     {
+        CollisionHandler collision { get; set; }
+
+        public void UpdateList(EntityList roomEntities);
+
         public void Attack();
 
         public void Move();

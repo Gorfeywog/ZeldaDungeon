@@ -22,6 +22,7 @@ namespace ZeldaDungeon
         private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type?
         public ILink Player { get; private set; }
         private IList<Room> rooms;
+        private EntityList entityList;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -42,7 +43,7 @@ namespace ZeldaDungeon
             _graphics.PreferredBackBufferWidth = 256*SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
             _graphics.PreferredBackBufferHeight = 176*SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
             _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
-            SetupRooms();
+
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
@@ -59,6 +60,8 @@ namespace ZeldaDungeon
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
             DoorSpriteFactory.Instance.LoadAllTextures(Content);
             SpecialSpriteFactory.Instance.LoadAllTextures(Content);
+            SetupRooms();
+            entityList = new EntityList(CurrentRoom.roomEntities);
         }
 
         protected override void Update(GameTime gameTime)
@@ -107,7 +110,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, (List<IEntity>)CurrentRoom.roomEntities);
+            Player = new Link(CurrentRoom.linkDefaultSpawn,entityList);
         }
         public void SetupRooms()
         {
@@ -182,7 +185,7 @@ namespace ZeldaDungeon
         {
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
-            Player.entityList = (List<IEntity>)CurrentRoom.roomEntities;
+            Player.EntityList_ = CurrentRoom.roomEntitiesEL;
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -193,7 +196,8 @@ namespace ZeldaDungeon
                 // TODO - check door state for validity of this!
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
-                Player.entityList = (List<IEntity>)CurrentRoom.roomEntities;
+                Player.EntityList_ = CurrentRoom.roomEntitiesEL;
+                entityList.UpdateList(CurrentRoom.roomEntitiesEL);
             }
         }
 

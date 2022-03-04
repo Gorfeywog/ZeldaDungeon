@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite KeeseSprite { get; set; }
 
+		public CollisionHandler collision { get; set; }
+		public EntityList roomEntities;
 		public Rectangle CurrentLoc {get; set;}
 
 		private Random rand;
@@ -23,12 +25,21 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			rand = new Random();
 			currentFrame = 0;
+			collision = new CollisionHandler(roomEntities, this);
+		}
+
+		public void UpdateList(EntityList roomEntities)
+        {
+            this.roomEntities = roomEntities;
+			collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
 		{
-			CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size);
-
+			if (collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size)))
+            {
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * rand.Next(3) - 8, CurrentLoc.Y + 8 * rand.Next(3) - 8), CurrentLoc.Size);
+			}
 		}
 
 		public void Attack()

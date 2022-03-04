@@ -12,9 +12,9 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		private CollisionHandler collision;
+		public CollisionHandler collision { get; set; }
 		private int initX;
-
+		private EntityList roomEntities;
 		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
@@ -27,12 +27,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			collision = new CollisionHandler((List<IEntity>)g.CurrentRoom.roomEntities, this);
+			roomEntities = g.CurrentRoom.roomEntitiesEL; 
+			collision = new CollisionHandler(roomEntities, this);
 			initX = position.X;
 			rand = new Random();
 			movingLeft = true;
 			this.g = g;
 			currentFrame = 0;
+		}
+
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
+			collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()

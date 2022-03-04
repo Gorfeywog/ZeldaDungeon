@@ -6,21 +6,21 @@ using ZeldaDungeon.Entities.Blocks;
 
 namespace ZeldaDungeon.Entities
 {
-    class CollisionHandler
+    public class CollisionHandler
     {
-        List<IEntity> roomEntities;
+        EntityList roomEntities;
         IDictionary<IEntity, Direction> Collisions;
         IEntity ActualEntity;
         int dx, dy;
 
-        public CollisionHandler(List<IEntity> roomEntities, IEntity ActualEntity)
+        public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
         {
             this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
         }
 
-        public void changeRooms(List<IEntity> newList)
+        public void ChangeRooms(EntityList newList)
         {
             roomEntities = newList;
         }

@@ -19,7 +19,7 @@ namespace ZeldaDungeon.Rooms
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IPickup> pickups;
-        private const int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
+        private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point gridPos { get; private set; }

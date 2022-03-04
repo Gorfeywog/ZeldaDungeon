@@ -14,6 +14,11 @@ namespace ZeldaDungeon.Entities
             this.entityList = entityList;
         }
 
+        public void Remove(IEntity entity)
+        {
+            entityList.Remove(entity);
+        }
+
         public void Add(IEntity entity)
         {
             entityList.Add(entity);

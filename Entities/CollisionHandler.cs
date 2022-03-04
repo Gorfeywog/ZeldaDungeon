@@ -39,9 +39,16 @@ namespace ZeldaDungeon.Entities
         {
             foreach (IBlock block in blockEntities)
             {
-                if (isFlying && block is BlueUnwalkableGapBlock 
-                    && DetectCollision(nextLoc, block.CurrentLoc)) return true;
-                else if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                if (isFlying) 
+                {
+                    if (block is BlueUnwalkableGapBlock && DetectCollision(nextLoc, block.CurrentLoc)) 
+                    {
+                        Console.WriteLine("Gets through the if statement.");
+                        return true;
+                    }
+                    else return false;
+                }
+                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
             }
             return false;
         }
@@ -62,7 +69,7 @@ namespace ZeldaDungeon.Entities
             // Might be changed to EnemyProjectile.
         }
 
-        private Boolean DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
+        private bool DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
         {
                 // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
                 // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.

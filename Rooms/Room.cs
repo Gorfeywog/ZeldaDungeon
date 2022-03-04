@@ -46,7 +46,7 @@ namespace ZeldaDungeon.Rooms
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
-                        roomEntities.Add(ent);
+                        roomEntitiesEL.Add(ent);
                         if (ent is IEnemy en)
                         {
                             roomEnemies.Add(en);

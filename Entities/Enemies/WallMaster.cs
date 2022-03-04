@@ -14,7 +14,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		private EntityList roomEntities;
 		private Random rand;
 		private int currentFrame;
-
 		private Direction currDirection;
 
 		public WallMaster(Point position)

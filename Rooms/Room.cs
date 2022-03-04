@@ -23,7 +23,8 @@ namespace ZeldaDungeon.Rooms
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
         public Point gridPos { get; private set; }
-        public Point topLeft { get => gridPos * new Point(512, 352); } // maybe cache this somehow?
+        public Point topLeft { get => gridPos * new Point(SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR, 
+            SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR); } // maybe cache this somehow?
         private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
@@ -69,7 +70,7 @@ namespace ZeldaDungeon.Rooms
             }
             walls = new Walls(topLeft);
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            linkDefaultSpawn = topLeft + new Point(32 * 4); // TODO - there should be some logic for the ladder rooms
+            linkDefaultSpawn = topLeft + new Point(SpriteUtil.LINK_DEFAULT_SPAWN * SpriteUtil.SCALE_FACTOR); // TODO - there should be some logic for the ladder rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -143,17 +144,17 @@ namespace ZeldaDungeon.Rooms
             // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
-                Direction.Up => new Point(112 * SpriteUtil.SCALE_FACTOR, 0),
-                Direction.Left => new Point(0, 72 * SpriteUtil.SCALE_FACTOR),
-                Direction.Right => new Point(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR),
-                Direction.Down => new Point(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR),
+                Direction.Up => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR),
+                Direction.Left => new Point(SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR),
+                Direction.Right => new Point(SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR),
+                Direction.Down => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR),
                 _ => throw new ArgumentException()
             };
             return topLeft + offset;
         }
         public Point LinkDoorSpawn(Direction dir)
         {
-            int index = dir switch
+            int index = dir switch //index is location in array of linkDoorSpawns
             {
                 Direction.Left => 0,
                 Direction.Down => 1,

@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Rooms
         public Rectangle CurrentLoc { get; set; }
         public Walls(Point position)
         {
-            CurrentLoc = new Rectangle(position, new Point(256 * SpriteUtil.SCALE_FACTOR, 176 * SpriteUtil.SCALE_FACTOR));
+            CurrentLoc = new Rectangle(position, new Point(SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

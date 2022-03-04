@@ -7,8 +7,20 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 3; // Scale factor of destination rectangles 
+        public static readonly int SCALE_FACTOR = 2; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
+
+        //Door positions
+        public static readonly int X_POS_CENTER = 112;
+        public static readonly int Y_POS_CENTER = 72;
+        public static readonly int X_POS_LEFT = 0;
+        public static readonly int X_POS_RIGHT = 224;
+        public static readonly int Y_POS_TOP = 0;
+        public static readonly int Y_POS_BOTTOM = 144;
+
+        public static readonly int LINK_DEFAULT_SPAWN = 64;
+        public static readonly int ROOM_WIDTH = 256;
+        public static readonly int ROOM_HEIGHT = 176;
 
         //Global random number generator for use in all classes
         public static Random Rand = new Random();
@@ -77,7 +89,7 @@ namespace ZeldaDungeon.Sprites
             SwordLength = 16,
             CandleWidth = 8,
             CandleLength = 16
-        }
+        } 
 
         private static readonly int gridX = 32;
         private static readonly int gridY = 32;

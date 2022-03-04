@@ -11,8 +11,7 @@ namespace ZeldaDungeon.Entities.Blocks
     public class NonPushableBlock : IBlock
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock();
-        private static int width = 16;
-        private static int height = 16;
+
         public Rectangle CurrentLoc { get; set; }
         public NonPushableBlock(Point position)
         {

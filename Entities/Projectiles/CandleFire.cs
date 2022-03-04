@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 {
     public class CandleFire : IProjectile
     {
-        private static int duration = 150;
+        private static int duration = 60;
         private int timer = duration; // counts down
         private ISprite sprite = BlockSpriteFactory.Instance.CreateFireBlock(); // it is probably bad that projectile sprites all over the place
         private Game1 g;

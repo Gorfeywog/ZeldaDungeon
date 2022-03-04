@@ -17,6 +17,10 @@ namespace ZeldaDungeon.Sprites
         //occasionally be used while in different directions, so X and Y would be confusing for these items
         public enum SpriteSize
         {
+            OldManX = 16,
+            OldManY = 16,
+            DoorX = 32,
+            DoorY = 32,
             LinkX = 16,
             LinkY = 16,
             GenericBlockX = 16,

@@ -40,8 +40,8 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 256*2;  // make window the size of a room, so there's no weird dead space
-            _graphics.PreferredBackBufferHeight = 176*2; // probably should change this whenever we introduce UI
+            _graphics.PreferredBackBufferWidth = 256*SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
+            _graphics.PreferredBackBufferHeight = 176*SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
             _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
             SetupRooms();
             SetupPlayer();
@@ -108,7 +108,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn);
+            Player = new Link(CurrentRoom.linkDefaultSpawn, (List<IEntity>)CurrentRoom.roomEntities);
         }
         private const int TotalRoomCount = 17;
         public void SetupRooms()
@@ -160,10 +160,14 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(this, false)));
             keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(this, true)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-            mouseController.RegisterCommand(new Rectangle(224, 0, 64, 64), new LinkUseDoor(this, Direction.Up));
-            mouseController.RegisterCommand(new Rectangle(224, 288, 64, 64), new LinkUseDoor(this, Direction.Down));
-            mouseController.RegisterCommand(new Rectangle(0, 144, 64, 64), new LinkUseDoor(this, Direction.Left));
-            mouseController.RegisterCommand(new Rectangle(448, 144, 64, 64), new LinkUseDoor(this, Direction.Right));
+            mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 0, 32 * SpriteUtil.SCALE_FACTOR, 
+                32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
+            mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR,
+                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
+            mouseController.RegisterCommand(new Rectangle(0, 72 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR,
+                32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
+            mouseController.RegisterCommand(new Rectangle(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR,
+                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
         }
 
         public void RegisterProjectile(IProjectile p) // strongly consider moving this to either Room or a dedicated type
@@ -175,6 +179,7 @@ namespace ZeldaDungeon
         {
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
+            Player.entityList = (List<IEntity>)CurrentRoom.roomEntities;
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -185,6 +190,7 @@ namespace ZeldaDungeon
                 // TODO - check door state for validity of this!
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
+                Player.entityList = (List<IEntity>)CurrentRoom.roomEntities;
             }
         }
 

@@ -14,7 +14,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public OldMan(Point position)
 		{
 			OldManSprite = EnemySpriteFactory.Instance.CreateOldManSprite();
-			CurrentLoc = new Rectangle(position, new Point(16, 16));
+			CurrentLoc = new Rectangle(position, new Point(((int)SpriteUtil.SpriteSize.OldManX - 8) * SpriteUtil.SCALE_FACTOR,
+				(int)SpriteUtil.SpriteSize.OldManY * SpriteUtil.SCALE_FACTOR));
 		}
 
 		public void Move()

@@ -26,7 +26,8 @@ namespace ZeldaDungeon.Rooms
         public bool CanPass { get => State == DoorState.Open || State == DoorState.Hole; }
         public Door(Point position, Direction dir, DoorState state)
         {
-            CurrentLoc = new Rectangle(position, new Point(32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR));
+            CurrentLoc = new Rectangle(position, new Point((int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR, 
+                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR));
             this.Dir = dir;
             this.State = state;
             this.sprite = DoorSpriteFactory.Instance.CreateDoor(Dir, State);

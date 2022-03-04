@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities
     {
         public Point Center { get; }
         public Direction Direction { get; }
+        public List<IEntity> entityList { get; set; }
+
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();
         public void StopWalking();

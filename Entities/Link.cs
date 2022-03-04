@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
@@ -10,6 +11,9 @@ public class Link : ILink
 
     private LinkStateMachine stateMachine;
     private ISprite linkSprite;
+    public List<IEntity> entityList { get; set; }
+    private CollisionHandler collision;
+    
     private IPickup heldItem; // null if he has never held an item up, may hold stale data
                               // note that it's a pickup and not a real item
     private const int heldItemMaxTime = 10; // how long he holds an item up
@@ -20,7 +24,8 @@ public class Link : ILink
     public Point Center { get => CurrentLoc.Center; } // used to center projectiles, new Point(Current.X + width / 2, Position.Y + height / 2)
     public Direction Direction { get => stateMachine.CurrentDirection; }
 
-    public Link(Point position)
+
+    public Link(Point position, List<IEntity> entityList)
     {
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
@@ -28,7 +33,10 @@ public class Link : ILink
         int height = (int)SpriteUtil.SpriteSize.LinkY;
         inv = new LinkInventory();
         CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+        this.entityList = entityList;
+        collision = new CollisionHandler(entityList, this);
     }
+
     public void ChangeDirection(Direction nextDirection)
     {
         stateMachine.ChangeDirection(nextDirection);
@@ -84,9 +92,15 @@ public class Link : ILink
             linkSprite = stateMachine.LinkSprite(); // only get a new sprite if we need to
         }
         linkSprite.Update();
+
+        collision.changeRooms(entityList);
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
-            CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
+            if (!collision.WillHitBlock(new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size)))
+            {
+                CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
+            }
+            
         }
     }
 
@@ -105,7 +119,7 @@ public class Link : ILink
             {
                 size = new Point(width, length);
             }
-            Rectangle itemPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Center, Direction, 24), size);
+            Rectangle itemPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Center, Direction, 6 * SpriteUtil.SCALE_FACTOR), size);
             ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
             // TODO - align sword with link's center, not his top-left.
             sword.Draw(spriteBatch, itemPos);

@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Blocks
     public class PushableBlock : IBlock
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock();
+        public CollisionHeight Height { get => CollisionHeight.Normal; }
         public Rectangle CurrentLoc { get; set; }
         public PushableBlock(Point position)
         {

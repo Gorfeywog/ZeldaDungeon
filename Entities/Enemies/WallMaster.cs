@@ -10,7 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite WallMasterSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public CollisionHandler collision { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.High; }
 		private EntityList roomEntities;
 		private int currentFrame;
 		private Direction currDirection;
@@ -23,7 +24,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.WallMasterY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-			collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(roomEntities, this);
 
 		}
 
@@ -65,7 +66,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			}
 
 			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, 8);
-			if (!collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size))) CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
+			if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size))) CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
 
 		}
 
@@ -87,7 +88,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
 		{
 			WallMasterSprite.Update();
-			collision.ChangeRooms(roomEntities);
+			Collision.ChangeRooms(roomEntities);
 			currentFrame++;
 			if (currentFrame % 8 == 0)
 			{

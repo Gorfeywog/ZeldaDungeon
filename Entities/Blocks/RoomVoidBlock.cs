@@ -8,13 +8,12 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Blocks
 {
-    public class WhiteBrickBlock : IBlock
+    public class RoomVoidBlock : IBlock // this goes under the walls and stuff. it mostly exists so collision is convenient.
     {
-
-        private ISprite sprite = BlockSpriteFactory.Instance.CreateWhiteBrickBlock();
-        public CollisionHeight Height { get => CollisionHeight.Normal; }
+        private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueUnwalkableGapBlock(); // maybe use a different sprite?
+        public CollisionHeight Height { get => CollisionHeight.High; }
         public Rectangle CurrentLoc { get; set; }
-        public WhiteBrickBlock(Point position)
+        public RoomVoidBlock(Point position)
         {
             int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
 			int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
@@ -27,8 +26,6 @@ namespace ZeldaDungeon.Entities.Blocks
         public void Update() => sprite.Update();
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
-
     }
 }
-
 

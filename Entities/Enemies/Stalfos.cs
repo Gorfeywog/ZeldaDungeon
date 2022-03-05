@@ -12,7 +12,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
-		public CollisionHandler collision { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public EntityList roomEntities;
 
 		public Stalfos(Point position)
@@ -23,12 +24,12 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 
 			currentFrame = 0;
-			collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(roomEntities, this);
 		}
 		public void UpdateList(EntityList roomEntities)
 		{
 			this.roomEntities = roomEntities;
-			collision.ChangeRooms(roomEntities);
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
@@ -38,12 +39,12 @@ namespace ZeldaDungeon.Entities.Enemies
 			if (SpriteUtil.Rand.Next(2) == 0)
             {
 				newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove - 8, CurrentLoc.Y), CurrentLoc.Size);
-				if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 
 			} else
 			{
 				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove - 8), CurrentLoc.Size);
-				if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 			}
 
 		}

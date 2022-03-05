@@ -10,20 +10,30 @@ namespace ZeldaDungeon.Entities
 {
     public class CollisionHandler
     {
-        EntityList roomEntities;
-        IList<IBlock> blockEntities;
-        IDictionary<IEntity, Direction> Collisions;
-        IEntity ActualEntity;
-        bool isFlying;
-        int dx, dy;
+        private EntityList roomEntities;
+        private IList<IBlock> blockEntities;
+        private IDictionary<IEntity, Direction> Collisions;
+        private IEntity ActualEntity;
+        private CollisionHeight height;
+        private int dx, dy;
 
         public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
         {
             this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
-            if (ActualEntity is Keese || ActualEntity is WallMaster) isFlying = true;
-            else isFlying = false;
+            if (ActualEntity is IEnemy e)
+            {
+                height = e.Height;
+            }
+            else if (ActualEntity is ILink player)
+            {
+                height = player.Height;
+            }
+            else
+            {
+                height = CollisionHeight.Normal;
+            }
             blockEntities = new List<IBlock>();
         }
 
@@ -48,9 +58,9 @@ namespace ZeldaDungeon.Entities
                                     }
                                     else return false;
                                 }*/
-                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc))
+                if (DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
                 {
-                    if (!(isFlying && !(block is BlueUnwalkableGapBlock))) return true;
+                    return true;
                 }
                 
             }

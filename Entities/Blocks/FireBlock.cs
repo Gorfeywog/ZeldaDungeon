@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Blocks
     public class FireBlock : IBlock
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreateFireBlock();
+        public CollisionHeight Height { get => CollisionHeight.Floor; }
 
         public Rectangle CurrentLoc { get; set; }
         public FireBlock(Point position)

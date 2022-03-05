@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Blocks
     {
 
         private ISprite sprite = BlockSpriteFactory.Instance.CreateStatue2Block();
+        public CollisionHeight Height { get => CollisionHeight.Normal; }
         public Rectangle CurrentLoc { get; set; }
         public Statue2Block(Point position)
         {

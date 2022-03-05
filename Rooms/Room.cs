@@ -14,7 +14,8 @@ namespace ZeldaDungeon.Rooms
     public class Room
     {
         private Walls walls; // may be null to represent a room without walls!
-        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
+        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
+        // we should really not have both of these, and ideally I would rather have neither
         public EntityList roomEntitiesEL; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
         public IList<IEntity> roomEntities; // Used for collision
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
@@ -23,17 +24,56 @@ namespace ZeldaDungeon.Rooms
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
+        public RoomType Type { get; private set; }
         public Point gridPos { get; private set; }
-        public Point topLeft { get => gridPos * new Point(512, 352); } // maybe cache this somehow?
+        public Point topLeft { get => gridPos * new Point(16, 11) * new Point(gridSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
             this.g = g;
             var parser = new CSVParser(path);
-            var data = parser.ParseRoomLayout();
             this.gridPos = parser.ParsePos();
-            // 512 and 352 are width and height of a room, respectively
+            SetupLists(parser.ParseRoomLayout());            
+            DoorState[] states = parser.ParseDoorState();
+            linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
+            linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
+            Type = parser.ParseRoomType();
+            if (Type == RoomType.Normal)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Direction d = directions[i];
+                    doors[d] = new Door(DoorPos(d), d, states[i]);
+                }
+                walls = new Walls(topLeft);
+            }
+        }
+        public void DrawAll(SpriteBatch spriteBatch)
+        {
+            foreach (var b in roomBlocks) // draw blocks first, for overlap purposes
+            {
+                b.Draw(spriteBatch);
+            }
+            if (walls != null)
+            {
+                walls.Draw(spriteBatch);
+            }
+            foreach (var d in doors)
+            {
+                d.Value.Draw(spriteBatch);
+            }
+            foreach (var i in pickups)
+            {
+                i.Draw(spriteBatch);
+            }
+            foreach (var en in roomEnemies)
+            {
+                en.Draw(spriteBatch);
+            }
+        }
+        private void SetupLists(IList<string>[,] data)
+        {
             roomEnemies = new List<IEnemy>();
             roomEntities = new List<IEntity>();
             roomEntitiesEL = new EntityList(roomEntities);
@@ -63,37 +103,6 @@ namespace ZeldaDungeon.Rooms
                         }
                     }
                 }
-            }
-            DoorState[] states = parser.ParseDoorState();
-            for (int i = 0; i < 4; i++) {
-                Direction d = directions[i];
-                doors[d] = new Door(DoorPos(d), d, states[i]);
-            }
-            walls = new Walls(topLeft);
-            linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
-        }
-        public void DrawAll(SpriteBatch spriteBatch)
-        {
-            foreach (var b in roomBlocks) // draw blocks first, for overlap purposes
-            {
-                b.Draw(spriteBatch);
-            }
-            if (walls != null)
-            {
-                walls.Draw(spriteBatch);
-            }
-            foreach (var d in doors)
-            {
-                d.Value.Draw(spriteBatch);
-            }
-            foreach (var i in pickups)
-            {
-                i.Draw(spriteBatch);
-            }
-            foreach (var en in roomEnemies)
-            {
-                en.Draw(spriteBatch);
             }
         }
         public void UpdateAll()

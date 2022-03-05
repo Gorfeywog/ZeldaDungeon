@@ -99,7 +99,7 @@ namespace ZeldaDungeon.Rooms
             return token switch
             {
                 "npb" => new NonPushableBlock(pos),
-                "wr" => new BlueUnwalkableGapBlock(pos),
+                "wr" => new RoomVoidBlock(pos),
                 "bfb" => new BlueFloorBlock(pos),
                 "bsb" => new BlueSandBlock(pos),
                 "bugb" => new BlueUnwalkableGapBlock(pos),

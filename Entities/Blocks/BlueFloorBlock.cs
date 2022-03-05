@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Blocks
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueFloorBlock();
         public Rectangle CurrentLoc { get; set; }
+        public CollisionHeight Height { get => CollisionHeight.Floor; }
         public BlueFloorBlock(Point position)
         {
             int width = (int)SpriteUtil.SpriteSize.GenericBlockX;

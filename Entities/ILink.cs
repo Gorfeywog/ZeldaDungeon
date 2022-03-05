@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities
         public Direction Direction { get; }
         public EntityList roomEntities { get; set; }
 
+        public CollisionHeight Height { get; }
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();
         public void StopWalking();

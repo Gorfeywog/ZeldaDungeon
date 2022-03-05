@@ -11,7 +11,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public ISprite TrapSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 
-		public CollisionHandler collision { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public Trap(Point position)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();

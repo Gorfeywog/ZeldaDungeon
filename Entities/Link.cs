@@ -20,7 +20,7 @@ public class Link : ILink
 
     public EntityList roomEntities { get; set; }
     private CollisionHandler collision;
-    
+    public CollisionHeight Height { get => CollisionHeight.Normal; }
     public Rectangle CurrentLoc { get; set; }
     public Point Center { get => CurrentLoc.Center; }
     public Direction Direction { get => stateMachine.CurrentDirection; }

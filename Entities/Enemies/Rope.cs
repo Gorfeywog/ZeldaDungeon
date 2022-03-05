@@ -12,7 +12,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
-		public CollisionHandler collision { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		private EntityList roomEntities;
 		private Direction currDirection;
 
@@ -25,7 +26,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.RopeY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-			collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(roomEntities, this);
 		}
 
 		public void UpdateList(EntityList roomEntities)

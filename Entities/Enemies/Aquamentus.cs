@@ -12,7 +12,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public CollisionHandler collision { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		private int initX;
 		private EntityList roomEntities;
 		private Random rand;
@@ -28,7 +29,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			roomEntities = g.CurrentRoom.roomEntitiesEL; 
-			collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(roomEntities, this);
 			initX = position.X;
 
 			movingLeft = true;
@@ -39,7 +40,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void UpdateList(EntityList roomEntities)
 		{
 			this.roomEntities = roomEntities;
-			collision.ChangeRooms(roomEntities);
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
@@ -52,7 +53,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			if (movingLeft)
             {
-				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size)))
+				if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size)))
                 {
 					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
 				}
@@ -62,7 +63,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				}
 			} else
             {
-				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size)))
+				if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size)))
                 {
 					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
 				}

@@ -8,4 +8,4 @@ namespace ZeldaDungeon.Entities
     {
         public CollisionHeight Height { get; }
     }
-}s
+}

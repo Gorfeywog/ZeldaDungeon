@@ -11,7 +11,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite KeeseSprite { get; set; }
 
-		public CollisionHandler collision { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.High; }
 		public EntityList roomEntities;
 		public Rectangle CurrentLoc {get; set;}
 
@@ -24,13 +25,13 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.KeeseY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-			collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(roomEntities, this);
 		}
 
 		public void UpdateList(EntityList roomEntities)
         {
             this.roomEntities = roomEntities;
-			collision.ChangeRooms(roomEntities);
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
@@ -38,7 +39,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int DistanceToMoveX = SpriteUtil.Rand.Next(3);
 			int DistanceToMoveY = SpriteUtil.Rand.Next(3);
 			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMoveX - 8, CurrentLoc.Y + 8 * DistanceToMoveY - 8), CurrentLoc.Size);
-			if (!collision.WillHitBlock(newPos))
+			if (!Collision.WillHitBlock(newPos))
             {
 				CurrentLoc = newPos;
 			}

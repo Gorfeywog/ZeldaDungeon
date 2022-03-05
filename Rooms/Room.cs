@@ -71,7 +71,7 @@ namespace ZeldaDungeon.Rooms
             }
             walls = new Walls(topLeft);
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            linkDefaultSpawn = topLeft + new Point(32 * 4); // TODO - there should be some logic for the ladder rooms
+            linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {

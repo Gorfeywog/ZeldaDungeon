@@ -10,9 +10,12 @@ namespace ZeldaDungeon.Entities
     {
         public Point Center { get; }
         public Direction Direction { get; }
+        public EntityList roomEntities { get; set; }
+
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();
         public void StopWalking();
+        public void UpdateList(EntityList roomEntities);
         public void TakeDamage();
         public void PickUp(IPickup pickup);
         public bool CanPickUp();

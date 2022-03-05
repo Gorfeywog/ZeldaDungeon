@@ -110,8 +110,8 @@ namespace ZeldaDungeon.Rooms
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),
                 "wbb" => new WhiteBrickBlock(pos),
-                "aqe" => new Aquamentus(pos, g),
-                "ge" => new Gel(pos),
+                "aqe" => new Aquamentus(pos, g), // If we end up taking g out, collision will break
+                "ge" => new Gel(pos), // we could just use g to be more consisten, just thought room was better
                 "gre" => new Goriya(pos, g, true),
                 "gbe" => new Goriya(pos, g, false),
                 "om" => new OldMan(pos),

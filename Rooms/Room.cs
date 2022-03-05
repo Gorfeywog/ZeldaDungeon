@@ -13,10 +13,10 @@ namespace ZeldaDungeon.Rooms
 {
     public class Room
     {
-        public RoomType Type { get; private set; }
         private Walls walls; // may be null to represent a room without walls!
-        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty to represent a room without walls!
-		public IList<IEntity> roomEntities; // Used for collision handling - evil!
+        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
+        public EntityList roomEntitiesEL; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
+        public IList<IEntity> roomEntities; // Used for collision
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IPickup> pickups;
@@ -31,32 +31,15 @@ namespace ZeldaDungeon.Rooms
         {
             this.g = g;
             var parser = new CSVParser(path);
-            gridPos = parser.ParsePos();
-            Type = parser.ParseRoomType();
-            linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            for (int i = 0; i < linkDoorSpawns.Length; i++)
-            {
-                linkDoorSpawns[i] += topLeft;
-            }
-            SetupLists(parser.ParseRoomLayout());
-            if (Type == RoomType.Normal)
-            {
-                DoorState[] states = parser.ParseDoorState();
-                for (int i = 0; i < 4; i++)
-                {
-                    Direction d = directions[i];
-                    doors[d] = new Door(DoorPos(d), d, states[i]);
-                }
-                walls = new Walls(topLeft);
-            }
-            linkDefaultSpawn = linkDoorSpawns[3];
-        }
-        private void SetupLists(IList<string>[,] data)
-        {
+            var data = parser.ParseRoomLayout();
+            this.gridPos = parser.ParsePos();
+            // 512 and 352 are width and height of a room, respectively
             roomEnemies = new List<IEnemy>();
-            roomBlocks = new List<IBlock>();
             roomEntities = new List<IEntity>();
+            roomEntitiesEL = new EntityList(roomEntities);
+            roomBlocks = new List<IBlock>();
             pickups = new List<IPickup>();
+            // this evil nested loop should probably live in its own method
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -65,7 +48,7 @@ namespace ZeldaDungeon.Rooms
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
-                        roomEntities.Add(ent);
+                        roomEntitiesEL.Add(ent);
                         if (ent is IEnemy en)
                         {
                             roomEnemies.Add(en);
@@ -81,6 +64,14 @@ namespace ZeldaDungeon.Rooms
                     }
                 }
             }
+            DoorState[] states = parser.ParseDoorState();
+            for (int i = 0; i < 4; i++) {
+                Direction d = directions[i];
+                doors[d] = new Door(DoorPos(d), d, states[i]);
+            }
+            walls = new Walls(topLeft);
+            linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
+            linkDefaultSpawn = topLeft + new Point(32 * 4); // TODO - there should be some logic for the ladder rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -171,18 +162,18 @@ namespace ZeldaDungeon.Rooms
                 Direction.Right => 2,
                 Direction.Up => 3
             };
-            return linkDoorSpawns[index];
+            return topLeft + linkDoorSpawns[index];
         }
 
         // only call these through Game1, so it can unlock/explode the corresponding door on other side
         // for each of these, return value is just whether "something happened"
         public bool UnlockDoor(Direction dir) 
         {
-            return doors.ContainsKey(dir) ? doors[dir].Unlock() : false;
+            return doors[dir].Unlock();
         }
         public bool ExplodeDoor(Direction dir)
         {
-            return doors.ContainsKey(dir) ? doors[dir].Explode() : false;
+            return doors[dir].Explode();
         }
     }
 }

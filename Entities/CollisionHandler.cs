@@ -1,39 +1,58 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using ZeldaDungeon.Entities.Blocks;
+using ZeldaDungeon.Entities.Enemies;
 
 namespace ZeldaDungeon.Entities
 {
-    class CollisionHandler
+    public class CollisionHandler
     {
-        IList<IEntity> roomEntities;
+        EntityList roomEntities;
+        IList<IBlock> blockEntities;
         IDictionary<IEntity, Direction> Collisions;
         IEntity ActualEntity;
+        bool isFlying;
         int dx, dy;
 
-        public CollisionHandler(IList<IEntity> roomEntities, IEntity ActualEntity)
+        public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
         {
             this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
+            if (ActualEntity is Keese || ActualEntity is WallMaster) isFlying = true;
+            else isFlying = false;
+            blockEntities = new List<IBlock>();
         }
 
-        public void changeRooms(IList<IEntity> newList)
+        public void ChangeRooms(EntityList newList)
         {
             roomEntities = newList;
+            blockEntities.Clear();
+            foreach (IEntity ent in roomEntities)
+            {
+                if (ent is IBlock block) blockEntities.Add(block);
+            }
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
-            IList<IBlock> roomBlocks = new List<IBlock>();
-            foreach (IEntity ent in roomEntities)
+            foreach (IBlock block in blockEntities)
             {
-                if (ent is IBlock) roomBlocks.Add((IBlock)ent);
-            }
-            foreach (IBlock block in roomBlocks)
-            {
-                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                /*                if (isFlying) 
+                                {
+                                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
+                                    {
+                                        return true;
+                                    }
+                                    else return false;
+                                }*/
+                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc))
+                {
+                    if (!(isFlying && !(block is BlueUnwalkableGapBlock))) return true;
+                }
+                
             }
             return false;
         }
@@ -54,7 +73,7 @@ namespace ZeldaDungeon.Entities
             // Might be changed to EnemyProjectile.
         }
 
-        private Boolean DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
+        private bool DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
         {
                 // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
                 // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.

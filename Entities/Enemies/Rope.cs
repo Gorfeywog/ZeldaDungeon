@@ -12,7 +12,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
-
+		public CollisionHandler collision { get; set; }
+		private EntityList roomEntities;
 		private Direction currDirection;
 
 		public Rope(Point position)
@@ -24,7 +25,12 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.RopeY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
+			collision = new CollisionHandler(roomEntities, this);
+		}
 
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
 		}
 
 		public void Move()
@@ -60,6 +66,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			//Determines which way to move
 			switch (currDirection)
 			{
+				//TODO: implement ccollision checking.
 				case Direction.Left:
 					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
 					break;

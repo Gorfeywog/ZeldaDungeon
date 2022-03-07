@@ -110,6 +110,8 @@ namespace ZeldaDungeon.Entities.Enemies
 				Attack();
             }
 
+			Collision.Update();
+
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

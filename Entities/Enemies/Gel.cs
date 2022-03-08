@@ -25,15 +25,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			int movingNum = SpriteUtil.Rand.Next(5);
-			if (movingNum < 2)
+			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+			if (movingNum < 2) // 2 in 5 chance to move in x direction
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8 * SpriteUtil.Rand.Next(3) - 8, CurrentLoc.Y), CurrentLoc.Size);
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
 			}
-			else if (movingNum > 2)
+			else if (movingNum > 2) // 2 in 5 chance to move in y direction
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * SpriteUtil.Rand.Next(3) - 8), CurrentLoc.Size);
+				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
 			}
-
+			// 1 in 5 chance to not move at all
 		}
 
 		public void Attack()
@@ -55,7 +56,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			GelSprite.Update();
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+			int moveChance = 8;
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

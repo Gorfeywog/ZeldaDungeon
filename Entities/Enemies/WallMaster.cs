@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
+		private int moveChance = 8;
 
 		private Direction currDirection;
 
@@ -30,7 +31,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in eight chance to change directions
-			if (SpriteUtil.Rand.Next(8) == 0)
+			int changeDirChance = 8;
+			if (SpriteUtil.Rand.Next(changeDirChance) == 0)
 			{
 				switch (SpriteUtil.Rand.Next(4))
 				{
@@ -59,7 +61,8 @@ namespace ZeldaDungeon.Entities.Enemies
 				}
 			}
 
-			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, 8);
+			int speed = 4 * SpriteUtil.SCALE_FACTOR;
+			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, speed);
 			CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
 
 		}
@@ -83,7 +86,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			WallMasterSprite.Update();
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

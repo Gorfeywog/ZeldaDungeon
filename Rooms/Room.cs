@@ -64,7 +64,8 @@ namespace ZeldaDungeon.Rooms
                 }
             }
             DoorState[] states = parser.ParseDoorState();
-            for (int i = 0; i < 4; i++) {
+            int numDoors = 4;
+            for (int i = 0; i < numDoors; i++) {
                 Direction d = directions[i];
                 doors[d] = new Door(DoorPos(d), d, states[i]);
             }
@@ -154,7 +155,7 @@ namespace ZeldaDungeon.Rooms
         }
         public Point LinkDoorSpawn(Direction dir)
         {
-            int index = dir switch //index is location in array of linkDoorSpawns
+            int index = dir switch //index is location of correct door in array of linkDoorSpawns
             {
                 Direction.Left => 0,
                 Direction.Down => 1,

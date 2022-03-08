@@ -30,9 +30,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in four chance to change directions
-			if (SpriteUtil.Rand.Next(4) == 0)
+			int changeDirChance = 4;
+			if (SpriteUtil.Rand.Next(changeDirChance) == 0)
 			{
-				switch (SpriteUtil.Rand.Next(4))
+				switch (SpriteUtil.Rand.Next(changeDirChance))
 				{
 					case 0:
 						currDirection = Direction.Left;
@@ -58,22 +59,23 @@ namespace ZeldaDungeon.Entities.Enemies
 			}
 
 			//Determines which way to move
+			int locChange = 4 * SpriteUtil.SCALE_FACTOR;
 			switch (currDirection)
 			{
 				case Direction.Left:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
 					break;
 
 				case Direction.Right:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
 					break;
 
 				case Direction.Up:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - 8), CurrentLoc.Size);
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
 					break;
 
 				case Direction.Down:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8), CurrentLoc.Size);
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
 					break;
 
 				default:
@@ -84,7 +86,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			//TODO Need to add boomerang to spriteSheet
+
 		}
 
 		public void TakeDamage()
@@ -101,7 +103,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			RopeSprite.Update();
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+			int moveChance = 8;
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

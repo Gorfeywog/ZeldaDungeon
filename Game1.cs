@@ -163,17 +163,17 @@ namespace ZeldaDungeon
 
             //Sets up locations to click to move between doors with mouse
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR,
-                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
+                SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
+                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR,
-                SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
+                SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR, 
+                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR,
-                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
+                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
+                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR,
-                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
+                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
+                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
         }
 
         public void RegisterProjectile(IProjectile p) // strongly consider moving this to either Room or a dedicated type

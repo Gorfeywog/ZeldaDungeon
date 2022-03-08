@@ -84,7 +84,7 @@ public class Link : ILink
         stateMachine.Attack();
     }
 
-    private int speed = 2; // this should maybe be more dynamic
+    private int speed = SpriteUtil.SCALE_FACTOR; // this should maybe be more dynamic
     public void Update()
     {
         stateMachine.Update();
@@ -122,7 +122,8 @@ public class Link : ILink
             }
             Rectangle itemPos = new Rectangle(CurrentLoc.Center, size);
             itemPos.Offset(CurrentLoc.Center - itemPos.Center);
-            itemPos.Location = EntityUtils.Offset(itemPos.Location, Direction, 12 * SpriteUtil.SCALE_FACTOR);
+            int itemOffset = 12 * SpriteUtil.SCALE_FACTOR;
+            itemPos.Location = EntityUtils.Offset(itemPos.Location, Direction, itemOffset);
             ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
 
             sword.Draw(spriteBatch, itemPos);

@@ -36,7 +36,7 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateWalls()
         {
-            return new StaticSprite(wallsSprite, new Rectangle(0, 0, 256, 176));
+            return new StaticSprite(wallsSprite, new Rectangle(0, 0, SpriteUtil.ROOM_WIDTH, SpriteUtil.ROOM_HEIGHT));
         }
     }
 }

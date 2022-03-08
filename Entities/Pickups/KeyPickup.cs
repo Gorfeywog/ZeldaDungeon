@@ -10,8 +10,6 @@ namespace ZeldaDungeon.Entities.Pickups
     public class KeyPickup : IPickup
     {
         private ISprite sprite = ItemSpriteFactory.Instance.CreateKey();
-        private static int width = 16;
-        private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
         public bool HoldsUp { get => true; }
 

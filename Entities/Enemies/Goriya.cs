@@ -12,6 +12,9 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite GoriyaSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public EntityList roomEntities;
 
 		private int currentFrame;
 		private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
@@ -38,6 +41,13 @@ namespace ZeldaDungeon.Entities.Enemies
 			this.g = g;
 			currDirection = Direction.Left;
 			currentFrame = 0;
+			this.roomEntities = g.CurrentRoom.roomEntitiesEL;
+			Collision = new CollisionHandler(roomEntities, this);
+		}
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
@@ -105,19 +115,31 @@ namespace ZeldaDungeon.Entities.Enemies
 			switch (currDirection)
 			{
 				case Direction.Left:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
+					if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
+                    {
+						CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
+					}
 					break;
 
 				case Direction.Right:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+					if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size)))
+                    {
+						CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+					}
 					break;
 
 				case Direction.Up:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
+					if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size)))
+                    {
+						CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
+					}
 					break;
 
 				case Direction.Down:
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+					if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size)))
+                    {
+						CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+					}
 					break;
 
 				default:
@@ -127,7 +149,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			boomerang = new Boomerang(CurrentLoc.Location, currDirection, false);
+			boomerang = new Boomerang(this, currDirection, false, g);
 			g.RegisterProjectile(boomerang);
 		}
 
@@ -146,6 +168,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			GoriyaSprite.Update();
 			int moveChance = 8;
+			Collision.ChangeRooms(roomEntities);
 			if (currentFrame % moveChance == 0 && !IsAttacking)
 			{
 				Move();
@@ -156,6 +179,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Attack();
 			}
+
+			Collision.Update();
 
 		}
 		public void DespawnEffect() { }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using System.Diagnostics;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -10,6 +11,9 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite KeeseSprite { get; set; }
 
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.High; }
+		public EntityList roomEntities;
 		public Rectangle CurrentLoc {get; set;}
 
 		private int currentFrame;
@@ -21,13 +25,27 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.KeeseY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
+			Collision = new CollisionHandler(roomEntities, this);
+		}
+
+		public void UpdateList(EntityList roomEntities)
+        {
+            this.roomEntities = roomEntities;
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
 		{
 			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
-			CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y + locChange), CurrentLoc.Size);
-
+			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y + locChange), CurrentLoc.Size);
+			if (!Collision.WillHitBlock(newPos))
+            {
+				CurrentLoc = newPos;
+			}
+            else
+            {
+				Debug.WriteLine("It finally failed!!!!");
+            }
 		}
 
 		public void Attack()
@@ -54,6 +72,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Move();
 			}
+
+			Collision.Update();
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

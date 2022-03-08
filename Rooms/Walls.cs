@@ -23,4 +23,3 @@ namespace ZeldaDungeon.Rooms
         public void Update() => sprite.Update();
     }
 }
-

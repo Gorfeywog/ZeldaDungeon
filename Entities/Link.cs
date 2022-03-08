@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using ZeldaDungeon;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.InventoryItems;
@@ -15,26 +16,33 @@ public class Link : ILink
 	private IPickup heldItem; // null if he has never held an item up, may hold stale data
                               // note that it's a pickup and not a real item
 	private LinkInventory inv { get; set; }
-    private Game1 g;
+   // private Game1 g;
 
-    private IList<IEntity> EntityList { get => g.CurrentRoom.roomEntities; }
+    public EntityList roomEntities { get; set; }
     private CollisionHandler collision;
-    
+    public CollisionHeight Height { get => CollisionHeight.Normal; }
     public Rectangle CurrentLoc { get; set; }
     public Point Center { get => CurrentLoc.Center; }
     public Direction Direction { get => stateMachine.CurrentDirection; }
     
 
-    public Link(Point position, Game1 g)
+    public Link(Point position, EntityList roomEntities)
     {
-        this.g = g;
+       // this.g = g;
         inv = new LinkInventory();
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
         int width = (int)SpriteUtil.SpriteSize.LinkX;
         int height = (int)SpriteUtil.SpriteSize.LinkY;
         CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-        collision = new CollisionHandler(EntityList, this);
+        this.roomEntities = roomEntities;
+        collision = new CollisionHandler(this.roomEntities, this);
+    }
+
+    public void UpdateList(EntityList roomEntities)
+    {
+        this.roomEntities = roomEntities;
+        collision.ChangeRooms(roomEntities);
     }
 
     public void ChangeDirection(Direction nextDirection)
@@ -93,16 +101,13 @@ public class Link : ILink
             linkSprite = stateMachine.LinkSprite(); // only get a new sprite if we need to
         }
         linkSprite.Update();
-
-        collision.changeRooms(EntityList);
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)
         {
-            if (!collision.WillHitBlock(new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size)))
-            {
-                CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
-            }
+            Rectangle newPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, Direction, speed), CurrentLoc.Size);
+            if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
             
         }
+        collision.Update();
     }
 
     public void Draw(SpriteBatch spriteBatch)

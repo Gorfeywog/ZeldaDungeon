@@ -1,67 +1,111 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using ZeldaDungeon.Entities.Blocks;
+using ZeldaDungeon.Entities.Enemies;
+using ZeldaDungeon.Sprites;
+
 
 namespace ZeldaDungeon.Entities
 {
-    class CollisionHandler
+    public class CollisionHandler
     {
-        IList<IEntity> roomEntities;
-        IDictionary<IEntity, Direction> Collisions;
-        IEntity ActualEntity;
-        int dx, dy;
+        private EntityList roomEntities;
+        private IList<IBlock> blockEntities;
+        private IDictionary<IEntity, Direction> Collisions;
+        private IEntity ActualEntity;
+        private CollisionHeight height;
+        private int dx, dy;
 
-        public CollisionHandler(IList<IEntity> roomEntities, IEntity ActualEntity)
+        public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
         {
             this.roomEntities = roomEntities;
             this.ActualEntity = ActualEntity;
             Collisions = new Dictionary<IEntity, Direction>();
+            if (ActualEntity is IEnemy e)
+            {
+                height = e.Height;
+            }
+            else if (ActualEntity is ILink player)
+            {
+                height = player.Height;
+            }
+            else
+            {
+                height = CollisionHeight.Normal;
+            }
+            blockEntities = new List<IBlock>();
         }
 
-        public void changeRooms(IList<IEntity> newList)
+        public void ChangeRooms(EntityList newList)
         {
             roomEntities = newList;
+            blockEntities.Clear();
+            foreach (IEntity ent in roomEntities)
+            {
+                if (ent is IBlock block) blockEntities.Add(block);
+            }
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
-            IList<IBlock> roomBlocks = new List<IBlock>();
-            foreach (IEntity ent in roomEntities)
+            foreach (IBlock block in blockEntities)
             {
-                if (ent is IBlock) roomBlocks.Add((IBlock)ent);
-            }
-            foreach (IBlock block in roomBlocks)
-            {
-                if (!(block is BlueFloorBlock || block is BlueSandBlock) && DetectCollision(nextLoc, block.CurrentLoc)) return true;
+                /*                if (isFlying) 
+                                {
+                                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
+                                    {
+                                        return true;
+                                    }
+                                    else return false;
+                                }*/
+                if (DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
+                {
+                    return true;
+                }
+                
             }
             return false;
         }
-        private void HandleCollisionPlayerEnemy(ILink player, KeyValuePair<IEntity, Direction> collision)
+        private void HandleCollisionPlayerEnemy(ILink player, IEnemy enemy)
         {
-            player.TakeDamage();
+            if (DetectCollision(player.CurrentLoc, enemy.CurrentLoc))
+            {
+                player.TakeDamage();
+            }
             // This is all this does, right?
         }
 
-        private void HandleCollisionPlayerItem(ILink player, KeyValuePair<IEntity, Direction> collision)
+        private void HandleCollisionPlayerProjectile(ILink player, IProjectile item)
         {
             // Will be changed, implement after refactoring.
+            if (DetectCollision(player.CurrentLoc, item.CurrentLoc))
+            {
+                player.TakeDamage();
+                item.DespawnEffect();
+            }
         }
 
-        private void HandleCollisionEnemyItem(IEnemy enemy, KeyValuePair<IEntity, Direction> collision)
+        private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile item)
         {
             // Will be changed, implement after refactoring.
             // Might be changed to EnemyProjectile.
+            if (DetectCollision(enemy.CurrentLoc, item.CurrentLoc))
+            {
+                enemy.TakeDamage();
+                item.DespawnEffect();
+            }
         }
 
-        private Boolean DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
+        private bool DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
         {
                 // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
                 // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.
-                if (rectangle1.X < (rectangle2.X + rectangle2.Width)
-                    && rectangle2.X < (rectangle1.X + rectangle1.Width)
-                    && rectangle1.Y < (rectangle2.Y + rectangle2.Height)
-                    && rectangle2.Y < (rectangle1.Y + rectangle1.Height))
+                if (rectangle1.X < (rectangle2.X + rectangle2.Width - (2 * SpriteUtil.SCALE_FACTOR))
+                    && rectangle2.X < (rectangle1.X + rectangle1.Width - (2 * SpriteUtil.SCALE_FACTOR))
+                    && rectangle1.Y < (rectangle2.Y + rectangle2.Height - (2 * SpriteUtil.SCALE_FACTOR))
+                    && rectangle2.Y < (rectangle1.Y + rectangle1.Height) - (2 * SpriteUtil.SCALE_FACTOR))
                 {
                     return true;
                 }
@@ -90,40 +134,32 @@ namespace ZeldaDungeon.Entities
             }
         }
 
-        // TODO:
-        // Handle entities that can be walked through
-        // Create an actual collision handler, rename this
-        // Handle what happens when dx = dy
-        // Implement this to every dynamic entity's update method
-
-        // NOTE:
-        // Haven't been able to test it but I think detection is implemented correctly. I wanted to 
-        // discuss how you guys want to go about implementing the actual handler. Also, I feel like
-        // I should just make this class a utility class for the handler and take out the constructor.
-
         public void Update()
         {
-/*            DetectCollision();
-            foreach (KeyValuePair<IEntity, Direction> Collision in Collisions)
+            foreach (IEntity ent in roomEntities)
             {
-                if (ActualEntity is ILink)
+                if (ActualEntity is ILink player)
                 {
-                    if (Collision.Key is IEnemy)
+                    if (ent is IEnemy enemy)
                     {
-                        HandleCollisionPlayerEnemy((ILink)ActualEntity, Collision);
+                        HandleCollisionPlayerEnemy(player, enemy);
                     }
-                    else if (Collision.Key is IItem)
-                    {
-                        HandleCollisionPlayerItem((ILink)ActualEntity, Collision);
-                    }
-                }
-                else if (ActualEntity is IEnemy && Collision.Key is IItem)
-                {
-                    //Might be changed to IProjectile
-                    HandleCollisionEnemyItem((IEnemy)ActualEntity, Collision);
-                }
-            }*/
 
+                    else if (ent is IProjectile item)
+                    {
+                        HandleCollisionPlayerProjectile(player, item);
+                    }
+                }
+
+                else if (ActualEntity is IEnemy enemy)
+                {
+                    if (ent is IProjectile item)
+                    {
+                        HandleCollisionEnemyProjectile(enemy, item);
+                    }
+                }
+         
+            }
         }
     }
 }

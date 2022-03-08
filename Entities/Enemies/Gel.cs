@@ -10,7 +10,9 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite GelSprite { get; set; }
 		private int currentFrame;
-
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public EntityList roomEntities;
 		public Rectangle CurrentLoc { get; set; }
 
 		public Gel(Point position)
@@ -20,19 +22,29 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.GelY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
+			Collision = new CollisionHandler(roomEntities, this);
+		}
+
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
 		{
 			int movingNum = SpriteUtil.Rand.Next(5);
 			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+      Rectangle newPos;
 			if (movingNum < 2) // 2 in 5 chance to move in x direction
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+				newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 			}
 			else if (movingNum > 2) // 2 in 5 chance to move in y direction
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 			}
 			// 1 in 5 chance to not move at all
 		}
@@ -61,6 +73,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Move();
 			}
+
+			Collision.Update();
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

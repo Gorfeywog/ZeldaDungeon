@@ -10,9 +10,10 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite WallMasterSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.High; }
+		private EntityList roomEntities;
 		private int currentFrame;
-		private int moveChance = 8;
 
 		private Direction currDirection;
 
@@ -24,8 +25,13 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.WallMasterY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
+			Collision = new CollisionHandler(roomEntities, this);
 
+		}
 
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
 		}
 
 		public void Move()
@@ -63,7 +69,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			int speed = 4 * SpriteUtil.SCALE_FACTOR;
 			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, speed);
-			CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
+			if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size))) CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
 
 		}
 
@@ -85,12 +91,15 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
 		{
 			WallMasterSprite.Update();
+			Collision.ChangeRooms(roomEntities);
 			currentFrame++;
-
+      int moveChance = 8;
 			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}
+
+			Collision.Update();
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

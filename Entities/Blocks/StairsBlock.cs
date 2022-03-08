@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Blocks
 	public class StairsBlock : IBlock
 	{
 		private ISprite sprite = BlockSpriteFactory.Instance.CreateStairsBlock();
+		public CollisionHeight Height { get => CollisionHeight.Floor; }
 		public Rectangle CurrentLoc { get; set; }
 		public StairsBlock(Point position)
 		{

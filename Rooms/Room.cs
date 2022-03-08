@@ -14,64 +14,41 @@ namespace ZeldaDungeon.Rooms
     public class Room
     {
         private Walls walls; // may be null to represent a room without walls!
-        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>();
-		public IList<IEntity> roomEntities; // Used for collision handling - evil!
+        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
+        // we should really not have both of these, and ideally I would rather have neither
+        public EntityList roomEntitiesEL; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
+        public IList<IEntity> roomEntities; // Used for collision
         private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
         private IList<IBlock> roomBlocks;
         private IList<IPickup> pickups;
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
+        public RoomType Type { get; private set; }
         public Point gridPos { get; private set; }
-        public Point topLeft { get => gridPos * new Point(SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR, 
-            SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR); } // maybe cache this somehow?
+        public Point topLeft { get => gridPos * new Point(16, 11) * new Point(gridSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
             this.g = g;
             var parser = new CSVParser(path);
-            var data = parser.ParseRoomLayout();
             this.gridPos = parser.ParsePos();
-            // 512 and 352 are width and height of a room, respectively
-            roomEnemies = new List<IEnemy>();
-            roomBlocks = new List<IBlock>();
-            roomEntities = new List<IEntity>();
-            pickups = new List<IPickup>();
-            // this evil nested loop should probably live in its own method
-            for (int i = 0; i < data.GetLength(0); i++)
-            {
-                for (int j = 0; j < data.GetLength(1); j++)
-                {
-                    Point dest = topLeft + new Point(gridSize * i, gridSize * j);
-                    foreach (string s in data[i, j])
-                    {
-                        var ent = CSVParser.DecodeToken(s, dest, g);
-                        roomEntities.Add(ent);
-                        if (ent is IEnemy en)
-                        {
-                            roomEnemies.Add(en);
-                        }
-                        else if (ent is IBlock b)
-                        {
-                            roomBlocks.Add(b);
-                        }
-                        else if (ent is IPickup pickup)
-                        {
-                            pickups.Add(pickup);
-                        }
-                    }
-                }
-            }
+            SetupLists(parser.ParseRoomLayout());            
             DoorState[] states = parser.ParseDoorState();
-            int numDoors = 4;
-            for (int i = 0; i < numDoors; i++) {
-                Direction d = directions[i];
-                doors[d] = new Door(DoorPos(d), d, states[i]);
-            }
-            walls = new Walls(topLeft);
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            linkDefaultSpawn = topLeft + new Point(SpriteUtil.LINK_DEFAULT_SPAWN * SpriteUtil.SCALE_FACTOR); // TODO - there should be some logic for the ladder rooms
+            linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
+            Type = parser.ParseRoomType();
+            if (Type == RoomType.Normal)
+            {
+                int numDoors = 4;
+                for (int i = 0; i < numDoors; i++)
+                {
+                    Direction d = directions[i];
+                    doors[d] = new Door(DoorPos(d), d, states[i]);
+                }
+                walls = new Walls(topLeft);
+            }
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -94,6 +71,39 @@ namespace ZeldaDungeon.Rooms
             foreach (var en in roomEnemies)
             {
                 en.Draw(spriteBatch);
+            }
+        }
+        private void SetupLists(IList<string>[,] data)
+        {
+            roomEnemies = new List<IEnemy>();
+            roomEntities = new List<IEntity>();
+            roomEntitiesEL = new EntityList(roomEntities);
+            roomBlocks = new List<IBlock>();
+            pickups = new List<IPickup>();
+            // this evil nested loop should probably live in its own method
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    Point dest = topLeft + new Point(gridSize * i, gridSize * j);
+                    foreach (string s in data[i, j])
+                    {
+                        var ent = CSVParser.DecodeToken(s, dest, g);
+                        roomEntitiesEL.Add(ent);
+                        if (ent is IEnemy en)
+                        {
+                            roomEnemies.Add(en);
+                        }
+                        else if (ent is IBlock b)
+                        {
+                            roomBlocks.Add(b);
+                        }
+                        else if (ent is IPickup pickup)
+                        {
+                            pickups.Add(pickup);
+                        }
+                    }
+                }
             }
         }
         public void UpdateAll()

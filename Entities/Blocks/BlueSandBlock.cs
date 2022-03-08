@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Blocks
     public class BlueSandBlock : IBlock
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueSandBlock();
+        public CollisionHeight Height { get => CollisionHeight.Floor; }
 
         public Rectangle CurrentLoc { get; set; }
         public BlueSandBlock(Point position)

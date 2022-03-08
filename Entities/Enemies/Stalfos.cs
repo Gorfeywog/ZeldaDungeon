@@ -12,6 +12,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public EntityList roomEntities;
 
 		public Stalfos(Point position)
 		{
@@ -21,19 +24,27 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 
 			currentFrame = 0;
+			Collision = new CollisionHandler(roomEntities, this);
+		}
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
+			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
 		{
 			int dirChance = 3;
 			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+      Rectangle newPos;
 			if (SpriteUtil.Rand.Next(dirChance) == 0)
             {
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size); ;
+				newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size); ;
 			} else
 			{
-				CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
 			}
+      if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 
 		}
 
@@ -61,6 +72,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Move();
 			}
+
+			Collision.Update();
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

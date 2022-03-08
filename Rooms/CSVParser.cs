@@ -13,11 +13,12 @@ namespace ZeldaDungeon.Rooms
      * LAYOUT OF A VALID CSV FILE:
      * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, items, etc.
      * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
-     * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*.
-     * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door.
+     * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*. Depending on room type may be meaningless.
+     * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door 
+     *      or otherwise entering from the corresponding side, for instance by going down into a 'ladder room'.
      *      note that for top and bottom doors, Link spawns on the seam of two tiles. To account for this, these must be parsed
      *      as a floating point type! for the default door spawns, this is 2;5,7.5;8,13;5,7.5;2
-     * nothing here yet, possibly a boolean to represent whether it's a normal room (walls and doors) or a ladder room
+     * 1 row of 1 entry, representing type of the room (0 for normal, 1 for 'ladder room', could extend to arbitrarily many room types
      */
     public class CSVParser
     {
@@ -87,12 +88,18 @@ namespace ZeldaDungeon.Rooms
             }
             return spawns;
         }
+
+        public RoomType ParseRoomType()
+        {
+            string typeRow = lines[height + 3];
+            return (RoomType)int.Parse(typeRow);
+        }
         public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
         {
             return token switch
             {
                 "npb" => new NonPushableBlock(pos),
-                "wr" => new BlueUnwalkableGapBlock(pos),
+                "wr" => new RoomVoidBlock(pos),
                 "bfb" => new BlueFloorBlock(pos),
                 "bsb" => new BlueSandBlock(pos),
                 "bugb" => new BlueUnwalkableGapBlock(pos),
@@ -103,8 +110,8 @@ namespace ZeldaDungeon.Rooms
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),
                 "wbb" => new WhiteBrickBlock(pos),
-                "aqe" => new Aquamentus(pos, g),
-                "ge" => new Gel(pos),
+                "aqe" => new Aquamentus(pos, g), // If we end up taking g out, collision will break
+                "ge" => new Gel(pos), // we could just use g to be more consisten, just thought room was better
                 "gre" => new Goriya(pos, g, true),
                 "gbe" => new Goriya(pos, g, false),
                 "om" => new OldMan(pos),

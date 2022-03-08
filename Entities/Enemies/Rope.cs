@@ -12,7 +12,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
-
+		public CollisionHandler Collision { get; set; }
+		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		private EntityList roomEntities;
 		private Direction currDirection;
 
 		public Rope(Point position)
@@ -24,7 +26,12 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.RopeY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
+			Collision = new CollisionHandler(roomEntities, this);
+		}
 
+		public void UpdateList(EntityList roomEntities)
+		{
+			this.roomEntities = roomEntities;
 		}
 
 		public void Move()
@@ -62,6 +69,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int locChange = 4 * SpriteUtil.SCALE_FACTOR;
 			switch (currDirection)
 			{
+				//TODO: implement ccollision checking.
 				case Direction.Left:
 					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
 					break;
@@ -108,6 +116,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				Move();
 			}
+
+			Collision.Update();
 		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;

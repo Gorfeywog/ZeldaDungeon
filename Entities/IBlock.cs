@@ -4,5 +4,8 @@ using System.Text;
 
 namespace ZeldaDungeon.Entities
 {
-    public interface IBlock : IEntity { } // 
+    public interface IBlock : IEntity
+    {
+        public CollisionHeight Height { get; }
+    }
 }

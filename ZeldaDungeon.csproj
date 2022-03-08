@@ -28,10 +28,13 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="RoomData\room0.csv">
+    <None Update="RoomData\room00.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room1.csv">
+    <None Update="RoomData\room01.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="RoomData\room07.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="RoomData\room10.csv">
@@ -58,28 +61,28 @@
     <None Update="RoomData\room17.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room2.csv">
+    <None Update="RoomData\room02.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room3.csv">
+    <None Update="RoomData\room03.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room4.csv">
+    <None Update="RoomData\room04.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room5.csv">
+    <None Update="RoomData\room05.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room6.csv">
+    <None Update="RoomData\room06.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room7.csv">
+    <None Update="RoomData\room18.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room8.csv">
+    <None Update="RoomData\room08.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RoomData\room9.csv">
+    <None Update="RoomData\room09.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

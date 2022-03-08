@@ -40,8 +40,8 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = 256 * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
-            _graphics.PreferredBackBufferHeight = 176 * SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
+            _graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
+            _graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
             _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
             SetupRooms();
             SetupPlayer();
@@ -160,14 +160,20 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(this, false)));
             keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(this, true)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-            mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 0, 32 * SpriteUtil.SCALE_FACTOR,
-                32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
-            mouseController.RegisterCommand(new Rectangle(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR,
-                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
-            mouseController.RegisterCommand(new Rectangle(0, 72 * SpriteUtil.SCALE_FACTOR, 
-                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
-            mouseController.RegisterCommand(new Rectangle(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR,
-                32 * SpriteUtil.SCALE_FACTOR, 32 * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
+
+            //Sets up locations to click to move between doors with mouse
+            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, 
+                SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR,
+                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
+            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR,
+                SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR, 
+                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
+            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR, 
+                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR,
+                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
+            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR, 
+                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.DOOR_WIDTH * SpriteUtil.SCALE_FACTOR,
+                SpriteUtil.DOOR_HEIGHT * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
         }
 
         public void RegisterProjectile(IProjectile p) // strongly consider moving this to either Room or a dedicated type

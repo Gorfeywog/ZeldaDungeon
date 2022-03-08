@@ -18,6 +18,10 @@ namespace ZeldaDungeon.Sprites
         public static readonly int Y_POS_TOP = 0;
         public static readonly int Y_POS_BOTTOM = 144;
 
+        //Door dimensions
+        public static readonly int DOOR_WIDTH = 32;
+        public static readonly int DOOR_HEIGHT = 32;
+
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;
 

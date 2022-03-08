@@ -10,8 +10,7 @@ namespace ZeldaDungeon.Entities.Pickups
     public class ClockPickup : IPickup
     {
         private ISprite sprite = ItemSpriteFactory.Instance.CreateClock();
-        private static int width = 16;
-        private static int height = 16;
+
         public Rectangle CurrentLoc { get; set; }
         public bool HoldsUp { get => false; }
         public ClockPickup(Point position)

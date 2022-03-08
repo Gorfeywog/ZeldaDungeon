@@ -34,20 +34,19 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			int movingNum = SpriteUtil.Rand.Next(5);
-			int DistanceToMove = SpriteUtil.Rand.Next(3);
-			Rectangle newPos;
-			if (movingNum < 2)
+			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+      Rectangle newPos;
+			if (movingNum < 2) // 2 in 5 chance to move in x direction
 			{
-				newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove-8, CurrentLoc.Y), CurrentLoc.Size);
-				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
-				
-			}
-			else if (movingNum > 2)
-			{
-				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove-8), CurrentLoc.Size);
+				newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
 				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 			}
-
+			else if (movingNum > 2) // 2 in 5 chance to move in y direction
+			{
+				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+			}
+			// 1 in 5 chance to not move at all
 		}
 
 		public void Attack()
@@ -69,7 +68,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			GelSprite.Update();
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+			int moveChance = 8;
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

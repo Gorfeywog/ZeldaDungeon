@@ -41,7 +41,8 @@ namespace ZeldaDungeon.Rooms
             Type = parser.ParseRoomType();
             if (Type == RoomType.Normal)
             {
-                for (int i = 0; i < 4; i++)
+                int numDoors = 4;
+                for (int i = 0; i < numDoors; i++)
                 {
                     Direction d = directions[i];
                     doors[d] = new Door(DoorPos(d), d, states[i]);
@@ -154,17 +155,17 @@ namespace ZeldaDungeon.Rooms
             // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
-                Direction.Up => new Point(112 * SpriteUtil.SCALE_FACTOR, 0),
-                Direction.Left => new Point(0, 72 * SpriteUtil.SCALE_FACTOR),
-                Direction.Right => new Point(224 * SpriteUtil.SCALE_FACTOR, 72 * SpriteUtil.SCALE_FACTOR),
-                Direction.Down => new Point(112 * SpriteUtil.SCALE_FACTOR, 144 * SpriteUtil.SCALE_FACTOR),
+                Direction.Up => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR),
+                Direction.Left => new Point(SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR),
+                Direction.Right => new Point(SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR),
+                Direction.Down => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR),
                 _ => throw new ArgumentException()
             };
             return topLeft + offset;
         }
         public Point LinkDoorSpawn(Direction dir)
         {
-            int index = dir switch
+            int index = dir switch //index is location of correct door in array of linkDoorSpawns
             {
                 Direction.Left => 0,
                 Direction.Down => 1,

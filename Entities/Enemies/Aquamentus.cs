@@ -46,28 +46,32 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in four chance per move for aquamentus to change direction
-			if (SpriteUtil.Rand.Next(4) == 0)
+			int changeDirChance = 4;
+			int xLimit = 2;
+			int locChange = 4 * SpriteUtil.SCALE_FACTOR;
+			if (SpriteUtil.Rand.Next(changeDirChance) == 0)
             {
 				movingLeft = !movingLeft;
             }
 
 			if (movingLeft)
             {
-				if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size)))
+				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
+
                 {
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - 8, CurrentLoc.Y), CurrentLoc.Size);
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
 				}
-				if (CurrentLoc.X < initX - 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+				if (CurrentLoc.X < initX - xLimit * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
 				{
 					movingLeft = !movingLeft;
 				}
 			} else
             {
-				if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size)))
+				if (!collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size)))
                 {
-					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + 8, CurrentLoc.Y), CurrentLoc.Size);
+					CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
 				}
-				if (CurrentLoc.X > initX + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+				if (CurrentLoc.X > initX + xLimit * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
 				{
 					movingLeft = !movingLeft;
 				}
@@ -101,11 +105,14 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			currentFrame++;
 			AquamentusSprite.Update();
-			if (currentFrame % 8 == 0)
+			int moveChance = 8;
+			if (currentFrame % moveChance == 0)
             {
 				Move();
             }
-			if (currentFrame % 64 == 0 && SpriteUtil.Rand.Next(4) == 0)
+			int attackChance = 64;
+			int randChance = 4;
+			if (currentFrame % attackChance == 0 && SpriteUtil.Rand.Next(randChance) == 0)
             {
 				Attack();
             }

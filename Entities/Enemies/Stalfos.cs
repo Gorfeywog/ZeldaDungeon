@@ -34,18 +34,17 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			int DistanceToMove = SpriteUtil.Rand.Next(3);
-			Rectangle newPos;
-			if (SpriteUtil.Rand.Next(2) == 0)
+			int dirChance = 3;
+			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+      Rectangle newPos;
+			if (SpriteUtil.Rand.Next(dirChance) == 0)
             {
-				newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMove - 8, CurrentLoc.Y), CurrentLoc.Size);
-				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
-
+				newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size); ;
 			} else
 			{
-				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + 8 * DistanceToMove - 8), CurrentLoc.Size);
-				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
 			}
+      if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 
 		}
 
@@ -68,7 +67,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			StalfosSprite.Update();
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+			int moveChance = 8;
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

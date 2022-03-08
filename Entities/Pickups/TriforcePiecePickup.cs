@@ -10,8 +10,6 @@ namespace ZeldaDungeon.Entities.Pickups
     public class TriforcePiecePickup : IPickup
     {
         private ISprite sprite = ItemSpriteFactory.Instance.CreateTriforcePiece();
-        private static int width = 16;
-        private static int height = 16;
         public Rectangle CurrentLoc { get; set; }
         public bool HoldsUp { get => true; }
         public TriforcePiecePickup(Point position)

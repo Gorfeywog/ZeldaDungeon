@@ -11,16 +11,15 @@ namespace ZeldaDungeon.Rooms
     public class Walls
     {
         private ISprite sprite = SpecialSpriteFactory.Instance.CreateWalls();
-        public Point CurrentPoint { get; private set; }
+        public Rectangle CurrentLoc { get; set; }
         public Walls(Point position)
         {
-            CurrentPoint = position;
+            CurrentLoc = new Rectangle(position, new Point(SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, new Rectangle(CurrentPoint, new Point(256 * SpriteUtil.SCALE_FACTOR, 176 * SpriteUtil.SCALE_FACTOR)));
+            sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
     }
 }
-

@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public CollisionHeight Height { get => CollisionHeight.High; }
 		private EntityList roomEntities;
 		private int currentFrame;
+
 		private Direction currDirection;
 
 		public WallMaster(Point position)
@@ -36,7 +37,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in eight chance to change directions
-			if (SpriteUtil.Rand.Next(8) == 0)
+			int changeDirChance = 8;
+			if (SpriteUtil.Rand.Next(changeDirChance) == 0)
 			{
 				switch (SpriteUtil.Rand.Next(4))
 				{
@@ -65,7 +67,8 @@ namespace ZeldaDungeon.Entities.Enemies
 				}
 			}
 
-			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, 8);
+			int speed = 4 * SpriteUtil.SCALE_FACTOR;
+			Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, speed);
 			if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size))) CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
 
 		}
@@ -90,7 +93,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			WallMasterSprite.Update();
 			Collision.ChangeRooms(roomEntities);
 			currentFrame++;
-			if (currentFrame % 8 == 0)
+      int moveChance = 8;
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

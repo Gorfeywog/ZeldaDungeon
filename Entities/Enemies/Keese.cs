@@ -36,9 +36,8 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			int DistanceToMoveX = SpriteUtil.Rand.Next(3);
-			int DistanceToMoveY = SpriteUtil.Rand.Next(3);
-			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + 8 * DistanceToMoveX - 8, CurrentLoc.Y + 8 * DistanceToMoveY - 8), CurrentLoc.Size);
+			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y + locChange), CurrentLoc.Size);
 			if (!Collision.WillHitBlock(newPos))
             {
 				CurrentLoc = newPos;
@@ -68,7 +67,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			currentFrame++;
 			KeeseSprite.Update();
-			if (currentFrame % 8 == 0)
+			int moveChance = 8;
+			if (currentFrame % moveChance == 0)
 			{
 				Move();
 			}

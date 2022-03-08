@@ -86,7 +86,8 @@ namespace ZeldaDungeon.Entities.Projectiles
         public void Update()
         {
             currentFrame++;
-            if (currentFrame % 4 == 0)
+            int moveChance = 4;
+            if (currentFrame % moveChance == 0)
             {
                 if (isReturning)
                 {

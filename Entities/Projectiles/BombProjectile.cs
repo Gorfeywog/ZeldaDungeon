@@ -34,7 +34,8 @@ namespace ZeldaDungeon.Entities.Projectiles
             g.RegisterProjectile(new SmokeCloud(CurrentLoc.Location));
             foreach (var d in doorDirections)
             {
-                Point p = g.CurrentRoom.DoorPos(d) + new Point(32, 32); // add 32, 32 to get center rather than topleft
+                Point p = g.CurrentRoom.DoorPos(d) + new Point((int)SpriteUtil.SpriteSize.DoorX, 
+                    (int)SpriteUtil.SpriteSize.DoorY); // add 32, 32 to get center rather than topleft
                 Point offset = CurrentLoc.Center - p;
                 if (offset.ToVector2().Length() < explodeDist)
                 {

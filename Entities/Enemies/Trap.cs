@@ -49,7 +49,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
         {
 			TrapSprite.Update();
-        }
+			Collision.Update();
+		}
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;
 	}

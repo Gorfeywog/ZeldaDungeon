@@ -107,6 +107,7 @@ public class Link : ILink
             if (!collision.WillHitBlock(newPos)) CurrentLoc = newPos;
             
         }
+        collision.Update();
     }
 
     public void Draw(SpriteBatch spriteBatch)

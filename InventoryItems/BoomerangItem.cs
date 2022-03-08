@@ -11,7 +11,7 @@ namespace ZeldaDungeon.InventoryItems
 {
     public class BoomerangItem : IItem
 	{
-        public bool Consumable { get => false; }
+        public bool Consumable { get => true; }
         private bool isMagic;
         private Game1 g;
         public BoomerangItem(Game1 g, bool isMagic)
@@ -24,7 +24,7 @@ namespace ZeldaDungeon.InventoryItems
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new Boomerang(player, player.Direction, isMagic);
+            IProjectile proj = new Boomerang(player, player.Direction, isMagic, g);
             g.RegisterProjectile(proj);
         }
 

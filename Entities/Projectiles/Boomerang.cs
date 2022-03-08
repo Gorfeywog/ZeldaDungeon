@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
@@ -29,15 +30,17 @@ namespace ZeldaDungeon.Entities.Projectiles
         private bool isReturning = false; // toggles to true when it turns around
         private bool isMagic;
         private int currentFrame;
+        private Game1 g; // needed to give Link his boomerang back after throwing it away
         private const int magicSpeed = 12;
         private const int normalSpeed = 8;
-        public Boomerang(IEntity thrower, Direction dir, bool isMagic)
+        public Boomerang(IEntity thrower, Direction dir, bool isMagic, Game1 g)
         {
+            this.g = g;
             targetDir = dir;
             var esf = EnemySpriteFactory.Instance;
             BoomerangSprite = isMagic ? esf.CreateMagicBoomerangSprite() : esf.CreateBoomerangSprite();
             this.thrower = thrower;
-            Point pos = new Point(thrower.CurrentLoc.X, thrower.CurrentLoc.Y);
+            Point pos = thrower.CurrentLoc.Center;
             int width = (int)SpriteUtil.SpriteSize.BoomerangX;
 			int height = (int)SpriteUtil.SpriteSize.BoomerangY;
 			CurrentLoc = new Rectangle(pos, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
@@ -52,7 +55,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             Point path;
             if (isReturning)
             {
-                Point throwerPos = new Point(thrower.CurrentLoc.X, thrower.CurrentLoc.Y);
+                Point throwerPos = thrower.CurrentLoc.Center;
                 path = throwerPos - TopLeft;
             }
             else
@@ -103,8 +106,12 @@ namespace ZeldaDungeon.Entities.Projectiles
             BoomerangSprite.Update();
         }
 
-        public void DespawnEffect() { } // give Link his boomerang back, maybe?
-
-
+        public void DespawnEffect() // give Link his boomerang back
+        {
+            if (thrower is ILink link)
+            {
+                link.AddItem(new BoomerangItem(g, isMagic));
+            }
+        }
     }
 }

@@ -24,12 +24,13 @@ namespace ZeldaDungeon.Entities.Projectiles
         }
         private IEntity thrower;
         private Direction targetDir;
-        private int velocity;
+        private int velocity; // properly is a speed
         private Random rand;
-        private bool isReturning = false; // toggles to true when it reaches the target
+        private bool isReturning = false; // toggles to true when it turns around
         private bool isMagic;
         private int currentFrame;
-
+        private const int magicSpeed = 12;
+        private const int normalSpeed = 8;
         public Boomerang(IEntity thrower, Direction dir, bool isMagic)
         {
             targetDir = dir;
@@ -41,7 +42,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 			int height = (int)SpriteUtil.SpriteSize.BoomerangY;
 			CurrentLoc = new Rectangle(pos, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.isMagic = isMagic;
-            velocity = isMagic ? 12 : 8; // magic ones go faster
+            velocity = isMagic ? magicSpeed : normalSpeed;
             rand = new Random();
             currentFrame = 0;
         }
@@ -59,8 +60,8 @@ namespace ZeldaDungeon.Entities.Projectiles
                 path = EntityUtils.Offset(new Point(), targetDir, 1);
             }
             var pathVec = path.ToVector2();
-            // if will reach the position, have it turn back or cease to exist
-            // should maybe move into Update somehow?
+            // if will reach the thrower, it ceases to exist
+            // maybe move this into Update somehow?
             if (pathVec.Length() < velocity && isReturning)
             {
                 ReadyToDespawn = true;
@@ -102,7 +103,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             BoomerangSprite.Update();
         }
 
-        public void DespawnEffect() { }
+        public void DespawnEffect() { } // give Link his boomerang back, maybe?
 
 
     }

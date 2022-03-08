@@ -24,12 +24,11 @@ namespace ZeldaDungeon.InventoryItems
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new Boomerang(loc, player.Direction, isMagic);
+            IProjectile proj = new Boomerang(player, player.Direction, isMagic);
             g.RegisterProjectile(proj);
         }
 
-        public bool CanUseOn(ILink player) => true; // check if it has returned yet?
-                                                    // also, TODO: make boomerangs return.
+        public bool CanUseOn(ILink player) => true;
         public bool Equals(IItem other)
         {
             if (other is BoomerangItem otherBoom)

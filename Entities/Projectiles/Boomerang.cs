@@ -10,38 +10,69 @@ namespace ZeldaDungeon.Entities.Projectiles
     {
         public ISprite BoomerangSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
-        private Point InitPoint;
-        private Direction dir;
+        private Point TopLeft
+        {
+            get
+            {
+                return new Point(CurrentLoc.X, CurrentLoc.Y);
+            }
+            set
+            {
+                Point size = CurrentLoc.Size;
+                CurrentLoc = new Rectangle(value, size);
+            }
+        }
+        private IEntity thrower;
+        private Direction targetDir;
         private int velocity;
         private Random rand;
-        private int currentFrame;
+        private bool isReturning = false; // toggles to true when it reaches the target
         private bool isMagic;
-        // consider adding a bool like "isFriendly" later on
+        private int currentFrame;
 
-        public Boomerang(Point position, Direction dir, bool isMagic)
+        public Boomerang(IEntity thrower, Direction dir, bool isMagic)
         {
+            targetDir = dir;
             var esf = EnemySpriteFactory.Instance;
             BoomerangSprite = isMagic ? esf.CreateMagicBoomerangSprite() : esf.CreateBoomerangSprite();
-            InitPoint = position;
+            this.thrower = thrower;
+            Point pos = new Point(thrower.CurrentLoc.X, thrower.CurrentLoc.Y);
             int width = (int)SpriteUtil.SpriteSize.BoomerangX;
 			int height = (int)SpriteUtil.SpriteSize.BoomerangY;
-			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            this.dir = dir;
+			CurrentLoc = new Rectangle(pos, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.isMagic = isMagic;
             velocity = isMagic ? 12 : 8; // magic ones go faster
             rand = new Random();
             currentFrame = 0;
         }
 
-        public void Move() // this should probably be made less jank
+        public void Move() // TODO - check for colliding with walls? 
         {
-            CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, dir, velocity), CurrentLoc.Size);
+            Point path;
+            if (isReturning)
+            {
+                Point throwerPos = new Point(thrower.CurrentLoc.X, thrower.CurrentLoc.Y);
+                path = throwerPos - TopLeft;
+            }
+            else
+            {
+                path = EntityUtils.Offset(new Point(), targetDir, 1);
+            }
+            var pathVec = path.ToVector2();
+            // if will reach the position, have it turn back or cease to exist
+            // should maybe move into Update somehow?
+            if (pathVec.Length() < velocity && isReturning)
+            {
+                ReadyToDespawn = true;
+            }
+            pathVec.Normalize();
+            var offset = pathVec * velocity;
+            var PointOffset = new Point((int)Math.Round(offset.X), (int)Math.Round(offset.Y));
+            TopLeft += PointOffset;
+            
         }
 
-        public bool ReadyToDespawn
-        {
-            get => currentFrame > 0 && CurrentLoc.Location == InitPoint;
-        }
+        public bool ReadyToDespawn { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -51,9 +82,20 @@ namespace ZeldaDungeon.Entities.Projectiles
         public void Update()
         {
             currentFrame++;
-            if (currentFrame % 8 == 0)
+            if (currentFrame % 4 == 0)
             {
-                velocity--;
+                if (isReturning)
+                {
+                    velocity++;
+                }
+                else
+                {
+                    velocity--;
+                    if (velocity == 0)
+                    {
+                        isReturning = true;
+                    }
+                }
             }
             Move();
 

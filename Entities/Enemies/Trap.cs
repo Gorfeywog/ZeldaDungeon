@@ -4,6 +4,7 @@ using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -38,19 +39,19 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move() { }
 		public void Move(Direction direction)
 		{
+			int frameDelay = 0;
 			Rectangle newPos;
 			bool canMove = true;
 			while (canMove){
-				newPos = direction switch
-                {
-                    Direction.Up => new Rectangle(CurrentLoc.X, CurrentLoc.Y - 1, CurrentLoc.Width, CurrentLoc.Height),
-                    Direction.Down => new Rectangle(CurrentLoc.X, CurrentLoc.Y + 1, CurrentLoc.Width, CurrentLoc.Height),
-                    Direction.Left => new Rectangle(CurrentLoc.X - 1, CurrentLoc.Y, CurrentLoc.Width, CurrentLoc.Height),
-                    Direction.Right => new Rectangle(CurrentLoc.X + 1, CurrentLoc.Y, CurrentLoc.Width, CurrentLoc.Height)
-                };
-				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
-				else canMove = false;
-            }
+				if (frameDelay == 500)
+				{
+					newPos = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, direction, speed), CurrentLoc.Size);
+					if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+					else canMove = false;
+				}
+				if (frameDelay > 500) frameDelay = 0;
+				frameDelay++;
+			}
 /*			Point newPt;
 			if (Moving) 
             {

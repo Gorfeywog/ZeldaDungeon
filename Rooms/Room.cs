@@ -16,11 +16,7 @@ namespace ZeldaDungeon.Rooms
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
         // we should really not have both of these, and ideally I would rather have neither
-        public EntityList roomEntitiesEL; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
-        public IList<IEntity> roomEntities; // Used for collision
-        private IList<IEnemy> roomEnemies; // maybe should split logic involving these lists into a new class?
-        private IList<IBlock> roomBlocks;
-        private IList<IPickup> pickups;
+        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -34,7 +30,7 @@ namespace ZeldaDungeon.Rooms
             this.g = g;
             var parser = new CSVParser(path);
             this.gridPos = parser.ParsePos();
-            SetupLists(parser.ParseRoomLayout());            
+            LoadEntities(parser.ParseRoomLayout());            
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
@@ -52,7 +48,10 @@ namespace ZeldaDungeon.Rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            foreach (var b in roomBlocks) // draw blocks first, for overlap purposes
+            // the order of drawing matters because things can overlap.
+            // in particular, blocks *have* to be first, since otherwise floor tiles
+            // would draw all over everything else. that would be very bad.
+            foreach (var b in roomEntities.Blocks())
             {
                 b.Draw(spriteBatch);
             }
@@ -64,23 +63,22 @@ namespace ZeldaDungeon.Rooms
             {
                 d.Value.Draw(spriteBatch);
             }
-            foreach (var i in pickups)
+            foreach (var p in roomEntities.Pickups())
             {
-                i.Draw(spriteBatch);
+                p.Draw(spriteBatch);
             }
-            foreach (var en in roomEnemies)
+            foreach (var en in roomEntities.Enemies())
             {
                 en.Draw(spriteBatch);
             }
+            foreach (var p in roomEntities.Projectiles())
+            {
+                p.Draw(spriteBatch);
+            }
         }
-        private void SetupLists(IList<string>[,] data)
+        private void LoadEntities(IList<string>[,] data)
         {
-            roomEnemies = new List<IEnemy>();
-            roomEntities = new List<IEntity>();
-            roomEntitiesEL = new EntityList(roomEntities);
-            roomBlocks = new List<IBlock>();
-            pickups = new List<IPickup>();
-            // this evil nested loop should probably live in its own method
+            roomEntities = new EntityList();
             for (int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
@@ -89,18 +87,9 @@ namespace ZeldaDungeon.Rooms
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
-                        roomEntitiesEL.Add(ent);
-                        if (ent is IEnemy en)
+                        if (ent != null)
                         {
-                            roomEnemies.Add(en);
-                        }
-                        else if (ent is IBlock b)
-                        {
-                            roomBlocks.Add(b);
-                        }
-                        else if (ent is IPickup pickup)
-                        {
-                            pickups.Add(pickup);
+                            roomEntities.Add(ent);
                         }
                     }
                 }
@@ -108,46 +97,24 @@ namespace ZeldaDungeon.Rooms
         }
         public void UpdateAll()
         {
-            var blocksToBeRemoved = new List<IBlock>();
-            var enemiesToBeRemoved = new List<IEnemy>();
-            var pickupsToBeRemoved = new List<IPickup>();
+            var toBeRemoved = new List<IEntity>();
             bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
-            foreach (var enemy in roomEnemies)
+            foreach (var en in roomEntities)
             {
-                enemy.Update();
-                if (enemy.ReadyToDespawn)
+                en.Update();
+                if (en.ReadyToDespawn)
                 {
-                    enemiesToBeRemoved.Add(enemy);
-                    enemy.DespawnEffect();
+                    toBeRemoved.Add(en);
+                    en.DespawnEffect();
                 }
-            }
-            enemiesToBeRemoved.ForEach(e => roomEnemies.Remove(e));
-            foreach (var pickup in pickups)
-            {
-                pickup.Update();
-                if (pickup.ReadyToDespawn)
-                {
-                    pickupsToBeRemoved.Add(pickup);
-                    pickup.DespawnEffect();
-                }
-                else if (!hasPickup && pickup.CurrentLoc.Intersects(g.Player.CurrentLoc)) // maybe let collisionhandler do this stuff?
+                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
                 {
                     hasPickup = true;
-                    g.Player.PickUp(pickup);
-                    pickupsToBeRemoved.Add(pickup);
+                    g.Player.PickUp(p);
+                    toBeRemoved.Add(en);
                 }
             }
-            pickupsToBeRemoved.ForEach(p => pickups.Remove(p));
-            foreach (var block in roomBlocks)
-            {
-                block.Update();
-                if (block.ReadyToDespawn)
-                {
-                    blocksToBeRemoved.Add(block);
-                    block.DespawnEffect();
-                }
-            }
-            blocksToBeRemoved.ForEach(b => roomBlocks.Remove(b));
+            toBeRemoved.ForEach(en => roomEntities.Remove(en));
         }
 
         public Point DoorPos(Direction dir)

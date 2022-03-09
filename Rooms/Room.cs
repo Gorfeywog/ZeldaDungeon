@@ -87,7 +87,10 @@ namespace ZeldaDungeon.Rooms
                     foreach (string s in data[i, j])
                     {
                         var ent = CSVParser.DecodeToken(s, dest, g);
-                        roomEntities.Add(ent);
+                        if (ent != null)
+                        {
+                            roomEntities.Add(ent);
+                        }
                     }
                 }
             }

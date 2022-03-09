@@ -10,6 +10,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities
 {
+    
     public class CollisionHandler
     {
         private EntityList roomEntities;
@@ -18,6 +19,8 @@ namespace ZeldaDungeon.Entities
         private IEntity ActualEntity;
         private CollisionHeight height;
         private int dx, dy;
+        public bool XCollision { get; private set; }
+        public bool YCollision { get; private set; }
 
         public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
         {
@@ -98,21 +101,24 @@ namespace ZeldaDungeon.Entities
             }
         }
 
+        
         private bool DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
         {
-                // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
-                // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.
-                if (rectangle1.X < (rectangle2.X + rectangle2.Width - (2 * SpriteUtil.SCALE_FACTOR))
-                    && rectangle2.X < (rectangle1.X + rectangle1.Width - (2 * SpriteUtil.SCALE_FACTOR))
-                    && rectangle1.Y < (rectangle2.Y + rectangle2.Height - (2 * SpriteUtil.SCALE_FACTOR))
-                    && rectangle2.Y < (rectangle1.Y + rectangle1.Height) - (2 * SpriteUtil.SCALE_FACTOR))
+            // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
+            // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.
+            XCollision = (rectangle1.X < (rectangle2.X + rectangle2.Width - (2 * SpriteUtil.SCALE_FACTOR))
+                && rectangle2.X < (rectangle1.X + rectangle1.Width - (2 * SpriteUtil.SCALE_FACTOR)));
+            YCollision = (rectangle1.Y < (rectangle2.Y + rectangle2.Height - (2 * SpriteUtil.SCALE_FACTOR))
+                    && rectangle2.Y < (rectangle1.Y + rectangle1.Height) - (2 * SpriteUtil.SCALE_FACTOR));
+
+                if (XCollision && YCollision)
                 {
                     return true;
                 }
                 return false;
         }
 
-        private Direction DetectDirection(IEntity CurrentEntity)
+        public Direction DetectDirection(IEntity CurrentEntity)
         {
             dx = ActualEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.X;
             dy = ActualEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Y;
@@ -132,6 +138,25 @@ namespace ZeldaDungeon.Entities
                 if (dx > 0) return Direction.Left;
                 else return Direction.Right;
             }
+        }
+
+        public void trapUpdate()
+        {
+
+            foreach (IEntity en in roomEntities)
+            {
+                if (en is Trap trap)
+                {
+
+                    if (XCollision || YCollision)
+                    {
+                        trap.Move();
+                    }
+                }
+                
+                
+            }
+
         }
 
         public void Update()

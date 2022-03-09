@@ -30,7 +30,7 @@ namespace ZeldaDungeon.Rooms
             this.g = g;
             var parser = new CSVParser(path);
             this.gridPos = parser.ParsePos();
-            SetupLists(parser.ParseRoomLayout());            
+            LoadEntities(parser.ParseRoomLayout());            
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
@@ -48,8 +48,10 @@ namespace ZeldaDungeon.Rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
-
-            foreach (var b in roomEntities.Blocks()) // draw blocks first, for overlap purposes
+            // the order of drawing matters because things can overlap.
+            // in particular, blocks *have* to be first, since otherwise floor tiles
+            // would draw all over everything else. that would be very bad.
+            foreach (var b in roomEntities.Blocks())
             {
                 b.Draw(spriteBatch);
             }
@@ -69,8 +71,12 @@ namespace ZeldaDungeon.Rooms
             {
                 en.Draw(spriteBatch);
             }
+            foreach (var p in roomEntities.Projectiles())
+            {
+                p.Draw(spriteBatch);
+            }
         }
-        private void SetupLists(IList<string>[,] data)
+        private void LoadEntities(IList<string>[,] data)
         {
             roomEntities = new EntityList();
             for (int i = 0; i < data.GetLength(0); i++)

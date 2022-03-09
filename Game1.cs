@@ -19,10 +19,9 @@ namespace ZeldaDungeon
         private SpriteBatch _spriteBatch;
         private KeyboardController keyboardController;
         private MouseController mouseController;
-        private IList<IProjectile> projectiles = new List<IProjectile>(); // maybe replace this with a dedicated type, or move it into Room?
         public ILink Player { get; private set; }
         private IList<Room> rooms;
-        private EntityList EntityList { get => CurrentRoom.roomEntities; }
+        private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -71,18 +70,6 @@ namespace ZeldaDungeon
             mouseController.UpdateState();
             mouseController.ExecuteCommands();
             CurrentRoom.UpdateAll();
-            var toBeRemoved = new List<IProjectile>();
-            for(int i = 0; i < projectiles.Count; i++)
-            {
-                IProjectile p = projectiles[i];
-                p.Update();
-                if (p.ReadyToDespawn)
-                {
-                    p.DespawnEffect();
-                    toBeRemoved.Add(p);
-                }
-            }
-            toBeRemoved.ForEach(p => projectiles.Remove(p));
             Player.Update();
 
             base.Update(gameTime);
@@ -94,10 +81,6 @@ namespace ZeldaDungeon
             GraphicsDevice.Clear(Color.Black); // this affects at least the old man room, maybe some others too
             _spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(_spriteBatch);
-            foreach (IProjectile p in projectiles)
-            {
-                p.Draw(_spriteBatch);
-            }
             Player.Draw(_spriteBatch);
             base.Draw(gameTime);
             _spriteBatch.End();
@@ -125,7 +108,6 @@ namespace ZeldaDungeon
 
         public void Reset()
         {
-            projectiles = new List<IProjectile>();
             SetupRooms();
             SetupPlayer();
         }
@@ -178,9 +160,9 @@ namespace ZeldaDungeon
                 (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
         }
 
-        public void RegisterProjectile(IProjectile p) // strongly consider moving this to either Room or a dedicated type
+        public void RegisterProjectile(IProjectile p) // this method can probably stop existing
         {
-            projectiles.Add(p);
+            CurrentRoomEntities.Add(p);
         }
 
         public void TeleportToRoom(int index)
@@ -188,7 +170,7 @@ namespace ZeldaDungeon
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
             Player.UpdateList(CurrentRoom.roomEntities);
-            EntityList.UpdateList(CurrentRoom.roomEntities);
+            CurrentRoomEntities.UpdateList(CurrentRoom.roomEntities);
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -201,7 +183,7 @@ namespace ZeldaDungeon
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
             }
             Player.UpdateList(CurrentRoom.roomEntities);
-            EntityList.UpdateList(CurrentRoom.roomEntities);
+            CurrentRoomEntities.UpdateList(CurrentRoom.roomEntities);
         }
 
         public void UnlockRoomDoor(Direction dir)

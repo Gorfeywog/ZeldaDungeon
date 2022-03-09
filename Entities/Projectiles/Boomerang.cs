@@ -91,11 +91,11 @@ namespace ZeldaDungeon.Entities.Projectiles
             {
                 if (isReturning)
                 {
-                    velocity++;
+                    velocity += SpriteUtil.SCALE_FACTOR / 3;
                 }
                 else
                 {
-                    velocity--;
+                    velocity -= SpriteUtil.SCALE_FACTOR / 3;
                     if (velocity == 0)
                     {
                         isReturning = true;

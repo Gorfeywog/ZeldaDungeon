@@ -53,22 +53,22 @@ namespace ZeldaDungeon.Entities
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
+            if (ActualEntity is Trap t)
+            {
+                foreach (IEntity ent in roomEntities)
+                {
+                    if (ent is IEnemy en && en is Trap otherTrap && !t.Equals(otherTrap) && DetectCollision(nextLoc, otherTrap.CurrentLoc))
+                    {
+                        return true; 
+                    }
+                }
+            }
             foreach (IBlock block in blockEntities)
             {
-                // delete this comment
-                /*                if (isFlying) 
-                                {
-                                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
-                                    {
-                                        return true;
-                                    }
-                                    else return false;
-                                }*/
                 if (DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
                 {
                     return true;
                 }
-                
             }
             return false;
         }
@@ -78,7 +78,6 @@ namespace ZeldaDungeon.Entities
             {
                 player.TakeDamage();
             }
-            // This is all this does, right?
         }
 
         private void HandleCollisionPlayerProjectile(ILink player, IProjectile item)
@@ -112,7 +111,26 @@ namespace ZeldaDungeon.Entities
 
         public Direction DetectDirection(IEntity CurrentEntity)
         {
-            
+            bool left = ActualEntity.CurrentLoc.X <= CurrentEntity.CurrentLoc.X;
+            bool right = ActualEntity.CurrentLoc.X > CurrentEntity.CurrentLoc.X;
+            bool up = ActualEntity.CurrentLoc.Y <= CurrentEntity.CurrentLoc.Y;
+            bool down = ActualEntity.CurrentLoc.Y > CurrentEntity.CurrentLoc.Y;
+            bool UpDownDetection = ActualEntity.CurrentLoc.X <= CurrentEntity.CurrentLoc.X + CurrentEntity.CurrentLoc.Width
+            && CurrentEntity.CurrentLoc.X <= ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width;
+            bool LeftRightDetection = ActualEntity.CurrentLoc.Y <= CurrentEntity.CurrentLoc.Y + CurrentEntity.CurrentLoc.Height
+            && CurrentEntity.CurrentLoc.Y <= ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height;
+            if (LeftRightDetection)
+            {
+                if (left) return Direction.Left;
+                else if (right) return Direction.Right;
+            }
+            else if (UpDownDetection)
+            {
+                if (up) return Direction.Up;
+                else if (down) return Direction.Down;
+            }
+            return Direction.NE; // Just gonna use this as an error message.
+/*            
             if (CurrentEntity.CurrentLoc.X < ActualEntity.CurrentLoc.X)
             {
                 dx = ActualEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.Width;
@@ -144,28 +162,21 @@ namespace ZeldaDungeon.Entities
                 // If negative, it was hit from the right.
                 if (dx < 0) return Direction.Left;
                 else return Direction.Right;
-            }
+            }*/
         }
 
         public void trapUpdate()
         {
-
-            foreach (IEntity en in roomEntities)
+            foreach (IEntity ent in roomEntities)
             {
-                if (en is Trap trap)
+                if (ent is Trap t)
                 {
-                    DetectCollision(ActualEntity.CurrentLoc, trap.CurrentLoc);
-                    if (XCollision || YCollision)
+                    if (DetectDirection(t) != Direction.NE)
                     {
-                        trap.Moving = true;
-                        trap.Move();
-
+                        t.Move(DetectDirection(t));
                     }
                 }
-                
-                
             }
-
         }
 
         public void Update()

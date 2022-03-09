@@ -13,7 +13,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 		public bool Moving { get; set; }
 		private int speed;
-		private Game1 Game;
 
 		private EntityList roomEntities;
 		public CollisionHandler Collision { get; set; }
@@ -26,8 +25,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			Collision = new CollisionHandler(roomEntities, this);
 			Moving = false;
-			speed = 1 * SpriteUtil.SCALE_FACTOR;
-			Game = game;
+			speed = 1;// * SpriteUtil.SCALE_FACTOR;
 
 		}
 
@@ -37,10 +35,23 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision.ChangeRooms(roomEntities);
 		}
 
-		public void Move()
+		public void Move() { }
+		public void Move(Direction direction)
 		{
-
-			Point newPt;
+			Rectangle newPos;
+			bool canMove = true;
+			while (canMove){
+				newPos = direction switch
+                {
+                    Direction.Up => new Rectangle(CurrentLoc.X, CurrentLoc.Y - 1, CurrentLoc.Width, CurrentLoc.Height),
+                    Direction.Down => new Rectangle(CurrentLoc.X, CurrentLoc.Y + 1, CurrentLoc.Width, CurrentLoc.Height),
+                    Direction.Left => new Rectangle(CurrentLoc.X - 1, CurrentLoc.Y, CurrentLoc.Width, CurrentLoc.Height),
+                    Direction.Right => new Rectangle(CurrentLoc.X + 1, CurrentLoc.Y, CurrentLoc.Width, CurrentLoc.Height)
+                };
+				if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+				else canMove = false;
+            }
+/*			Point newPt;
 			if (Moving) 
             {
 				newPt = EntityUtils.Offset(CurrentLoc.Location, Collision.DetectDirection(Game.Player), speed);
@@ -52,10 +63,7 @@ namespace ZeldaDungeon.Entities.Enemies
                 }
 				
 
-			}
-
-			Collision.Update();
-			//No movement so collision handling not necessary
+			}*/
 		}
 
 		public void Attack()

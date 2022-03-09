@@ -19,7 +19,7 @@ namespace ZeldaDungeon.InventoryItems
             this.g = g;
             this.isRed = isRed;
         }
-        private static int offset = 32;
+        private static int offset = SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
             // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link

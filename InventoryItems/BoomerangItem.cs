@@ -20,7 +20,7 @@ namespace ZeldaDungeon.InventoryItems
             this.g = g;
             this.isMagic = isMagic;
         }
-        private static int offset = 32;
+        private static int offset = 16 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);

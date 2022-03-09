@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		private Direction orientation;
 		private static int maxFrame = 60;
 		private int currentFrame;
-		private int speed = 8; // note that this is faster than the regular arrow!
+		private int speed = 5 * SpriteUtil.SCALE_FACTOR; // note that this is faster than the regular arrow!
 		private Game1 g;
 
 		public MagicArrowProjectile(Point position, Direction dir, Game1 g) // should this and regular arrow be the same class?

@@ -118,7 +118,7 @@ namespace ZeldaDungeon.Rooms
                 "ke" => new Keese(pos),
                 "re" => new Rope(pos),
                 "se" => new Stalfos(pos),
-                "te" => new Trap(pos),
+                "te" => new Trap(pos, g),
                 "wme" => new WallMaster(pos),
                 "ai1" => new ArrowPickup(pos, g, false),
                 "ai2" => new ArrowPickup(pos, g, true),

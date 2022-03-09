@@ -11,21 +11,23 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite TrapSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		private bool moving;
+		public bool Moving { get; set; }
 		private int speed;
+		private Game1 Game;
 
 		private EntityList roomEntities;
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
-		public Trap(Point position)
+		public Trap(Point position, Game1 game)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
 			int width = (int)SpriteUtil.SpriteSize.TrapX;
 			int height = (int)SpriteUtil.SpriteSize.TrapY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			Collision = new CollisionHandler(roomEntities, this);
-			moving = false;
-			speed = 8 * SpriteUtil.SCALE_FACTOR;
+			Moving = false;
+			speed = 1 * SpriteUtil.SCALE_FACTOR;
+			Game = game;
 
 		}
 
@@ -39,10 +41,17 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 
 			Point newPt;
-			if (!moving) 
+			if (Moving) 
             {
-				newPt = EntityUtils.Offset(CurrentLoc.Location, Collision.DetectDirection(this), speed);
-				CurrentLoc = new Rectangle(newPt, CurrentLoc.Size);
+				newPt = EntityUtils.Offset(CurrentLoc.Location, Collision.DetectDirection(Game.Player), speed);
+				if (!Collision.WillHitBlock(new Rectangle(newPt, CurrentLoc.Size))) {
+					CurrentLoc = new Rectangle(newPt, CurrentLoc.Size);
+				} else
+                {
+					Moving = false;
+                }
+				
+
 			}
 
 			Collision.Update();

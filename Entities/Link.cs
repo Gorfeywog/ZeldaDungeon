@@ -62,7 +62,7 @@ public class Link : ILink
             stateMachine.PickUp();
             heldItem = pickup;
         }
-        pickup.PickUp(this); // should maybe reevaluate the naming scheme of these methods. they're kinda horrible.
+        pickup.PickUp(this); 
     }
     public bool CanPickUp() => stateMachine.CurrentState == LinkStateMachine.LinkActionState.Idle
         || stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking;

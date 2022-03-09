@@ -19,8 +19,8 @@ namespace ZeldaDungeon.Entities
         private IEntity ActualEntity;
         private CollisionHeight height;
         private int dx, dy;
-        public bool XCollision { get; private set; }
-        public bool YCollision { get; private set; }
+        private bool XCollision;
+        private bool YCollision;
 
         public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
         {
@@ -55,6 +55,7 @@ namespace ZeldaDungeon.Entities
         {
             foreach (IBlock block in blockEntities)
             {
+                // delete this comment
                 /*                if (isFlying) 
                                 {
                                     if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
@@ -120,14 +121,29 @@ namespace ZeldaDungeon.Entities
 
         public Direction DetectDirection(IEntity CurrentEntity)
         {
-            dx = ActualEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.X;
-            dy = ActualEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Y;
+            
+            if (CurrentEntity.CurrentLoc.X < ActualEntity.CurrentLoc.X)
+            {
+                dx = ActualEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.Width;
+            } else
+            {
+                dx = ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width - CurrentEntity.CurrentLoc.X;
+            }
+
+            if (CurrentEntity.CurrentLoc.Y < ActualEntity.CurrentLoc.Y)
+            {
+                dy = ActualEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Height;
+            }
+            else
+            {
+                dy = ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height - CurrentEntity.CurrentLoc.Y;
+            }
             // If dx > dy, we know it's either a top or bottom collision.
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // If dy is positive, the actualEntity was hit from the top.
                 // If negative, it was hit from the bottom.
-                if (dy > 0) return Direction.Up;
+                if (dy < 0) return Direction.Up;
                 else return Direction.Down;
             }
             // If dy > dx, we know it's either a left or right collision.
@@ -135,7 +151,7 @@ namespace ZeldaDungeon.Entities
             {
                 // If dx is positive, the actualEntity was hit from the left.
                 // If negative, it was hit from the right.
-                if (dx > 0) return Direction.Left;
+                if (dx < 0) return Direction.Left;
                 else return Direction.Right;
             }
         }
@@ -147,10 +163,12 @@ namespace ZeldaDungeon.Entities
             {
                 if (en is Trap trap)
                 {
-
+                    DetectCollision(ActualEntity.CurrentLoc, trap.CurrentLoc);
                     if (XCollision || YCollision)
                     {
+                        trap.Moving = true;
                         trap.Move();
+
                     }
                 }
                 

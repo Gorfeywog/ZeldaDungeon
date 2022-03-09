@@ -38,7 +38,6 @@ namespace ZeldaDungeon.Entities.Pickups
         }
         public void Update() => sprite.Update();
 
-        private static int offset = 32;
         public void PickUp(ILink player)
         {
             player.AddItem(new BoomerangItem(g, isMagic));

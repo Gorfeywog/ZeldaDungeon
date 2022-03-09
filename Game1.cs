@@ -149,18 +149,21 @@ namespace ZeldaDungeon
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, 
                 SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
                 (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
+
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR,
                 SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR, 
                 (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
+
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR, 
                 SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
                 (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
+
             mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR, 
                 SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
                 (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
         }
 
-        public void RegisterProjectile(IProjectile p) // this method can probably stop existing
+        public void RegisterProjectile(IProjectile p) // this method can probably stop existing (this comment can probably stop existing too)
         {
             CurrentRoomEntities.Add(p);
         }

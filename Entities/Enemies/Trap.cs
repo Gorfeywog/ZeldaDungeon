@@ -11,6 +11,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite TrapSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
+		private bool moving;
+		private int speed;
 
 		private EntityList roomEntities;
 		public CollisionHandler Collision { get; set; }
@@ -22,6 +24,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.TrapY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			Collision = new CollisionHandler(roomEntities, this);
+			moving = false;
+			speed = 8 * SpriteUtil.SCALE_FACTOR;
 
 		}
 
@@ -33,6 +37,15 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
+
+			Point newPt;
+			if (!moving) 
+            {
+				newPt = EntityUtils.Offset(CurrentLoc.Location, Collision.DetectDirection(this), speed);
+				CurrentLoc = new Rectangle(newPt, CurrentLoc.Size);
+			}
+
+			Collision.Update();
 			//No movement so collision handling not necessary
 		}
 

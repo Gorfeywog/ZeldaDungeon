@@ -41,7 +41,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			this.g = g;
 			currDirection = Direction.Left;
 			currentFrame = 0;
-			this.roomEntities = g.CurrentRoom.roomEntitiesEL;
+			this.roomEntities = g.CurrentRoom.roomEntities;
 			Collision = new CollisionHandler(roomEntities, this);
 		}
 		public void UpdateList(EntityList roomEntities)

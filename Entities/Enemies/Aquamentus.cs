@@ -28,7 +28,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			roomEntities = g.CurrentRoom.roomEntitiesEL; 
+			roomEntities = g.CurrentRoom.roomEntities; 
 			Collision = new CollisionHandler(roomEntities, this);
 			initX = position.X;
 

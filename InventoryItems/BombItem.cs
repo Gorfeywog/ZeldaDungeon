@@ -19,7 +19,7 @@ namespace ZeldaDungeon.InventoryItems
             this.g = g;
         }
 
-        private static int offset = 32; // how far to place from Link
+        private static int offset = 16 * SpriteUtil.SCALE_FACTOR; // how far to place from Link
         public void UseOn(ILink player)
         {
             // uses player.Position rather than player.Center since is about the size of Link

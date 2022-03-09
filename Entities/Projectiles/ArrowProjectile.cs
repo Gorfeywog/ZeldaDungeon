@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		private Direction orientation;
 		private static int maxFrame = 60; // chosen arbitrarily
 		private int currentFrame;
-		private int speed = 5;
+		private int speed = 3 * SpriteUtil.SCALE_FACTOR;
 		private Game1 g;
 
 		public ArrowProjectile(Point position, Direction dir, Game1 g)

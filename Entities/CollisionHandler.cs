@@ -105,18 +105,9 @@ namespace ZeldaDungeon.Entities
         
         private bool DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
         {
-            // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
-            // Easier to visualize in a picture. Also idk if it matters to do this big if statement or boolean variables.
-            XCollision = (rectangle1.X < (rectangle2.X + rectangle2.Width - (2 * SpriteUtil.SCALE_FACTOR))
-                && rectangle2.X < (rectangle1.X + rectangle1.Width - (2 * SpriteUtil.SCALE_FACTOR)));
-            YCollision = (rectangle1.Y < (rectangle2.Y + rectangle2.Height - (2 * SpriteUtil.SCALE_FACTOR))
-                    && rectangle2.Y < (rectangle1.Y + rectangle1.Height) - (2 * SpriteUtil.SCALE_FACTOR));
+            //You've got to be kidding me
+            return rectangle1.Intersects(rectangle2);
 
-                if (XCollision && YCollision)
-                {
-                    return true;
-                }
-                return false;
         }
 
         public Direction DetectDirection(IEntity CurrentEntity)

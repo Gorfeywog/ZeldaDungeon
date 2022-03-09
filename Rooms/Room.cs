@@ -99,6 +99,7 @@ namespace ZeldaDungeon.Rooms
         {
             var toBeRemoved = new List<IEntity>();
             bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
+            IPickup toPickUp = null;
             foreach (var en in roomEntities)
             {
                 en.Update();
@@ -110,10 +111,11 @@ namespace ZeldaDungeon.Rooms
                 else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
                 {
                     hasPickup = true;
-                    g.Player.PickUp(p);
+                    toPickUp = p;
                     toBeRemoved.Add(en);
                 }
             }
+            g.Player.PickUp(toPickUp);
             toBeRemoved.ForEach(en => roomEntities.Remove(en));
         }
 

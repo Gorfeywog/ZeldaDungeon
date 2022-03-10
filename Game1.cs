@@ -87,7 +87,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities);
+            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities, this);
             Player.UpdateList(CurrentRoom.roomEntities);
         }
         private const string roomDataPath = @"RoomData";

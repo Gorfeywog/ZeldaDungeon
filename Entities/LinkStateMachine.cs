@@ -6,6 +6,7 @@ public class LinkStateMachine
 {
 	public enum LinkActionState { PickingUp, UsingItem, Walking, Idle, Attacking };
 	public bool Damaged { get; private set; }
+	public bool FullHealth { get => true; }
 	private Direction currentDirection;
 	public Direction CurrentDirection
     {

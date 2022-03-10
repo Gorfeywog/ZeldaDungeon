@@ -90,6 +90,8 @@ namespace ZeldaDungeon.Sprites
             ArrowLength = 16,
             SwordWidth = 8,
             SwordLength = 16,
+            SwordProjWidth = 8,
+            SwordProjHeight = 10,
             CandleWidth = 8,
             CandleLength = 16
         } 

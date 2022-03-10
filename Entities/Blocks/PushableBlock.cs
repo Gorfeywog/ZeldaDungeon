@@ -17,6 +17,7 @@ namespace ZeldaDungeon.Entities.Blocks
         public EntityList roomEntities;
         private bool canBeMoved;
         private int AmountMoved;
+        private int lengthHeld;
 
         public Rectangle CurrentLoc { get; set; }
         private Rectangle newLoc;
@@ -47,14 +48,18 @@ namespace ZeldaDungeon.Entities.Blocks
 
         public void InitMovement(Direction direction)
         {
-            if (canBeMoved && AmountMoved <= (int)SpriteUtil.SpriteSize.GenericBlockY)
+            if (canBeMoved && AmountMoved < (int)SpriteUtil.SpriteSize.GenericBlockY && lengthHeld == 60)
             {
                 Move(direction);
                 AmountMoved++;
             }
-            else
+            else if (AmountMoved == (int)SpriteUtil.SpriteSize.GenericBlockY)
             {
                 canBeMoved = false;
+            }
+            else if (lengthHeld < 60)
+            {
+                lengthHeld++;
             }
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -21,16 +21,10 @@ namespace ZeldaDungeon.Entities.Pickups
             int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
 			int height = (int)SpriteUtil.SpriteSize.ArrowLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            this.g=g;
+            this.g = g;
             this.isMagic = isMagic;
-            if (isMagic)
-            {
-                sprite = ItemSpriteFactory.Instance.CreateMagicArrow(Direction.Up);
-            }
-            else
-            {
-                sprite = ItemSpriteFactory.Instance.CreateArrow(Direction.Up);
-            }
+            sprite = ItemSpriteFactory.Instance.CreateArrow(Direction.Up, isMagic);
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {

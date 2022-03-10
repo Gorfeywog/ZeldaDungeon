@@ -23,16 +23,8 @@ namespace ZeldaDungeon.InventoryItems
         public void UseOn(ILink player)
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj;
-            if (isMagic)
-            {
-                proj = new MagicArrowProjectile(loc, player.Direction, g);
-            }
-            else
-            {
-                proj = new ArrowProjectile(loc, player.Direction, g);
-            }
-            g.RegisterProjectile(proj);
+            IProjectile proj = new ArrowProjectile(loc, player.Direction, isMagic, g);
+            g.CurrentRoom.RegisterProjectile(proj);
         }
         public bool CanUseOn(ILink player) => player.HasItem(new BowItem());
         public bool Equals(IItem other)

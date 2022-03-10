@@ -31,5 +31,6 @@ namespace ZeldaDungeon.Entities.Projectiles
             sprite.Update();
             timer--;
         }
+        public void OnHit(IEntity target) { }
     }
 }

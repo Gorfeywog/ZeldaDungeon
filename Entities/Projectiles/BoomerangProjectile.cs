@@ -7,7 +7,7 @@ using ZeldaDungeon.InventoryItems;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-    public class Boomerang : IProjectile
+    public class BoomerangProjectile : IProjectile
     {
         public ISprite BoomerangSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
@@ -33,7 +33,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         private Game1 g; // needed to give Link his boomerang back after throwing it away
         private int magicSpeed = 4 * SpriteUtil.SCALE_FACTOR;
         private int normalSpeed = 3 * SpriteUtil.SCALE_FACTOR;
-        public Boomerang(IEntity thrower, Direction dir, bool isMagic, Game1 g)
+        public BoomerangProjectile(IEntity thrower, Direction dir, bool isMagic, Game1 g)
         {
             this.g = g;
             targetDir = dir;
@@ -112,6 +112,18 @@ namespace ZeldaDungeon.Entities.Projectiles
             if (thrower is ILink link)
             {
                 link.AddItem(new BoomerangItem(g, isMagic));
+            }
+        }
+        public void OnHit(IEntity target)
+        {
+            bool friendly = thrower is ILink;
+            if (target is IEnemy en && friendly)
+            {
+                en.TakeDamage();
+            }
+            else if (target is ILink link && !friendly)
+            {
+                link.TakeDamage();
             }
         }
     }

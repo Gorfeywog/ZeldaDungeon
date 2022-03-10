@@ -94,8 +94,8 @@ namespace ZeldaDungeon.Sprites
             CandleLength = 16
         } 
 
-        private static readonly int gridX = 32;
-        private static readonly int gridY = 32;
+        private static readonly int gridX = 40;
+        private static readonly int gridY = 40;
         public static Rectangle GridToRectangle(int x, int y, int width, int height) // convert grid position to position in pixels
         {
             return new Rectangle(gridX * x, gridY * y, width, height);

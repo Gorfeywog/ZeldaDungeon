@@ -113,33 +113,33 @@ namespace ZeldaDungeon.Sprites
             return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 2, 
                 (int)SpriteUtil.SpriteSize.BoomerangX, (int)SpriteUtil.SpriteSize.BoomerangY));
         }
-        public ISprite CreateArrow(Direction dir)
+        public ISprite CreateArrow(Direction dir, bool isMagic)
         {
             int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
             int length = (int)SpriteUtil.SpriteSize.ArrowLength;
 
-            return dir switch
+            if (isMagic)
             {
-                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 5, width, length)),
-                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 5, length, width)),
-                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 5, length, width)),
-                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 5, width, length)),
-                _ => throw new ArgumentException()
-            };
-        }
-        public ISprite CreateMagicArrow(Direction dir)
-        {
-            int width = (int)SpriteUtil.SpriteSize.ArrowWidth;
-            int length = (int)SpriteUtil.SpriteSize.ArrowLength;
-
-            return dir switch
+                return dir switch
+                {
+                    Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 6, width, length)),
+                    Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 6, length, width)),
+                    Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 6, length, width)),
+                    Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 6, width, length)),
+                    _ => throw new ArgumentException()
+                };
+            }
+            else
             {
-                Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 6, width, length)),
-                Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 6, length, width)),
-                Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 6, length, width)),
-                Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 6, width, length)),
-                _ => throw new ArgumentException()
-            };
+                return dir switch
+                {
+                    Direction.Down => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 5, width, length)),
+                    Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 5, length, width)),
+                    Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 5, length, width)),
+                    Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 5, width, length)),
+                    _ => throw new ArgumentException()
+                };
+            }
         }
         public ISprite CreateSword(Direction dir)
         {

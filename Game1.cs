@@ -165,7 +165,7 @@ namespace ZeldaDungeon
 
         public void RegisterProjectile(IProjectile p) // this method can probably stop existing (this comment can probably stop existing too)
         {
-            CurrentRoomEntities.Add(p);
+            CurrentRoom.RegisterProjectile(p);
         }
 
         public void TeleportToRoom(int index)

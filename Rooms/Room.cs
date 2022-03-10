@@ -15,7 +15,8 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
+        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere'
+        private IList<IProjectile> projBuffer; // store projectiles until we can safely add them to roomEntities
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -34,6 +35,7 @@ namespace ZeldaDungeon.Rooms
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
+            projBuffer = new List<IProjectile>();
             if (Type == RoomType.Normal)
             {
                 int numDoors = 4;
@@ -94,6 +96,10 @@ namespace ZeldaDungeon.Rooms
                 }
             }
         }
+        public void RegisterProjectile(IProjectile proj)
+        {
+            projBuffer.Add(proj);
+        }
         public void UpdateAll()
         {
             var toBeRemoved = new List<IEntity>();
@@ -117,6 +123,11 @@ namespace ZeldaDungeon.Rooms
                 roomEntities.Remove(en);
                 en.DespawnEffect();
             }
+            foreach (var proj in projBuffer)
+            {
+                roomEntities.Add(proj);
+            }
+            projBuffer.Clear();
         }
 
         public Point DoorPos(Direction dir)

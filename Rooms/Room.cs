@@ -49,33 +49,28 @@ namespace ZeldaDungeon.Rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            // the order of drawing matters because things can overlap.
-            // in particular, blocks *have* to be first, since otherwise floor tiles
-            // would draw all over everything else. that would be very bad.
-            foreach (var b in roomEntities.Blocks())
+            var drawLists = new Dictionary<DrawLayer, List<IEntity>>();
+            var layers = (DrawLayer[]) Enum.GetValues(typeof(DrawLayer));
+            Array.Sort(layers);
+            foreach (DrawLayer layer in layers)
             {
-                b.Draw(spriteBatch);
+                drawLists[layer] = new List<IEntity>();
             }
-            if (walls != null)
+            foreach (var en in roomEntities)
             {
-                walls.Draw(spriteBatch);
+                drawLists[en.Layer].Add(en);
             }
-            foreach (var d in doors)
+            drawLists[g.Player.Layer].Add(g.Player);
+            foreach (var layer in layers)
             {
-                d.Value.Draw(spriteBatch);
+                drawLists[layer].ForEach(e => e.Draw(spriteBatch));
             }
-            foreach (var p in roomEntities.Pickups())
+            foreach (var d in directions)
             {
-                p.Draw(spriteBatch);
+                doors[d].Draw(spriteBatch);
             }
-            foreach (var en in roomEntities.Enemies())
-            {
-                en.Draw(spriteBatch);
-            }
-            foreach (var p in roomEntities.Projectiles())
-            {
-                p.Draw(spriteBatch);
-            }
+            if (walls != null) { walls.Draw(spriteBatch);  }
+
         }
         public void RegisterProjectile(IProjectile proj)
         {

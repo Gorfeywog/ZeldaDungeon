@@ -61,15 +61,18 @@ namespace ZeldaDungeon.Rooms
                 drawLists[en.Layer].Add(en);
             }
             drawLists[g.Player.Layer].Add(g.Player);
+            foreach (var d in doors.Values)
+            {
+                drawLists[d.Layer].Add(d);
+            }
+            if (walls != null) 
+            { 
+                drawLists[walls.Layer].Add(walls);
+            }
             foreach (var layer in layers)
             {
                 drawLists[layer].ForEach(e => e.Draw(spriteBatch));
             }
-            foreach (var d in directions)
-            {
-                doors[d].Draw(spriteBatch);
-            }
-            if (walls != null) { walls.Draw(spriteBatch);  }
 
         }
         public void RegisterProjectile(IProjectile proj)

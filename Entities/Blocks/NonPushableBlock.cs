@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Blocks
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock();
         public CollisionHeight Height { get => CollisionHeight.Normal; }
-
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         public NonPushableBlock(Point position)
         {

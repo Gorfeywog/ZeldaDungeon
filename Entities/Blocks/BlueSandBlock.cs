@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Blocks
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueSandBlock();
         public CollisionHeight Height { get => CollisionHeight.Floor; }
-
+        public DrawLayer Layer { get => DrawLayer.Floor; }
         public Rectangle CurrentLoc { get; set; }
         public BlueSandBlock(Point position)
         {

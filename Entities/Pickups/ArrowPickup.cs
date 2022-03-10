@@ -15,6 +15,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private Game1 g;
         private bool isMagic;
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => false; }
         public ArrowPickup(Point position, Game1 g, bool isMagic)
         {

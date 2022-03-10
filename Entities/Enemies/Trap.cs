@@ -26,6 +26,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private EntityList roomEntities;
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public Trap(Point position, Game1 game)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();

@@ -13,6 +13,7 @@ namespace ZeldaDungeon.Entities.Blocks
 
         private ISprite sprite = BlockSpriteFactory.Instance.CreateLadderBlock();
         public CollisionHeight Height { get => CollisionHeight.Floor; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         public LadderBlock(Point position)
         {

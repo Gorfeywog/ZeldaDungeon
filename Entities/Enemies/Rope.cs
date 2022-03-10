@@ -69,7 +69,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int locChange = 4 * SpriteUtil.SCALE_FACTOR;
 			switch (currDirection)
 			{
-				//TODO: implement ccollision checking.
+				//TODO: implement collision checking.
 				case Direction.Left:
 					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
 					break;

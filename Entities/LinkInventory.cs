@@ -22,7 +22,7 @@ namespace ZeldaDungeon.Entities
             if (itemCount.ContainsKey(item))
             {
                 int ct = itemCount[item];
-                itemCount[item] = item.Consumable ? ct - 1 : ct; // only decrement if it's 
+                itemCount[item] = item.Consumable ? ct - 1 : ct; 
                 return true;
             }
             else

@@ -92,13 +92,13 @@ public class Link : ILink
         stateMachine.Attack();
     }
 
-    private int speed = SpriteUtil.SCALE_FACTOR; // this should maybe be more dynamic
+    private int speed = SpriteUtil.SCALE_FACTOR;
     public void Update()
     {
         stateMachine.Update();
         if (stateMachine.HasNewSprite)
         {
-            linkSprite = stateMachine.LinkSprite(); // only get a new sprite if we need to
+            linkSprite = stateMachine.LinkSprite();
         }
         linkSprite.Update();
         if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)

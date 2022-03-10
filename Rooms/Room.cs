@@ -92,7 +92,7 @@ namespace ZeldaDungeon.Rooms
                 {
                     toBeRemoved.Add(en);
                 }
-                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
+                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) 
                 {
                     hasPickup = true;
                     g.Player.PickUp(p);

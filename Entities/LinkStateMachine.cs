@@ -81,9 +81,9 @@ public class LinkStateMachine
 		CurrentState = LinkActionState.Walking;
 	}
 
-	private static readonly int damageDelay = 80; // chosen by magic
+	private static readonly int damageDelay = 80; 
 	private int damageCountdown = 0;
-	private static readonly int itemUseDelay = 20; // also used for attacks, and picking things up
+	private static readonly int itemUseDelay = 20; // also used for attacks, and picking items up
 	private int itemUseCountdown = 0;
 	public void Update()
     {

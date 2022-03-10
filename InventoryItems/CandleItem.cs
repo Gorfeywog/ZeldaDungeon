@@ -28,7 +28,7 @@ namespace ZeldaDungeon.InventoryItems
             g.CurrentRoom.RegisterProjectile(proj);
         }
 
-        public bool CanUseOn(ILink player) => true; // check for using blue candle only once per room?
+        public bool CanUseOn(ILink player) => true; 
         public bool Equals(IItem other)
         {
             if (other is CandleItem otherCandle)

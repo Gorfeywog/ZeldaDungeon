@@ -32,8 +32,8 @@ namespace ZeldaDungeon.Rooms
             this.path = path;
             lines = System.IO.File.ReadAllLines(path);
         }
-        // array corresponds to the room's grid, list stores every entity on a tile?
-        // all rows and columns must have the prescribed dimensions, or bad stuff happens.
+        // array corresponds to the room's grid, list stores every entity on a tile
+        // all rows and columns must have the prescribed dimensions
         private IList<String>[,] ParseRoomTokens()
         {
             IList<String>[,] tokens = new IList<String>[width, height];
@@ -132,8 +132,8 @@ namespace ZeldaDungeon.Rooms
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),
                 "wbb" => new WhiteBrickBlock(pos),
-                "aqe" => new Aquamentus(pos, g), // If we end up taking g out, collision will break
-                "ge" => new Gel(pos), // we could just use g to be more consisten, just thought room was better
+                "aqe" => new Aquamentus(pos, g), // keep g for collisions.
+                "ge" => new Gel(pos), 
                 "gre" => new Goriya(pos, g, true),
                 "gbe" => new Goriya(pos, g, false),
                 "om" => new OldMan(pos),

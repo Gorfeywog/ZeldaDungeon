@@ -25,6 +25,14 @@ namespace ZeldaDungeon
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
+        private int xDoorSize = (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR;
+        private int yDoorSize = (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR;
+        private int xCenter = SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR;
+        private int yCenter = SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR;
+        private int yTop = SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR;
+        private int yBottom = SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR;
+        private int xLeft = SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR;
+        private int xRight = SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR;
 
 
         public Game1()
@@ -40,8 +48,8 @@ namespace ZeldaDungeon
         {
             base.Initialize();
             _graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
-            _graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; // probably should change this whenever we introduce UI
-            _graphics.ApplyChanges();                    // but I like the idea of fixing the size.
+            _graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; 
+            _graphics.ApplyChanges();                    
             SetupRooms();
             SetupPlayer();
             RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
@@ -78,7 +86,7 @@ namespace ZeldaDungeon
         protected override void Draw(GameTime gameTime)
         {
             Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
-            GraphicsDevice.Clear(Color.Black); // this affects at least the old man room, maybe some others too
+            GraphicsDevice.Clear(Color.Black); // this affects the old man room
             _spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(_spriteBatch);
             Player.Draw(_spriteBatch);
@@ -95,7 +103,7 @@ namespace ZeldaDungeon
         {
             rooms = new List<Room>();
             var paths = Directory.GetFiles(roomDataPath);
-            Array.Sort(paths); // likely unnecessary, but ensures that room numbering internally is sane
+            Array.Sort(paths); 
             foreach (string path in Directory.GetFiles(roomDataPath) )
             {
                 if (path.EndsWith(".csv"))
@@ -144,23 +152,12 @@ namespace ZeldaDungeon
             keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(this, false)));
             keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(this, true)));
             keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-
+            
             //Sets up locations to click to move between doors with mouse
-            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
-                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Up));
-
-            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR,
-                SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR, 
-                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Down));
-
-            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
-                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Left));
-
-            mouseController.RegisterCommand(new Rectangle(SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR, 
-                SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR,
-                (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
+            mouseController.RegisterCommand(new Rectangle(xCenter, yTop, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Up));
+            mouseController.RegisterCommand(new Rectangle(xCenter, yBottom, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Down));
+            mouseController.RegisterCommand(new Rectangle(xLeft, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Left));
+            mouseController.RegisterCommand(new Rectangle(xRight, xCenter, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Right));
         }
 
         public void TeleportToRoom(int index)

@@ -254,7 +254,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateHitEffectSprite() // should maybe live on a different spritesheet
+        public ISprite CreateHitEffectSprite() 
         {
             return new StaticSprite(enemySpriteSheet, SpriteUtil.GridToRectangle(6, 10, 
                (int) SpriteUtil.SpriteSize.HitEffectX, (int) SpriteUtil.SpriteSize.HitEffectY));

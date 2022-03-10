@@ -105,7 +105,6 @@ namespace ZeldaDungeon.Rooms
                 if (en.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
-                    en.DespawnEffect();
                 }
                 else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
                 {
@@ -114,7 +113,11 @@ namespace ZeldaDungeon.Rooms
                     toBeRemoved.Add(en);
                 }
             }
-            toBeRemoved.ForEach(en => roomEntities.Remove(en));
+            foreach (var en in toBeRemoved)
+            {
+                roomEntities.Remove(en);
+                en.DespawnEffect();
+            }
         }
 
         public Point DoorPos(Direction dir)

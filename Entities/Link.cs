@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using ZeldaDungeon;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
@@ -12,6 +13,7 @@ public class Link : ILink
 {
 
     private LinkStateMachine stateMachine;
+    private Game1 g;
     private ISprite linkSprite;
 	private IPickup heldItem; // null if he has never held an item up, may hold stale data
                               // note that it's a pickup and not a real item
@@ -26,9 +28,9 @@ public class Link : ILink
     public Direction Direction { get => stateMachine.CurrentDirection; }
     
 
-    public Link(Point position, EntityList roomEntities)
+    public Link(Point position, EntityList roomEntities, Game1 g)
     {
-       // this.g = g;
+        this.g = g;
         inv = new LinkInventory();
         stateMachine = new LinkStateMachine();
         linkSprite = LinkSpriteFactory.Instance.CreateIdleLeftLink();
@@ -90,6 +92,12 @@ public class Link : ILink
     public void Attack()
     {
         stateMachine.Attack();
+        // TODO - check he can legally attack
+        if (stateMachine.FullHealth)
+        {
+            // TODO - make this spawn in a better centerd way
+            g.CurrentRoom.RegisterProjectile(new ThrownSword(Center, Direction, g));
+        }
     }
 
     private int speed = SpriteUtil.SCALE_FACTOR; // this should maybe be more dynamic

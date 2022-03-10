@@ -141,7 +141,7 @@ namespace ZeldaDungeon.Sprites
                 };
             }
         }
-        public ISprite CreateSword(Direction dir)
+        public ISprite CreateSword(Direction dir) // TODO - should have a version that cycles colors
         {
             int width = (int)SpriteUtil.SpriteSize.SwordWidth;
             int length = (int)SpriteUtil.SpriteSize.SwordLength;
@@ -152,6 +152,20 @@ namespace ZeldaDungeon.Sprites
                 Direction.Left => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 4, length, width)),
                 Direction.Right => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 4, length, width)),
                 Direction.Up => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(3, 4, width, length)),
+                _ => throw new ArgumentException()
+            };
+        }
+        public ISprite CreateSwordProj(Direction dir) // TODO - should cycle colors
+        {
+            int width = (int)SpriteUtil.SpriteSize.SwordProjWidth;
+            int height = (int)SpriteUtil.SpriteSize.SwordProjHeight;
+
+            return dir switch
+            {
+                Direction.NE => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(4, 4, width, height)),
+                Direction.NW => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(5, 4, height, width)),
+                Direction.SE => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(6, 4, height, width)),
+                Direction.SW => new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(7, 4, width, height)),
                 _ => throw new ArgumentException()
             };
         }

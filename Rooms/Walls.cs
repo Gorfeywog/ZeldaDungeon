@@ -23,6 +23,6 @@ namespace ZeldaDungeon.Rooms
         public void Update() => sprite.Update();
         public bool ReadyToDespawn { get => false; }
         public void DespawnEffect() { }
-        public DrawLayer Layer { get => DrawLayer.High; }
+        public DrawLayer Layer { get => DrawLayer.VeryHigh; }
     }
 }

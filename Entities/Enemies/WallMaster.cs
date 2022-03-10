@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public ISprite WallMasterSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 		public CollisionHandler Collision { get; set; }
-		public CollisionHeight Height { get => CollisionHeight.High; }
+		public CollisionHeight Height { get => CollisionHeight.Ghost; }
 		private EntityList roomEntities;
 		private int currentFrame;
 
@@ -37,27 +37,27 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Move()
 		{
 			//One in eight chance to change directions
-			int changeDirChance = 8;
-			if (SpriteUtil.Rand.Next(changeDirChance) == 0)
+			int changeDirChance = 60;
+			if (SpriteUtil.Rand.Next(8) == 0 || currentFrame % changeDirChance == 0)
 			{
-				switch (SpriteUtil.Rand.Next(4))
+				switch (currDirection)
 				{
-					case 0:
+					case Direction.NE:
 						currDirection = Direction.SE;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSE();
 						break;
 
-					case 1:
+					case Direction.NW:
 						currDirection = Direction.NE;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteNE();
 						break;
 
-					case 2:
+					case Direction.SW:
 						currDirection = Direction.NW;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteNW();
 						break;
 
-					case 3:
+					case Direction.SE:
 						currDirection = Direction.SW;
 						WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSW();
 						break;

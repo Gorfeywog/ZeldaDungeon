@@ -55,10 +55,6 @@ namespace ZeldaDungeon.Rooms
             {
                 b.Draw(spriteBatch);
             }
-            if (walls != null)
-            {
-                walls.Draw(spriteBatch);
-            }
             foreach (var d in doors)
             {
                 d.Value.Draw(spriteBatch);
@@ -74,6 +70,10 @@ namespace ZeldaDungeon.Rooms
             foreach (var p in roomEntities.Projectiles())
             {
                 p.Draw(spriteBatch);
+            }
+            if (walls != null)
+            {
+                walls.Draw(spriteBatch);
             }
         }
         private void LoadEntities(IList<string>[,] data)

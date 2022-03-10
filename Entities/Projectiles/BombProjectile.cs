@@ -43,6 +43,7 @@ namespace ZeldaDungeon.Entities.Projectiles
                 }
             }
         }
+        public void OnHit(IEntity target) { }
         public void Update()
         {
             sprite.Update();

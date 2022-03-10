@@ -70,24 +70,22 @@ namespace ZeldaDungeon.Entities
             // This is all this does, right?
         }
 
-        private void HandleCollisionPlayerProjectile(ILink player, IProjectile item)
+        private void HandleCollisionPlayerProjectile(ILink player, IProjectile proj)
         {
             // Will be changed, implement after refactoring.
-            if (DetectCollision(player.CurrentLoc, item.CurrentLoc))
+            if (DetectCollision(player.CurrentLoc, proj.CurrentLoc))
             {
-                player.TakeDamage();
-                item.DespawnEffect();
+                proj.OnHit(player);
             }
         }
 
-        private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile item)
+        private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile proj)
         {
             // Will be changed, implement after refactoring.
             // Might be changed to EnemyProjectile.
-            if (DetectCollision(enemy.CurrentLoc, item.CurrentLoc))
+            if (DetectCollision(enemy.CurrentLoc, proj.CurrentLoc))
             {
-                enemy.TakeDamage();
-                item.DespawnEffect();
+                proj.OnHit(enemy);
             }
         }
 

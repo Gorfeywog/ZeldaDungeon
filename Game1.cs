@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Entities.Link;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;

@@ -53,24 +53,19 @@ namespace ZeldaDungeon.Entities
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
-            foreach (IBlock block in blockEntities)
+            foreach (IEntity en in roomEntities)
             {
-                // delete this comment
-                /*                if (isFlying) 
-                                {
-                                    if (DetectCollision(nextLoc, block.CurrentLoc) && block is BlueUnwalkableGapBlock) 
-                                    {
-                                        return true;
-                                    }
-                                    else return false;
-                                }*/
-                if (DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
+                if (en is IBlock block && DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
+                {
+                    return true;
+                }   
+                if (en is Trap trap && !ActualEntity.Equals(trap) && DetectCollision(nextLoc, trap.CurrentLoc))
                 {
                     return true;
                 }
-                
             }
             return false;
+
         }
         private void HandleCollisionPlayerEnemy(ILink player, IEnemy enemy)
         {
@@ -121,29 +116,32 @@ namespace ZeldaDungeon.Entities
 
         public Direction DetectDirection(IEntity CurrentEntity)
         {
-            
+            bool actBigX = false;
+            bool actBigY = false;
             if (CurrentEntity.CurrentLoc.X < ActualEntity.CurrentLoc.X)
             {
-                dx = ActualEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.X - CurrentEntity.CurrentLoc.Width;
+                dx = - ActualEntity.CurrentLoc.X + CurrentEntity.CurrentLoc.X + CurrentEntity.CurrentLoc.Width;
             } else
             {
+                actBigX = true;
                 dx = ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width - CurrentEntity.CurrentLoc.X;
             }
 
             if (CurrentEntity.CurrentLoc.Y < ActualEntity.CurrentLoc.Y)
             {
-                dy = ActualEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Y - CurrentEntity.CurrentLoc.Height;
+                dy = - ActualEntity.CurrentLoc.Y + CurrentEntity.CurrentLoc.Y + CurrentEntity.CurrentLoc.Height;
             }
             else
             {
+                actBigY = true;
                 dy = ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height - CurrentEntity.CurrentLoc.Y;
             }
             // If dx > dy, we know it's either a top or bottom collision.
-            if (Math.Abs(dx) > Math.Abs(dy))
+            if (dx > dy)
             {
                 // If dy is positive, the actualEntity was hit from the top.
                 // If negative, it was hit from the bottom.
-                if (dy < 0) return Direction.Up;
+                if (!actBigY) return Direction.Up;
                 else return Direction.Down;
             }
             // If dy > dx, we know it's either a left or right collision.
@@ -151,7 +149,7 @@ namespace ZeldaDungeon.Entities
             {
                 // If dx is positive, the actualEntity was hit from the left.
                 // If negative, it was hit from the right.
-                if (dx < 0) return Direction.Left;
+                if (!actBigX) return Direction.Left;
                 else return Direction.Right;
             }
         }
@@ -166,9 +164,7 @@ namespace ZeldaDungeon.Entities
                     DetectCollision(ActualEntity.CurrentLoc, trap.CurrentLoc);
                     if (XCollision || YCollision)
                     {
-                        trap.Moving = true;
-                        trap.Move();
-
+                        trap.Attack();
                     }
                 }
                 

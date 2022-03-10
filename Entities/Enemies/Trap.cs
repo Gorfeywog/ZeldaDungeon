@@ -4,6 +4,7 @@ using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -11,9 +12,16 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite TrapSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public bool Moving { get; set; }
+
+		private Point initPoint;
+		private Direction dir;
 		private int speed;
+		private int cooldown;
+		private const int MaxCooldown = 20;
 		private Game1 Game;
+		private bool attacking;
+		private bool moving;
+		private bool onCooldown;
 
 		private EntityList roomEntities;
 		public CollisionHandler Collision { get; set; }
@@ -23,11 +31,15 @@ namespace ZeldaDungeon.Entities.Enemies
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
 			int width = (int)SpriteUtil.SpriteSize.TrapX;
 			int height = (int)SpriteUtil.SpriteSize.TrapY;
+			initPoint = position;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			Collision = new CollisionHandler(roomEntities, this);
-			Moving = false;
-			speed = 1 * SpriteUtil.SCALE_FACTOR;
+			speed = 2 * SpriteUtil.SCALE_FACTOR;
 			Game = game;
+			attacking = false;
+			moving = false;
+			onCooldown = false;
+			cooldown = 0;
 
 		}
 
@@ -39,28 +51,41 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-
 			Point newPt;
-			if (Moving) 
+			if (attacking) 
             {
-				newPt = EntityUtils.Offset(CurrentLoc.Location, Collision.DetectDirection(Game.Player), speed);
+				newPt = EntityUtils.Offset(CurrentLoc.Location, dir, speed);
 				if (!Collision.WillHitBlock(new Rectangle(newPt, CurrentLoc.Size))) {
 					CurrentLoc = new Rectangle(newPt, CurrentLoc.Size);
 				} else
                 {
-					Moving = false;
+					attacking = false;
                 }
 				
 
-			}
+			} else if (moving)
+            {
+				newPt = EntityUtils.Offset(CurrentLoc.Location, dir, -SpriteUtil.SCALE_FACTOR);
+				if (CurrentLoc.Location != initPoint)
+                {
+					CurrentLoc = new Rectangle(newPt, CurrentLoc.Size);
+				} else
+                {
+					moving = false;
+					onCooldown = true;
+                }
+            }
 
-			Collision.Update();
-			//No movement so collision handling not necessary
 		}
 
 		public void Attack()
 		{
-
+			if (!attacking && !moving && !onCooldown)
+			{
+				dir = Collision.DetectDirection(Game.Player);
+				attacking = true;
+				moving = true;
+			}
 		}
 
 		public void TakeDamage()
@@ -76,6 +101,19 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
         {
 			TrapSprite.Update();
+			if (moving)
+            {
+				Move();
+            }
+			if (onCooldown)
+            {
+				cooldown--;
+            }
+			if (cooldown <= 0)
+            {
+				cooldown = MaxCooldown;
+				onCooldown = false;
+            }
 			Collision.Update();
 		}
 		public void DespawnEffect() { }

@@ -49,14 +49,20 @@ namespace ZeldaDungeon.Entities
         {
             foreach (IEntity en in roomEntities)
             {
-                if (en is IBlock block && DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
+                if (en is PushableBlock pb && ActualEntity is ILink && DetectCollision(nextLoc, en.CurrentLoc))
+                {
+                    pb.InitMovement(DetectDirection(pb));
+                    return true;
+                }
+                else if (en is IBlock block && DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
                 {
                     return true;
                 }   
-                if (en is Trap trap && !ActualEntity.Equals(trap) && DetectCollision(nextLoc, trap.CurrentLoc))
+                else if (en is Trap trap && !ActualEntity.Equals(trap) && DetectCollision(nextLoc, trap.CurrentLoc))
                 {
                     return true;
                 }
+
             }
             return false;
 

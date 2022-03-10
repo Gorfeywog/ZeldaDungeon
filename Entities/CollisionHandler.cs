@@ -14,7 +14,6 @@ namespace ZeldaDungeon.Entities
     public class CollisionHandler
     {
         private EntityList roomEntities;
-        private IList<IBlock> blockEntities;
         private IDictionary<IEntity, Direction> Collisions;
         private IEntity ActualEntity;
         private CollisionHeight height;
@@ -39,17 +38,12 @@ namespace ZeldaDungeon.Entities
             {
                 height = CollisionHeight.Normal;
             }
-            blockEntities = new List<IBlock>();
         }
 
         public void ChangeRooms(EntityList newList)
         {
             roomEntities = newList;
-            blockEntities.Clear();
-            foreach (IEntity ent in roomEntities)
-            {
-                if (ent is IBlock block) blockEntities.Add(block);
-            }
+
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {

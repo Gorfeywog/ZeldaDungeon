@@ -15,7 +15,6 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        // we should really not have both of these, and ideally I would rather have neither
         public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
@@ -122,7 +121,6 @@ namespace ZeldaDungeon.Rooms
 
         public Point DoorPos(Direction dir)
         {
-            // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
                 Direction.Up => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR),
@@ -135,7 +133,7 @@ namespace ZeldaDungeon.Rooms
         }
         public Point LinkDoorSpawn(Direction dir)
         {
-            int index = dir switch //index is location of correct door in array of linkDoorSpawns
+            int index = dir switch
             {
                 Direction.Left => 0,
                 Direction.Down => 1,

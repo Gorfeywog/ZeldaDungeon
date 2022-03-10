@@ -15,8 +15,8 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        // we should really not have both of these, and ideally I would rather have neither
-        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere
+        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere'
+        private IList<IProjectile> projBuffer; // store projectiles until we can safely add them to roomEntities
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -30,11 +30,12 @@ namespace ZeldaDungeon.Rooms
             this.g = g;
             var parser = new CSVParser(path);
             this.gridPos = parser.ParsePos();
-            LoadEntities(parser.ParseRoomLayout());            
+            roomEntities = parser.ParseRoomLayout(gridSize, topLeft, g);        
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
+            projBuffer = new List<IProjectile>();
             if (Type == RoomType.Normal)
             {
                 int numDoors = 4;
@@ -76,24 +77,9 @@ namespace ZeldaDungeon.Rooms
                 p.Draw(spriteBatch);
             }
         }
-        private void LoadEntities(IList<string>[,] data)
+        public void RegisterProjectile(IProjectile proj)
         {
-            roomEntities = new EntityList();
-            for (int i = 0; i < data.GetLength(0); i++)
-            {
-                for (int j = 0; j < data.GetLength(1); j++)
-                {
-                    Point dest = topLeft + new Point(gridSize * i, gridSize * j);
-                    foreach (string s in data[i, j])
-                    {
-                        var ent = CSVParser.DecodeToken(s, dest, g);
-                        if (ent != null)
-                        {
-                            roomEntities.Add(ent);
-                        }
-                    }
-                }
-            }
+            projBuffer.Add(proj);
         }
         public void UpdateAll()
         {
@@ -105,7 +91,6 @@ namespace ZeldaDungeon.Rooms
                 if (en.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
-                    en.DespawnEffect();
                 }
                 else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
                 {
@@ -114,12 +99,20 @@ namespace ZeldaDungeon.Rooms
                     toBeRemoved.Add(en);
                 }
             }
-            toBeRemoved.ForEach(en => roomEntities.Remove(en));
+            foreach (var en in toBeRemoved)
+            {
+                roomEntities.Remove(en);
+                en.DespawnEffect();
+            }
+            foreach (var proj in projBuffer)
+            {
+                roomEntities.Add(proj);
+            }
+            projBuffer.Clear();
         }
 
         public Point DoorPos(Direction dir)
         {
-            // offsets determined by magic, i can't explain how they work
             Point offset = dir switch
             {
                 Direction.Up => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR),
@@ -132,7 +125,7 @@ namespace ZeldaDungeon.Rooms
         }
         public Point LinkDoorSpawn(Direction dir)
         {
-            int index = dir switch //index is location of correct door in array of linkDoorSpawns
+            int index = dir switch
             {
                 Direction.Left => 0,
                 Direction.Down => 1,

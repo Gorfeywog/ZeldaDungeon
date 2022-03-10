@@ -8,8 +8,8 @@ namespace ZeldaDungeon.Entities
 {
     public class EntityList : IEnumerable<IEntity>
     {
-        IList<IEntity> entityList;
-        // this one may be obsolete now?
+        public int Count { get => entityList.Count; }
+        private IList<IEntity> entityList;
         public EntityList(IList<IEntity> entityList)
         {
             this.entityList = entityList;

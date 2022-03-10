@@ -26,6 +26,7 @@ namespace ZeldaDungeon.Rooms
         private const int height = 11;
         private string path; // used for debugging
         private string[] lines;
+        private Game1 g;
         public CSVParser(String path)
         {
             this.path = path;
@@ -33,7 +34,7 @@ namespace ZeldaDungeon.Rooms
         }
         // array corresponds to the room's grid, list stores every entity on a tile?
         // all rows and columns must have the prescribed dimensions, or bad stuff happens.
-        public IList<String>[,] ParseRoomLayout()
+        private IList<String>[,] ParseRoomTokens()
         {
             IList<String>[,] tokens = new IList<String>[width, height];
             for (int i = 0; i < height; i++) // height *should* match lines.Length
@@ -46,6 +47,27 @@ namespace ZeldaDungeon.Rooms
                 }
             }
             return tokens;
+        }
+        public EntityList ParseRoomLayout(int gridSize, Point topLeft, Game1 g)
+        {
+            var data = ParseRoomTokens();
+            var roomEntities = new EntityList();
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    Point dest = topLeft + new Point(gridSize * i, gridSize * j);
+                    foreach (string s in data[i, j])
+                    {
+                        var ent = CSVParser.DecodeToken(s, dest, g);
+                        if (ent != null)
+                        {
+                            roomEntities.Add(ent);
+                        }
+                    }
+                }
+            }
+            return roomEntities;
         }
         public DoorState[] ParseDoorState()
         {

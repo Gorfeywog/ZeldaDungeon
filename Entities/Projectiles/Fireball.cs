@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 	{
 		public ISprite FireballSprite { get; private set; }
 		public Rectangle CurrentLoc { get; set; }
-		public bool ReadyToDespawn { get => currentFrame > maxFrame; }
+		public bool ReadyToDespawn { get; private set; }
 		private static int maxFrame = 400; // chosen arbitrarily
 		private int xChange;
 		private int yChange;
@@ -45,12 +45,23 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public void Update()
 		{
 			currentFrame++;
+			if (currentFrame > maxFrame)
+            {
+				ReadyToDespawn = true;
+            }
 			Move();
 			FireballSprite.Update();
 		}
-		public void DespawnEffect() { } // don't have anything special to 
+		public void DespawnEffect() { }
 
-
+		public void OnHit(IEntity target)
+		{
+			if (target is ILink link)
+			{
+				link.TakeDamage();
+				ReadyToDespawn = true;
+			}
+		}
 
 	}
 }

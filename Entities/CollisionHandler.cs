@@ -14,7 +14,6 @@ namespace ZeldaDungeon.Entities
     public class CollisionHandler
     {
         private EntityList roomEntities;
-        private IList<IBlock> blockEntities;
         private IDictionary<IEntity, Direction> Collisions;
         private IEntity ActualEntity;
         private CollisionHeight height;
@@ -39,17 +38,12 @@ namespace ZeldaDungeon.Entities
             {
                 height = CollisionHeight.Normal;
             }
-            blockEntities = new List<IBlock>();
         }
 
         public void ChangeRooms(EntityList newList)
         {
             roomEntities = newList;
-            blockEntities.Clear();
-            foreach (IEntity ent in roomEntities)
-            {
-                if (ent is IBlock block) blockEntities.Add(block);
-            }
+
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
@@ -76,24 +70,22 @@ namespace ZeldaDungeon.Entities
             // This is all this does, right?
         }
 
-        private void HandleCollisionPlayerProjectile(ILink player, IProjectile item)
+        private void HandleCollisionPlayerProjectile(ILink player, IProjectile proj)
         {
             // Will be changed, implement after refactoring.
-            if (DetectCollision(player.CurrentLoc, item.CurrentLoc))
+            if (DetectCollision(player.CurrentLoc, proj.CurrentLoc))
             {
-                player.TakeDamage();
-                item.DespawnEffect();
+                proj.OnHit(player);
             }
         }
 
-        private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile item)
+        private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile proj)
         {
             // Will be changed, implement after refactoring.
             // Might be changed to EnemyProjectile.
-            if (DetectCollision(enemy.CurrentLoc, item.CurrentLoc))
+            if (DetectCollision(enemy.CurrentLoc, proj.CurrentLoc))
             {
-                enemy.TakeDamage();
-                item.DespawnEffect();
+                proj.OnHit(enemy);
             }
         }
 
@@ -154,7 +146,7 @@ namespace ZeldaDungeon.Entities
             }
         }
 
-        public void trapUpdate()
+        public void TrapUpdate()
         {
 
             foreach (IEntity en in roomEntities)
@@ -175,29 +167,23 @@ namespace ZeldaDungeon.Entities
 
         public void Update()
         {
-            foreach (IEntity ent in roomEntities)
+            if (ActualEntity is ILink player)
             {
-                if (ActualEntity is ILink player)
+                foreach (IEnemy enemy in roomEntities.Enemies())
                 {
-                    if (ent is IEnemy enemy)
-                    {
-                        HandleCollisionPlayerEnemy(player, enemy);
-                    }
-
-                    else if (ent is IProjectile item)
-                    {
-                        HandleCollisionPlayerProjectile(player, item);
-                    }
+                    HandleCollisionPlayerEnemy(player, enemy);
                 }
-
-                else if (ActualEntity is IEnemy enemy)
+                foreach(IProjectile proj in roomEntities.Projectiles())
                 {
-                    if (ent is IProjectile item)
-                    {
-                        HandleCollisionEnemyProjectile(enemy, item);
-                    }
+                    HandleCollisionPlayerProjectile(player, proj);
                 }
-         
+            }
+            else if (ActualEntity is IEnemy enemy)
+            {
+                foreach (IProjectile proj in roomEntities.Projectiles())
+                {
+                    HandleCollisionEnemyProjectile(enemy, proj);
+                }
             }
         }
     }

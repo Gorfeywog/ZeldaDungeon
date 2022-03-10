@@ -10,16 +10,19 @@ namespace ZeldaDungeon.Entities.Projectiles
 	{
 		private ISprite ArrowSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public bool ReadyToDespawn { get => currentFrame > maxFrame; }
+		public bool ReadyToDespawn { get; private set; }
 		private Direction orientation;
 		private static int maxFrame = 60; // chosen arbitrarily
 		private int currentFrame;
-		private int speed = 3 * SpriteUtil.SCALE_FACTOR;
+		private static readonly int normalSpeed = 3 * SpriteUtil.SCALE_FACTOR;
+		private static readonly int magicSpeed = 5 * SpriteUtil.SCALE_FACTOR;
+		private int speed;
 		private Game1 g;
 
-		public ArrowProjectile(Point position, Direction dir, Game1 g)
+		public ArrowProjectile(Point position, Direction dir, bool isMagic, Game1 g)
 		{
-			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir);
+			ArrowSprite = ItemSpriteFactory.Instance.CreateArrow(dir, isMagic);
+			speed = isMagic ? magicSpeed : normalSpeed;
 			Point size;
 			int width = (int)SpriteUtil.SpriteSize.ArrowWidth * SpriteUtil.SCALE_FACTOR;
 			int length = (int)SpriteUtil.SpriteSize.ArrowLength * SpriteUtil.SCALE_FACTOR;
@@ -50,9 +53,19 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public void Update()
 		{
 			currentFrame++;
+			if (currentFrame > maxFrame) { ReadyToDespawn = true; }
 			Move();
 			ArrowSprite.Update();
 		}
-		public void DespawnEffect() => g.RegisterProjectile(new HitEffect(CurrentLoc.Location));
+
+		public void OnHit(IEntity target)
+        {
+			if (target is IEnemy en)
+            {
+				en.TakeDamage();
+				ReadyToDespawn = true;
+            }
+        }
+		public void DespawnEffect() => g.CurrentRoom.RegisterProjectile(new HitEffect(CurrentLoc.Location));
 	}
 }

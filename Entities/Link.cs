@@ -52,7 +52,10 @@ public class Link : ILink
 
     public void TakeDamage()
     {
-        stateMachine.TakeDamage();
+        if (!stateMachine.Damaged)
+        {
+            stateMachine.TakeDamage();
+        }
     }
 
     public void PickUp(IPickup pickup)

@@ -67,7 +67,7 @@ namespace ZeldaDungeon.Rooms
             }
             if (walls != null) 
             { 
-                drawLists[Walls.Layer].Add(walls);
+                drawLists[walls.Layer].Add(walls);
             }
             foreach (var layer in layers)
             {

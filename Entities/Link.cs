@@ -108,7 +108,7 @@ public class Link : ILink
             
         }
         collision.Update();
-        collision.trapUpdate();
+        collision.TrapUpdate();
     }
 
     public void Draw(SpriteBatch spriteBatch)

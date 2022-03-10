@@ -36,7 +36,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			int dirChance = 3;
 			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
-      Rectangle newPos;
+			Rectangle newPos;
 			if (SpriteUtil.Rand.Next(dirChance) == 0)
             {
 				newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size); ;
@@ -44,7 +44,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			{
 				newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
 			}
-      if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+			if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
 
 		}
 

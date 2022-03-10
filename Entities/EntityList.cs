@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
 
 namespace ZeldaDungeon.Entities
@@ -83,6 +84,7 @@ namespace ZeldaDungeon.Entities
         {
             foreach (IEntity ent in roomEntities){
                 if (ent is IEnemy enemy) enemy.UpdateList(roomEntities);
+                if (ent is PushableBlock pb) pb.UpdateList(roomEntities);
             }
         }
     }

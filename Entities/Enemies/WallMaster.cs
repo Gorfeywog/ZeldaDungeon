@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.High; }
+		public DrawLayer Layer { get => DrawLayer.High; }
 		private EntityList roomEntities;
 		private int currentFrame;
 

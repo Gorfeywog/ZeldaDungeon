@@ -13,6 +13,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBow();
 
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
         public BowPickup(Point position)
         {

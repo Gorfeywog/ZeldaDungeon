@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Pickups
     {
         private ISprite sprite = ItemSpriteFactory.Instance.CreateHeartContainer();
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
         public HeartContainerPickup(Point position)
         {

@@ -16,6 +16,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         private Direction d;
         private int speed = 2 * SpriteUtil.SCALE_FACTOR;
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public bool ReadyToDespawn { get => timer <= 0; }
         public CandleFire(Point position, Direction d)
         {

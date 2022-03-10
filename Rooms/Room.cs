@@ -30,7 +30,7 @@ namespace ZeldaDungeon.Rooms
             this.g = g;
             var parser = new CSVParser(path);
             this.gridPos = parser.ParsePos();
-            LoadEntities(parser.ParseRoomLayout());            
+            roomEntities = parser.ParseRoomLayout(gridSize, topLeft, g);        
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
@@ -75,25 +75,6 @@ namespace ZeldaDungeon.Rooms
             foreach (var p in roomEntities.Projectiles())
             {
                 p.Draw(spriteBatch);
-            }
-        }
-        private void LoadEntities(IList<string>[,] data)
-        {
-            roomEntities = new EntityList();
-            for (int i = 0; i < data.GetLength(0); i++)
-            {
-                for (int j = 0; j < data.GetLength(1); j++)
-                {
-                    Point dest = topLeft + new Point(gridSize * i, gridSize * j);
-                    foreach (string s in data[i, j])
-                    {
-                        var ent = CSVParser.DecodeToken(s, dest, g);
-                        if (ent != null)
-                        {
-                            roomEntities.Add(ent);
-                        }
-                    }
-                }
             }
         }
         public void RegisterProjectile(IProjectile proj)

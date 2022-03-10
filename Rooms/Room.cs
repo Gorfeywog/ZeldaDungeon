@@ -15,7 +15,7 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere'
+        public EntityList roomEntities; // does not contain the walls or doors; maybe should?
         private IList<IProjectile> projBuffer; // store projectiles until we can safely add them to roomEntities
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
@@ -82,7 +82,7 @@ namespace ZeldaDungeon.Rooms
         public void UpdateAll()
         {
             var toBeRemoved = new List<IEntity>();
-            bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
+            bool hasPickup = !g.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
                 en.Update();
@@ -90,9 +90,12 @@ namespace ZeldaDungeon.Rooms
                 {
                     toBeRemoved.Add(en);
                 }
-                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
+                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc))
                 {
-                    hasPickup = true;
+                    if (p.HoldsUp)
+                    {
+                        hasPickup = true;
+                    }
                     g.Player.PickUp(p);
                     toBeRemoved.Add(en);
                 }

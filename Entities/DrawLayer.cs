@@ -9,6 +9,7 @@ namespace ZeldaDungeon.Entities
         Floor = 0,
         Low = 5,
         Normal = 10,
-        High = 20
+        High = 20,
+        VeryHigh = 30
     }
 }

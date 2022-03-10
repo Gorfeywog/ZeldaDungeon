@@ -25,7 +25,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
             IProjectile proj = new BoomerangProjectile(player, player.Direction, isMagic, g);
-            g.RegisterProjectile(proj);
+            g.CurrentRoom.RegisterProjectile(proj);
         }
 
         public bool CanUseOn(ILink player) => true;

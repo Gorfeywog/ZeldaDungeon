@@ -163,11 +163,6 @@ namespace ZeldaDungeon
                 (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR), new LinkUseDoor(this, Direction.Right));
         }
 
-        public void RegisterProjectile(IProjectile p) // this method can probably stop existing (this comment can probably stop existing too)
-        {
-            CurrentRoom.RegisterProjectile(p);
-        }
-
         public void TeleportToRoom(int index)
         {
             CurrentRoomIndex = index;

@@ -45,7 +45,7 @@ namespace ZeldaDungeon.Entities
                     newX += amtX;
                     newY += amtY;
                     break;
-                default: // would be smart to support NW, etc
+                default: 
                     throw new ArgumentException();
             }
             return new Point(newX, newY);

@@ -55,7 +55,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			//One in four chance to change directions
 			int changeDirChance = 4;
 			if (SpriteUtil.Rand.Next(changeDirChance) == 0) {
-				switch (SpriteUtil.Rand.Next(changeDirChance)) // consider moving the sprite selection logic to EnemySpriteFactory
+				switch (SpriteUtil.Rand.Next(changeDirChance)) 
 				{
 					case 0:
 						currDirection = Direction.Left;

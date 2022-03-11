@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public ISprite FireballSprite { get; private set; }
 		public Rectangle CurrentLoc { get; set; }
 		public bool ReadyToDespawn { get; private set; }
-		private static int maxFrame = 400; // chosen arbitrarily
+		private static int maxFrame = 400; 
 		private int xChange;
 		private int yChange;
 		private Random rand;

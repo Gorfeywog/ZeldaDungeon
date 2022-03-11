@@ -20,6 +20,6 @@ namespace ZeldaDungeon.InventoryItems
             return other is BowItem;
         }
 
-        public override int GetHashCode() => "bow".GetHashCode(); // hash codes are probably an awful idea for this whole thing tbh
+        public override int GetHashCode() => "bow".GetHashCode();
     }
 }

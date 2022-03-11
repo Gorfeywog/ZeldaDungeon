@@ -8,7 +8,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Rooms
 {
-    public class Door // should this and Walls be IEntities?
+    public class Door 
     {
         private ISprite sprite;
         public Direction Dir { get; private set; }

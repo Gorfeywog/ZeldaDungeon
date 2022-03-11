@@ -8,7 +8,7 @@ namespace ZeldaDungeon.Entities
 {
     public interface IEntity
     {
-        public void Draw(SpriteBatch spriteBatch); // maybe reconsider how this fits into Items in inventories?
+        public void Draw(SpriteBatch spriteBatch);
         public void Update();
 
         public Rectangle CurrentLoc { get; set; }

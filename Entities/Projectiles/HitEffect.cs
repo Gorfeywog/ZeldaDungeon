@@ -7,7 +7,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
-    // this should not be a projectile, but it's not really an enemy, item, or block either, let alone a link. add another interface? implement IEntiy directly?
+    
     public class HitEffect : IProjectile
     {
         private static int effectTime = 56;

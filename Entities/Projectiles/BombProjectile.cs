@@ -9,10 +9,10 @@ namespace ZeldaDungeon.Entities.Projectiles
 {
     public class BombProjectile : IProjectile
     {
-        private static int fuseTime = 60; // chosen with no methodology
+        private static int fuseTime = 60;
         private bool isCloud = false;
         private int timer = fuseTime; // counts down
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); // should projectiles be on their own spritesheet (and thus sprite factory)?
+        private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); 
         public Rectangle CurrentLoc { get; set; }
         public bool ReadyToDespawn { get => timer <= 0; }
         private Game1 g;
@@ -28,7 +28,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         private Direction[] doorDirections = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
-        private const float explodeDist = 80; // chosen arbitrarily - should be tweaked
+        private const float explodeDist = 80; 
         public void DespawnEffect()
         {
             g.CurrentRoom.RegisterProjectile(new SmokeCloud(CurrentLoc.Location));

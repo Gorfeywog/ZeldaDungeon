@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public Rectangle CurrentLoc { get; set; }
 		public bool ReadyToDespawn { get; private set; }
 		private Direction orientation;
-		private static int maxFrame = 60; // chosen arbitrarily
+		private static int maxFrame = 60; 
 		private int currentFrame;
 		private static readonly int normalSpeed = 3 * SpriteUtil.SCALE_FACTOR;
 		private static readonly int magicSpeed = 5 * SpriteUtil.SCALE_FACTOR;

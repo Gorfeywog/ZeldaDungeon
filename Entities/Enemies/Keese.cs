@@ -36,8 +36,9 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Move()
 		{
-			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
-			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y + locChange), CurrentLoc.Size);
+			int locXChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+			int locYChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+			Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + locXChange, CurrentLoc.Y + locYChange), CurrentLoc.Size);
 			if (!Collision.WillHitBlock(newPos))
             {
 				CurrentLoc = newPos;

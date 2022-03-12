@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int currentFrame;
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
 
 		public Stalfos(Point position)

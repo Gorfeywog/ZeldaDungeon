@@ -10,6 +10,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 	{
 		public ISprite FireballSprite { get; private set; }
 		public Rectangle CurrentLoc { get; set; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public bool ReadyToDespawn { get; private set; }
 		private static int maxFrame = 400; 
 		private int xChange;

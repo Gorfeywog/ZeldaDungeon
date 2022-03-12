@@ -15,6 +15,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private bool isMagic;
         private Game1 g;
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
         public BoomerangPickup(Point position, Game1 g, bool isMagic)
         {

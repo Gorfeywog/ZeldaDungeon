@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         private int timer = fuseTime; // counts down
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); 
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public bool ReadyToDespawn { get => timer <= 0; }
         private Game1 g;
         public BombProjectile(Point position, Game1 g)

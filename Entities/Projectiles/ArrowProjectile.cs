@@ -10,6 +10,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 	{
 		private ISprite ArrowSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public bool ReadyToDespawn { get; private set; }
 		private Direction orientation;
 		private static int maxFrame = 60; 

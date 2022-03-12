@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Projectiles
     {
         public ISprite BoomerangSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         private Point TopLeft
         {
             get

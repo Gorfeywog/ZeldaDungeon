@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         private int timer = effectTime; // counts down
         private ISprite sprite = EnemySpriteFactory.Instance.CreateHitEffectSprite();
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public bool ReadyToDespawn { get => timer <= 0; }
         public HitEffect(Point position)
         {

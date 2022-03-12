@@ -82,10 +82,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Attack()
 		{
 			int fireballChange = SpriteUtil.Rand.Next(3) - 1;
-			int fireballVel = -4;
-			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, 1 + fireballChange);
-			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange);
-			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, -1 + fireballChange);
+			int fireballVel = -2 * SpriteUtil.SCALE_FACTOR;
+			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
+			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
+			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
 			g.CurrentRoom.RegisterProjectile(fireballUp);
 			g.CurrentRoom.RegisterProjectile(fireballStraight);
 			g.CurrentRoom.RegisterProjectile(fireballDown);

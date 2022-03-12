@@ -19,6 +19,7 @@ namespace ZeldaDungeon.Entities.Blocks
         private int AmountMoved;
         private int lengthHeld;
 
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         private Rectangle newLoc;
         public PushableBlock(Point position)

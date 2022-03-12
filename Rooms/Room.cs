@@ -15,7 +15,7 @@ namespace ZeldaDungeon.Rooms
     {
         private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        public EntityList roomEntities; // Wrapper for roomEntities, makes it so we don't pass game1 everywhere'
+        public EntityList roomEntities; // does not contain the walls or doors; maybe should?
         private IList<IProjectile> projBuffer; // store projectiles until we can safely add them to roomEntities
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
@@ -49,33 +49,31 @@ namespace ZeldaDungeon.Rooms
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            // the order of drawing matters because things can overlap.
-            // in particular, blocks *have* to be first, since otherwise floor tiles
-            // would draw all over everything else. that would be very bad.
-            foreach (var b in roomEntities.Blocks())
+            var drawLists = new Dictionary<DrawLayer, List<IEntity>>();
+            var layers = (DrawLayer[]) Enum.GetValues(typeof(DrawLayer));
+            Array.Sort(layers);
+            foreach (DrawLayer layer in layers)
             {
-                b.Draw(spriteBatch);
+                drawLists[layer] = new List<IEntity>();
             }
-            if (walls != null)
+            foreach (var en in roomEntities)
             {
-                walls.Draw(spriteBatch);
+                drawLists[en.Layer].Add(en);
             }
-            foreach (var d in doors)
+            drawLists[g.Player.Layer].Add(g.Player);
+            foreach (var d in doors.Values)
             {
-                d.Value.Draw(spriteBatch);
+                drawLists[d.Layer].Add(d);
             }
-            foreach (var p in roomEntities.Pickups())
+            if (walls != null) 
+            { 
+                drawLists[walls.Layer].Add(walls);
+            }
+            foreach (var layer in layers)
             {
-                p.Draw(spriteBatch);
+                drawLists[layer].ForEach(e => e.Draw(spriteBatch));
             }
-            foreach (var en in roomEntities.Enemies())
-            {
-                en.Draw(spriteBatch);
-            }
-            foreach (var p in roomEntities.Projectiles())
-            {
-                p.Draw(spriteBatch);
-            }
+
         }
         public void RegisterProjectile(IProjectile proj)
         {
@@ -84,7 +82,7 @@ namespace ZeldaDungeon.Rooms
         public void UpdateAll()
         {
             var toBeRemoved = new List<IEntity>();
-            bool hasPickup = !g.Player.CanPickUp(); // let link pick up no more than 1 thing, and only if doing so is valid
+            bool hasPickup = !g.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
                 en.Update();
@@ -92,9 +90,12 @@ namespace ZeldaDungeon.Rooms
                 {
                     toBeRemoved.Add(en);
                 }
-                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc)) // move this to collisionhandler?
+                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc))
                 {
-                    hasPickup = true;
+                    if (p.HoldsUp)
+                    {
+                        hasPickup = true;
+                    }
                     g.Player.PickUp(p);
                     toBeRemoved.Add(en);
                 }
@@ -130,7 +131,8 @@ namespace ZeldaDungeon.Rooms
                 Direction.Left => 0,
                 Direction.Down => 1,
                 Direction.Right => 2,
-                Direction.Up => 3
+                Direction.Up => 3,
+                _ => throw new ArgumentException()
             };
             return topLeft + linkDoorSpawns[index];
         }

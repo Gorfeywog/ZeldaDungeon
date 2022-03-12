@@ -15,6 +15,7 @@ namespace ZeldaDungeon.Entities.Pickups
         private Game1 g;
         private bool isRed; // red ones can be used more than once per room
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
         public Candle(Point position, Game1 g, bool isRed)
         {

@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Projectiles
     {
         public ISprite BoomerangSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         private Point TopLeft
         {
             get
@@ -25,7 +26,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         }
         private IEntity thrower;
         private Direction targetDir;
-        private int velocity; // properly is a speed
+        private int velocity; 
         private Random rand;
         private bool isReturning = false; // toggles to true when it turns around
         private bool isMagic;
@@ -64,7 +65,6 @@ namespace ZeldaDungeon.Entities.Projectiles
             }
             var pathVec = path.ToVector2();
             // if will reach the thrower, it ceases to exist
-            // maybe move this into Update somehow?
             if (pathVec.Length() < velocity && isReturning)
             {
                 ReadyToDespawn = true;

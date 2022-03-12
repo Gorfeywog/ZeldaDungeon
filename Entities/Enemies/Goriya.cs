@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
 
 		private int currentFrame;
@@ -55,7 +56,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			//One in four chance to change directions
 			int changeDirChance = 4;
 			if (SpriteUtil.Rand.Next(changeDirChance) == 0) {
-				switch (SpriteUtil.Rand.Next(changeDirChance)) // consider moving the sprite selection logic to EnemySpriteFactory
+				switch (SpriteUtil.Rand.Next(changeDirChance)) 
 				{
 					case 0:
 						currDirection = Direction.Left;

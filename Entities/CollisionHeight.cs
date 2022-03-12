@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities
     {
         Floor = 0,
         Normal = 1,
-        High = 2
+        High = 2,
+        Ghost = 3
     }
 }

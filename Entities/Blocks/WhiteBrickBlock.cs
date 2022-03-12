@@ -13,6 +13,7 @@ namespace ZeldaDungeon.Entities.Blocks
 
         private ISprite sprite = BlockSpriteFactory.Instance.CreateWhiteBrickBlock();
         public CollisionHeight Height { get => CollisionHeight.Normal; }
+        public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         public WhiteBrickBlock(Point position)
         {

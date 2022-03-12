@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Blocks
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueUnwalkableGapBlock();
         public CollisionHeight Height { get => CollisionHeight.Normal; }
+        public DrawLayer Layer { get => DrawLayer.Floor; }
         public Rectangle CurrentLoc { get; set; }
         public BlueUnwalkableGapBlock(Point position)
         {

@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Rectangle CurrentLoc { get; set; }
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		private int initX;
 		private EntityList roomEntities;
 		private Random rand;

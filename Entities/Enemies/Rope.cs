@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int currentFrame;
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		private EntityList roomEntities;
 		private Direction currDirection;
 
@@ -69,7 +70,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int locChange = 4 * SpriteUtil.SCALE_FACTOR;
 			switch (currDirection)
 			{
-				//TODO: implement ccollision checking.
+				//TODO: implement collision checking.
 				case Direction.Left:
 					CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
 					break;

@@ -38,10 +38,6 @@ namespace ZeldaDungeon.InventoryItems
                 return false;
             }
         }
-
-        // we need hashcodes for the dictionary to be happy, however the state of these
-        // is making me reconsider whether the dictionary was a good idea
-        // in the first place.
         public override int GetHashCode()
         {
             return "arrow".GetHashCode() ^ g.GetHashCode() ^ isMagic.GetHashCode();

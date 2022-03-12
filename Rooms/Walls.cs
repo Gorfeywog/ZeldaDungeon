@@ -8,7 +8,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Rooms
 {
-    public class Walls
+    public class Walls : IEntity
     {
         private ISprite sprite = SpecialSpriteFactory.Instance.CreateWalls();
         public Rectangle CurrentLoc { get; set; }
@@ -21,5 +21,8 @@ namespace ZeldaDungeon.Rooms
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
+        public bool ReadyToDespawn { get => false; }
+        public void DespawnEffect() { }
+        public DrawLayer Layer { get => DrawLayer.VeryHigh; }
     }
 }

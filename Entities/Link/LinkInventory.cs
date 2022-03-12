@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using System.Text;
 using ZeldaDungeon.InventoryItems;
 
-namespace ZeldaDungeon.Entities
+namespace ZeldaDungeon.Entities.Link
 {
     public class LinkInventory
     {
@@ -22,7 +22,7 @@ namespace ZeldaDungeon.Entities
             if (itemCount.ContainsKey(item))
             {
                 int ct = itemCount[item];
-                itemCount[item] = item.Consumable ? ct - 1 : ct; // only decrement if it's 
+                itemCount[item] = item.Consumable ? ct - 1 : ct; 
                 return true;
             }
             else

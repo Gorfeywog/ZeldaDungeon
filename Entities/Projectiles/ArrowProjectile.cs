@@ -10,9 +10,10 @@ namespace ZeldaDungeon.Entities.Projectiles
 	{
 		private ISprite ArrowSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
+		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public bool ReadyToDespawn { get; private set; }
 		private Direction orientation;
-		private static int maxFrame = 60; // chosen arbitrarily
+		private static int maxFrame = 60; 
 		private int currentFrame;
 		private static readonly int normalSpeed = 3 * SpriteUtil.SCALE_FACTOR;
 		private static readonly int magicSpeed = 5 * SpriteUtil.SCALE_FACTOR;

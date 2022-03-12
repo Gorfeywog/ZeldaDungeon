@@ -8,6 +8,7 @@ namespace ZeldaDungeon.Entities.Link
 	{
 		public enum LinkActionState { PickingUp, UsingItem, Walking, Idle, Attacking };
 		public bool Damaged { get; private set; }
+		public bool FullHealth { get => !Damaged; }
 		private Direction currentDirection;
 		public Direction CurrentDirection
 		{
@@ -30,7 +31,7 @@ namespace ZeldaDungeon.Entities.Link
 			}
 			private set
 			{
-				HasNewSprite = true; // new state usually means new sprite
+				HasNewSprite = true;
 				currentState = value;
 			}
 		}
@@ -83,7 +84,7 @@ namespace ZeldaDungeon.Entities.Link
 			CurrentState = LinkActionState.Walking;
 		}
 
-		private static readonly int damageDelay = 80; // chosen by magic
+		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
 		private static readonly int itemUseDelay = 20; // also used for attacks, and picking things up
 		private int itemUseCountdown = 0;

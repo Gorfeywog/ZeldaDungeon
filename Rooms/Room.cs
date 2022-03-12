@@ -131,7 +131,8 @@ namespace ZeldaDungeon.Rooms
                 Direction.Left => 0,
                 Direction.Down => 1,
                 Direction.Right => 2,
-                Direction.Up => 3
+                Direction.Up => 3,
+                _ => throw new ArgumentException()
             };
             return topLeft + linkDoorSpawns[index];
         }

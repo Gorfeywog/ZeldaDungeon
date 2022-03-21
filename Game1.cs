@@ -18,31 +18,20 @@ namespace ZeldaDungeon
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private KeyboardController keyboardController;
-        private MouseController mouseController;
+        private ControllerManager controllers;
         public ILink Player { get; private set; }
         private IList<Room> rooms;
         private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
-        private int xDoorSize = (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR;
-        private int yDoorSize = (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR;
-        private int xCenter = SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR;
-        private int yCenter = SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR;
-        private int yTop = SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR;
-        private int yBottom = SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR;
-        private int xLeft = SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR;
-        private int xRight = SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR;
-
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            keyboardController = new KeyboardController();
-            mouseController = new MouseController();
+            controllers = new ControllerManager(this);
         }
 
         protected override void Initialize()
@@ -53,7 +42,7 @@ namespace ZeldaDungeon
             _graphics.ApplyChanges();                    
             SetupRooms();
             SetupPlayer();
-            RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
+            controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
         }
 
         protected override void LoadContent()
@@ -74,10 +63,7 @@ namespace ZeldaDungeon
         protected override void Update(GameTime gameTime)
         {
 
-            keyboardController.UpdateState();
-            keyboardController.ExecuteCommands();
-            mouseController.UpdateState();
-            mouseController.ExecuteCommands();
+            controllers.Update();
             CurrentRoom.UpdateAll();
             Player.Update();
 
@@ -119,46 +105,6 @@ namespace ZeldaDungeon
         {
             SetupRooms();
             SetupPlayer();
-        }
-
-        private void RegisterCommands()
-        {
-            keyboardController.RegisterCommand(Keys.Q, new Quit(this));
-            keyboardController.RegisterCommand(Keys.R, new Reset(this));
-            ICommand linkUp = new MoveLink(this, Direction.Up);
-            ICommand linkDown = new MoveLink(this, Direction.Down);
-            ICommand linkLeft = new MoveLink(this, Direction.Left);
-            ICommand linkRight = new MoveLink(this, Direction.Right);
-            ICommand linkStopUp = new StopLink(this, Direction.Up);
-            ICommand linkStopDown = new StopLink(this, Direction.Down);
-            ICommand linkStopLeft = new StopLink(this, Direction.Left);
-            ICommand linkStopRight = new StopLink(this, Direction.Right);
-            ICommand linkAttack = new LinkAttack(this);
-            keyboardController.RegisterHoldCommand(Keys.W, linkUp, linkStopUp);
-            keyboardController.RegisterHoldCommand(Keys.Up, linkUp, linkStopUp);
-            keyboardController.RegisterHoldCommand(Keys.A, linkLeft, linkStopLeft);
-            keyboardController.RegisterHoldCommand(Keys.Left, linkLeft, linkStopLeft);
-            keyboardController.RegisterHoldCommand(Keys.S, linkDown, linkStopDown);
-            keyboardController.RegisterHoldCommand(Keys.Down, linkDown, linkStopDown);
-            keyboardController.RegisterHoldCommand(Keys.D, linkRight, linkStopRight);
-            keyboardController.RegisterHoldCommand(Keys.Right, linkRight, linkStopRight);
-            keyboardController.RegisterCommand(Keys.Z, linkAttack);
-            keyboardController.RegisterCommand(Keys.N, linkAttack);
-            keyboardController.RegisterCommand(Keys.O, new DecRoom(this));
-            keyboardController.RegisterCommand(Keys.P, new IncRoom(this));
-            keyboardController.RegisterCommand(Keys.D1, new LinkUseItem(this, new BombItem(this)));
-            keyboardController.RegisterCommand(Keys.D2, new LinkUseItem(this, new ArrowItem(this, false)));
-            keyboardController.RegisterCommand(Keys.D3, new LinkUseItem(this, new ArrowItem(this, true)));
-            keyboardController.RegisterCommand(Keys.D4, new LinkUseItem(this, new CandleItem(this, true)));
-            keyboardController.RegisterCommand(Keys.D5, new LinkUseItem(this, new BoomerangItem(this, false)));
-            keyboardController.RegisterCommand(Keys.D6, new LinkUseItem(this, new BoomerangItem(this, true)));
-            keyboardController.RegisterCommand(Keys.E, new DamageLink(this));
-            
-            //Sets up locations to click to move between doors with mouse
-            mouseController.RegisterCommand(new Rectangle(xCenter, yTop, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Up));
-            mouseController.RegisterCommand(new Rectangle(xCenter, yBottom, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Down));
-            mouseController.RegisterCommand(new Rectangle(xLeft, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Left));
-            mouseController.RegisterCommand(new Rectangle(xRight, xCenter, xDoorSize, yDoorSize), new LinkUseDoor(this, Direction.Right));
         }
 
         public void TeleportToRoom(int index)

@@ -27,12 +27,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision = new CollisionHandler(r, this);
 		}
 
-		//public void UpdateList(EntityList roomEntities)
-		//{
-		//	this.roomEntities = roomEntities;
-		//	Collision.ChangeRooms(roomEntities);
-		//}
-
 		public void Move()
 		{
 			int movingNum = SpriteUtil.Rand.Next(5);

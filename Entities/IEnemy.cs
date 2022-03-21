@@ -11,8 +11,6 @@ namespace ZeldaDungeon.Entities
         public CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get; }
 
-        // public void UpdateList(EntityList roomEntities);
-
         public void Attack();
 
         public void Move();

@@ -39,10 +39,6 @@ namespace ZeldaDungeon.Entities.Enemies
             {
 				CurrentLoc = newPos;
 			}
-            else
-            {
-				Debug.WriteLine("It finally failed!!!!");
-            }
 		}
 
 		public void Attack()

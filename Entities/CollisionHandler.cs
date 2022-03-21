@@ -17,7 +17,6 @@ namespace ZeldaDungeon.Entities
     {
         private Room CurrentRoom { get; set; }
         private EntityList RoomEntities { get => CurrentRoom.roomEntities; }
-        private IDictionary<IEntity, Direction> Collisions;
         private IEntity ActualEntity;
         private CollisionHeight height;
         private int dx, dy;
@@ -28,7 +27,6 @@ namespace ZeldaDungeon.Entities
         {
             CurrentRoom = room;
             this.ActualEntity = ActualEntity;
-            Collisions = new Dictionary<IEntity, Direction>();
             if (ActualEntity is IEnemy e)
             {
                 height = e.Height;
@@ -49,18 +47,22 @@ namespace ZeldaDungeon.Entities
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
+            foreach (Door d in RoomEntities.Doors()) 
+            {
+                if (DetectCollision(nextLoc, d.CurrentLoc) && ActualEntity is ILink player)
+                {
+                    HandleCollisionPlayerDoor(player, d);
+                    return true;
+                }
+            }
             foreach (IEntity en in RoomEntities)
             {
                 if (DetectCollision(nextLoc, en.CurrentLoc))
                 {
+
                     if (en is PushableBlock pb && ActualEntity is ILink)
                     {
                         pb.InitMovement(DetectDirection(pb));
-                        return true;
-                    }
-                    else if (en is Door d && ActualEntity is ILink player)
-                    {
-                        HandleCollisionPlayerDoor(player, d);
                         return true;
                     }
                     else if (en is IBlock block && height <= block.Height)
@@ -99,6 +101,11 @@ namespace ZeldaDungeon.Entities
             if (d.State == DoorState.Locked && player.HasItem(key))
             {
                 player.UseItem(key);
+                CurrentRoom.G.UnlockRoomDoor(d.Dir); // CurrentRoom.G here is bad but the alternatives seem worse
+            }
+            if (d.CanPass)
+            {
+                CurrentRoom.G.UseRoomDoor(d.Dir);
             }
         }
         private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile proj)

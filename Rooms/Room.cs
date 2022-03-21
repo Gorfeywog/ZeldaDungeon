@@ -18,7 +18,7 @@ namespace ZeldaDungeon.Rooms
         private IList<IEntity> entityBuffer; // hold entities until can safely add to roomEntities
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
-        private Game1 g;
+        public Game1 G { get; private set; }
         public RoomType Type { get; private set; }
         public Point gridPos { get; private set; }
         public Point topLeft { get => gridPos * new Point(16, 11) * new Point(gridSize); }
@@ -26,7 +26,7 @@ namespace ZeldaDungeon.Rooms
         public Point linkDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
-            this.g = g;
+            this.G = g;
             var parser = new CSVParser(path);
             this.gridPos = parser.ParsePos();
             roomEntities = parser.ParseRoomLayout(gridSize, topLeft, g, this);        
@@ -60,7 +60,7 @@ namespace ZeldaDungeon.Rooms
             {
                 drawLists[en.Layer].Add(en);
             }
-            drawLists[g.Player.Layer].Add(g.Player);
+            drawLists[G.Player.Layer].Add(G.Player);
             foreach (var layer in layers)
             {
                 drawLists[layer].ForEach(e => e.Draw(spriteBatch));
@@ -74,7 +74,7 @@ namespace ZeldaDungeon.Rooms
         public void UpdateAll()
         {
             var toBeRemoved = new List<IEntity>();
-            bool hasPickup = !g.Player.CanPickUp();
+            bool hasPickup = !G.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
                 en.Update();
@@ -82,13 +82,13 @@ namespace ZeldaDungeon.Rooms
                 {
                     toBeRemoved.Add(en);
                 }
-                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(g.Player.CurrentLoc))
+                else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(G.Player.CurrentLoc))
                 {
                     if (p.HoldsUp)
                     {
                         hasPickup = true;
                     }
-                    g.Player.PickUp(p);
+                    G.Player.PickUp(p);
                     toBeRemoved.Add(en);
                 }
             }
@@ -128,9 +128,6 @@ namespace ZeldaDungeon.Rooms
             };
             return topLeft + linkDoorSpawns[index];
         }
-
-        // only call these through Game1, so it can unlock/explode the corresponding door on other side
-        // for each of these, return value is just whether "something happened"
         public bool UnlockDoor(Direction dir) 
         {
             return doors[dir].Unlock();

@@ -16,8 +16,8 @@ namespace ZeldaDungeon
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
         private ControllerManager controllers;
         public ILink Player { get; private set; }
         private IList<Room> rooms;
@@ -28,7 +28,7 @@ namespace ZeldaDungeon
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             controllers = new ControllerManager(this);
@@ -37,9 +37,9 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            _graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
-            _graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; 
-            _graphics.ApplyChanges();                    
+            graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
+            graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; 
+            graphics.ApplyChanges();                    
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
@@ -50,7 +50,7 @@ namespace ZeldaDungeon
             // sprites taken from some combination of:
             // https://nesmaps.com/maps/Zelda/sprites/ZeldaSprites.html
             // https://www.spriters-resource.com/nes/legendofzelda/
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             ItemSpriteFactory.Instance.LoadAllTextures(Content);
             LinkSpriteFactory.Instance.LoadAllTextures(Content);
             BlockSpriteFactory.Instance.LoadAllTextures(Content);
@@ -74,11 +74,11 @@ namespace ZeldaDungeon
         {
             Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
-            _spriteBatch.Begin(transformMatrix: translator);
-            CurrentRoom.DrawAll(_spriteBatch);
-            Player.Draw(_spriteBatch);
+            spriteBatch.Begin(transformMatrix: translator);
+            CurrentRoom.DrawAll(spriteBatch);
+            Player.Draw(spriteBatch);
             base.Draw(gameTime);
-            _spriteBatch.End();
+            spriteBatch.End();
         }
         public void SetupPlayer()
         {

@@ -65,5 +65,11 @@ namespace ZeldaDungeon.Entities
                 _ => throw new ArgumentException()
             };
         }
+        public static Point Interpolate(Point oldPoint, Point newPoint, int current, int total)
+        {
+            Point difference = newPoint - oldPoint;
+            Point scaledDifference = new Point((difference.X * current)/total, (difference.Y * current)/total);
+            return oldPoint + scaledDifference;
+        }
     }
 }

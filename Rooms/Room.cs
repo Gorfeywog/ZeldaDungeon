@@ -13,10 +13,9 @@ namespace ZeldaDungeon.Rooms
 {
     public class Room
     {
-        private Walls walls; // may be null to represent a room without walls!
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        public EntityList roomEntities; // does not contain the walls or doors; maybe should?
-        private IList<IProjectile> projBuffer; // store projectiles until we can safely add them to roomEntities
+        public EntityList roomEntities; // holds the walls and the doors, but **not** Link.
+        private IList<IEntity> entityBuffer; // hold entities until can safely add to roomEntities
         private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         private Game1 g;
@@ -35,7 +34,7 @@ namespace ZeldaDungeon.Rooms
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
-            projBuffer = new List<IProjectile>();
+            entityBuffer = new List<IEntity>();
             if (Type == RoomType.Normal)
             {
                 int numDoors = 4;
@@ -43,8 +42,9 @@ namespace ZeldaDungeon.Rooms
                 {
                     Direction d = directions[i];
                     doors[d] = new Door(DoorPos(d), d, states[i]);
+                    roomEntities.Add(doors[d]);
                 }
-                walls = new Walls(topLeft);
+               roomEntities.Add(new Walls(topLeft));
             }
         }
         public void DrawAll(SpriteBatch spriteBatch)
@@ -61,23 +61,15 @@ namespace ZeldaDungeon.Rooms
                 drawLists[en.Layer].Add(en);
             }
             drawLists[g.Player.Layer].Add(g.Player);
-            foreach (var d in doors.Values)
-            {
-                drawLists[d.Layer].Add(d);
-            }
-            if (walls != null) 
-            { 
-                drawLists[walls.Layer].Add(walls);
-            }
             foreach (var layer in layers)
             {
                 drawLists[layer].ForEach(e => e.Draw(spriteBatch));
             }
 
         }
-        public void RegisterProjectile(IProjectile proj)
+        public void RegisterProjectile(IEntity proj)
         {
-            projBuffer.Add(proj);
+            entityBuffer.Add(proj);
         }
         public void UpdateAll()
         {
@@ -105,11 +97,11 @@ namespace ZeldaDungeon.Rooms
                 roomEntities.Remove(en);
                 en.DespawnEffect();
             }
-            foreach (var proj in projBuffer)
+            foreach (var proj in entityBuffer)
             {
                 roomEntities.Add(proj);
             }
-            projBuffer.Clear();
+            entityBuffer.Clear();
         }
 
         public Point DoorPos(Direction dir)

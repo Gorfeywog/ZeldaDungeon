@@ -26,6 +26,11 @@ namespace ZeldaDungeon
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
 
+        private static int roomTransFrameCount = 20;
+        private int roomTransFrame;
+        private Room oldRoom; // only used while transitioning between rooms
+        public GameState State { get; private set; }
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -62,20 +67,43 @@ namespace ZeldaDungeon
 
         protected override void Update(GameTime gameTime)
         {
-
-            controllers.Update();
-            CurrentRoom.UpdateAll();
-            Player.Update();
+            switch (State) {
+                case GameState.Normal:
+                    controllers.Update();
+                    CurrentRoom.UpdateAll();
+                    Player.Update();
+                    break;
+                case GameState.RoomTransition:
+                    roomTransFrame++;
+                    if (roomTransFrame == roomTransFrameCount)
+                    {
+                        State = GameState.Normal;
+                    }
+                    break;
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            Matrix translator = Matrix.CreateTranslation(-CurrentRoom.topLeft.X, -CurrentRoom.topLeft.Y, 0);
+            Point windowTopLeft = default; // default assignment just so it compiles; will never actually be used
+            if (State == GameState.Normal)
+            {
+                windowTopLeft = CurrentRoom.topLeft;
+            }
+            else if (State == GameState.RoomTransition)
+            {
+                windowTopLeft = EntityUtils.Interpolate(oldRoom.topLeft, CurrentRoom.topLeft, roomTransFrame, roomTransFrameCount);
+            }
+            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
             spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(spriteBatch);
+            if (State == GameState.RoomTransition)
+            {
+                oldRoom.DrawAll(spriteBatch);
+            }
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();
@@ -121,6 +149,9 @@ namespace ZeldaDungeon
             if (newIndex > -1)
             {
                 // TODO - check door state for validity of this!
+                State = GameState.RoomTransition;
+                roomTransFrame = 0; // count-up instead of count-down for ease of drawing
+                oldRoom = CurrentRoom;
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
             }

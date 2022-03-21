@@ -127,6 +127,7 @@ namespace ZeldaDungeon.Rooms
                 "bugb" => new BlueUnwalkableGapBlock(pos),
                 "fb" => new FireBlock(pos),
                 "lb" => new LadderBlock(pos),
+                "lvb" => new LadderVoidBlock(pos),
                 "pb" => new PushableBlock(pos),
                 "sb" => new StairsBlock(pos),
                 "s1b" => new Statue1Block(pos),

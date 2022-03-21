@@ -74,7 +74,7 @@ namespace ZeldaDungeon
             mouseCon.RegisterCommand(new Rectangle(xCenter, yTop, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Up));
             mouseCon.RegisterCommand(new Rectangle(xCenter, yBottom, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Down));
             mouseCon.RegisterCommand(new Rectangle(xLeft, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Left));
-            mouseCon.RegisterCommand(new Rectangle(xRight, xCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Right));
+            mouseCon.RegisterCommand(new Rectangle(xRight, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Right));
         }
     }
 }

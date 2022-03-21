@@ -26,7 +26,6 @@ namespace ZeldaDungeon.Rooms
         private const int height = 11;
         private string path; // used for debugging
         private string[] lines;
-        private Game1 g;
         public CSVParser(String path)
         {
             this.path = path;
@@ -48,7 +47,7 @@ namespace ZeldaDungeon.Rooms
             }
             return tokens;
         }
-        public EntityList ParseRoomLayout(int gridSize, Point topLeft, Game1 g)
+        public EntityList ParseRoomLayout(int gridSize, Point topLeft, Game1 g, Room r)
         {
             var data = ParseRoomTokens();
             var roomEntities = new EntityList();
@@ -59,7 +58,7 @@ namespace ZeldaDungeon.Rooms
                     Point dest = topLeft + new Point(gridSize * i, gridSize * j);
                     foreach (string s in data[i, j])
                     {
-                        var ent = CSVParser.DecodeToken(s, dest, g);
+                        var ent = CSVParser.DecodeToken(s, dest, g, r);
                         if (ent != null)
                         {
                             roomEntities.Add(ent);
@@ -117,7 +116,7 @@ namespace ZeldaDungeon.Rooms
             string typeRow = lines[height + 3];
             return (RoomType)int.Parse(typeRow);
         }
-        public static IEntity DecodeToken(string token, Point pos, Game1 g) // may return null!
+        public static IEntity DecodeToken(string token, Point pos, Game1 g, Room r) // may return null!
         {
             return token switch
             {
@@ -128,21 +127,21 @@ namespace ZeldaDungeon.Rooms
                 "bugb" => new BlueUnwalkableGapBlock(pos),
                 "fb" => new FireBlock(pos),
                 "lb" => new LadderBlock(pos),
-                "pb" => new PushableBlock(pos),
+                "pb" => new PushableBlock(pos, r),
                 "sb" => new StairsBlock(pos),
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),
                 "wbb" => new WhiteBrickBlock(pos),
-                "aqe" => new Aquamentus(pos, g), // keep g for collisions.
-                "ge" => new Gel(pos), 
-                "gre" => new Goriya(pos, g, true),
-                "gbe" => new Goriya(pos, g, false),
-                "om" => new OldMan(pos),
-                "ke" => new Keese(pos),
-                "re" => new Rope(pos),
-                "se" => new Stalfos(pos),
-                "te" => new Trap(pos, g),
-                "wme" => new WallMaster(pos),
+                "aqe" => new Aquamentus(pos, r),
+                "ge" => new Gel(pos, r), 
+                "gre" => new Goriya(pos, r, true),
+                "gbe" => new Goriya(pos, r, false),
+                "om" => new OldMan(pos, r),
+                "ke" => new Keese(pos, r),
+                "re" => new Rope(pos, r),
+                "se" => new Stalfos(pos, r),
+                "te" => new Trap(pos, r, g),
+                "wme" => new WallMaster(pos, r),
                 "ai1" => new ArrowPickup(pos, g, false),
                 "ai2" => new ArrowPickup(pos, g, true),
                 "ci1" => new Candle(pos, g, false),

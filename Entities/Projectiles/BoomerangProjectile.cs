@@ -34,9 +34,8 @@ namespace ZeldaDungeon.Entities.Projectiles
         private Game1 g; // needed to give Link his boomerang back after throwing it away
         private int magicSpeed = 4 * SpriteUtil.SCALE_FACTOR;
         private int normalSpeed = 3 * SpriteUtil.SCALE_FACTOR;
-        public BoomerangProjectile(IEntity thrower, Direction dir, bool isMagic, Game1 g)
+        public BoomerangProjectile(IEntity thrower, Direction dir, bool isMagic)
         {
-            this.g = g;
             targetDir = dir;
             var esf = EnemySpriteFactory.Instance;
             BoomerangSprite = isMagic ? esf.CreateMagicBoomerangSprite() : esf.CreateBoomerangSprite();

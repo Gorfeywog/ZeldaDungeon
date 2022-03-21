@@ -5,6 +5,7 @@ using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -15,17 +16,16 @@ namespace ZeldaDungeon.Entities.Enemies
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
-		public EntityList roomEntities;
 
 		private int currentFrame;
 		private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
-		private Game1 g;
+		private Room r;
 		private IProjectile boomerang;
 		private bool isRed;
 
 		private Direction currDirection;
 
-		public Goriya(Point position, Game1 g, bool isRed)
+		public Goriya(Point position, Room r, bool isRed)
 		{
 			this.isRed = isRed;
 			if (isRed)
@@ -39,17 +39,16 @@ namespace ZeldaDungeon.Entities.Enemies
 			int width = (int)SpriteUtil.SpriteSize.GoriyaX;
 			int height = (int)SpriteUtil.SpriteSize.GoriyaY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			this.g = g;
+			this.r = r;
 			currDirection = Direction.Left;
 			currentFrame = 0;
-			this.roomEntities = g.CurrentRoom.roomEntities;
-			Collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(r, this);
 		}
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
-			Collision.ChangeRooms(roomEntities);
-		}
+		//public void UpdateList(EntityList roomEntities)
+		//{
+		//	this.roomEntities = roomEntities;
+		//	Collision.ChangeRooms(roomEntities);
+		//}
 
 		public void Move()
 		{
@@ -150,8 +149,8 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Attack()
 		{
-			boomerang = new BoomerangProjectile(this, currDirection, false, g);
-			g.CurrentRoom.RegisterProjectile(boomerang);
+			boomerang = new BoomerangProjectile(this, currDirection, false);
+			r.RegisterProjectile(boomerang);
 		}
 
 		public void TakeDamage()
@@ -169,7 +168,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			GoriyaSprite.Update();
 			int moveChance = 8;
-			Collision.ChangeRooms(roomEntities);
 			if (currentFrame % moveChance == 0 && !IsAttacking)
 			{
 				Move();

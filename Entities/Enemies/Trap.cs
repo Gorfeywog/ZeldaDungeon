@@ -5,6 +5,7 @@ using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -18,7 +19,8 @@ namespace ZeldaDungeon.Entities.Enemies
 		private int speed;
 		private int cooldown;
 		private const int MaxCooldown = 20;
-		private Game1 Game;
+		private Room r;
+		private Game1 g;
 		private bool attacking;
 		private bool moving;
 		private bool onCooldown;
@@ -27,27 +29,21 @@ namespace ZeldaDungeon.Entities.Enemies
 		public CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
-		public Trap(Point position, Game1 game)
+		public Trap(Point position, Room r, Game1 g)
 		{
 			TrapSprite = EnemySpriteFactory.Instance.CreateTrapSprite();
 			int width = (int)SpriteUtil.SpriteSize.TrapX;
 			int height = (int)SpriteUtil.SpriteSize.TrapY;
 			initPoint = position;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			Collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(r, this);
 			speed = 2 * SpriteUtil.SCALE_FACTOR;
-			Game = game;
+			this.g = g;
 			attacking = false;
 			moving = false;
 			onCooldown = false;
 			cooldown = 0;
 
-		}
-
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
-			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
@@ -83,7 +79,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			if (!attacking && !moving && !onCooldown)
 			{
-				dir = Collision.DetectDirection(Game.Player);
+				dir = Collision.DetectDirection(g.Player);
 				attacking = true;
 				moving = true;
 			}

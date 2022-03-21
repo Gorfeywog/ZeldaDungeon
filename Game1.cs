@@ -97,7 +97,7 @@ namespace ZeldaDungeon
         public void SetupPlayer()
         {
             Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities, this);
-            Player.UpdateList(CurrentRoom.roomEntities);
+            Player.ChangeRoom(CurrentRoom);
         }
         private const string roomDataPath = @"RoomData";
         public void SetupRooms()
@@ -165,8 +165,7 @@ namespace ZeldaDungeon
         {
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
-            Player.UpdateList(CurrentRoom.roomEntities);
-            CurrentRoomEntities.UpdateList(CurrentRoom.roomEntities);
+            Player.ChangeRoom(CurrentRoom);
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -178,8 +177,7 @@ namespace ZeldaDungeon
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
             }
-            Player.UpdateList(CurrentRoom.roomEntities);
-            CurrentRoomEntities.UpdateList(CurrentRoom.roomEntities);
+            Player.ChangeRoom(CurrentRoom);
         }
 
         public void UnlockRoomDoor(Direction dir)

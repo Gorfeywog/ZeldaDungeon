@@ -5,6 +5,7 @@ using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
 using ZeldaDungeon.Entities.Projectiles;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -20,28 +21,21 @@ namespace ZeldaDungeon.Entities.Enemies
 		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
-		private Game1 g;
+		private Room r;
 
 
-		public Aquamentus(Point position, Game1 g)
+		public Aquamentus(Point position, Room r)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
 			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			roomEntities = g.CurrentRoom.roomEntities; 
-			Collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(r, this);
 			initX = position.X;
 
 			movingLeft = true;
-			this.g = g;
+			this.r = r;
 			currentFrame = 0;
-		}
-
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
-			Collision.ChangeRooms(roomEntities);
 		}
 
 		public void Move()
@@ -87,9 +81,9 @@ namespace ZeldaDungeon.Entities.Enemies
 			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
 			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
 			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-			g.CurrentRoom.RegisterProjectile(fireballUp);
-			g.CurrentRoom.RegisterProjectile(fireballStraight);
-			g.CurrentRoom.RegisterProjectile(fireballDown);
+			r.RegisterProjectile(fireballUp);
+			r.RegisterProjectile(fireballStraight);
+			r.RegisterProjectile(fireballDown);
 		}
 
 		public void TakeDamage()

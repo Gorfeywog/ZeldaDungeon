@@ -29,7 +29,7 @@ namespace ZeldaDungeon.Rooms
             this.g = g;
             var parser = new CSVParser(path);
             this.gridPos = parser.ParsePos();
-            roomEntities = parser.ParseRoomLayout(gridSize, topLeft, g);        
+            roomEntities = parser.ParseRoomLayout(gridSize, topLeft, g, this);        
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             linkDefaultSpawn = LinkDoorSpawn(Direction.Up);

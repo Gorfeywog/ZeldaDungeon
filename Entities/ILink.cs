@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.InventoryItems;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities
 {
@@ -16,7 +17,7 @@ namespace ZeldaDungeon.Entities
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();
         public void StopWalking();
-        public void UpdateList(EntityList roomEntities);
+        public void ChangeRoom(Room r);
         public void TakeDamage();
         public void PickUp(IPickup pickup);
         public bool CanPickUp();

@@ -26,7 +26,7 @@ namespace ZeldaDungeon
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
 
-        private static int roomTransFrameCount = 20;
+        private static int roomTransFrameCount = 90;
         private int roomTransFrame;
         private Room oldRoom; // only used while transitioning between rooms
         public GameState State { get; private set; }

@@ -82,6 +82,7 @@ namespace ZeldaDungeon.Rooms
                     "nd" => DoorState.None,
                     "ld" => DoorState.Locked,
                     "hd" => DoorState.BlockedHole,
+                    "ohd" => DoorState.Hole,
                     _ => throw new ArgumentException()
                 };
             }

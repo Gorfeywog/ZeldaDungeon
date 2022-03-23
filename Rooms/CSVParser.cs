@@ -128,6 +128,7 @@ namespace ZeldaDungeon.Rooms
                 "fb" => new FireBlock(pos),
                 "lb" => new LadderBlock(pos),
                 "pb" => new PushableBlock(pos, r),
+                "lvb" => new LadderVoidBlock(pos),
                 "sb" => new StairsBlock(pos),
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),

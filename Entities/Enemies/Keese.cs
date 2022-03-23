@@ -4,6 +4,7 @@ using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 using System.Diagnostics;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -19,20 +20,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		private int currentFrame;
 
-		public Keese(Point position)
+		public Keese(Point position, Room r)
 		{
 			KeeseSprite = EnemySpriteFactory.Instance.CreateKeeseSprite();
 			int width = (int)SpriteUtil.SpriteSize.KeeseX;
 			int height = (int)SpriteUtil.SpriteSize.KeeseY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-			Collision = new CollisionHandler(roomEntities, this);
-		}
-
-		public void UpdateList(EntityList roomEntities)
-        {
-            this.roomEntities = roomEntities;
-			Collision.ChangeRooms(roomEntities);
+			Collision = new CollisionHandler(r, this);
 		}
 
 		public void Move()
@@ -44,10 +39,6 @@ namespace ZeldaDungeon.Entities.Enemies
             {
 				CurrentLoc = newPos;
 			}
-            else
-            {
-				Debug.WriteLine("It finally failed!!!!");
-            }
 		}
 
 		public void Attack()

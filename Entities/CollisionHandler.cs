@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Text;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
+using ZeldaDungeon.InventoryItems;
+using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 
@@ -13,19 +15,18 @@ namespace ZeldaDungeon.Entities
     
     public class CollisionHandler
     {
-        private EntityList roomEntities;
-        private IDictionary<IEntity, Direction> Collisions;
+        private Room CurrentRoom { get; set; }
+        private EntityList RoomEntities { get => CurrentRoom.roomEntities; }
         private IEntity ActualEntity;
         private CollisionHeight height;
         private int dx, dy;
         private bool XCollision;
         private bool YCollision;
 
-        public CollisionHandler(EntityList roomEntities, IEntity ActualEntity)
+        public CollisionHandler(Room room, IEntity ActualEntity)
         {
-            this.roomEntities = roomEntities;
+            CurrentRoom = room;
             this.ActualEntity = ActualEntity;
-            Collisions = new Dictionary<IEntity, Direction>();
             if (ActualEntity is IEnemy e)
             {
                 height = e.Height;
@@ -40,27 +41,38 @@ namespace ZeldaDungeon.Entities
             }
         }
 
-        public void ChangeRooms(EntityList newList)
+        public void ChangeRooms(Room newRoom)
         {
-            roomEntities = newList;
-
+            CurrentRoom = newRoom;
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
-            foreach (IEntity en in roomEntities)
+            foreach (Door d in RoomEntities.Doors()) 
             {
-                if (en is PushableBlock pb && ActualEntity is ILink && DetectCollision(nextLoc, en.CurrentLoc))
+                if (DetectCollision(nextLoc, d.CurrentLoc) && ActualEntity is ILink player)
                 {
-                    pb.InitMovement(DetectDirection(pb));
+                    HandleCollisionPlayerDoor(player, d);
                     return true;
                 }
-                else if (en is IBlock block && DetectCollision(nextLoc, block.CurrentLoc) && height <= block.Height)
+            }
+            foreach (IEntity en in RoomEntities)
+            {
+                if (DetectCollision(nextLoc, en.CurrentLoc))
                 {
-                    return true;
-                }   
-                else if (en is Trap trap && !ActualEntity.Equals(trap) && DetectCollision(nextLoc, trap.CurrentLoc))
-                {
-                    return true;
+
+                    if (en is PushableBlock pb && ActualEntity is ILink)
+                    {
+                        pb.InitMovement(DetectDirection(pb));
+                        return true;
+                    }
+                    else if (en is IBlock block && height <= block.Height)
+                    {
+                        return true;
+                    }
+                    else if (en is Trap trap && !ActualEntity.Equals(trap))
+                    {
+                        return true;
+                    }
                 }
 
             }
@@ -83,6 +95,19 @@ namespace ZeldaDungeon.Entities
             }
         }
 
+        private static readonly IItem key = new KeyItem();
+        private void HandleCollisionPlayerDoor(ILink player, Door d)
+        {
+            if (d.State == DoorState.Locked && player.HasItem(key))
+            {
+                player.UseItem(key);
+                CurrentRoom.G.UnlockRoomDoor(d.Dir); // CurrentRoom.G here is bad but the alternatives seem worse
+            }
+            if (d.CanPass)
+            {
+                CurrentRoom.G.UseRoomDoor(d.Dir);
+            }
+        }
         private void HandleCollisionEnemyProjectile(IEnemy enemy, IProjectile proj)
         {
             if (DetectCollision(enemy.CurrentLoc, proj.CurrentLoc))
@@ -146,7 +171,7 @@ namespace ZeldaDungeon.Entities
         public void TrapUpdate()
         {
 
-            foreach (IEntity en in roomEntities)
+            foreach (IEntity en in RoomEntities)
             {
                 if (en is Trap trap)
                 {
@@ -166,18 +191,21 @@ namespace ZeldaDungeon.Entities
         {
             if (ActualEntity is ILink player)
             {
-                foreach (IEnemy enemy in roomEntities.Enemies())
+                foreach (IEntity en in RoomEntities)
                 {
-                    HandleCollisionPlayerEnemy(player, enemy);
-                }
-                foreach(IProjectile proj in roomEntities.Projectiles())
-                {
-                    HandleCollisionPlayerProjectile(player, proj);
+                    if (en is IEnemy enemy)
+                    {
+                        HandleCollisionPlayerEnemy(player, enemy);
+                    }
+                    else if (en is IProjectile proj)
+                    {
+                        HandleCollisionPlayerProjectile(player, proj);
+                    }
                 }
             }
             else if (ActualEntity is IEnemy enemy)
             {
-                foreach (IProjectile proj in roomEntities.Projectiles())
+                foreach (IProjectile proj in RoomEntities.Projectiles())
                 {
                     HandleCollisionEnemyProjectile(enemy, proj);
                 }

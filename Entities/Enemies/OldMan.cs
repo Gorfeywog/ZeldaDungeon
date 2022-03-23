@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -14,14 +15,14 @@ namespace ZeldaDungeon.Entities.Enemies
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
-		public OldMan(Point position)
+		public OldMan(Point position, Room r)
 		{
 			OldManSprite = EnemySpriteFactory.Instance.CreateOldManSprite();
 			//TODO Fix old man being drawn off center in a less concrete manner
 			CurrentLoc = new Rectangle(new Point(position.X - (8 * SpriteUtil.SCALE_FACTOR), position.Y), 
 				new Point((int)SpriteUtil.SpriteSize.OldManX * SpriteUtil.SCALE_FACTOR,
 				(int)SpriteUtil.SpriteSize.OldManY * SpriteUtil.SCALE_FACTOR));
-			Collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(r, this);
 		}
 
 		public void UpdateList(EntityList roomEntities)

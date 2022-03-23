@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -16,20 +17,14 @@ namespace ZeldaDungeon.Entities.Enemies
 		public EntityList roomEntities;
 		public Rectangle CurrentLoc { get; set; }
 
-		public Gel(Point position)
+		public Gel(Point position, Room r)
 		{
 			GelSprite = EnemySpriteFactory.Instance.CreateGelSprite();
 			int width = (int)SpriteUtil.SpriteSize.GelX;
 			int height = (int)SpriteUtil.SpriteSize.GelY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-			Collision = new CollisionHandler(roomEntities, this);
-		}
-
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
-			Collision.ChangeRooms(roomEntities);
+			Collision = new CollisionHandler(r, this);
 		}
 
 		public void Move()

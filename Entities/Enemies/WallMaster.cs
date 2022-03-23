@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -18,7 +19,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		private Direction currDirection;
 
-		public WallMaster(Point position)
+		public WallMaster(Point position, Room r)
 		{
 			WallMasterSprite = EnemySpriteFactory.Instance.CreateWallMasterSpriteSE();
 			currDirection = Direction.SE;
@@ -26,7 +27,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.WallMasterY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
-			Collision = new CollisionHandler(roomEntities, this);
+			Collision = new CollisionHandler(r, this);
 
 		}
 
@@ -92,7 +93,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Update()
 		{
 			WallMasterSprite.Update();
-			Collision.ChangeRooms(roomEntities);
 			currentFrame++;
       int moveChance = 8;
 			if (currentFrame % moveChance == 0)

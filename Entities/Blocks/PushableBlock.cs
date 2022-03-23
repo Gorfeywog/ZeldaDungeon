@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Blocks
@@ -22,21 +23,21 @@ namespace ZeldaDungeon.Entities.Blocks
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         private Rectangle newLoc;
-        public PushableBlock(Point position)
+        public PushableBlock(Point position, Room r)
         {
             int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
 			int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            Collision = new CollisionHandler(roomEntities, this);
+            Collision = new CollisionHandler(r, this);
             canBeMoved = true;
             AmountMoved = 0;
         }
 
-        public void UpdateList(EntityList roomEntities)
-        {
-            this.roomEntities = roomEntities;
-            Collision.ChangeRooms(roomEntities);
-        }
+        //public void UpdateList(EntityList roomEntities)
+        //{
+        //    this.roomEntities = roomEntities;
+        //    Collision.ChangeRooms(roomEntities);
+        //}
 
         public void Move(Direction direction)
         {

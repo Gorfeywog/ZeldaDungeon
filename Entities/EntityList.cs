@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities
 {
@@ -79,13 +80,22 @@ namespace ZeldaDungeon.Entities
                 }
             }
         }
-
-        public void UpdateList(EntityList roomEntities)
+        public IEnumerable<Door> Doors()
         {
-            foreach (IEntity ent in roomEntities){
-                if (ent is IEnemy enemy) enemy.UpdateList(roomEntities);
-                if (ent is PushableBlock pb) pb.UpdateList(roomEntities);
+            foreach (IEntity en in entityList)
+            {
+                if (en is Door d)
+                {
+                    yield return d;
+                }
             }
         }
+        //public void UpdateList(EntityList roomEntities)
+        //{
+        //    foreach (IEntity ent in roomEntities){
+        //        if (ent is IEnemy enemy) enemy.UpdateList(roomEntities);
+        //        if (ent is PushableBlock pb) pb.UpdateList(roomEntities);
+        //    }
+        //}
     }
 }

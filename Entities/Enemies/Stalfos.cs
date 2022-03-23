@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Rooms;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
@@ -17,7 +18,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
 
-		public Stalfos(Point position)
+		public Stalfos(Point position, Room r)
 		{
 			StalfosSprite = EnemySpriteFactory.Instance.CreateStalfosSprite();
 			int width = (int)SpriteUtil.SpriteSize.StalfosX;
@@ -25,12 +26,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 
 			currentFrame = 0;
-			Collision = new CollisionHandler(roomEntities, this);
-		}
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
-			Collision.ChangeRooms(roomEntities);
+			Collision = new CollisionHandler(r, this);
 		}
 
 		public void Move()

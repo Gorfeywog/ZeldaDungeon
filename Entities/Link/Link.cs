@@ -7,6 +7,7 @@ using ZeldaDungeon;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.InventoryItems;
+using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Link
@@ -40,13 +41,12 @@ namespace ZeldaDungeon.Entities.Link
             int height = (int)SpriteUtil.SpriteSize.LinkY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             this.roomEntities = roomEntities;
-            collision = new CollisionHandler(this.roomEntities, this);
+            collision = new CollisionHandler(g.CurrentRoom, this);
         }
 
-        public void UpdateList(EntityList roomEntities)
+        public void ChangeRoom(Room r)
         {
-            this.roomEntities = roomEntities;
-            collision.ChangeRooms(roomEntities);
+            collision = new CollisionHandler(r, this);
         }
 
         public void ChangeDirection(Direction nextDirection)

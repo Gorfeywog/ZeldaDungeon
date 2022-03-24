@@ -67,9 +67,9 @@ namespace ZeldaDungeon.Rooms
             }
 
         }
-        public void RegisterProjectile(IEntity proj)
+        public void RegisterEntity(IEntity ent)
         {
-            entityBuffer.Add(proj);
+            entityBuffer.Add(ent);
         }
         public void UpdateAll()
         {

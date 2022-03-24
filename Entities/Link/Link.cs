@@ -101,7 +101,7 @@ namespace ZeldaDungeon.Entities.Link
             if (stateMachine.FullHealth)
             {
                 // TODO - make this spawn in a better centerd way
-                g.CurrentRoom.RegisterProjectile(new ThrownSword(Center, Direction, g));
+                g.CurrentRoom.RegisterEntity(new ThrownSword(Center, Direction, g));
             }
         }
 

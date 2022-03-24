@@ -145,7 +145,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Attack()
 		{
 			boomerang = new BoomerangProjectile(this, currDirection, false, r.G);
-			r.RegisterProjectile(boomerang);
+			r.RegisterEntity(boomerang);
 		}
 
 		public void TakeDamage()

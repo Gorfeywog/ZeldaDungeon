@@ -81,9 +81,9 @@ namespace ZeldaDungeon.Entities.Enemies
 			IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
 			IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
 			IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-			r.RegisterProjectile(fireballUp);
-			r.RegisterProjectile(fireballStraight);
-			r.RegisterProjectile(fireballDown);
+			r.RegisterEntity(fireballUp);
+			r.RegisterEntity(fireballStraight);
+			r.RegisterEntity(fireballDown);
 		}
 
 		public void TakeDamage()

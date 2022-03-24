@@ -59,6 +59,7 @@ namespace ZeldaDungeon.Rooms
                     Point dest = topLeft + new Point(gridSize * i, gridSize * j);
                     var spaceData = data[i, j];
                     int k = 0;
+                    
                     while (k < spaceData.Count)
                     {
                         string s = spaceData[k];
@@ -77,11 +78,15 @@ namespace ZeldaDungeon.Rooms
                                 roomEntities.Add(ent);
                                 roomEntities.Add(nextEnt);
                             }
-                            k += 2;
+                            k++;
+                        }
+                        else if (ent != null)
+                        {
+                            roomEntities.Add(ent);
+                            k++;
                         }
                         else
                         {
-                            roomEntities.Add(ent);
                             k++;
                         }
                     }

@@ -11,7 +11,9 @@ namespace ZeldaDungeon.Rooms
 {
     /*
      * LAYOUT OF A VALID CSV FILE:
-     * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, items, etc.
+     * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, pickups, etc.
+     * Note that if an enemy is on a grid space, if the immediate next item on the same grid space is a pickup,
+     * then the enemy will hold the pickup and drop it upon death.
      * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
      * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*. Depending on room type may be meaningless.
      * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door 
@@ -24,12 +26,14 @@ namespace ZeldaDungeon.Rooms
     {
         private const int width = 16;
         private const int height = 11;
-        private string path; // used for debugging
         private string[] lines;
-        public CSVParser(String path)
+        private Room r;
+        private Game1 g;
+        public CSVParser(String path, Room r, Game1 g)
         {
-            this.path = path;
             lines = System.IO.File.ReadAllLines(path);
+            this.r = r;
+            this.g = g;
         }
         // array corresponds to the room's grid, list stores every entity on a tile
         // all rows and columns must have the prescribed dimensions
@@ -47,7 +51,7 @@ namespace ZeldaDungeon.Rooms
             }
             return tokens;
         }
-        public EntityList ParseRoomLayout(int gridSize, Point topLeft, Game1 g, Room r)
+        public EntityList ParseRoomLayout(int gridSize, Point topLeft)
         {
             var data = ParseRoomTokens();
             var roomEntities = new EntityList();
@@ -56,17 +60,45 @@ namespace ZeldaDungeon.Rooms
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
                     Point dest = topLeft + new Point(gridSize * i, gridSize * j);
-                    foreach (string s in data[i, j])
-                    {
-                        var ent = CSVParser.DecodeToken(s, dest, g, r);
-                        if (ent != null)
-                        {
-                            roomEntities.Add(ent);
-                        }
-                    }
+                    AddEntitiesOnTile(roomEntities, dest, data[i, j]);
+                    
                 }
             }
             return roomEntities;
+        }
+        private void AddEntitiesOnTile(EntityList roomEntities, Point dest, IList<string> tokens)
+        {
+            int k = 0;
+            while (k < tokens.Count)
+            {
+                string s = tokens[k];
+                IEntity ent = DecodeToken(s, dest);
+                if (k + 1 < tokens.Count && ent is IEnemy anEnemy)
+                {
+                    string nextS = tokens[k + 1];
+                    IEntity nextEnt = DecodeToken(nextS, dest);
+                    if (nextEnt is IPickup aPickup)
+                    {
+                        var combinedEnt = new ItemHolder(anEnemy, aPickup, r);
+                        roomEntities.Add(combinedEnt);
+                    }
+                    else
+                    {
+                        roomEntities.Add(ent);
+                        roomEntities.Add(nextEnt);
+                    }
+                    k += 2;
+                }
+                else if (ent != null)
+                {
+                    roomEntities.Add(ent);
+                    k++;
+                }
+                else
+                {
+                    k++;
+                }
+            }
         }
         public DoorState[] ParseDoorState()
         {
@@ -116,7 +148,7 @@ namespace ZeldaDungeon.Rooms
             string typeRow = lines[height + 3];
             return (RoomType)int.Parse(typeRow);
         }
-        public static IEntity DecodeToken(string token, Point pos, Game1 g, Room r) // may return null!
+        public IEntity DecodeToken(string token, Point pos) // may return null!
         {
             return token switch
             {

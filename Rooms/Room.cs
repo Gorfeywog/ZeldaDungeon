@@ -24,6 +24,7 @@ namespace ZeldaDungeon.Rooms
         public Point topLeft { get => gridPos * new Point(16, 11) * new Point(gridSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point linkDefaultSpawn { get; private set; }
+        public RoomStateMachine StateMachine { get; private set; }
         public Room(Game1 g, string path)
         {
             this.G = g;
@@ -46,6 +47,7 @@ namespace ZeldaDungeon.Rooms
                 }
                roomEntities.Add(new Walls(topLeft));
             }
+            StateMachine = new RoomStateMachine();
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -73,11 +75,16 @@ namespace ZeldaDungeon.Rooms
         }
         public void UpdateAll()
         {
+            StateMachine.Update();
+            if (StateMachine.State == RoomState.PickUp) { return; } // time stops while Link holds up stuff
             var toBeRemoved = new List<IEntity>();
             bool hasPickup = !G.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
-                en.Update();
+                if (StateMachine.State != RoomState.Clock || !(en is IEnemy)) // enemies don't do stuff in clock state
+                {
+                    en.Update();
+                }
                 if (en.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
@@ -87,6 +94,7 @@ namespace ZeldaDungeon.Rooms
                     if (p.HoldsUp)
                     {
                         hasPickup = true;
+                        StateMachine.PickUp();
                     }
                     G.Player.PickUp(p);
                     toBeRemoved.Add(en);
@@ -97,9 +105,9 @@ namespace ZeldaDungeon.Rooms
                 roomEntities.Remove(en);
                 en.DespawnEffect();
             }
-            foreach (var proj in entityBuffer)
+            foreach (var en in entityBuffer)
             {
-                roomEntities.Add(proj);
+                roomEntities.Add(en);
             }
             entityBuffer.Clear();
         }

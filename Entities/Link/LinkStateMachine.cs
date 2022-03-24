@@ -58,7 +58,7 @@ namespace ZeldaDungeon.Entities.Link
 		public void PickUp()
 		{
 			if (CurrentState != LinkActionState.PickingUp) CurrentState = LinkActionState.PickingUp;
-			itemUseCountdown = itemUseDelay;
+			itemUseCountdown = SpriteUtil.LINK_PICKUP_TIME;
 		}
 
 		public void Attack()
@@ -81,12 +81,15 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void Walking()
 		{
-			CurrentState = LinkActionState.Walking;
+			if (CurrentState == LinkActionState.Idle)
+			{
+				CurrentState = LinkActionState.Walking;
+			}
 		}
 
 		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
-		private static readonly int itemUseDelay = 20; // also used for attacks, and picking things up
+		private static readonly int itemUseDelay = 20; // also used for attacks
 		private int itemUseCountdown = 0;
 		public void Update()
 		{

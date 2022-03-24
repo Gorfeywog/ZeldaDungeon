@@ -11,7 +11,6 @@ namespace ZeldaDungeon.Rooms
     public class RoomStateMachine
     {
         private int resetTimer = 0;
-        private static readonly int pickUpTime = 60; // TODO - figure out the real value
         private static readonly int clockTime = 60; // TODO - figure out the real value
 
         public RoomState State { get; private set; }
@@ -33,7 +32,7 @@ namespace ZeldaDungeon.Rooms
         public void PickUp()
         {
             State = RoomState.PickUp;
-            resetTimer = pickUpTime;
+            resetTimer = SpriteUtil.LINK_PICKUP_TIME;
         }
         public void UseClock()
         {

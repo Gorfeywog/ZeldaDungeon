@@ -11,7 +11,9 @@ namespace ZeldaDungeon.Rooms
 {
     /*
      * LAYOUT OF A VALID CSV FILE:
-     * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, items, etc.
+     * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, pickups, etc.
+     * Note that if an enemy is on a grid space, if the immediate next item on the same grid space is a pickup,
+     * then the enemy will hold the pickup and drop it upon death.
      * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
      * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*. Depending on room type may be meaningless.
      * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door 
@@ -24,11 +26,9 @@ namespace ZeldaDungeon.Rooms
     {
         private const int width = 16;
         private const int height = 11;
-        private string path; // used for debugging
         private string[] lines;
         public CSVParser(String path)
         {
-            this.path = path;
             lines = System.IO.File.ReadAllLines(path);
         }
         // array corresponds to the room's grid, list stores every entity on a tile
@@ -55,13 +55,34 @@ namespace ZeldaDungeon.Rooms
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
+                    // TODO - refactor some of this into another method because holy cyclomatic complexity batman
                     Point dest = topLeft + new Point(gridSize * i, gridSize * j);
-                    foreach (string s in data[i, j])
+                    var spaceData = data[i, j];
+                    int k = 0;
+                    while (k < spaceData.Count)
                     {
-                        var ent = CSVParser.DecodeToken(s, dest, g, r);
-                        if (ent != null)
+                        string s = spaceData[k];
+                        IEntity ent = CSVParser.DecodeToken(s, dest, g, r);
+                        if (k+1 < spaceData.Count && ent is IEnemy anEnemy)
+                        {
+                            string nextS = spaceData[k + 1];
+                            IEntity nextEnt = CSVParser.DecodeToken(nextS, dest, g, r);
+                            if (nextEnt is IPickup aPickup)
+                            {
+                                var combinedEnt = new ItemHolder(anEnemy, aPickup, r);
+                                roomEntities.Add(combinedEnt);
+                            }
+                            else
+                            {
+                                roomEntities.Add(ent);
+                                roomEntities.Add(nextEnt);
+                            }
+                            k += 2;
+                        }
+                        else
                         {
                             roomEntities.Add(ent);
+                            k++;
                         }
                     }
                 }

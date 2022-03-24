@@ -23,23 +23,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			this.r = r;
 		}
 
-		public void Move()
-		{
-			Underlying.Move();
-			Rectangle heldItemLoc = heldItem.CurrentLoc;
-			heldItemLoc.Location = Underlying.CurrentLoc.Location;
-			heldItem.CurrentLoc = heldItemLoc;
-		}
+		public void Move() => Underlying.Move();
 
-		public void Attack()
-		{
-			Underlying.Attack();
-		}
+		public void Attack() => Underlying.Attack();
 
-		public void TakeDamage()
-		{
-			Underlying.TakeDamage();
-		}
+		public void TakeDamage() => Underlying.TakeDamage();
 		
 		public void Draw(SpriteBatch spriteBatch)
         {
@@ -51,7 +39,10 @@ namespace ZeldaDungeon.Entities.Enemies
         {
 			Underlying.Update();
 			heldItem.Update();
-        }
+			Point size = heldItem.CurrentLoc.Size;
+			Point loc = Underlying.CurrentLoc.Location;
+			heldItem.CurrentLoc = new Rectangle(loc, size);
+		}
 		public void DespawnEffect()
 		{
 			Underlying.DespawnEffect();

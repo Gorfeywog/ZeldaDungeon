@@ -78,7 +78,7 @@ namespace ZeldaDungeon.Rooms
                                 roomEntities.Add(ent);
                                 roomEntities.Add(nextEnt);
                             }
-                            k++;
+                            k += 2;
                         }
                         else if (ent != null)
                         {

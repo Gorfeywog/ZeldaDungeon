@@ -25,8 +25,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private bool moving;
 		private bool onCooldown;
 
-		private EntityList roomEntities;
-		public CollisionHandler Collision { get; set; }
+		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public Trap(Point position, Room r, Game1 g)
@@ -54,13 +53,15 @@ namespace ZeldaDungeon.Entities.Enemies
 				newPt = EntityUtils.Offset(CurrentLoc.Location, dir, speed);
 				if (!Collision.WillHitBlock(new Rectangle(newPt, CurrentLoc.Size))) {
 					CurrentLoc = new Rectangle(newPt, CurrentLoc.Size);
-				} else
+				}
+				else
                 {
 					attacking = false;
                 }
 				
 
-			} else if (moving)
+			}
+			else if (moving)
             {
 				newPt = EntityUtils.Offset(CurrentLoc.Location, dir, -SpriteUtil.SCALE_FACTOR);
 				if (CurrentLoc.Location != initPoint)

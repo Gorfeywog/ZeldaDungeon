@@ -13,7 +13,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public CollisionHandler Collision { get; set; }
+		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		private int initX;

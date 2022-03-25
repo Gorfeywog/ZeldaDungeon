@@ -11,10 +11,9 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite WallMasterSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public CollisionHandler Collision { get; set; }
+		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Ghost; }
 		public DrawLayer Layer { get => DrawLayer.High; }
-		private EntityList roomEntities;
 		private int currentFrame;
 
 		private Direction currDirection;
@@ -29,11 +28,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
 
-		}
-
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
 		}
 
 		public void Move()
@@ -75,10 +69,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		}
 
-		public void Attack()
-		{
-
-		}
+		public void Attack() { }
 
 		public void TakeDamage()
 		{
@@ -90,11 +81,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			WallMasterSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
+		private static readonly int moveChance = 8;
 		public void Update()
 		{
 			WallMasterSprite.Update();
 			currentFrame++;
-      int moveChance = 8;
 			if (currentFrame % moveChance == 0)
 			{
 				Move();

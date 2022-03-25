@@ -110,8 +110,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities, this);
-            Player.ChangeRoom(CurrentRoom);
+            Player = new Link(CurrentRoom.linkDefaultSpawn, this);
         }
         private const string roomDataPath = @"RoomData";
         public void SetupRooms()
@@ -147,7 +146,6 @@ namespace ZeldaDungeon
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
-                // TODO - check door state for validity of this!
                 State = GameState.RoomTransition;
                 roomTransFrame = 0; // count-up instead of count-down for ease of drawing
                 oldRoom = CurrentRoom;

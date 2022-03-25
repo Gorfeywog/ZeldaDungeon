@@ -144,5 +144,10 @@ namespace ZeldaDungeon.Rooms
         {
             return doors[dir].Explode();
         }
+
+        public void UseClock()
+        {
+            StateMachine.UseClock();
+        }
     }
 }

@@ -39,6 +39,14 @@ namespace ZeldaDungeon.Rooms
             State = RoomState.Clock;
             resetTimer = clockTime;
         }
+        public void EnterEffects() { }
+        public void ExitEffects()
+        {
+            if (State == RoomState.Clock)
+            {
+                State = RoomState.Normal;
+            }
+        }
     }
     public enum RoomState // should pickup + clock be possible?
     {

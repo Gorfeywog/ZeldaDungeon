@@ -149,5 +149,14 @@ namespace ZeldaDungeon.Rooms
         {
             StateMachine.UseClock();
         }
+
+        public void PlayerEnters(ILink player)
+        {
+            StateMachine.EnterEffects();
+        }
+        public void PlayerExits(ILink player)
+        {
+            StateMachine.ExitEffects();
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace ZeldaDungeon.Commands
 
         public void Execute()
         {
-            int newIndex = g.DirToRoomIndex(d);
+            int newIndex = g.DirToRoomIndex(dir);
             g.TeleportToRoom(newIndex);
         }
     }

@@ -91,6 +91,12 @@ namespace ZeldaDungeon.Rooms
                     }
                     k += 2;
                 }
+                else if (ent is SpecialTrigger trigger) // no need to check bounds. CSV contract guarantees safe.
+                {
+                    trigger.RegisterEffect(ParseSpecialEffect(tokens[k + 1]));
+                    roomEntities.Add(trigger);
+                    k += 2;
+                }
                 else if (ent != null)
                 {
                     roomEntities.Add(ent);
@@ -150,7 +156,7 @@ namespace ZeldaDungeon.Rooms
             string typeRow = lines[height + 3];
             return (RoomType)int.Parse(typeRow);
         }
-        public IEntity DecodeToken(string token, Point pos)
+        private IEntity DecodeToken(string token, Point pos)
         {
             return token switch
             {
@@ -200,7 +206,7 @@ namespace ZeldaDungeon.Rooms
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        public ICommand ParseSpecialEffect(string token)
+        private ICommand ParseSpecialEffect(string token)
         {
             return token switch
             {

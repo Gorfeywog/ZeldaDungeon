@@ -55,11 +55,17 @@ namespace ZeldaDungeon.Entities
                     return true;
                 }
             }
+            foreach (IBlock b in RoomEntities.Blocks())
+            {
+                if (b is SpecialTrigger st && DetectCollision(nextLoc, b.CurrentLoc) && ActualEntity is ILink)
+                {
+                    st.Trigger();
+                }
+            }
             foreach (IEntity en in RoomEntities)
             {
                 if (DetectCollision(nextLoc, en.CurrentLoc))
                 {
-
                     if (en is PushableBlock pb && ActualEntity is ILink)
                     {
                         pb.InitMovement(DetectDirection(pb));

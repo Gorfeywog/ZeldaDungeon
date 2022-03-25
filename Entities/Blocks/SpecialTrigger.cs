@@ -17,9 +17,10 @@ namespace ZeldaDungeon.Entities.Blocks
 		public Rectangle CurrentLoc { get; set; }
 		public SpecialTrigger(Point position)
 		{
-			int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
-			int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
-			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));;
+			int width = (int)SpriteUtil.SpriteSize.GenericBlockX/2;
+			int height = (int)SpriteUtil.SpriteSize.GenericBlockY/2;
+			Point adjustedPosition = position + new Point(width, height); // spawn it in center, not in top left
+			CurrentLoc = new Rectangle(adjustedPosition, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));;
 		}
 		public void Draw(SpriteBatch spriteBatch) { }
 		public void Update() { }

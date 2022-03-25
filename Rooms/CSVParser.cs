@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
@@ -149,10 +150,11 @@ namespace ZeldaDungeon.Rooms
             string typeRow = lines[height + 3];
             return (RoomType)int.Parse(typeRow);
         }
-        public IEntity DecodeToken(string token, Point pos) // may return null!
+        public IEntity DecodeToken(string token, Point pos)
         {
             return token switch
             {
+                "spt" => new SpecialTrigger(pos),
                 "npb" => new NonPushableBlock(pos),
                 "wr" => new RoomVoidBlock(pos),
                 "bfb" => new BlueFloorBlock(pos),
@@ -198,6 +200,20 @@ namespace ZeldaDungeon.Rooms
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        
+        public ICommand ParseSpecialEffect(string token)
+        {
+            return token switch
+            {
+                "tu" => new LinkRoomTeleport(g, Direction.Up),
+                "tr" => new LinkRoomTeleport(g, Direction.Right),
+                "td" => new LinkRoomTeleport(g, Direction.Down),
+                "tl" => new LinkRoomTeleport(g, Direction.Left),
+                "ou" => new OpenDoor(g, Direction.Up),
+                "or" => new OpenDoor(g, Direction.Right),
+                "od" => new OpenDoor(g, Direction.Down),
+                "ol" => new OpenDoor(g, Direction.Left),
+                _ => throw new ArgumentException()
+            };
+        }
     }
 }

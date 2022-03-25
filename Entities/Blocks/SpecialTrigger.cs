@@ -15,18 +15,24 @@ namespace ZeldaDungeon.Entities.Blocks
 		public DrawLayer Layer { get => DrawLayer.Low; }
 		private ICommand effect;
 		public Rectangle CurrentLoc { get; set; }
-		public SpecialTrigger(Point position, ICommand effect)
+		public SpecialTrigger(Point position)
 		{
 			int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
 			int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
-			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-			this.effect = effect;
+			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));;
 		}
 		public void Draw(SpriteBatch spriteBatch) { }
 		public void Update() { }
 		public void DespawnEffect() { }
 		public bool ReadyToDespawn => false;
-		public void Trigger() => effect.Execute();
+		public void Trigger()
+        {
+			if (effect != null) effect.Execute();
+        }
+		public void RegisterEffect(ICommand effect)
+        {
+			this.effect = effect;
+		}
 	}
 }
 

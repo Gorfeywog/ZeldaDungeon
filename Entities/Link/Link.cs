@@ -122,6 +122,7 @@ namespace ZeldaDungeon.Entities.Link
             }
             collision.Update();
             collision.TrapUpdate();
+            collision.SpecialTriggerUpdate();
         }
 
         public void Draw(SpriteBatch spriteBatch)

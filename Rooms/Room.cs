@@ -16,23 +16,25 @@ namespace ZeldaDungeon.Rooms
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
         public EntityList roomEntities; // holds the walls and the doors, but **not** Link.
         private IList<IEntity> entityBuffer; // hold entities until can safely add to roomEntities
-        private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
+        private static readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         public Game1 G { get; private set; }
         public RoomType Type { get; private set; }
-        public Point gridPos { get; private set; }
-        public Point topLeft { get => gridPos * new Point(16, 11) * new Point(gridSize); }
+        public Point GridPos { get; private set; }
+        public Point TopLeft { get => GridPos * new Point(16, 11) * new Point(gridSize); }
+        private static Point RoomSize { get => new Point(16 * gridSize, 11 * gridSize); }
+        public Rectangle RoomPos { get => new Rectangle(TopLeft, RoomSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
-        public Point linkDefaultSpawn { get; private set; }
+        public Point LinKDefaultSpawn { get; private set; }
         public Room(Game1 g, string path)
         {
             this.G = g;
             var parser = new CSVParser(path, this, g);
-            this.gridPos = parser.ParsePos();
-            roomEntities = parser.ParseRoomLayout(gridSize, topLeft);        
+            this.GridPos = parser.ParsePos();
+            roomEntities = parser.ParseRoomLayout(gridSize, TopLeft);        
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
+            LinKDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
             entityBuffer = new List<IEntity>();
             if (Type == RoomType.Normal)
@@ -44,7 +46,7 @@ namespace ZeldaDungeon.Rooms
                     doors[d] = new Door(DoorPos(d), d, states[i]);
                     roomEntities.Add(doors[d]);
                 }
-               roomEntities.Add(new Walls(topLeft));
+               roomEntities.Add(new Walls(TopLeft));
             }
         }
         public void DrawAll(SpriteBatch spriteBatch)
@@ -114,7 +116,7 @@ namespace ZeldaDungeon.Rooms
                 Direction.Down => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR),
                 _ => throw new ArgumentException()
             };
-            return topLeft + offset;
+            return TopLeft + offset;
         }
         public Point LinkDoorSpawn(Direction dir)
         {
@@ -126,7 +128,7 @@ namespace ZeldaDungeon.Rooms
                 Direction.Up => 3,
                 _ => throw new ArgumentException()
             };
-            return topLeft + linkDoorSpawns[index];
+            return TopLeft + linkDoorSpawns[index];
         }
         public bool UnlockDoor(Direction dir) 
         {

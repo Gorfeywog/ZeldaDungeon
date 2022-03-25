@@ -90,11 +90,11 @@ namespace ZeldaDungeon
             Point windowTopLeft = default; // default assignment just so it compiles; will never actually be used
             if (State == GameState.Normal)
             {
-                windowTopLeft = CurrentRoom.topLeft;
+                windowTopLeft = CurrentRoom.TopLeft;
             }
             else if (State == GameState.RoomTransition)
             {
-                windowTopLeft = EntityUtils.Interpolate(oldRoom.topLeft, CurrentRoom.topLeft, roomTransFrame, roomTransFrameCount);
+                windowTopLeft = EntityUtils.Interpolate(oldRoom.TopLeft, CurrentRoom.TopLeft, roomTransFrame, roomTransFrameCount);
             }
             Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
@@ -110,7 +110,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities, this);
+            Player = new Link(CurrentRoom.LinKDefaultSpawn, CurrentRoom.roomEntities, this);
             Player.ChangeRoom(CurrentRoom);
         }
         private const string roomDataPath = @"RoomData";
@@ -138,12 +138,12 @@ namespace ZeldaDungeon
         public void TeleportToRoom(int index)
         {
             CurrentRoomIndex = index;
-            Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
+            Player.CurrentLoc = new Rectangle(CurrentRoom.LinKDefaultSpawn, Player.CurrentLoc.Size);
             Player.ChangeRoom(CurrentRoom);
         }
         public void UseRoomDoor(Direction dir)
         {
-            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
@@ -159,7 +159,7 @@ namespace ZeldaDungeon
 
         public void UnlockRoomDoor(Direction dir)
         {
-            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
@@ -170,7 +170,7 @@ namespace ZeldaDungeon
 
         public void ExplodeRoomDoor(Direction dir)
         {
-            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
@@ -186,7 +186,7 @@ namespace ZeldaDungeon
             {
                 Room r = rooms[i];
                 // using a loop here is maybe not ideal, but there will only ever be ~20 rooms
-                if (r.gridPos.X == x && r.gridPos.Y == y)
+                if (r.GridPos.X == x && r.GridPos.Y == y)
                 {
                     return i;
                 }

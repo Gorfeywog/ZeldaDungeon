@@ -14,6 +14,7 @@ namespace ZeldaDungeon.Rooms
      * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, pickups, etc.
      * Note that if an enemy is on a grid space, if the immediate next item on the same grid space is a pickup,
      * then the enemy will hold the pickup and drop it upon death.
+     * Note that the special entry "spt" must be followed by one of a few special tokens that do not correspond to entities.
      * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
      * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*. Depending on room type may be meaningless.
      * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door 

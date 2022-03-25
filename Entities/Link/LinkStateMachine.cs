@@ -76,7 +76,10 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void Idle()
 		{
-			CurrentState = LinkActionState.Idle;
+			if (CurrentState == LinkActionState.Walking)
+			{
+				CurrentState = LinkActionState.Idle;
+			}
 		}
 
 		public void Walking()
@@ -107,7 +110,7 @@ namespace ZeldaDungeon.Entities.Link
 				itemUseCountdown--;
 				if (itemUseCountdown == 0)
 				{
-					Idle();
+					CurrentState = LinkActionState.Idle; // ignores current state, unlike Idle()
 				}
 			}
 		}

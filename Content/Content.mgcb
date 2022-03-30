@@ -73,6 +73,12 @@
 /processorParam:TextureFormat=Color
 /build:linksprites.png
 
+#begin Music/MiiTheme.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/MiiTheme.wav
+
 #begin roomwalls.png
 /importer:TextureImporter
 /processor:TextureProcessor

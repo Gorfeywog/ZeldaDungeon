@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ZeldaDungeon.Sprites
 {
-    class HUD : ISprite
+    class HUD
     {
         private ISprite HUD_sprite = SpecialSpriteFactory.Instance.CreateHUD();
 

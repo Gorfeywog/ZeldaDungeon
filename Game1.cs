@@ -23,7 +23,7 @@ namespace ZeldaDungeon
         private IList<Room> rooms;
         private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
         // TODO: declare a variable to draw the HUD Sprite somehow
-        private HUD static_HUD = new HUD();
+        private HUD static_HUD;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -46,7 +46,8 @@ namespace ZeldaDungeon
             base.Initialize();
             graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
             graphics.PreferredBackBufferHeight = (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT) * SpriteUtil.SCALE_FACTOR; 
-            graphics.ApplyChanges();                    
+            graphics.ApplyChanges();
+            static_HUD = new HUD();
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly

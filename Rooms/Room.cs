@@ -16,12 +16,14 @@ namespace ZeldaDungeon.Rooms
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
         public EntityList roomEntities; // holds the walls and the doors, but **not** Link.
         private IList<IEntity> entityBuffer; // hold entities until can safely add to roomEntities
-        private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
+        private static readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         public Game1 G { get; private set; }
         public RoomType Type { get; private set; }
         public Point GridPos { get; private set; }
         public Point TopLeft { get => GridPos * new Point(16, 11) * new Point(gridSize); }
+        private static Point RoomSize { get => new Point(16 * gridSize, 11 * gridSize); }
+        public Rectangle RoomPos { get => new Rectangle(TopLeft, RoomSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point LinkDefaultSpawn { get; private set; }
         public RoomStateMachine StateMachine { get; private set; }

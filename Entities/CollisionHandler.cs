@@ -47,6 +47,10 @@ namespace ZeldaDungeon.Entities
         }
         public bool WillHitBlock(Rectangle nextLoc)
         {
+            if (!nextLoc.Intersects(CurrentRoom.RoomPos))
+            {
+                return true; // cannot escape the room!
+            }
             foreach (Door d in RoomEntities.Doors()) 
             {
                 if (DetectCollision(nextLoc, d.CurrentLoc) && ActualEntity is ILink player)

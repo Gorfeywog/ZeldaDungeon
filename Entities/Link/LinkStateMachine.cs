@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
 
@@ -9,6 +10,7 @@ namespace ZeldaDungeon.Entities.Link
 		public enum LinkActionState { PickingUp, UsingItem, Walking, Idle, Attacking };
 		public bool Damaged { get; private set; }
 		public bool FullHealth { get => !Damaged; }
+		int CurrentHealth;
 		private Direction currentDirection;
 		public Direction CurrentDirection
 		{
@@ -43,6 +45,7 @@ namespace ZeldaDungeon.Entities.Link
 			CurrentState = LinkActionState.Idle;
 			currentDirection = Direction.Right;
 			HasNewSprite = true;
+			CurrentHealth = SpriteUtil.LINK_MAX_HEALTH;
 		}
 
 		public void ChangeDirection(Direction newDirection)
@@ -69,6 +72,14 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void TakeDamage()
 		{
+			CurrentHealth--;
+			if (CurrentHealth == 0)
+            {
+				// Game over screen, not implemented yet.
+				// These lines are written for debugging, delete when game over is implemented.
+				Debug.WriteLine("YOU DIED");
+				CurrentHealth = SpriteUtil.LINK_MAX_HEALTH;
+            }
 			Damaged = true;
 			damageCountdown = damageDelay;
 			HasNewSprite = true;

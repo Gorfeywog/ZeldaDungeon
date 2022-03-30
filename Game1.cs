@@ -109,7 +109,9 @@ namespace ZeldaDungeon
             {
                 oldRoom.DrawAll(spriteBatch);
             }
-            static_HUD.Draw(spriteBatch, new Rectangle(new Point(0, 0), new Point(SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR)));
+            Point hudOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            Point hudSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            static_HUD.Draw(spriteBatch, new Rectangle(hudOffset, hudSize));
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();

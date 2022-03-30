@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Sprites
 
         private static readonly Color[] damageColors = { Color.Red, Color.White };
         private static readonly int damageRepeatDelay = 5;
-        private bool damaged;
+        public bool damaged { get; set; }
         private int damageColorTimer = damageRepeatDelay;
         private int damageColorIndex = 0;
 

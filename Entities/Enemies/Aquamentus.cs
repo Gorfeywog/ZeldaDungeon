@@ -98,6 +98,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentHealth--;
 			if (CurrentHealth == 0) DespawnEffect();
             Damaged = true;
+			AquamentusSprite.damaged = true;
             damageCountdown = damageDelay;
         }
 

@@ -28,7 +28,6 @@ namespace ZeldaDungeon.Entities.Pickups
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-        private static int offset = 32; // how far to place from Link
         public void PickUp(ILink link)
         {
             link.AddItem(new BombItem(g));

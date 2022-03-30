@@ -109,7 +109,7 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.LinkDefaultSpawn, CurrentRoom.roomEntities, this);
+            Player = new Link(CurrentRoom.LinkDefaultSpawn, this);
             Player.ChangeRoom(CurrentRoom);
             CurrentRoom.PlayerEnters(Player);
         }

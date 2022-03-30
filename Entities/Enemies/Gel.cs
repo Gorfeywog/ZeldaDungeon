@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite GelSprite { get; set; }
 		private int currentFrame;
-		public CollisionHandler Collision { get; set; }
+		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
@@ -31,7 +31,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			int movingNum = SpriteUtil.Rand.Next(5);
 			int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
-      Rectangle newPos;
+			Rectangle newPos;
 			if (movingNum < 2) // 2 in 5 chance to move in x direction
 			{
 				newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
@@ -60,11 +60,11 @@ namespace ZeldaDungeon.Entities.Enemies
 			GelSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
+		private static readonly int moveChance = 8;
 		public void Update()
 		{
 			GelSprite.Update();
 			currentFrame++;
-			int moveChance = 8;
 			if (currentFrame % moveChance == 0)
 			{
 				Move();

@@ -37,7 +37,6 @@ namespace ZeldaDungeon.Entities.Pickups
         }
         public void Update() => sprite.Update();
 
-        private static int offset = 32;
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
     }

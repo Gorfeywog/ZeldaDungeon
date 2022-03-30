@@ -15,7 +15,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public CollisionHeight Height { get => CollisionHeight.Ghost; }
 		public DrawLayer Layer { get => DrawLayer.High; }
 		private int currentFrame;
-
+		private int CurrentHealth;
+		private bool Damaged;
+		private static readonly int damageDelay = 80;
+		private int damageCountdown = 0;
 		private Direction currDirection;
 
 		public WallMaster(Point position, Room r)
@@ -27,6 +30,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
+			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+			Damaged = false;
 
 		}
 
@@ -73,7 +78,11 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-
+			CurrentHealth--;
+			if (CurrentHealth == 0) DespawnEffect();
+			Damaged = true;
+			WallMasterSprite.damaged = true;
+			damageCountdown = damageDelay;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -84,6 +93,14 @@ namespace ZeldaDungeon.Entities.Enemies
 		private static readonly int moveChance = 8;
 		public void Update()
 		{
+			if (Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					Damaged = false;
+				}
+			}
 			WallMasterSprite.Update();
 			currentFrame++;
 			if (currentFrame % moveChance == 0)

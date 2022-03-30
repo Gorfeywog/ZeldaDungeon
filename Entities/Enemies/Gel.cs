@@ -10,6 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Gel : IEnemy
 	{
 		public ISprite GelSprite { get; set; }
+		public bool ReadyToDespawn { get; set; }
 		private int currentFrame;
 		private CollisionHandler Collision { get; set; }
 		private int CurrentHealth;
@@ -28,6 +29,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.GelY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
+			ReadyToDespawn = false;
 			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
 			Damaged = false;
 			Collision = new CollisionHandler(r, this);
@@ -94,7 +96,6 @@ namespace ZeldaDungeon.Entities.Enemies
         {
 			// idk what to do here.
         }
-		public bool ReadyToDespawn => false;
 
 	}
 }

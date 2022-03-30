@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class WallMaster : IEnemy
 	{
 		public ISprite WallMasterSprite { get; set; }
+		public bool ReadyToDespawn { get; set; }
+
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Ghost; }
@@ -110,7 +112,9 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			Collision.Update();
 		}
-		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
+		public void DespawnEffect() 
+		{
+			ReadyToDespawn = true;
+		}
 	}
 }

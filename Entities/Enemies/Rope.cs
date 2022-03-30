@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Rope : IEnemy
 	{
 		public ISprite RopeSprite { get; set; }
+		public bool ReadyToDespawn { get; set; }
+
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
@@ -122,6 +124,5 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision.Update();
 		}
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 	}
 }

@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Keese : IEnemy
 	{
 		public ISprite KeeseSprite { get; set; }
+		public bool ReadyToDespawn { get; set; }
 
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.High; }
@@ -34,6 +35,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision = new CollisionHandler(r, this);
 			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
 			Damaged = false;
+			ReadyToDespawn = false;
 		}
 
 		public void Move()
@@ -86,8 +88,10 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			Collision.Update();
 		}
-		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
+		public void DespawnEffect() 
+		{
+			ReadyToDespawn = true;
+		}
 
 	}
 }

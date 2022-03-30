@@ -11,6 +11,8 @@ namespace ZeldaDungeon.Entities.Enemies
 {
 	public class Goriya : IEnemy
 	{
+		public bool ReadyToDespawn { get; set; }
+
 		public ISprite GoriyaSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }
@@ -196,6 +198,5 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		}
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 	}
 }

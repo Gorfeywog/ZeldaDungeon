@@ -12,6 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 {
 	public class Aquamentus : IEnemy
 	{
+		public bool ReadyToDespawn { get; set; }
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }
@@ -33,6 +34,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public Aquamentus(Point position, Room r)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
+			ReadyToDespawn = false;
 			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
@@ -136,8 +138,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		}
 		public void DespawnEffect() 
 		{
-			Debug.WriteLine("Aquamentus Died!!!!");
+			ReadyToDespawn = true;
 		}
-		public bool ReadyToDespawn => false;
 	}
 }

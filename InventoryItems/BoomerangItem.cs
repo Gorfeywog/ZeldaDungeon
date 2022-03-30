@@ -23,6 +23,10 @@ namespace ZeldaDungeon.InventoryItems
         private static int offset = 16 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
+            if (isMagic)
+            {
+                SoundManager.Instance.PlaySound("MagicalBoomerangThrown");
+            }
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
             IProjectile proj = new BoomerangProjectile(player, player.Direction, isMagic, g);
             g.CurrentRoom.RegisterProjectile(proj);

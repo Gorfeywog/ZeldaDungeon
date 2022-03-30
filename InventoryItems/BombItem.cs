@@ -22,9 +22,11 @@ namespace ZeldaDungeon.InventoryItems
         private static int offset = 16 * SpriteUtil.SCALE_FACTOR; // how far to place from Link
         public void UseOn(ILink player)
         {
+
             // uses player.Position rather than player.Center since it is about the size of Link
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new BombProjectile(loc, g);
+            SoundManager.Instance.PlaySound("BombAppearanceAndSelfDestruction");
             g.CurrentRoom.RegisterProjectile(proj);
         }
 

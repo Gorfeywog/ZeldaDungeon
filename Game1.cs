@@ -22,6 +22,8 @@ namespace ZeldaDungeon
         public ILink Player { get; private set; }
         private IList<Room> rooms;
         private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
+        // TODO: declare a variable to draw the HUD Sprite somehow
+        private HUD static_HUD = new HUD();
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -43,11 +45,12 @@ namespace ZeldaDungeon
         {
             base.Initialize();
             graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
-            graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; 
+            graphics.PreferredBackBufferHeight = (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT) * SpriteUtil.SCALE_FACTOR; 
             graphics.ApplyChanges();                    
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
+            
         }
 
         protected override void LoadContent()
@@ -72,6 +75,7 @@ namespace ZeldaDungeon
                     controllers.Update();
                     CurrentRoom.UpdateAll();
                     Player.Update();
+                    static_HUD.Update();
                     break;
                 case GameState.RoomTransition:
                     roomTransFrame++;
@@ -96,7 +100,7 @@ namespace ZeldaDungeon
             {
                 windowTopLeft = EntityUtils.Interpolate(oldRoom.topLeft, CurrentRoom.topLeft, roomTransFrame, roomTransFrameCount);
             }
-            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y, 0);
+            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y + SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
             spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(spriteBatch);
@@ -104,6 +108,7 @@ namespace ZeldaDungeon
             {
                 oldRoom.DrawAll(spriteBatch);
             }
+            static_HUD.Draw(spriteBatch, new Rectangle(new Point(0, 0), new Point(SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR)));
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();

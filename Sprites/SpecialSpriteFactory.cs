@@ -11,10 +11,11 @@ using ZeldaDungeon.Entities;
 namespace ZeldaDungeon.Sprites
 {
     // this stores all sprites that are oversized and in their own files, or otherwise don't belong in a sheet.
-    // so far this is only the room walls.
+    // this includes the walls and HUD sprites.
     public class SpecialSpriteFactory
     {
         private Texture2D wallsSprite;
+        private Texture2D hudSprite;
 
         private static SpecialSpriteFactory instance = new SpecialSpriteFactory();
 
@@ -32,11 +33,17 @@ namespace ZeldaDungeon.Sprites
         public void LoadAllTextures(ContentManager content)
         {
             wallsSprite = content.Load<Texture2D>("roomwalls");
+            hudSprite = content.Load<Texture2D>("HUD_UI");
         }
 
         public ISprite CreateWalls()
         {
             return new StaticSprite(wallsSprite, new Rectangle(0, 0, SpriteUtil.ROOM_WIDTH, SpriteUtil.ROOM_HEIGHT));
+        }
+
+        public ISprite CreateHUD()
+        {
+            return new StaticSprite(hudSprite, new Rectangle(0, 0, SpriteUtil.HUD_WIDTH, SpriteUtil.HUD_HEIGHT));
         }
     }
 }

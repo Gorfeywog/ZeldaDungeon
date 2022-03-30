@@ -63,7 +63,6 @@ namespace ZeldaDungeon.Entities
             {
                 if (DetectCollision(nextLoc, en.CurrentLoc))
                 {
-
                     if (en is PushableBlock pb && ActualEntity is ILink)
                     {
                         pb.InitMovement(DetectDirection(pb));
@@ -189,6 +188,21 @@ namespace ZeldaDungeon.Entities
                 
             }
 
+        }
+        public void SpecialTriggerUpdate()
+        {
+            if (!(ActualEntity is ILink))
+            {
+                return; // only happens for Link
+            }
+            Rectangle loc = ActualEntity.CurrentLoc;
+            foreach (IBlock b in RoomEntities.Blocks())
+            {
+                if (b is SpecialTrigger st && DetectCollision(loc, b.CurrentLoc) && ActualEntity is ILink)
+                {
+                    st.Trigger();
+                }
+            }
         }
 
         public void Update()

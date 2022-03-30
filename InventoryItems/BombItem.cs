@@ -25,7 +25,7 @@ namespace ZeldaDungeon.InventoryItems
             // uses player.Position rather than player.Center since it is about the size of Link
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new BombProjectile(loc, g);
-            g.CurrentRoom.RegisterProjectile(proj);
+            g.CurrentRoom.RegisterEntity(proj);
         }
 
         public bool CanUseOn(ILink player) => true;

@@ -13,7 +13,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite GoriyaSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public CollisionHandler Collision { get; set; }
+		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 
@@ -145,7 +145,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void Attack()
 		{
 			boomerang = new BoomerangProjectile(this, currDirection, false, r.G);
-			r.RegisterProjectile(boomerang);
+			r.RegisterEntity(boomerang);
 		}
 
 		public void TakeDamage()

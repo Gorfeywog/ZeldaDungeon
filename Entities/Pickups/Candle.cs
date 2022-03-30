@@ -31,8 +31,6 @@ namespace ZeldaDungeon.Entities.Pickups
             sprite.Draw(spriteBatch, CurrentLoc);
         }
         public void Update() => sprite.Update();
-
-        private static int offset = 32;
         public void PickUp(ILink player)
         {
             player.AddItem(new CandleItem(g, isRed));

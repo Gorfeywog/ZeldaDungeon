@@ -25,7 +25,8 @@ namespace ZeldaDungeon.Rooms
         private static Point RoomSize { get => new Point(16 * gridSize, 11 * gridSize); }
         public Rectangle RoomPos { get => new Rectangle(TopLeft, RoomSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
-        public Point LinKDefaultSpawn { get; private set; }
+        public Point LinkDefaultSpawn { get; private set; }
+        public RoomStateMachine StateMachine { get; private set; }
         public Room(Game1 g, string path)
         {
             this.G = g;
@@ -34,7 +35,7 @@ namespace ZeldaDungeon.Rooms
             roomEntities = parser.ParseRoomLayout(gridSize, TopLeft);        
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            LinKDefaultSpawn = LinkDoorSpawn(Direction.Up);
+            LinkDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
             entityBuffer = new List<IEntity>();
             if (Type == RoomType.Normal)
@@ -48,6 +49,7 @@ namespace ZeldaDungeon.Rooms
                 }
                roomEntities.Add(new Walls(TopLeft));
             }
+            StateMachine = new RoomStateMachine();
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -69,17 +71,22 @@ namespace ZeldaDungeon.Rooms
             }
 
         }
-        public void RegisterProjectile(IEntity proj)
+        public void RegisterEntity(IEntity ent)
         {
-            entityBuffer.Add(proj);
+            entityBuffer.Add(ent);
         }
         public void UpdateAll()
         {
+            StateMachine.Update();
+            if (StateMachine.State == RoomState.PickUp) { return; } // time stops while Link holds up stuff
             var toBeRemoved = new List<IEntity>();
             bool hasPickup = !G.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
-                en.Update();
+                if (StateMachine.State != RoomState.Clock || !(en is IEnemy)) // enemies don't do stuff in clock state
+                {
+                    en.Update();
+                }
                 if (en.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
@@ -89,6 +96,7 @@ namespace ZeldaDungeon.Rooms
                     if (p.HoldsUp)
                     {
                         hasPickup = true;
+                        StateMachine.PickUp();
                     }
                     G.Player.PickUp(p);
                     toBeRemoved.Add(en);
@@ -99,9 +107,9 @@ namespace ZeldaDungeon.Rooms
                 roomEntities.Remove(en);
                 en.DespawnEffect();
             }
-            foreach (var proj in entityBuffer)
+            foreach (var en in entityBuffer)
             {
-                roomEntities.Add(proj);
+                roomEntities.Add(en);
             }
             entityBuffer.Clear();
         }
@@ -137,6 +145,23 @@ namespace ZeldaDungeon.Rooms
         public bool ExplodeDoor(Direction dir)
         {
             return doors[dir].Explode();
+        }
+        public bool OpenDoor(Direction dir)
+        {
+            return doors[dir].Open();
+        }
+        public void UseClock()
+        {
+            StateMachine.UseClock();
+        }
+
+        public void PlayerEnters(ILink player)
+        {
+            StateMachine.EnterEffects();
+        }
+        public void PlayerExits(ILink player)
+        {
+            StateMachine.ExitEffects();
         }
     }
 }

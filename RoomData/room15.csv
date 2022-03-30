@@ -3,7 +3,7 @@ wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 wr,wr,bfb;te,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb;te,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,npb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,npb,bfb,npb,bfb,bfb,bfb,bfb,wr,wr
-wr,wr,bfb,bfb,bfb,bfb,bfb;pb,bfb,sb,bfb,npb,bfb,bfb,bfb,wr,wr
+wr,wr,bfb,bfb,bfb,bfb,bfb;pb,bfb,sb;spt;td,bfb,npb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,npb,bfb,npb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,npb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb;te,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb;te,wr,wr
@@ -11,5 +11,5 @@ wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 1;0
 nd,nd,ld,nd
-2;5,7.5;8,13;5,7.5;2
+2;5,7.5;8,13;5,7;5
 0

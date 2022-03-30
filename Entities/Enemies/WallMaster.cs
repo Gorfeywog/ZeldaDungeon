@@ -18,7 +18,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public DrawLayer Layer { get => DrawLayer.High; }
 		private int currentFrame;
 		private int CurrentHealth;
-		private bool Damaged;
 		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
 		private Direction currDirection;
@@ -33,7 +32,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
 			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
-			Damaged = false;
 
 		}
 
@@ -80,11 +78,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-			CurrentHealth--;
+			if (damageCountdown == 0)
+            {
+				CurrentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
 			if (CurrentHealth == 0) DespawnEffect();
-			Damaged = true;
 			WallMasterSprite.damaged = true;
-			damageCountdown = damageDelay;
+
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -95,12 +96,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		private static readonly int moveChance = 8;
 		public void Update()
 		{
-			if (Damaged)
+			if (WallMasterSprite.damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					Damaged = false;
+					WallMasterSprite.damaged = false;
 				}
 			}
 			WallMasterSprite.Update();

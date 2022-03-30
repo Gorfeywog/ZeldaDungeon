@@ -25,8 +25,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		private bool movingLeft;
 		private int currentFrame;
 		private Room r;
-		private bool Damaged;
-		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
 
 
@@ -41,7 +39,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision = new CollisionHandler(r, this);
 			initX = position.X;
 			CurrentHealth = SpriteUtil.AQUAMENTUS_MAX_HEALTH;
-			Damaged = false;
 			movingLeft = true;
 			this.r = r;
 			currentFrame = 0;
@@ -97,11 +94,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-			CurrentHealth--;
+			if (damageCountdown == 0)
+            {
+				CurrentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
 			if (CurrentHealth == 0) DespawnEffect();
-            Damaged = true;
 			AquamentusSprite.damaged = true;
-            damageCountdown = damageDelay;
+            
         }
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -114,12 +114,12 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			AquamentusSprite.Update();
 			int moveChance = 8;
-			if (Damaged)
+			if (AquamentusSprite.damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					Damaged = false;
+					AquamentusSprite.damaged = false;
 				}
 			}
 			if (currentFrame % moveChance == 0)

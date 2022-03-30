@@ -20,7 +20,6 @@ namespace ZeldaDungeon.Entities.Enemies
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
 		private int CurrentHealth;
-		private bool Damaged;
 		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
 
@@ -31,7 +30,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			int height = (int)SpriteUtil.SpriteSize.StalfosY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
-			Damaged = false;
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
 			ReadyToDespawn = false;
@@ -60,11 +58,13 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-			CurrentHealth--;
+			if (damageCountdown == 0)
+            {
+				CurrentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
 			if (CurrentHealth == 0) DespawnEffect();
-			Damaged = true;
 			StalfosSprite.damaged = true;
-			damageCountdown = damageDelay;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -74,12 +74,12 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
-			if (Damaged)
+			if (StalfosSprite.damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					Damaged = false;
+					StalfosSprite.damaged = false;
 				}
 			}
 			StalfosSprite.Update();

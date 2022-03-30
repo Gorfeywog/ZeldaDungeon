@@ -24,6 +24,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		private bool isRed;
 
 		private Direction currDirection;
+		private static readonly int damageDelay = 80;
+		private int damageCountdown = 0;
+		private int CurrentHealth;
+		private bool Damaged;
 
 		public Goriya(Point position, Room r, bool isRed)
 		{
@@ -43,6 +47,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			currDirection = Direction.Left;
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
+			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+			Damaged = false;
 		}
 
 		public void Move()
@@ -150,7 +156,11 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-
+			CurrentHealth--;
+			if (CurrentHealth == 0) DespawnEffect();
+			Damaged = true;
+			GoriyaSprite.damaged = true;
+			damageCountdown = damageDelay;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -160,6 +170,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
+			if (Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					Damaged = false;
+				}
+			}
 			currentFrame++;
 			GoriyaSprite.Update();
 			int moveChance = 8;

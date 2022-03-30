@@ -46,7 +46,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void DespawnEffect()
 		{
 			Underlying.DespawnEffect();
-			r.RegisterProjectile(heldItem);
+			r.RegisterEntity(heldItem);
 		}
 		public bool ReadyToDespawn => Underlying.ReadyToDespawn;
 	}

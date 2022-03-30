@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         private const float explodeDist = 80; 
         public void DespawnEffect()
         {
-            g.CurrentRoom.RegisterProjectile(new SmokeCloud(CurrentLoc.Location));
+            g.CurrentRoom.RegisterEntity(new SmokeCloud(CurrentLoc.Location));
             foreach (var d in doorDirections)
             {
                 Point p = g.CurrentRoom.DoorPos(d) + new Point((int)SpriteUtil.SpriteSize.DoorX, 

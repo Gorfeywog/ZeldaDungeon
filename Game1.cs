@@ -21,7 +21,6 @@ namespace ZeldaDungeon
         private ControllerManager controllers;
         public ILink Player { get; private set; }
         private IList<Room> rooms;
-        private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -110,8 +109,8 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities, this);
-            Player.ChangeRoom(CurrentRoom);
+            Player = new Link(CurrentRoom.linkDefaultSpawn, this);
+            CurrentRoom.PlayerEnters(Player);
         }
         private const string roomDataPath = @"RoomData";
         public void SetupRooms()
@@ -137,9 +136,12 @@ namespace ZeldaDungeon
 
         public void TeleportToRoom(int index)
         {
+            oldRoom = CurrentRoom;
             CurrentRoomIndex = index;
             Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
+            oldRoom.PlayerExits(Player);
             Player.ChangeRoom(CurrentRoom);
+            CurrentRoom.PlayerEnters(Player);
         }
         public void UseRoomDoor(Direction dir)
         {
@@ -147,14 +149,15 @@ namespace ZeldaDungeon
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
-                // TODO - check door state for validity of this!
                 State = GameState.RoomTransition;
                 roomTransFrame = 0; // count-up instead of count-down for ease of drawing
                 oldRoom = CurrentRoom;
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
+                oldRoom.PlayerExits(Player);
+                Player.ChangeRoom(CurrentRoom);
+                CurrentRoom.PlayerEnters(Player);
             }
-            Player.ChangeRoom(CurrentRoom);
         }
 
         public void UnlockRoomDoor(Direction dir)

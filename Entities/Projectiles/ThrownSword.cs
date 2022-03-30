@@ -69,7 +69,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         {
 			foreach (var d in projDirections)
             {
-				g.CurrentRoom.RegisterProjectile(new SwordProj(CurrentLoc.Location, d));
+				g.CurrentRoom.RegisterEntity(new SwordProj(CurrentLoc.Location, d));
             }
         }
 	}

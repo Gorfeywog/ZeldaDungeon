@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
@@ -14,6 +15,7 @@ namespace ZeldaDungeon.Rooms
      * 11 rows of 16 (possibly empty) entries, representing blocks, floor tiles, enemies, pickups, etc.
      * Note that if an enemy is on a grid space, if the immediate next item on the same grid space is a pickup,
      * then the enemy will hold the pickup and drop it upon death.
+     * Note that the special entry "spt" must be followed by one of a few special tokens that do not correspond to entities.
      * 1 row of 1 entry representing an ordered pair (two values sep. by ;), representing the location of the room
      * 1 row of 4 tokens representing initial states of doors, ordered *clockwise from the left*. Depending on room type may be meaningless.
      * 1 row of 4 entries, each representing an ordered pair, that specify where Link spawns after using the respective door 
@@ -89,6 +91,12 @@ namespace ZeldaDungeon.Rooms
                     }
                     k += 2;
                 }
+                else if (ent is SpecialTrigger trigger) // no need to check bounds. CSV contract guarantees safe.
+                {
+                    trigger.RegisterEffect(ParseSpecialEffect(tokens[k + 1]));
+                    roomEntities.Add(trigger);
+                    k += 2;
+                }
                 else if (ent != null)
                 {
                     roomEntities.Add(ent);
@@ -148,10 +156,11 @@ namespace ZeldaDungeon.Rooms
             string typeRow = lines[height + 3];
             return (RoomType)int.Parse(typeRow);
         }
-        public IEntity DecodeToken(string token, Point pos) // may return null!
+        private IEntity DecodeToken(string token, Point pos)
         {
             return token switch
             {
+                "spt" => new SpecialTrigger(pos),
                 "npb" => new NonPushableBlock(pos),
                 "wr" => new RoomVoidBlock(pos),
                 "bfb" => new BlueFloorBlock(pos),
@@ -197,6 +206,20 @@ namespace ZeldaDungeon.Rooms
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        
+        private ICommand ParseSpecialEffect(string token)
+        {
+            return token switch
+            {
+                "tu" => new LinkRoomTeleport(g, Direction.Up),
+                "tr" => new LinkRoomTeleport(g, Direction.Right),
+                "td" => new LinkRoomTeleport(g, Direction.Down),
+                "tl" => new LinkRoomTeleport(g, Direction.Left),
+                "ou" => new OpenDoor(g, Direction.Up),
+                "or" => new OpenDoor(g, Direction.Right),
+                "od" => new OpenDoor(g, Direction.Down),
+                "ol" => new OpenDoor(g, Direction.Left),
+                _ => throw new ArgumentException()
+            };
+        }
     }
 }

@@ -26,12 +26,14 @@ namespace ZeldaDungeon.Sprites
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;
 
+        //lengths of states
+        public static readonly int LINK_PICKUP_TIME = 69;
         //Room sizes
         public static readonly int ROOM_WIDTH = 256;
         public static readonly int ROOM_HEIGHT = 176;
 
         //Global random number generator for use in all classes
-        public static Random Rand = new Random();
+        public static readonly Random Rand = new Random();
 
         //Length is correspondent to height, it is named length because items can
         //occasionally be used while in different directions, so X and Y would be confusing for these items

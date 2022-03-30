@@ -24,7 +24,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
             IProjectile proj = new ArrowProjectile(loc, player.Direction, isMagic, g);
-            g.CurrentRoom.RegisterProjectile(proj);
+            g.CurrentRoom.RegisterEntity(proj);
         }
         public bool CanUseOn(ILink player) => player.HasItem(new BowItem());
         public bool Equals(IItem other)

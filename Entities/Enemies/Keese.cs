@@ -17,6 +17,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		public DrawLayer Layer { get => DrawLayer.High; }
 		public EntityList roomEntities;
 		public Rectangle CurrentLoc {get; set;}
+		private int CurrentHealth;
+		private bool Damaged;
+		private static readonly int damageDelay = 80;
+		private int damageCountdown = 0;
 
 		private int currentFrame;
 
@@ -28,6 +32,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
+			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+			Damaged = false;
 		}
 
 		public void Move()
@@ -48,7 +54,11 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-
+			CurrentHealth--;
+			if (CurrentHealth == 0) DespawnEffect();
+			Damaged = true;
+			KeeseSprite.damaged = true;
+			damageCountdown = damageDelay;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -58,6 +68,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
+			if (Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					Damaged = false;
+				}
+			}
 			currentFrame++;
 			KeeseSprite.Update();
 			int moveChance = 8;

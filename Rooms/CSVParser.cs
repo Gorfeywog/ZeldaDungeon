@@ -75,20 +75,11 @@ namespace ZeldaDungeon.Rooms
             {
                 string s = tokens[k];
                 IEntity ent = DecodeToken(s, dest);
-                if (k + 1 < tokens.Count && ent is IEnemy anEnemy)
+                if (k + 1 < tokens.Count && ent is IEnemy anEnemy && DecodeToken(tokens[k + 1], dest) is IPickup aPickup) // scary condition!
                 {
-                    string nextS = tokens[k + 1];
-                    IEntity nextEnt = DecodeToken(nextS, dest);
-                    if (nextEnt is IPickup aPickup)
-                    {
-                        var combinedEnt = new ItemHolder(anEnemy, aPickup, r);
-                        roomEntities.Add(combinedEnt);
-                    }
-                    else
-                    {
-                        roomEntities.Add(ent);
-                        roomEntities.Add(nextEnt);
-                    }
+                    IEnemy combinedEnt = new ItemHolder(anEnemy, aPickup, r);
+                    combinedEnt = new SpawnCloud(dest, r, combinedEnt);
+                    roomEntities.Add(combinedEnt);
                     k += 2;
                 }
                 else if (ent is SpecialTrigger trigger) // no need to check bounds. CSV contract guarantees safe.
@@ -99,6 +90,10 @@ namespace ZeldaDungeon.Rooms
                 }
                 else if (ent != null)
                 {
+                    if (ent is IEnemy enemy)
+                    {
+                        ent = new SpawnCloud(dest, r, enemy);
+                    }
                     roomEntities.Add(ent);
                     k++;
                 }

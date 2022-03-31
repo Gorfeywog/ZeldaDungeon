@@ -6,11 +6,14 @@ using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.Rooms;
+using System.Diagnostics;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
 	public class Goriya : IEnemy
 	{
+		public bool ReadyToDespawn { get; private set; }
+
 		public ISprite GoriyaSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }
@@ -24,6 +27,9 @@ namespace ZeldaDungeon.Entities.Enemies
 		private bool isRed;
 
 		private Direction currDirection;
+		private static readonly int damageDelay = 80;
+		private int damageCountdown = 0;
+		private int CurrentHealth;
 
 		public Goriya(Point position, Room r, bool isRed)
 		{
@@ -43,6 +49,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			currDirection = Direction.Left;
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
+			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
 		}
 
 		public void Move()
@@ -150,7 +157,13 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-
+			if (damageCountdown == 0)
+            {
+				CurrentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
+			if (CurrentHealth == 0) ReadyToDespawn = true;
+			GoriyaSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -160,6 +173,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
+			if (GoriyaSprite.Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					GoriyaSprite.Damaged = false;
+				}
+			}
 			currentFrame++;
 			GoriyaSprite.Update();
 			int moveChance = 8;
@@ -178,6 +199,5 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		}
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 	}
 }

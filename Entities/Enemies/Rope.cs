@@ -10,20 +10,23 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Rope : IEnemy
 	{
 		public ISprite RopeSprite { get; set; }
+		public bool ReadyToDespawn { get; private set; }
+
 		public Rectangle CurrentLoc { get; set; }
 
 		private int currentFrame;
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
-		private EntityList roomEntities;
+		private int currentHealth;
+		private int damageCountdown = 0;
 		private Direction currDirection;
 
 		public Rope(Point position, Room r)
 		{
 			RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
 			currDirection = Direction.Left;
-
+			currentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
 			int width = (int)SpriteUtil.SpriteSize.RopeX;
 			int height = (int)SpriteUtil.SpriteSize.RopeY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
@@ -31,10 +34,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision = new CollisionHandler(r, this);
 		}
 
-		public void UpdateList(EntityList roomEntities)
-		{
-			this.roomEntities = roomEntities;
-		}
 
 		public void Move()
 		{
@@ -101,7 +100,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
+			if (damageCountdown == 0)
+			{
+				currentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
 
+			if (currentHealth == 0) ReadyToDespawn = true;
+			RopeSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -109,11 +115,19 @@ namespace ZeldaDungeon.Entities.Enemies
 			RopeSprite.Draw(spriteBatch, CurrentLoc);
 		}
 
+		private static int moveChance = 8;
 		public void Update()
 		{
+			if (RopeSprite.Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					RopeSprite.Damaged = false;
+				}
+			}
 			RopeSprite.Update();
 			currentFrame++;
-			int moveChance = 8;
 			if (currentFrame % moveChance == 0)
 			{
 				Move();
@@ -122,6 +136,5 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision.Update();
 		}
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 	}
 }

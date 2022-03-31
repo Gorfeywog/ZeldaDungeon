@@ -18,6 +18,11 @@ namespace ZeldaDungeon.Sprites
         public static readonly int Y_POS_TOP = 0;
         public static readonly int Y_POS_BOTTOM = 144;
 
+        //Default max health values
+        public static readonly int LINK_MAX_HEALTH = 6;
+        public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
+        public static readonly int GENERIC_MAX_HEALTH = 2;
+
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;
 
@@ -26,6 +31,9 @@ namespace ZeldaDungeon.Sprites
         //Room sizes
         public static readonly int ROOM_WIDTH = 256;
         public static readonly int ROOM_HEIGHT = 176;
+
+
+        public static readonly int DAMAGE_DELAY = 80;
 
         //HUD sizes
         public static readonly int HUD_WIDTH = 256;

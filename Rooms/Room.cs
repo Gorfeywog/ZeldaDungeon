@@ -87,7 +87,11 @@ namespace ZeldaDungeon.Rooms
                 {
                     en.Update();
                 }
-                if (en.ReadyToDespawn)
+                if (en is IEnemy enemy && enemy.ReadyToDespawn)
+                {
+                    toBeRemoved.Add(en);
+                }
+                if (en is IProjectile proj && proj.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
                 }

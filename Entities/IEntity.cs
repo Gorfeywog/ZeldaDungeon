@@ -12,7 +12,6 @@ namespace ZeldaDungeon.Entities
         public void Update();
         public DrawLayer Layer { get; }
         public Rectangle CurrentLoc { get; set; }
-        public bool ReadyToDespawn { get; }
         public void DespawnEffect();
     }
 }

@@ -11,12 +11,15 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Keese : IEnemy
 	{
 		public ISprite KeeseSprite { get; set; }
+		public bool ReadyToDespawn { get; private set; }
 
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.High; }
 		public DrawLayer Layer { get => DrawLayer.High; }
 		public EntityList roomEntities;
 		public Rectangle CurrentLoc {get; set;}
+		private int currentHealth;
+		private int damageCountdown = 0;
 
 		private int currentFrame;
 
@@ -28,6 +31,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 			Collision = new CollisionHandler(r, this);
+			currentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+			ReadyToDespawn = false;
 		}
 
 		public void Move()
@@ -48,7 +53,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
+			if (damageCountdown == 0)
+            {
+				currentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
 
+			if (currentHealth == 0) ReadyToDespawn = true;
+			KeeseSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -58,6 +70,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
+			if (KeeseSprite.Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					KeeseSprite.Damaged = false;
+				}
+			}
 			currentFrame++;
 			KeeseSprite.Update();
 			int moveChance = 8;
@@ -69,7 +89,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision.Update();
 		}
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 
 	}
 }

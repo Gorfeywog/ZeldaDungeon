@@ -6,33 +6,39 @@ using ZeldaDungeon.Sprites;
 using System.Collections.Generic;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.Rooms;
+using System.Diagnostics;
 
 namespace ZeldaDungeon.Entities.Enemies
 {
 	public class Aquamentus : IEnemy
 	{
+		public bool ReadyToDespawn { get; set; }
 		public ISprite AquamentusSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
+		private int currentHealth;
 		private int initX;
 		private EntityList roomEntities;
 		private Random rand;
 		private bool movingLeft;
 		private int currentFrame;
 		private Room r;
+		private int damageCountdown = 0;
+
 
 
 		public Aquamentus(Point position, Room r)
 		{
 			AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
+			ReadyToDespawn = false;
 			int width = (int)SpriteUtil.SpriteSize.AquamentusX;
 			int height = (int)SpriteUtil.SpriteSize.AquamentusY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			Collision = new CollisionHandler(r, this);
 			initX = position.X;
-
+			currentHealth = SpriteUtil.AQUAMENTUS_MAX_HEALTH;
 			movingLeft = true;
 			this.r = r;
 			currentFrame = 0;
@@ -88,8 +94,15 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void TakeDamage()
 		{
-
-		}
+			if (damageCountdown == 0)
+            {
+				currentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+			}
+			if (currentHealth == 0) ReadyToDespawn = true;
+			AquamentusSprite.Damaged = true;
+            
+        }
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
@@ -101,6 +114,14 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			AquamentusSprite.Update();
 			int moveChance = 8;
+			if (AquamentusSprite.Damaged)
+			{
+				damageCountdown--;
+				if (damageCountdown == 0)
+				{
+					AquamentusSprite.Damaged = false;
+				}
+			}
 			if (currentFrame % moveChance == 0)
             {
 				Move();
@@ -116,6 +137,5 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		}
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 	}
 }

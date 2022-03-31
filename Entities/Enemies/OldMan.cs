@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class OldMan : IEnemy
 	{
 		public ISprite OldManSprite { get; set; }
+		public bool ReadyToDespawn => false;
+
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
@@ -55,6 +57,5 @@ namespace ZeldaDungeon.Entities.Enemies
 			OldManSprite.Update();
         }
 		public void DespawnEffect() { }
-		public bool ReadyToDespawn => false;
 	}
 }

@@ -9,6 +9,8 @@ namespace ZeldaDungeon.Entities.Enemies
 {
 	public class ItemHolder : IEnemy
 	{
+		public bool ReadyToDespawn { get => Underlying.ReadyToDespawn; }
+
 		public IEnemy Underlying { get; private set; }
 		public Rectangle CurrentLoc { get => Underlying.CurrentLoc; set => Underlying.CurrentLoc = value; }
 		public CollisionHeight Height => Underlying.Height;
@@ -47,6 +49,5 @@ namespace ZeldaDungeon.Entities.Enemies
 			Underlying.DespawnEffect();
 			r.RegisterEntity(heldItem);
 		}
-		public bool ReadyToDespawn => Underlying.ReadyToDespawn;
 	}
 }

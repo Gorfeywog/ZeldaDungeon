@@ -27,6 +27,7 @@ namespace ZeldaDungeon.Rooms
         private Point[] linkDoorSpawns; // these are relative, not absolute!
         public Point LinkDefaultSpawn { get; private set; }
         public RoomStateMachine StateMachine { get; private set; }
+        public bool HasTriforce { get; private set; }
         public Room(Game1 g, string path)
         {
             this.G = g;
@@ -50,6 +51,7 @@ namespace ZeldaDungeon.Rooms
                roomEntities.Add(new Walls(TopLeft));
             }
             StateMachine = new RoomStateMachine();
+            HasTriforce = DetectTriforce(); // currently never changed in case triforce disappears
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -163,6 +165,17 @@ namespace ZeldaDungeon.Rooms
         public void PlayerExits(ILink player)
         {
             StateMachine.ExitEffects();
+        }
+        private bool DetectTriforce()
+        {
+            foreach (IEntity en in roomEntities)
+            {
+                if (en is TriforcePiecePickup)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

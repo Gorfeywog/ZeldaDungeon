@@ -12,6 +12,7 @@ using ZeldaDungeon.Entities.Link;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.UI;
 
 namespace ZeldaDungeon
 {
@@ -21,13 +22,13 @@ namespace ZeldaDungeon
         private SpriteBatch spriteBatch;
         private ControllerManager controllers;
         public ILink Player { get; private set; }
-        private IList<Room> rooms;
+        public IList<Room> Rooms { get; private set; }
         private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
         // TODO: declare a variable to draw the HUD Sprite somehow
         private HUD static_HUD;
         public int CurrentRoomIndex { get; private set; }
-        public int RoomCount { get => rooms.Count; }
-        public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
+        public int RoomCount { get => Rooms.Count; }
+        public Room CurrentRoom { get => Rooms[CurrentRoomIndex]; }
 
         private static int roomTransFrameCount = 90;
         private int roomTransFrame;
@@ -132,14 +133,14 @@ namespace ZeldaDungeon
         private const string roomDataPath = @"RoomData";
         public void SetupRooms()
         {
-            rooms = new List<Room>();
+            Rooms = new List<Room>();
             var paths = Directory.GetFiles(roomDataPath);
             Array.Sort(paths); 
             foreach (string path in Directory.GetFiles(roomDataPath) )
             {
                 if (path.EndsWith(".csv"))
                 {
-                    rooms.Add(new Room(this, path));
+                    Rooms.Add(new Room(this, path));
                 }
             }
             CurrentRoomIndex = 1;
@@ -186,7 +187,7 @@ namespace ZeldaDungeon
             if (newIndex > -1)
             {
                 CurrentRoom.UnlockDoor(dir);
-                rooms[newIndex].UnlockDoor(EntityUtils.OppositeOf(dir));
+                Rooms[newIndex].UnlockDoor(EntityUtils.OppositeOf(dir));
             }
         }
 
@@ -197,7 +198,7 @@ namespace ZeldaDungeon
             if (newIndex > -1)
             {
                 CurrentRoom.ExplodeDoor(dir);
-                rooms[newIndex].ExplodeDoor(EntityUtils.OppositeOf(dir));
+                Rooms[newIndex].ExplodeDoor(EntityUtils.OppositeOf(dir));
             }
         }
 
@@ -208,7 +209,7 @@ namespace ZeldaDungeon
             if (newIndex > -1)
             {
                 CurrentRoom.OpenDoor(dir);
-                rooms[newIndex].OpenDoor(EntityUtils.OppositeOf(dir));
+                Rooms[newIndex].OpenDoor(EntityUtils.OppositeOf(dir));
             }
         }
 
@@ -217,7 +218,7 @@ namespace ZeldaDungeon
         {
             for (int i = 0; i < RoomCount; i++)
             {
-                Room r = rooms[i];
+                Room r = Rooms[i];
                 // using a loop here is maybe not ideal, but there will only ever be ~20 rooms
                 if (r.GridPos.X == x && r.GridPos.Y == y)
                 {

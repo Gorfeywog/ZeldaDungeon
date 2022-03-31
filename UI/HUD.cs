@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Sprites
+namespace ZeldaDungeon.UI
 {
-    class HUD
+    public class HUD
     {
         private ISprite HUD_sprite = SpecialSpriteFactory.Instance.CreateHUD();
 

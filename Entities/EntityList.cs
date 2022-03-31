@@ -90,12 +90,5 @@ namespace ZeldaDungeon.Entities
                 }
             }
         }
-        //public void UpdateList(EntityList roomEntities)
-        //{
-        //    foreach (IEntity ent in roomEntities){
-        //        if (ent is IEnemy enemy) enemy.UpdateList(roomEntities);
-        //        if (ent is PushableBlock pb) pb.UpdateList(roomEntities);
-        //    }
-        //}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -51,7 +52,7 @@ namespace ZeldaDungeon
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
-            
+            SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
 
         protected override void LoadContent()
@@ -59,6 +60,7 @@ namespace ZeldaDungeon
             // sprites taken from some combination of:
             // https://nesmaps.com/maps/Zelda/sprites/ZeldaSprites.html
             // https://www.spriters-resource.com/nes/legendofzelda/
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ItemSpriteFactory.Instance.LoadAllTextures(Content);
             LinkSpriteFactory.Instance.LoadAllTextures(Content);
@@ -66,6 +68,11 @@ namespace ZeldaDungeon
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
             DoorSpriteFactory.Instance.LoadAllTextures(Content);
             SpecialSpriteFactory.Instance.LoadAllTextures(Content);
+
+            // audio taken from:
+            // https://www.sounds-resource.com/nes/legendofzelda/sound/598/
+
+            SoundManager.Instance.LoadAllAudio(Content);
 
         }
 
@@ -95,11 +102,11 @@ namespace ZeldaDungeon
             Point windowTopLeft = default; // default assignment just so it compiles; will never actually be used
             if (State == GameState.Normal)
             {
-                windowTopLeft = CurrentRoom.topLeft;
+                windowTopLeft = CurrentRoom.TopLeft;
             }
             else if (State == GameState.RoomTransition)
             {
-                windowTopLeft = EntityUtils.Interpolate(oldRoom.topLeft, CurrentRoom.topLeft, roomTransFrame, roomTransFrameCount);
+                windowTopLeft = EntityUtils.Interpolate(oldRoom.TopLeft, CurrentRoom.TopLeft, roomTransFrame, roomTransFrameCount);
             }
             Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y + SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
@@ -118,8 +125,9 @@ namespace ZeldaDungeon
         }
         public void SetupPlayer()
         {
-            Player = new Link(CurrentRoom.linkDefaultSpawn, CurrentRoom.roomEntities, this);
+            Player = new Link(CurrentRoom.LinkDefaultSpawn, this);
             Player.ChangeRoom(CurrentRoom);
+            CurrentRoom.PlayerEnters(Player);
         }
         private const string roomDataPath = @"RoomData";
         public void SetupRooms()
@@ -139,35 +147,41 @@ namespace ZeldaDungeon
 
         public void Reset()
         {
+            SoundEffect death = Content.Load<SoundEffect>("SoundEffects/MinecraftOof");
+            death.Play();
             SetupRooms();
             SetupPlayer();
         }
 
         public void TeleportToRoom(int index)
         {
+            oldRoom = CurrentRoom;
             CurrentRoomIndex = index;
-            Player.CurrentLoc = new Rectangle(CurrentRoom.linkDefaultSpawn, Player.CurrentLoc.Size);
+            Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDefaultSpawn, Player.CurrentLoc.Size);
+            oldRoom.PlayerExits(Player);
             Player.ChangeRoom(CurrentRoom);
+            CurrentRoom.PlayerEnters(Player);
         }
         public void UseRoomDoor(Direction dir)
         {
-            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
-                // TODO - check door state for validity of this!
                 State = GameState.RoomTransition;
                 roomTransFrame = 0; // count-up instead of count-down for ease of drawing
                 oldRoom = CurrentRoom;
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
+                oldRoom.PlayerExits(Player);
+                Player.ChangeRoom(CurrentRoom);
+                CurrentRoom.PlayerEnters(Player);
             }
-            Player.ChangeRoom(CurrentRoom);
         }
 
-        public void UnlockRoomDoor(Direction dir)
+        public void UnlockRoomDoor(Direction dir) // TODO - condense this set of three methods into one
         {
-            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
@@ -178,12 +192,23 @@ namespace ZeldaDungeon
 
         public void ExplodeRoomDoor(Direction dir)
         {
-            Point newGridPos = EntityUtils.Offset(CurrentRoom.gridPos, dir, 1);
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
             if (newIndex > -1)
             {
                 CurrentRoom.ExplodeDoor(dir);
                 rooms[newIndex].ExplodeDoor(EntityUtils.OppositeOf(dir));
+            }
+        }
+
+        public void OpenRoomDoor(Direction dir)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
+            int newIndex = GridToRoomIndex(newGridPos);
+            if (newIndex > -1)
+            {
+                CurrentRoom.OpenDoor(dir);
+                rooms[newIndex].OpenDoor(EntityUtils.OppositeOf(dir));
             }
         }
 
@@ -194,12 +219,17 @@ namespace ZeldaDungeon
             {
                 Room r = rooms[i];
                 // using a loop here is maybe not ideal, but there will only ever be ~20 rooms
-                if (r.gridPos.X == x && r.gridPos.Y == y)
+                if (r.GridPos.X == x && r.GridPos.Y == y)
                 {
                     return i;
                 }
             }
             return -1;
+        }
+        public int DirToRoomIndex(Direction d)
+        {
+            Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, d, 1);
+            return GridToRoomIndex(newGridPos);
         }
     }
 }

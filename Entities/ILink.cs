@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities
     {
         public Point Center { get; }
         public Direction Direction { get; }
-        public EntityList roomEntities { get; set; }
+        public Room CurrentRoom { get; }
 
         public CollisionHeight Height { get; }
         public void ChangeDirection(Direction nextDirection);

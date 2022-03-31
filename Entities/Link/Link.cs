@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using ZeldaDungeon;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Rooms;
@@ -21,9 +22,10 @@ namespace ZeldaDungeon.Entities.Link
                                   // note that it's a pickup and not a real item
         private LinkInventory inv { get; set; }
         private Game1 g;
+        public Room CurrentRoom { get => g.CurrentRoom; }
 
-        public EntityList roomEntities { get; set; }
         private CollisionHandler collision;
+        private SoundManager sound;
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
@@ -31,7 +33,7 @@ namespace ZeldaDungeon.Entities.Link
         public Direction Direction { get => stateMachine.CurrentDirection; }
 
 
-        public Link(Point position, EntityList roomEntities, Game1 g)
+        public Link(Point position, Game1 g)
         {
             this.g = g;
             inv = new LinkInventory();
@@ -40,8 +42,8 @@ namespace ZeldaDungeon.Entities.Link
             int width = (int)SpriteUtil.SpriteSize.LinkX;
             int height = (int)SpriteUtil.SpriteSize.LinkY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            this.roomEntities = roomEntities;
-            collision = new CollisionHandler(g.CurrentRoom, this);
+            sound = SoundManager.Instance;
+            collision = new CollisionHandler(CurrentRoom, this);
         }
 
         public void ChangeRoom(Room r)
@@ -58,6 +60,7 @@ namespace ZeldaDungeon.Entities.Link
         {
             if (!stateMachine.Damaged)
             {
+                sound.PlaySound("PlayerHurt");
                 stateMachine.TakeDamage();
             }
         }
@@ -68,7 +71,15 @@ namespace ZeldaDungeon.Entities.Link
             {
                 stateMachine.PickUp();
                 heldItem = pickup;
+                if (pickup is TriforcePiecePickup)
+                {
+                    sound.PlaySound("TriforcePieceObtained");
+                } else
+                {
+                    sound.PlaySound("ItemReceived");
+                }
             }
+            sound.PlaySound("ItemObtained");
             pickup.PickUp(this);
         }
         public bool CanPickUp() => stateMachine.CurrentState == LinkStateMachine.LinkActionState.Idle
@@ -97,11 +108,10 @@ namespace ZeldaDungeon.Entities.Link
         public void Attack()
         {
             stateMachine.Attack();
-            // TODO - check he can legally attack
             if (stateMachine.FullHealth)
             {
                 // TODO - make this spawn in a better centerd way
-                g.CurrentRoom.RegisterProjectile(new ThrownSword(Center, Direction, g));
+                g.CurrentRoom.RegisterEntity(new ThrownSword(Center, Direction, g));
             }
         }
 
@@ -122,6 +132,7 @@ namespace ZeldaDungeon.Entities.Link
             }
             collision.Update();
             collision.TrapUpdate();
+            collision.SpecialTriggerUpdate();
         }
 
         public void Draw(SpriteBatch spriteBatch)

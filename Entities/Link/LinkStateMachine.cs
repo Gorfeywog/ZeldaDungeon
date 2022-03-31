@@ -72,17 +72,14 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void TakeDamage()
 		{
-			CurrentHealth--;
-			if (CurrentHealth == 0)
+			if (damageCountdown == 0)
             {
-				// Game over screen, not implemented yet.
-				// These lines are written for debugging, delete when game over is implemented.
-				Debug.WriteLine("YOU DIED");
-				CurrentHealth = SpriteUtil.LINK_MAX_HEALTH;
-            }
+				CurrentHealth--;
+				damageCountdown = damageDelay;
+				HasNewSprite = true;
+			}
+			if (CurrentHealth == 0) Debug.WriteLine("You Died!");
 			Damaged = true;
-			damageCountdown = damageDelay;
-			HasNewSprite = true;
 		}
 
 		public void Idle()

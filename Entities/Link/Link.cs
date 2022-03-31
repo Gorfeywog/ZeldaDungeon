@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using ZeldaDungeon;
 using ZeldaDungeon.Entities;
+using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Rooms;
@@ -24,6 +25,7 @@ namespace ZeldaDungeon.Entities.Link
         public Room CurrentRoom { get => g.CurrentRoom; }
 
         private CollisionHandler collision;
+        private SoundManager sound;
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
@@ -40,6 +42,7 @@ namespace ZeldaDungeon.Entities.Link
             int width = (int)SpriteUtil.SpriteSize.LinkX;
             int height = (int)SpriteUtil.SpriteSize.LinkY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            sound = SoundManager.Instance;
             collision = new CollisionHandler(CurrentRoom, this);
         }
 
@@ -57,6 +60,7 @@ namespace ZeldaDungeon.Entities.Link
         {
             if (!stateMachine.Damaged)
             {
+                sound.PlaySound("PlayerHurt");
                 stateMachine.TakeDamage();
             }
         }
@@ -67,7 +71,15 @@ namespace ZeldaDungeon.Entities.Link
             {
                 stateMachine.PickUp();
                 heldItem = pickup;
+                if (pickup is TriforcePiecePickup)
+                {
+                    sound.PlaySound("TriforcePieceObtained");
+                } else
+                {
+                    sound.PlaySound("ItemReceived");
+                }
             }
+            sound.PlaySound("ItemObtained");
             pickup.PickUp(this);
         }
         public bool CanPickUp() => stateMachine.CurrentState == LinkStateMachine.LinkActionState.Idle

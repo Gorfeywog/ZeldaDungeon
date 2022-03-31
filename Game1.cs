@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -47,6 +48,7 @@ namespace ZeldaDungeon
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
+            SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
 
         protected override void LoadContent()
@@ -54,6 +56,7 @@ namespace ZeldaDungeon
             // sprites taken from some combination of:
             // https://nesmaps.com/maps/Zelda/sprites/ZeldaSprites.html
             // https://www.spriters-resource.com/nes/legendofzelda/
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ItemSpriteFactory.Instance.LoadAllTextures(Content);
             LinkSpriteFactory.Instance.LoadAllTextures(Content);
@@ -61,6 +64,11 @@ namespace ZeldaDungeon
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
             DoorSpriteFactory.Instance.LoadAllTextures(Content);
             SpecialSpriteFactory.Instance.LoadAllTextures(Content);
+
+            // audio taken from:
+            // https://www.sounds-resource.com/nes/legendofzelda/sound/598/
+
+            SoundManager.Instance.LoadAllAudio(Content);
 
         }
 
@@ -131,6 +139,8 @@ namespace ZeldaDungeon
 
         public void Reset()
         {
+            SoundEffect death = Content.Load<SoundEffect>("SoundEffects/MinecraftOof");
+            death.Play();
             SetupRooms();
             SetupPlayer();
         }

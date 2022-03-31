@@ -73,6 +73,12 @@
 /processorParam:TextureFormat=Color
 /build:linksprites.png
 
+#begin Music/MiiTheme.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/MiiTheme.wav
+
 #begin roomwalls.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -84,4 +90,166 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:roomwalls.png
+
+#begin SoundEffects/BombAppearanceAndSelfDestruction.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/BombAppearanceAndSelfDestruction.wav
+
+#begin SoundEffects/BossDefeated.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/BossDefeated.wav
+
+#begin SoundEffects/BossRoaring.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/BossRoaring.wav
+
+#begin SoundEffects/BossZapped.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/BossZapped.wav
+
+#begin SoundEffects/DoorOpened.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/DoorOpened.wav
+
+#begin SoundEffects/EnemyShrinking.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/EnemyShrinking.wav
+
+#begin SoundEffects/EnemyZapped.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/EnemyZapped.wav
+
+#begin SoundEffects/FlamesShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/FlamesShot.wav
+
+#begin SoundEffects/HealthHeart.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/HealthHeart.wav
+
+#begin SoundEffects/ItemObtained.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/ItemObtained.wav
+
+#begin SoundEffects/ItemReceived.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/ItemReceived.wav
+
+#begin SoundEffects/KeyAppearance.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/KeyAppearance.wav
+
+#begin SoundEffects/Magical.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Magical.wav
+
+#begin SoundEffects/MagicalBoomerangThrown.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/MagicalBoomerangThrown.wav
+
+#begin SoundEffects/MagicWhistleTune.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/MagicWhistleTune.wav
+
+#begin SoundEffects/MasterSwordSwordZap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/MasterSwordSwordZap.wav
+
+#begin SoundEffects/MinecraftOof.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/MinecraftOof.wav
+
+#begin SoundEffects/PlayerHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/PlayerHurt.wav
+
+#begin SoundEffects/PowerZap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/PowerZap.wav
+
+#begin SoundEffects/RupeesDecreasing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/RupeesDecreasing.wav
+
+#begin SoundEffects/ShieldDeflecting.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/ShieldDeflecting.wav
+
+#begin SoundEffects/Shiney.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/Shiney.wav
+
+#begin SoundEffects/SwordZapSFX.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/SwordZapSFX.wav
+
+#begin SoundEffects/TheTriforceRevealsGanon.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/TheTriforceRevealsGanon.wav
+
+#begin SoundEffects/TriforcePieceObtained.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/TriforcePieceObtained.wav
+
+#begin SoundEffects/TwoZapBolts.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/TwoZapBolts.wav
+
+#begin SoundEffects/UpgradedMagicalBoomerangThrown.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/UpgradedMagicalBoomerangThrown.wav
 

@@ -62,6 +62,16 @@ namespace ZeldaDungeon.Rooms
             }
             return false;
         }
+
+        public bool Open()
+        {
+            if (State == DoorState.Closed)
+            {
+                State = DoorState.Open;
+                return true;
+            }
+            return false;
+        }
     }
 }
 

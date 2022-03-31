@@ -16,23 +16,26 @@ namespace ZeldaDungeon.Rooms
         private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
         public EntityList roomEntities; // holds the walls and the doors, but **not** Link.
         private IList<IEntity> entityBuffer; // hold entities until can safely add to roomEntities
-        private readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
+        private static readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
         private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
         public Game1 G { get; private set; }
         public RoomType Type { get; private set; }
-        public Point gridPos { get; private set; }
-        public Point topLeft { get => gridPos * new Point(16, 11) * new Point(gridSize); }
+        public Point GridPos { get; private set; }
+        public Point TopLeft { get => GridPos * new Point(16, 11) * new Point(gridSize); }
+        private static Point RoomSize { get => new Point(16 * gridSize, 11 * gridSize); }
+        public Rectangle RoomPos { get => new Rectangle(TopLeft, RoomSize); }
         private Point[] linkDoorSpawns; // these are relative, not absolute!
-        public Point linkDefaultSpawn { get; private set; }
+        public Point LinkDefaultSpawn { get; private set; }
+        public RoomStateMachine StateMachine { get; private set; }
         public Room(Game1 g, string path)
         {
             this.G = g;
             var parser = new CSVParser(path, this, g);
-            this.gridPos = parser.ParsePos();
-            roomEntities = parser.ParseRoomLayout(gridSize, topLeft);        
+            this.GridPos = parser.ParsePos();
+            roomEntities = parser.ParseRoomLayout(gridSize, TopLeft);        
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
-            linkDefaultSpawn = LinkDoorSpawn(Direction.Up);
+            LinkDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
             entityBuffer = new List<IEntity>();
             if (Type == RoomType.Normal)
@@ -44,8 +47,9 @@ namespace ZeldaDungeon.Rooms
                     doors[d] = new Door(DoorPos(d), d, states[i]);
                     roomEntities.Add(doors[d]);
                 }
-               roomEntities.Add(new Walls(topLeft));
+               roomEntities.Add(new Walls(TopLeft));
             }
+            StateMachine = new RoomStateMachine();
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -67,17 +71,22 @@ namespace ZeldaDungeon.Rooms
             }
 
         }
-        public void RegisterProjectile(IEntity proj)
+        public void RegisterEntity(IEntity ent)
         {
-            entityBuffer.Add(proj);
+            entityBuffer.Add(ent);
         }
         public void UpdateAll()
         {
+            StateMachine.Update();
+            if (StateMachine.State == RoomState.PickUp) { return; } // time stops while Link holds up stuff
             var toBeRemoved = new List<IEntity>();
             bool hasPickup = !G.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
-                en.Update();
+                if (StateMachine.State != RoomState.Clock || !(en is IEnemy)) // enemies don't do stuff in clock state
+                {
+                    en.Update();
+                }
                 if (en.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
@@ -87,6 +96,7 @@ namespace ZeldaDungeon.Rooms
                     if (p.HoldsUp)
                     {
                         hasPickup = true;
+                        StateMachine.PickUp();
                     }
                     G.Player.PickUp(p);
                     toBeRemoved.Add(en);
@@ -97,9 +107,9 @@ namespace ZeldaDungeon.Rooms
                 roomEntities.Remove(en);
                 en.DespawnEffect();
             }
-            foreach (var proj in entityBuffer)
+            foreach (var en in entityBuffer)
             {
-                roomEntities.Add(proj);
+                roomEntities.Add(en);
             }
             entityBuffer.Clear();
         }
@@ -114,7 +124,7 @@ namespace ZeldaDungeon.Rooms
                 Direction.Down => new Point(SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR, SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR),
                 _ => throw new ArgumentException()
             };
-            return topLeft + offset;
+            return TopLeft + offset;
         }
         public Point LinkDoorSpawn(Direction dir)
         {
@@ -126,7 +136,7 @@ namespace ZeldaDungeon.Rooms
                 Direction.Up => 3,
                 _ => throw new ArgumentException()
             };
-            return topLeft + linkDoorSpawns[index];
+            return TopLeft + linkDoorSpawns[index];
         }
         public bool UnlockDoor(Direction dir) 
         {
@@ -136,6 +146,23 @@ namespace ZeldaDungeon.Rooms
         public bool ExplodeDoor(Direction dir)
         {
             return doors[dir].Explode();
+        }
+        public bool OpenDoor(Direction dir)
+        {
+            return doors[dir].Open();
+        }
+        public void UseClock()
+        {
+            StateMachine.UseClock();
+        }
+
+        public void PlayerEnters(ILink player)
+        {
+            StateMachine.EnterEffects();
+        }
+        public void PlayerExits(ILink player)
+        {
+            StateMachine.ExitEffects();
         }
     }
 }

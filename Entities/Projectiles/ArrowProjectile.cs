@@ -67,6 +67,6 @@ namespace ZeldaDungeon.Entities.Projectiles
 				ReadyToDespawn = true;
             }
         }
-		public void DespawnEffect() => g.CurrentRoom.RegisterProjectile(new HitEffect(CurrentLoc.Location));
+		public void DespawnEffect() => g.CurrentRoom.RegisterEntity(new HitEffect(CurrentLoc.Location));
 	}
 }

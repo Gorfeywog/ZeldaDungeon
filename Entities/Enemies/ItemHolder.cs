@@ -11,7 +11,6 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public IEnemy Underlying { get; private set; }
 		public Rectangle CurrentLoc { get => Underlying.CurrentLoc; set => Underlying.CurrentLoc = value; }
-		public CollisionHandler Collision { get => Underlying.Collision; set => Underlying.Collision = value; }
 		public CollisionHeight Height => Underlying.Height;
 		public DrawLayer Layer => Underlying.Layer;
 		private IPickup heldItem { get; set; }
@@ -46,7 +45,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		public void DespawnEffect()
 		{
 			Underlying.DespawnEffect();
-			r.RegisterProjectile(heldItem);
+			r.RegisterEntity(heldItem);
 		}
 		public bool ReadyToDespawn => Underlying.ReadyToDespawn;
 	}

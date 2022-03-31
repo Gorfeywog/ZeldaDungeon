@@ -27,7 +27,7 @@ namespace ZeldaDungeon.InventoryItems
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new BombProjectile(loc, g);
             SoundManager.Instance.PlaySound("BombAppearanceAndSelfDestruction");
-            g.CurrentRoom.RegisterProjectile(proj);
+            g.CurrentRoom.RegisterEntity(proj);
         }
 
         public bool CanUseOn(ILink player) => true;

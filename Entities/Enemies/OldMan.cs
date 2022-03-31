@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class OldMan : IEnemy
 	{
 		public ISprite OldManSprite { get; set; }
-		public bool ReadyToDespawn { get; set; }
+		public bool ReadyToDespawn => false;
 
 		public Rectangle CurrentLoc { get; set; }
 		private CollisionHandler Collision { get; set; }

@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Stalfos : IEnemy
 	{
 		public ISprite StalfosSprite { get; set; }
-		public bool ReadyToDespawn { get; set; }
+		public bool ReadyToDespawn { get; private set; }
 
 		public Rectangle CurrentLoc { get; set; }
 
@@ -63,7 +63,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				CurrentHealth--;
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
-			if (CurrentHealth == 0) DespawnEffect();
+			if (CurrentHealth == 0) ReadyToDespawn = true;
 			StalfosSprite.damaged = true;
 		}
 
@@ -92,9 +92,6 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			Collision.Update();
 		}
-		public void DespawnEffect() 
-		{
-			ReadyToDespawn = true;
-		}
+		public void DespawnEffect() { }
 	}
 }

@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities
     {
         public CollisionHeight Height { get; }
 
-        public bool ReadyToDespawn { get; set; }
+        public bool ReadyToDespawn { get; }
 
         public void Attack();
 

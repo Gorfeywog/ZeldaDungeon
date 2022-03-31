@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Enemies
 {
 	public class ItemHolder : IEnemy
 	{
-		public bool ReadyToDespawn { get; set; }
+		public bool ReadyToDespawn { get => Underlying.ReadyToDespawn; }
 
 		public IEnemy Underlying { get; private set; }
 		public Rectangle CurrentLoc { get => Underlying.CurrentLoc; set => Underlying.CurrentLoc = value; }
@@ -22,7 +22,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Underlying = underlying;
 			heldItem = held;
 			this.r = r;
-			ReadyToDespawn = underlying.ReadyToDespawn;
 		}
 
 		public void Move() => Underlying.Move();

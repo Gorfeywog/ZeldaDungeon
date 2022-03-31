@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Enemies
 {
 	public class Goriya : IEnemy
 	{
-		public bool ReadyToDespawn { get; set; }
+		public bool ReadyToDespawn { get; private set; }
 
 		public ISprite GoriyaSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
@@ -162,7 +162,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				CurrentHealth--;
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
-			if (CurrentHealth == 0) DespawnEffect();
+			if (CurrentHealth == 0) ReadyToDespawn = true;
 			GoriyaSprite.damaged = true;
 		}
 
@@ -198,9 +198,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision.Update();
 
 		}
-		public void DespawnEffect() 
-		{
-			ReadyToDespawn = true;
-		}
+		public void DespawnEffect() { }
 	}
 }

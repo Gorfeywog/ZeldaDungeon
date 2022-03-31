@@ -10,10 +10,10 @@ namespace ZeldaDungeon.Entities.Enemies
 	public class Gel : IEnemy
 	{
 		public ISprite GelSprite { get; set; }
-		public bool ReadyToDespawn { get; set; }
+		public bool ReadyToDespawn { get; private set; }
 		private int currentFrame;
 		private CollisionHandler Collision { get; set; }
-		private int CurrentHealth;
+		private int currentHealth;
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		public EntityList roomEntities;
@@ -28,7 +28,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			currentFrame = 0;
 			ReadyToDespawn = false;
-			CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+			currentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
 			Collision = new CollisionHandler(r, this);
 		}
 
@@ -59,10 +59,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			if (damageCountdown == 0)
             {
-				CurrentHealth--;
+				currentHealth--;
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
-			if (CurrentHealth == 0) DespawnEffect();
+			if (currentHealth == 0) ReadyToDespawn = true;
 			GelSprite.damaged = true;
 		}
 
@@ -91,10 +91,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 			Collision.Update();
 		}
-		public void DespawnEffect()
-        {
-			ReadyToDespawn = true;
-        }
+		public void DespawnEffect() { }
 
 	}
 }

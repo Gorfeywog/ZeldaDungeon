@@ -18,7 +18,7 @@ namespace ZeldaDungeon.Entities.Enemies
 		private CollisionHandler Collision { get; set; }
 		public CollisionHeight Height { get => CollisionHeight.Normal; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
-		private int CurrentHealth;
+		private int currentHealth;
 		private int initX;
 		private EntityList roomEntities;
 		private Random rand;
@@ -38,7 +38,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			Collision = new CollisionHandler(r, this);
 			initX = position.X;
-			CurrentHealth = SpriteUtil.AQUAMENTUS_MAX_HEALTH;
+			currentHealth = SpriteUtil.AQUAMENTUS_MAX_HEALTH;
 			movingLeft = true;
 			this.r = r;
 			currentFrame = 0;
@@ -96,10 +96,10 @@ namespace ZeldaDungeon.Entities.Enemies
 		{
 			if (damageCountdown == 0)
             {
-				CurrentHealth--;
+				currentHealth--;
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
-			if (CurrentHealth == 0) DespawnEffect();
+			if (currentHealth == 0) ReadyToDespawn = true;
 			AquamentusSprite.damaged = true;
             
         }
@@ -136,9 +136,6 @@ namespace ZeldaDungeon.Entities.Enemies
 			Collision.Update();
 
 		}
-		public void DespawnEffect() 
-		{
-			ReadyToDespawn = true;
-		}
+		public void DespawnEffect() { }
 	}
 }

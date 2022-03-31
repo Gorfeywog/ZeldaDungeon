@@ -13,7 +13,7 @@ namespace ZeldaDungeon.Entities.Enemies
 	{
 		public ISprite TrapSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
-		public bool ReadyToDespawn { get; set; }
+		public bool ReadyToDespawn => false;
 
 
 		private Point initPoint;

@@ -63,7 +63,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
 			if (currentHealth == 0) ReadyToDespawn = true;
-			GelSprite.damaged = true;
+			GelSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -74,12 +74,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		private static readonly int moveChance = 8;
 		public void Update()
 		{
-			if (GelSprite.damaged)
+			if (GelSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					GelSprite.damaged = false;
+					GelSprite.Damaged = false;
 				}
 			}
 			GelSprite.Update();

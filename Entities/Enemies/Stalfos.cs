@@ -64,7 +64,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
 			if (CurrentHealth == 0) ReadyToDespawn = true;
-			StalfosSprite.damaged = true;
+			StalfosSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -74,12 +74,12 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
-			if (StalfosSprite.damaged)
+			if (StalfosSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					StalfosSprite.damaged = false;
+					StalfosSprite.Damaged = false;
 				}
 			}
 			StalfosSprite.Update();

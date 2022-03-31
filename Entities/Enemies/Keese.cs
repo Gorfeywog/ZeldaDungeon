@@ -60,7 +60,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			}
 
 			if (currentHealth == 0) ReadyToDespawn = true;
-			KeeseSprite.damaged = true;
+			KeeseSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -70,12 +70,12 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
-			if (KeeseSprite.damaged)
+			if (KeeseSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					KeeseSprite.damaged = false;
+					KeeseSprite.Damaged = false;
 				}
 			}
 			currentFrame++;

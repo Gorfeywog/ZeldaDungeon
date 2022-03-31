@@ -107,7 +107,7 @@ namespace ZeldaDungeon.Entities.Enemies
 			}
 
 			if (currentHealth == 0) ReadyToDespawn = true;
-			RopeSprite.damaged = true;
+			RopeSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -118,12 +118,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		private static int moveChance = 8;
 		public void Update()
 		{
-			if (RopeSprite.damaged)
+			if (RopeSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					RopeSprite.damaged = false;
+					RopeSprite.Damaged = false;
 				}
 			}
 			RopeSprite.Update();

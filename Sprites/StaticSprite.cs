@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Sprites
 
         private static readonly Color[] damageColors = { Color.Red, Color.White };
         private static readonly int damageRepeatDelay = 5;
-        public bool damaged { get; set; }
+        public bool Damaged { get; set; }
         private int damageColorTimer = damageRepeatDelay;
         private int damageColorIndex = 0;
 
@@ -31,14 +31,14 @@ namespace ZeldaDungeon.Sprites
         {
             this.spritesheet = spritesheet;
             this.sourceRectangle = sourceRectangle;
-            this.damaged = damaged;
+            this.Damaged = damaged;
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle)
         {
 
             Color currentColor;
-            if (damaged)
+            if (Damaged)
             {
                 currentColor = damageColors[damageColorIndex];
             }
@@ -52,7 +52,7 @@ namespace ZeldaDungeon.Sprites
 
         public void Update()
         {
-            if (damaged)
+            if (Damaged)
             {
                 damageColorTimer--;
                 if (damageColorTimer == 0)

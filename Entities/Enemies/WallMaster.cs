@@ -84,7 +84,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
 			if (CurrentHealth == 0) ReadyToDespawn = true;
-			WallMasterSprite.damaged = true;
+			WallMasterSprite.Damaged = true;
 
 		}
 
@@ -96,12 +96,12 @@ namespace ZeldaDungeon.Entities.Enemies
 		private static readonly int moveChance = 8;
 		public void Update()
 		{
-			if (WallMasterSprite.damaged)
+			if (WallMasterSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					WallMasterSprite.damaged = false;
+					WallMasterSprite.Damaged = false;
 				}
 			}
 			WallMasterSprite.Update();

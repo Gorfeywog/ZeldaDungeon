@@ -100,7 +100,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
 			if (currentHealth == 0) ReadyToDespawn = true;
-			AquamentusSprite.damaged = true;
+			AquamentusSprite.Damaged = true;
             
         }
 
@@ -114,12 +114,12 @@ namespace ZeldaDungeon.Entities.Enemies
 			currentFrame++;
 			AquamentusSprite.Update();
 			int moveChance = 8;
-			if (AquamentusSprite.damaged)
+			if (AquamentusSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					AquamentusSprite.damaged = false;
+					AquamentusSprite.Damaged = false;
 				}
 			}
 			if (currentFrame % moveChance == 0)

@@ -163,7 +163,7 @@ namespace ZeldaDungeon.Entities.Enemies
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 			}
 			if (CurrentHealth == 0) ReadyToDespawn = true;
-			GoriyaSprite.damaged = true;
+			GoriyaSprite.Damaged = true;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -173,12 +173,12 @@ namespace ZeldaDungeon.Entities.Enemies
 
 		public void Update()
 		{
-			if (GoriyaSprite.damaged)
+			if (GoriyaSprite.Damaged)
 			{
 				damageCountdown--;
 				if (damageCountdown == 0)
 				{
-					GoriyaSprite.damaged = false;
+					GoriyaSprite.Damaged = false;
 				}
 			}
 			currentFrame++;

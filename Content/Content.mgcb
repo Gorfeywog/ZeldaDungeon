@@ -49,6 +49,30 @@
 /processorParam:TextureFormat=Color
 /build:enemysprites.png
 
+#begin HUD_UI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:HUD_UI.png
+
+#begin Inventory_UI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Inventory_UI.png
+
 #begin itemsprites.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -73,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:linksprites.png
 
+#begin Map_UI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map_UI.png
+
 #begin Music/MiiTheme.wav
 /importer:WavImporter
 /processor:SongProcessor
@@ -90,6 +126,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:roomwalls.png
+
+#begin UI_Sprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI_Sprites.png
 
 #begin SoundEffects/BombAppearanceAndSelfDestruction.wav
 /importer:WavImporter
@@ -252,4 +300,3 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/UpgradedMagicalBoomerangThrown.wav
-

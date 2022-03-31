@@ -40,6 +40,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public void Update()
         {
             CloudSprite.Update();
+            CloudSprite.Update(); // update twice because animation is too slow otherwise
             remainingTime--;
             if (remainingTime <= 0)
             {

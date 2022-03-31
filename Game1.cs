@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -21,6 +22,9 @@ namespace ZeldaDungeon
         private ControllerManager controllers;
         public ILink Player { get; private set; }
         private IList<Room> rooms;
+        private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
+        // TODO: declare a variable to draw the HUD Sprite somehow
+        private HUD static_HUD;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => rooms.Count; }
         public Room CurrentRoom { get => rooms[CurrentRoomIndex]; }
@@ -42,11 +46,13 @@ namespace ZeldaDungeon
         {
             base.Initialize();
             graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
-            graphics.PreferredBackBufferHeight = SpriteUtil.ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR; 
-            graphics.ApplyChanges();                    
+            graphics.PreferredBackBufferHeight = (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT) * SpriteUtil.SCALE_FACTOR; 
+            graphics.ApplyChanges();
+            static_HUD = new HUD();
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
+            SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
 
         protected override void LoadContent()
@@ -54,6 +60,7 @@ namespace ZeldaDungeon
             // sprites taken from some combination of:
             // https://nesmaps.com/maps/Zelda/sprites/ZeldaSprites.html
             // https://www.spriters-resource.com/nes/legendofzelda/
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ItemSpriteFactory.Instance.LoadAllTextures(Content);
             LinkSpriteFactory.Instance.LoadAllTextures(Content);
@@ -61,6 +68,11 @@ namespace ZeldaDungeon
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
             DoorSpriteFactory.Instance.LoadAllTextures(Content);
             SpecialSpriteFactory.Instance.LoadAllTextures(Content);
+
+            // audio taken from:
+            // https://www.sounds-resource.com/nes/legendofzelda/sound/598/
+
+            SoundManager.Instance.LoadAllAudio(Content);
 
         }
 
@@ -71,6 +83,7 @@ namespace ZeldaDungeon
                     controllers.Update();
                     CurrentRoom.UpdateAll();
                     Player.Update();
+                    static_HUD.Update();
                     break;
                 case GameState.RoomTransition:
                     roomTransFrame++;
@@ -95,7 +108,7 @@ namespace ZeldaDungeon
             {
                 windowTopLeft = EntityUtils.Interpolate(oldRoom.TopLeft, CurrentRoom.TopLeft, roomTransFrame, roomTransFrameCount);
             }
-            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y, 0);
+            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y + SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
             spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(spriteBatch);
@@ -103,6 +116,9 @@ namespace ZeldaDungeon
             {
                 oldRoom.DrawAll(spriteBatch);
             }
+            Point hudOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            Point hudSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            static_HUD.Draw(spriteBatch, new Rectangle(hudOffset, hudSize));
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();
@@ -131,6 +147,8 @@ namespace ZeldaDungeon
 
         public void Reset()
         {
+            SoundEffect death = Content.Load<SoundEffect>("SoundEffects/MinecraftOof");
+            death.Play();
             SetupRooms();
             SetupPlayer();
         }

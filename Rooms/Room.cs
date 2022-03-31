@@ -144,6 +144,7 @@ namespace ZeldaDungeon.Rooms
         }
         public bool UnlockDoor(Direction dir) 
         {
+            SoundManager.Instance.PlaySound("DoorOpened");
             return doors[dir].Unlock();
         }
         public bool ExplodeDoor(Direction dir)

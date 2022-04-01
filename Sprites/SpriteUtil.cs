@@ -107,7 +107,14 @@ namespace ZeldaDungeon.Sprites
             SwordProjWidth = 8,
             SwordProjHeight = 10,
             CandleWidth = 8,
-            CandleLength = 16
+            CandleLength = 16,
+            HUDNumberWidth = 8,
+            HUDNumberHeight = 8,
+            HUDHeartHeight = 8,
+            HUDHeartWidth = 8,
+            HUDMapRoomHeight = 8,
+            HUDMapRoomWidth = 8
+
         } 
 
         private static readonly int gridX = 40;

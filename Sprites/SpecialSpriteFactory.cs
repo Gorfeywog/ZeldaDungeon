@@ -11,7 +11,7 @@ using ZeldaDungeon.Entities;
 namespace ZeldaDungeon.Sprites
 {
     // this stores all sprites that are oversized and in their own files, or otherwise don't belong in a sheet.
-    // this includes the walls and HUD sprites.
+    // this includes the walls and the HUD sprites.
     public class SpecialSpriteFactory
     {
         private Texture2D wallsSprite;

@@ -10,21 +10,27 @@ namespace ZeldaDungeon.UI
 {
     class HUDMap
     {
-        private static readonly int HUD_ROOM_LENGTH = 7;
-        private static readonly int HUD_ROOM_HEIGHT = 3;
-        public HUDMap() { }
+        private ISprite linkIndic;
+        private ISprite triforceIndic;
+        private ISprite room;
+        public HUDMap()
+        {
+            linkIndic = HUDSpriteFactory.Instance.CreateSmallMapLinkIndicator();
+            triforceIndic = HUDSpriteFactory.Instance.CreateSmallMapTriforceIndicator();
+            room = HUDSpriteFactory.Instance.CreateSmallMapRoom();
+        }
         public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, MapRoomState[,] mapGrid)
         {
             for (int i = 0; i < mapGrid.GetLength(0); i++)
             {
                 for (int j = 0; j < mapGrid.GetLength(1); j++)
                 {
-                    int scaledLen = HUD_ROOM_LENGTH * SpriteUtil.SCALE_FACTOR;
-                    int scaledHeight = HUD_ROOM_HEIGHT * SpriteUtil.SCALE_FACTOR;
-                    Point dest = gridTopLeft + new Point(i * scaledLen, j * scaledHeight);
-                    Point size = new Point(scaledLen, scaledHeight);
-                    Rectangle destRect = new Rectangle(dest, size);
-                    // choose a sprite to draw based off mapGrid[i, j]
+                    int scaledLen = (int)SpriteUtil.SpriteSize.SmallMapRoomWidth * SpriteUtil.SCALE_FACTOR;
+                    int scaledHeight = (int)SpriteUtil.SpriteSize.SmallMapRoomHeight * SpriteUtil.SCALE_FACTOR;
+                    Point dest1 = gridTopLeft + new Point(i * scaledLen, j * scaledHeight);
+                    Point size1 = new Point(scaledLen, scaledHeight);
+                    Rectangle destRect1 = new Rectangle(dest, size);
+                    
                 }
             }
         }

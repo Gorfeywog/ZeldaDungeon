@@ -7,7 +7,7 @@ using System.Text;
 using ZeldaDungeon.Sprites;
 
 
-namespace ZeldaDungeon.Content.HUD
+namespace ZeldaDungeon.Sprites
 {
     // this holds all the sprites necessary to display hearts, maps, etc. that will go onto the HUD.
     class HUDSpriteFactory

@@ -15,7 +15,7 @@ namespace ZeldaDungeon.UI
         public HUDMap() { }
         public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, MapRoomState[,] mapGrid)
         {
-            for (int i = 0; i < mapGrid.GetLength(0), i++)
+            for (int i = 0; i < mapGrid.GetLength(0); i++)
             {
                 for (int j = 0; j < mapGrid.GetLength(1); j++)
                 {

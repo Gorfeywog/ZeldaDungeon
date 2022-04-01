@@ -24,7 +24,7 @@ namespace ZeldaDungeon.Sprites
 
         public void LoadAllTextures(ContentManager content)
         {
-            UISpriteSheet = content.Load<Texture2D>("UI_Sprites");
+            UISpriteSheet = content.Load<Texture2D>("uisprites");
         }
 
         public ISprite CreateMapRoom0And7()

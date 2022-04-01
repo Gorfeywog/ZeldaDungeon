@@ -112,9 +112,12 @@ namespace ZeldaDungeon.Sprites
             HUDNumberHeight = 8,
             HUDHeartHeight = 8,
             HUDHeartWidth = 8,
-            HUDMapRoomHeight = 8,
-            HUDMapRoomWidth = 8
-
+            BigMapRoomHeight = 8,
+            BigMapRoomWidth = 8,
+            SmallMapRoomHeight = 4,
+            SmallMapRoomWidth = 8,
+            SmallMapIndicatorHeight = 3,
+            SmallMapIndicatorWidth = 5
         } 
 
         private static readonly int gridX = 40;

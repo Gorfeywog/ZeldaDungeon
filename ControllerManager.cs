@@ -19,9 +19,9 @@ namespace ZeldaDungeon
         private static readonly int xDoorSize = (int)SpriteUtil.SpriteSize.DoorX * SpriteUtil.SCALE_FACTOR;
         private static readonly int yDoorSize = (int)SpriteUtil.SpriteSize.DoorY * SpriteUtil.SCALE_FACTOR;
         private static readonly int xCenter = SpriteUtil.X_POS_CENTER * SpriteUtil.SCALE_FACTOR;
-        private static readonly int yCenter = SpriteUtil.Y_POS_CENTER * SpriteUtil.SCALE_FACTOR;
-        private static readonly int yTop = SpriteUtil.Y_POS_TOP * SpriteUtil.SCALE_FACTOR;
-        private static readonly int yBottom = SpriteUtil.Y_POS_BOTTOM * SpriteUtil.SCALE_FACTOR;
+        private static readonly int yCenter = (SpriteUtil.HUD_HEIGHT + SpriteUtil.Y_POS_CENTER) * SpriteUtil.SCALE_FACTOR;
+        private static readonly int yTop = (SpriteUtil.HUD_HEIGHT + SpriteUtil.Y_POS_TOP) * SpriteUtil.SCALE_FACTOR;
+        private static readonly int yBottom = (SpriteUtil.HUD_HEIGHT + SpriteUtil.Y_POS_BOTTOM) * SpriteUtil.SCALE_FACTOR;
         private static readonly int xLeft = SpriteUtil.X_POS_LEFT * SpriteUtil.SCALE_FACTOR;
         private static readonly int xRight = SpriteUtil.X_POS_RIGHT * SpriteUtil.SCALE_FACTOR;
         public ControllerManager(Game1 g)

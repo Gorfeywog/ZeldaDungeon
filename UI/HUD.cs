@@ -3,23 +3,37 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.UI
 {
     public class HUD
     {
-        private ISprite HUD_sprite = SpecialSpriteFactory.Instance.CreateHUD();
-
-        public void Draw(SpriteBatch spriteBatch, Rectangle sourceRectangle)
+        private static readonly Point HUDSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+        private ISprite HUDSprite;
+        private MapManager mapManager;
+        private Game1 g;
+        public HUD(Game1 g)
         {
-            HUD_sprite.Draw(spriteBatch, sourceRectangle);
+            this.g = g;
+            HUDSprite = SpecialSpriteFactory.Instance.CreateHUD();
+            mapManager = new MapManager(g);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Point HUDPos)
+        {
+            Rectangle destRectangle = new Rectangle(HUDPos, HUDSize);
+            HUDSprite.Draw(spriteBatch, destRectangle);
+            mapManager.Draw(spriteBatch, HUDPos, new Point());
         }
 
         public void Update()
         {
-            HUD_sprite.Update();
-            // this will change as more in the HUD is implemented. As of now, we're just displaying a static sprite that doesn't change at all.
+            HUDSprite.Update();
+            bool hasMap = g.Player.HasItem(new MapItem());
+            bool hasComp = g.Player.HasItem(new CompassItem());
+            mapManager.Update(hasMap, hasComp);
         }
     }
 }

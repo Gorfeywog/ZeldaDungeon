@@ -53,5 +53,11 @@ namespace ZeldaDungeon.UI
                 }
             }
         }
+        public void Update()
+        {
+            linkIndic.Update();
+            triforceIndic.Update();
+            room.Update();
+        }
     }
 }

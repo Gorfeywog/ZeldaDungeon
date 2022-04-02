@@ -49,7 +49,7 @@ namespace ZeldaDungeon
             graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
             graphics.PreferredBackBufferHeight = (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT) * SpriteUtil.SCALE_FACTOR; 
             graphics.ApplyChanges();
-            static_HUD = new HUD();
+            static_HUD = new HUD(this);
             SetupRooms();
             SetupPlayer();
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
@@ -68,6 +68,7 @@ namespace ZeldaDungeon
             BlockSpriteFactory.Instance.LoadAllTextures(Content);
             EnemySpriteFactory.Instance.LoadAllTextures(Content);
             DoorSpriteFactory.Instance.LoadAllTextures(Content);
+            HUDSpriteFactory.Instance.LoadAllTextures(Content);
             SpecialSpriteFactory.Instance.LoadAllTextures(Content);
 
             // audio taken from:
@@ -118,8 +119,7 @@ namespace ZeldaDungeon
                 oldRoom.DrawAll(spriteBatch);
             }
             Point hudOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            Point hudSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            static_HUD.Draw(spriteBatch, new Rectangle(hudOffset, hudSize));
+            static_HUD.Draw(spriteBatch, hudOffset);
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();

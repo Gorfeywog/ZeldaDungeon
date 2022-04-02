@@ -11,23 +11,25 @@ namespace ZeldaDungeon.UI
     public class MapManager
     {
         public static readonly int MAP_GRID_LENGTH = 8;
-        private Point topLeftOffsetHud;
-        private Point topLeftOffsetPause;
+        public static readonly int HUD_MAP_OFFSET_X = 16;
+        public static readonly int HUD_MAP_OFFSET_Y = 8;
         private Game1 g;
         private MapRoomState[,] mapGrid;
-        public MapManager(Game1 g, Point topleftOffsetHud, Point topleftOffsetPause)
+        private HUDMap hudMap;
+        public MapManager(Game1 g)
         {
             this.g = g;
-            this.topLeftOffsetHud = topleftOffsetHud;
-            this.topLeftOffsetPause = topleftOffsetPause;
             mapGrid = new MapRoomState[MAP_GRID_LENGTH, MAP_GRID_LENGTH];
+            hudMap = new HUDMap();
         }
         public void Draw(SpriteBatch spriteBatch, Point hudPos, Point pausePos)
         {
-            
+            Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);
+            hudMap.Draw(spriteBatch, hudMapTopLeft, mapGrid);
+            // TODO - add big map
         }
 
-        public void UpdateGrid(bool hasMap, bool hasCompass)
+        public void Update(bool hasMap, bool hasCompass)
         {
             for (int i = 0; i < MAP_GRID_LENGTH; i++)
             {
@@ -46,6 +48,7 @@ namespace ZeldaDungeon.UI
                     }
                 }
             }
+            hudMap.Update();
         }
         
     }

@@ -7,17 +7,17 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Pickups
 {
-    public class RupyPickup : IPickup
+    public class RupeePickup : IPickup
     {
-        private ISprite sprite = ItemSpriteFactory.Instance.CreateRupy();
+        private ISprite sprite = ItemSpriteFactory.Instance.Create5Rupees();
 
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => false; }
-        public RupyPickup(Point position)
+        public RupeePickup(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
-			int height = (int)SpriteUtil.SpriteSize.RupyLength;
+            int width = (int)SpriteUtil.SpriteSize.RupeeWidth;
+			int height = (int)SpriteUtil.SpriteSize.RupeeLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)

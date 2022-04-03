@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
 
-namespace ZeldaDungeon.Entities.Projectiles
+namespace ZeldaDungeon.Entities.MiscEffects
 {
     
-    public class SmokeCloud : IProjectile
+    public class HitEffect : IEntity
     {
-        private static int smokeTime = 56; // 7*8 for 7 stages of cloud
-        private int timer = smokeTime; // counts down
-        private ISprite sprite = EnemySpriteFactory.Instance.CreateCloudSprite();
+        private static int effectTime = 56;
+        private int timer = effectTime; // counts down
+        private ISprite sprite = EnemySpriteFactory.Instance.CreateHitEffectSprite();
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public bool ReadyToDespawn { get => timer <= 0; }
-        public SmokeCloud(Point position)
+        public HitEffect(Point position)
         {
-            int width = (int)SpriteUtil.SpriteSize.CloudX;
-			int height = (int)SpriteUtil.SpriteSize.CloudY;
-			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            int width = (int)SpriteUtil.SpriteSize.HitEffectX;
+            int height = (int)SpriteUtil.SpriteSize.HitEffectY;
+            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -32,6 +32,5 @@ namespace ZeldaDungeon.Entities.Projectiles
             sprite.Update();
             timer--;
         }
-        public void OnHit(IEntity target) { }
     }
 }

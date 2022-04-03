@@ -90,10 +90,18 @@ namespace ZeldaDungeon.Sprites
                 (int)SpriteUtil.SpriteSize.MapWidth, (int)SpriteUtil.SpriteSize.MapLength));
         }
 
-        public ISprite CreateRupy()
+        public ISprite CreateRupee()
         {
-            int width = (int)SpriteUtil.SpriteSize.RupyWidth;
-            int length = (int)SpriteUtil.SpriteSize.RupyLength;
+            int width = (int)SpriteUtil.SpriteSize.RupeeWidth;
+            int length = (int)SpriteUtil.SpriteSize.RupeeLength;
+
+            Rectangle sourceRectangle = SpriteUtil.GridToRectangle(0, 1, width, length);
+            return new StaticSprite(itemSpriteSheet, sourceRectangle);
+        }
+        public ISprite Create5Rupees()
+        {
+            int width = (int)SpriteUtil.SpriteSize.RupeeWidth;
+            int length = (int)SpriteUtil.SpriteSize.RupeeLength;
 
             Rectangle[] sourceRectangles = { SpriteUtil.GridToRectangle(0, 1, width, length), SpriteUtil.GridToRectangle(1, 1, width, length) };
             return new AnimatedSprite(itemSpriteSheet, sourceRectangles);

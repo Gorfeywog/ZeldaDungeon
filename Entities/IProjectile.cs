@@ -9,8 +9,5 @@ namespace ZeldaDungeon.Entities
     public interface IProjectile : IEntity
     {
         public void OnHit(IEntity target);
-
-        public bool ReadyToDespawn { get; }
-
     }
 }

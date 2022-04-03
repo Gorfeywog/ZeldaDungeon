@@ -192,7 +192,7 @@ namespace ZeldaDungeon.Rooms
                 "hi" => new HeartPickup(pos),
                 "ki" => new KeyPickup(pos),
                 "mi" => new MapPickup(pos),
-                "ri" => new RupeePickup(pos),
+                "ri" => new RupeePickup(pos, 10),
                 "tpi" => new TriforcePiecePickup(pos),
                 "wbi" => new BoomerangPickup(pos, g, false),
                 "wbi1" => new BoomerangPickup(pos, g, false),

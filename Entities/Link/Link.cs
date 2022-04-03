@@ -84,14 +84,15 @@ namespace ZeldaDungeon.Entities.Link
         }
         public bool CanPickUp() => stateMachine.CurrentState == LinkStateMachine.LinkActionState.Idle
             || stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking;
-        public void AddItem(IItem item)
+        public void AddItem(IItem item, int quantity = 1)
         {
-            inv.AddItem(item);
+            inv.AddItem(item, quantity);
+            
         }
 
         public void UseItem(IItem item)
         {
-            if (inv.HasItem(item)) // check if the item is ready to use? (like, arrows need a bow, etc.)
+            if (inv.HasItem(item))
             {
                 stateMachine.UseItem();
                 inv.UseItem(item);
@@ -110,7 +111,7 @@ namespace ZeldaDungeon.Entities.Link
             stateMachine.Attack();
             if (stateMachine.FullHealth)
             {
-                // TODO - make this spawn in a better centerd way
+                // TODO - make this spawn in a better centered way
                 g.CurrentRoom.RegisterEntity(new ThrownSword(Center, Direction, g));
             }
         }

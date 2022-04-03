@@ -30,10 +30,10 @@ namespace ZeldaDungeon.Entities.Link
                 return false;
             }
         }
-        public void AddItem(IItem item)
+        public void AddItem(IItem item, int quantity = 1) // quantity must be positive or bad things may happen
         {
             int ct = itemCount.ContainsKey(item) ? itemCount[item] : 0;
-            itemCount[item] = ct + 1;
+            itemCount[item] = ct + quantity;
         }
         public bool HasItem(IItem item)
         {

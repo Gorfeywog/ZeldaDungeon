@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ZeldaDungeon.Entities.MiscEffects;
 using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
@@ -103,6 +104,7 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 r.RegisterEntity(new RupeePickup(CurrentLoc.Location, 1));
             }
+            r.RegisterEntity(new EnemyDeath(CurrentLoc.Location));
         }
 
     }

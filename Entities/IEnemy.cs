@@ -8,9 +8,7 @@ namespace ZeldaDungeon.Entities
 {
     public interface IEnemy : IEntity
     {
-        public CollisionHeight Height { get; }
-
-        public bool ReadyToDespawn { get; }
+        public CollisionHeight Height { get; } 
 
         public void Attack();
 

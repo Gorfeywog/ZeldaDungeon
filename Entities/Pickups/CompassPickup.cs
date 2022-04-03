@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Pickups
@@ -26,7 +27,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
         public void PickUp(ILink player)
         {
-            // do nothing, for now
+            player.AddItem(new CompassItem());
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

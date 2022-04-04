@@ -126,7 +126,9 @@ namespace ZeldaDungeon.Sprites
             SmallMapIndicOffsetX = 2,
             SmallMapIndicOffsetY = 0,
             EnemyDeathX = 15,
-            EnemyDeathY = 16
+            EnemyDeathY = 16,
+            HUDItemWidth = 8
+
         } 
 
         private static readonly int gridX = 40;

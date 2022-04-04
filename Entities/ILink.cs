@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Entities.Link;
 using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Rooms;
 
@@ -21,6 +22,7 @@ namespace ZeldaDungeon.Entities
         public void TakeDamage();
         public void PickUp(IPickup pickup);
         public bool CanPickUp();
+        public LinkInventory GetInv();
         public void AddItem(IItem item, int quantity = 1);
         public void UseItem(IItem item);
         public bool HasItem(IItem item);

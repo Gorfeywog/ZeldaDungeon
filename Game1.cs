@@ -49,9 +49,9 @@ namespace ZeldaDungeon
             graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
             graphics.PreferredBackBufferHeight = (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT) * SpriteUtil.SCALE_FACTOR; 
             graphics.ApplyChanges();
-            static_HUD = new HUD(this);
             SetupRooms();
             SetupPlayer();
+            static_HUD = new HUD(this);
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
             SoundManager.Instance.PlayMusic("MiiTheme", true);
         }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
+using ZeldaDungeon.Entities.MiscEffects;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {

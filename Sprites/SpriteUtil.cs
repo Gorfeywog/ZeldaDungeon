@@ -23,6 +23,11 @@ namespace ZeldaDungeon.Sprites
         public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
         public static readonly int GENERIC_MAX_HEALTH = 2;
 
+        // chances of rupee drops
+        public static readonly int GENERIC_RUPEE_ROLL_CAP = 10;
+        public static readonly int GENERIC_RUPEE_THRESHOLD = 6;
+        public static readonly int GENERIC_5_RUPEE_THRESHOLD = 9;
+
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;
 
@@ -96,8 +101,8 @@ namespace ZeldaDungeon.Sprites
             KeyLength = 16,
             MapWidth = 8,
             MapLength = 16,
-            RupyWidth = 8,
-            RupyLength = 16,
+            RupeeWidth = 8,
+            RupeeLength = 16,
             TriforceWidth = 10,
             TriforceLength = 10,
             ArrowWidth = 5,
@@ -112,9 +117,16 @@ namespace ZeldaDungeon.Sprites
             HUDNumberHeight = 8,
             HUDHeartHeight = 8,
             HUDHeartWidth = 8,
-            HUDMapRoomHeight = 8,
-            HUDMapRoomWidth = 8
-
+            BigMapRoomHeight = 8,
+            BigMapRoomWidth = 8,
+            SmallMapRoomHeight = 4,
+            SmallMapRoomWidth = 8,
+            SmallMapIndicatorHeight = 3,
+            SmallMapIndicatorWidth = 5,
+            SmallMapIndicOffsetX = 2,
+            SmallMapIndicOffsetY = 0,
+            EnemyDeathX = 15,
+            EnemyDeathY = 16
         } 
 
         private static readonly int gridX = 40;

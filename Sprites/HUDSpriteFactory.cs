@@ -7,7 +7,7 @@ using System.Text;
 using ZeldaDungeon.Sprites;
 
 
-namespace ZeldaDungeon.Content.HUD
+namespace ZeldaDungeon.Sprites
 {
     // this holds all the sprites necessary to display hearts, maps, etc. that will go onto the HUD.
     class HUDSpriteFactory
@@ -24,56 +24,56 @@ namespace ZeldaDungeon.Content.HUD
 
         public void LoadAllTextures(ContentManager content)
         {
-            UISpriteSheet = content.Load<Texture2D>("UI_Sprites");
+            UISpriteSheet = content.Load<Texture2D>("uisprites");
         }
 
         public ISprite CreateMapRoom0And7()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(7, 0,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
 
         public ISprite CreateMapRoom1And5And9And15()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(3, 1,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
 
         public ISprite CreateMapRoom2And14()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(4, 0,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
 
         public ISprite CreateMapRoom3And12()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(0, 1,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
         public ISprite CreateMapRoom4()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(7, 1,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
         public ISprite CreateMapRoom6And11()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(4, 1,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
         public ISprite CreateMapRoom8And10()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(3, 0,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
         public ISprite CreateMapRoom13()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(1, 0,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
         public ISprite CreateMapRoom16()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(2, 0,
-                (int)SpriteUtil.SpriteSize.HUDMapRoomWidth, (int)SpriteUtil.SpriteSize.HUDMapRoomHeight));
+                (int)SpriteUtil.SpriteSize.BigMapRoomWidth, (int)SpriteUtil.SpriteSize.BigMapRoomHeight));
         }
         public ISprite CreateX()
         {
@@ -149,6 +149,23 @@ namespace ZeldaDungeon.Content.HUD
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(2, 3,
                 (int)SpriteUtil.SpriteSize.HUDHeartWidth, (int)SpriteUtil.SpriteSize.HUDHeartHeight));
+        }
+        public ISprite CreateSmallMapRoom()
+        {
+            return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(0, 4,
+                (int)SpriteUtil.SpriteSize.SmallMapRoomWidth, (int)SpriteUtil.SpriteSize.SmallMapRoomHeight));
+        }
+        public ISprite CreateSmallMapLinkIndicator()
+        {
+            return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(1, 4,
+                (int)SpriteUtil.SpriteSize.SmallMapRoomWidth, (int)SpriteUtil.SpriteSize.SmallMapRoomHeight));
+        }
+        public ISprite CreateSmallMapTriforceIndicator()
+        {
+            int wd = (int)SpriteUtil.SpriteSize.SmallMapRoomWidth;
+            int ht = (int)SpriteUtil.SpriteSize.SmallMapRoomHeight;
+            Rectangle[] sources = { SpriteUtil.GridToRectangle(2, 4, wd, ht), SpriteUtil.GridToRectangle(3, 4, wd, ht) };
+            return new AnimatedSprite(UISpriteSheet, sources);
         }
     }
 }

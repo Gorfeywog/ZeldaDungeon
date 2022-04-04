@@ -13,7 +13,9 @@ namespace ZeldaDungeon.UI
         private ISprite fullHeart;
         private ISprite emptyHeart;
         private ISprite halfHeart;
-        private readonly int HEART_NUM = 3;
+        private int fullCount = 0;
+        private int halfCount = 0;
+        private int emptyCount = 0;
         public HUDHealth()
         {
             fullHeart = HUDSpriteFactory.Instance.CreateFullHeart();
@@ -23,20 +25,34 @@ namespace ZeldaDungeon.UI
 
         public void Draw(SpriteBatch spriteBatch, Point heartTopLeft)
         {
-            for (int i = 0; i < HEART_NUM; i++)
+            int heartCount = fullCount + halfCount + emptyCount;
+            for (int i = 0; i < heartCount; i++)
             {
                 int scaledWidth = (int)SpriteUtil.SpriteSize.HeartContainerWidth * SpriteUtil.SCALE_FACTOR;
                 Point dest = heartTopLeft + new Point(i * scaledWidth, 0);
                 Point size = new Point(scaledWidth);
                 Rectangle destRect = new Rectangle(dest, size);
-                fullHeart.Draw(spriteBatch, destRect);
+                if (i < fullCount)
+                {
+                    fullHeart.Draw(spriteBatch, destRect);
+                }
+                else if (i < fullCount + halfCount)
+                {
+                    halfHeart.Draw(spriteBatch, destRect);
+                }
+                else
+                {
+                    emptyHeart.Draw(spriteBatch, destRect);
+                }
             }
             
         }
 
-        public void Update()
+        public void Update(int fullCount, int halfCount, int emptyCount)
         {
-
+            this.fullCount = fullCount;
+            this.halfCount = halfCount;
+            this.emptyCount = emptyCount;
         }
     }
 }

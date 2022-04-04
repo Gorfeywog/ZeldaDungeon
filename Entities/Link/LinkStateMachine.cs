@@ -21,6 +21,7 @@ namespace ZeldaDungeon.Entities.Link
 		public bool FullHealth { get => CurrentHealth == MaxHealth; }
 		public int CurrentHealth { get; private set; } // measured in *half hearts*
 		public int MaxHealth { get; private set; } // measured in *half hearts*
+		private static readonly int maxMaxHealth = 20; // can only fit so much health on the screen
 		private Direction currentDirection;
 		public Direction CurrentDirection
 		{
@@ -81,20 +82,31 @@ namespace ZeldaDungeon.Entities.Link
 			itemUseCountdown = itemUseDelay;
 		}
 
-		public void TakeDamage()
+		public void TakeDamage(int amt = 1)
 		{
 			if (damageCountdown == 0)
             {
-				CurrentHealth--;
+				CurrentHealth -= amt;
 				damageCountdown = damageDelay;
 				Damaged = true;
 			}
-			if (CurrentHealth == 0)
+			if (CurrentHealth <= 0)
 			{
 				Debug.WriteLine("You Died!");
 				SoundManager.Instance.PlaySound("RupeesDecreasing");
+				// TODO - game over screen happens here
 			}
 		}
+		public void Heal(int amt)
+        {
+			CurrentHealth = Math.Min(CurrentHealth + amt, MaxHealth);
+        }
+		public void Heal() => Heal(MaxHealth);
+		public void UseHeartContainer()
+        {
+			MaxHealth = Math.Min(MaxHealth + 2, maxMaxHealth);
+			Heal(); // heart container confers a full heal
+        }
 
 		public void Idle()
 		{

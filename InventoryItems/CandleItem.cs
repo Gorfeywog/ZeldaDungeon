@@ -22,6 +22,7 @@ namespace ZeldaDungeon.InventoryItems
         private static int offset = SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
+            SoundManager.Instance.PlaySound("FlamesShot");
             // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new CandleFire(loc, player.Direction);

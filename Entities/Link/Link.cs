@@ -105,6 +105,11 @@ namespace ZeldaDungeon.Entities.Link
             return inv.HasItem(item);
         }
 
+        public LinkInventory GetInv()
+        {
+            return inv;
+        }
+
 
         public void Attack()
         {
@@ -183,5 +188,7 @@ namespace ZeldaDungeon.Entities.Link
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
+
+        
     }
 }

@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Link
     public class LinkInventory
     {
         private IDictionary<IItem, int> itemCount;
-
+        
         public LinkInventory()
         {
             itemCount = new Dictionary<IItem, int>();
@@ -38,6 +38,11 @@ namespace ZeldaDungeon.Entities.Link
         public bool HasItem(IItem item)
         {
             return itemCount.ContainsKey(item) && itemCount[item] > 0;
+        }
+
+        public IDictionary<IItem, int> GetDict()
+        {
+            return itemCount;
         }
     }
 }

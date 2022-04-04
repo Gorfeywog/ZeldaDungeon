@@ -96,13 +96,15 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                currentHealth--;
-                damageCountdown = SpriteUtil.DAMAGE_DELAY;
-            }
-            if (currentHealth == 0) ReadyToDespawn = true;
-            AquamentusSprite.Damaged = true;
+				currentHealth--;
+				damageCountdown = SpriteUtil.DAMAGE_DELAY;
+				SoundManager.Instance.PlaySound("BossZapped");
+			}
+			if (currentHealth == 0) ReadyToDespawn = true;
+			AquamentusSprite.Damaged = true;
+			SoundManager.Instance.PlaySound("BossRoaring");
 
-        }
+		}
 
         public void Draw(SpriteBatch spriteBatch)
         {

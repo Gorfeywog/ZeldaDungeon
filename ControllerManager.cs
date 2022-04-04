@@ -69,6 +69,7 @@ namespace ZeldaDungeon
             keyboardCon.RegisterCommand(Keys.D5, new LinkUseItem(g, new BoomerangItem(g, false)));
             keyboardCon.RegisterCommand(Keys.D6, new LinkUseItem(g, new BoomerangItem(g, true)));
             keyboardCon.RegisterCommand(Keys.E, new DamageLink(g));
+            keyboardCon.RegisterCommand(Keys.M, new MuteBackground(g));
 
             //Sets up locations to click to move between doors with mouse
             mouseCon.RegisterCommand(new Rectangle(xCenter, yTop, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Up));

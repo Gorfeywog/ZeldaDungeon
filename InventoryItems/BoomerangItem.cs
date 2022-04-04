@@ -25,6 +25,9 @@ namespace ZeldaDungeon.InventoryItems
         {
             if (isMagic)
             {
+                SoundManager.Instance.PlaySound("UpgradedMagicalBoomerangThrown");
+            } else
+            {
                 SoundManager.Instance.PlaySound("MagicalBoomerangThrown");
             }
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);

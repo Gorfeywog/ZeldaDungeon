@@ -78,7 +78,12 @@ namespace ZeldaDungeon.Entities.Link
 				damageCountdown = damageDelay;
 				HasNewSprite = true;
 			}
-			if (CurrentHealth == 0) Debug.WriteLine("You Died!");
+			if (CurrentHealth == 0)
+			{
+				Debug.WriteLine("You Died!");
+				SoundManager.Instance.PlaySound("RupeesDecreasing");
+			}
+
 			Damaged = true;
 		}
 

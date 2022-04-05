@@ -35,8 +35,10 @@ namespace ZeldaDungeon.Entities.Enemies
             ReadyToDespawn = false;
         }
 
+        private bool WillMove => currentFrame % MOVE_TIMER == 0;
         public void Move()
         {
+            if (!WillMove) { return; }
             int locXChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
             int locYChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
             Rectangle newPos = new Rectangle(new Point(CurrentLoc.X + locXChange, CurrentLoc.Y + locYChange), CurrentLoc.Size);
@@ -46,10 +48,7 @@ namespace ZeldaDungeon.Entities.Enemies
             }
         }
 
-        public void Attack()
-        {
-
-        }
+        public void Attack() { }
 
         public void TakeDamage()
         {
@@ -67,7 +66,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             KeeseSprite.Draw(spriteBatch, CurrentLoc);
         }
-
+        private static readonly int MOVE_TIMER = 8;
         public void Update()
         {
             if (KeeseSprite.Damaged)
@@ -80,12 +79,6 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             currentFrame++;
             KeeseSprite.Update();
-            int moveChance = 8;
-            if (currentFrame % moveChance == 0)
-            {
-                Move();
-            }
-
             Collision.Update();
         }
         public void DespawnEffect()

@@ -49,14 +49,17 @@ namespace ZeldaDungeon.Entities.Enemies
             Collision = new CollisionHandler(r, this);
             CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
         }
-
+        private static readonly int CHANGE_DIR_CHANCE = 4;
         public void Move()
         {
-            //One in four chance to change directions
-            int changeDirChance = 4;
-            if (SpriteUtil.Rand.Next(changeDirChance) == 0)
+            if (!WillMove)
             {
-                switch (SpriteUtil.Rand.Next(changeDirChance))
+                return;
+            }
+            //One in four chance to change directions
+            if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
+            {
+                switch (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE))
                 {
                     case 0:
                         currDirection = Direction.Left;
@@ -113,43 +116,19 @@ namespace ZeldaDungeon.Entities.Enemies
 
             //Determines which way to move
             int locChange = 4 * SpriteUtil.SCALE_FACTOR;
-            switch (currDirection)
+            Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
+            if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))
             {
-                case Direction.Left:
-                    if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
-                    {
-                        CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
-                    }
-                    break;
-
-                case Direction.Right:
-                    if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size)))
-                    {
-                        CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
-                    }
-                    break;
-
-                case Direction.Up:
-                    if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size)))
-                    {
-                        CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
-                    }
-                    break;
-
-                case Direction.Down:
-                    if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size)))
-                    {
-                        CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
-                    }
-                    break;
-
-                default:
-                    break;
+                CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
             }
         }
 
         public void Attack()
         {
+            if (!WillAttack)
+            {
+                return;
+            }
             boomerang = new BoomerangProjectile(this, currDirection, false, r.G);
             r.RegisterEntity(boomerang);
         }
@@ -169,7 +148,11 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             GoriyaSprite.Draw(spriteBatch, CurrentLoc);
         }
-
+        private static readonly int MOVE_TIMER = 8;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0 && !IsAttacking;
+        private static readonly int ATTACK_TIMER = 128;
+        private static readonly int ATTACK_CHANCE = 2;
+        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0;
         public void Update()
         {
             if (GoriyaSprite.Damaged)
@@ -182,18 +165,6 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             currentFrame++;
             GoriyaSprite.Update();
-            int moveChance = 8;
-            if (currentFrame % moveChance == 0 && !IsAttacking)
-            {
-                Move();
-            }
-            int attackChance = 128;
-            int randChance = 2;
-            if (currentFrame % attackChance == 0 && SpriteUtil.Rand.Next(randChance) == 0)
-            {
-                Attack();
-            }
-
             Collision.Update();
 
         }

@@ -33,9 +33,10 @@ namespace ZeldaDungeon.Entities.Enemies
             currentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
             Collision = new CollisionHandler(r, this);
         }
-
+        private bool WillMove => currentFrame % MOVE_TIMER == 0;
         public void Move()
         {
+            if (!WillMove) return;
             int movingNum = SpriteUtil.Rand.Next(5);
             int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
             Rectangle newPos;
@@ -52,10 +53,7 @@ namespace ZeldaDungeon.Entities.Enemies
             // 1 in 5 chance to not move at all
         }
 
-        public void Attack()
-        {
-
-        }
+        public void Attack() { }
 
         public void TakeDamage()
         {
@@ -73,7 +71,7 @@ namespace ZeldaDungeon.Entities.Enemies
             GelSprite.Draw(spriteBatch, CurrentLoc);
         }
 
-        private static readonly int moveChance = 8;
+        private static readonly int MOVE_TIMER = 8;
         public void Update()
         {
             if (GelSprite.Damaged)
@@ -86,11 +84,6 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             GelSprite.Update();
             currentFrame++;
-            if (currentFrame % moveChance == 0)
-            {
-                Move();
-            }
-
             Collision.Update();
         }
         public void DespawnEffect()

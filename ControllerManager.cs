@@ -68,6 +68,7 @@ namespace ZeldaDungeon
             keyboardCon.RegisterCommand(Keys.D4, new LinkUseItem(g, new CandleItem(g, true)));
             keyboardCon.RegisterCommand(Keys.D5, new LinkUseItem(g, new BoomerangItem(g, false)));
             keyboardCon.RegisterCommand(Keys.D6, new LinkUseItem(g, new BoomerangItem(g, true)));
+            keyboardCon.RegisterCommand(Keys.D7, new LinkUseItem(g, new CandleItem(g, false)));
             keyboardCon.RegisterCommand(Keys.E, new DamageLink(g));
             keyboardCon.RegisterCommand(Keys.M, new MuteBackground(g));
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Sprites;
@@ -13,10 +15,10 @@ namespace ZeldaDungeon.Entities.Link
 		{
 			get => damaged;
 			private set
-            {
+			{
 				HasNewSprite = (value != damaged);
 				damaged = value;
-            }
+			}
 		}
 		public bool FullHealth { get => CurrentHealth == MaxHealth; }
 		public int CurrentHealth { get; private set; } // measured in *half hearts*
@@ -49,6 +51,7 @@ namespace ZeldaDungeon.Entities.Link
 			}
 		}
 		public bool HasNewSprite { get; private set; } // used to avoid generating new sprite every frame
+		private bool CanInterrupt { get => currentState == LinkActionState.Idle || currentState == LinkActionState.Walking; }
 
 
 		public LinkStateMachine()
@@ -67,19 +70,28 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void UseItem()
 		{
-			if (CurrentState != LinkActionState.UsingItem) CurrentState = LinkActionState.UsingItem;
-			itemUseCountdown = itemUseDelay;
+			if (CanInterrupt)
+			{
+				CurrentState = LinkActionState.UsingItem;
+				itemUseCountdown = itemUseDelay;
+			}
 		}
 		public void PickUp()
 		{
-			if (CurrentState != LinkActionState.PickingUp) CurrentState = LinkActionState.PickingUp;
-			itemUseCountdown = SpriteUtil.LINK_PICKUP_TIME;
+			if (CanInterrupt)
+			{
+				CurrentState = LinkActionState.PickingUp;
+				itemUseCountdown = SpriteUtil.LINK_PICKUP_TIME;
+			}
 		}
 
 		public void Attack()
 		{
-			if (CurrentState != LinkActionState.Attacking) CurrentState = LinkActionState.Attacking;
-			itemUseCountdown = itemUseDelay;
+			if (CanInterrupt)
+			{
+				CurrentState = LinkActionState.Attacking;
+				itemUseCountdown = itemUseDelay;
+			}
 		}
 
 		public void TakeDamage(int amt = 1)
@@ -110,7 +122,7 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void Idle()
 		{
-			if (CurrentState == LinkActionState.Walking)
+			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.Idle;
 			}
@@ -118,7 +130,7 @@ namespace ZeldaDungeon.Entities.Link
 
 		public void Walking()
 		{
-			if (CurrentState == LinkActionState.Idle)
+			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.Walking;
 			}
@@ -126,7 +138,7 @@ namespace ZeldaDungeon.Entities.Link
 
 		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
-		private static readonly int itemUseDelay = 20; // also used for attacks
+		public static readonly int itemUseDelay = 20; // also used for attacks
 		private int itemUseCountdown = 0;
 		public void Update()
 		{

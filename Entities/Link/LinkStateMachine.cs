@@ -68,30 +68,36 @@ namespace ZeldaDungeon.Entities.Link
 			CurrentDirection = newDirection;
 		}
 
-		public void UseItem()
+		public bool UseItem()
 		{
 			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.UsingItem;
 				itemUseCountdown = itemUseDelay;
+				return true;
 			}
+			return false;
 		}
-		public void PickUp()
+		public bool PickUp()
 		{
 			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.PickingUp;
 				itemUseCountdown = SpriteUtil.LINK_PICKUP_TIME;
+				return true;
 			}
+			return false;
 		}
 
-		public void Attack()
+		public bool Attack()
 		{
 			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.Attacking;
 				itemUseCountdown = itemUseDelay;
+				return true;
 			}
+			return false;
 		}
 
 		public void TakeDamage(int amt = 1)
@@ -120,20 +126,24 @@ namespace ZeldaDungeon.Entities.Link
 			Heal(); // heart container confers a full heal
         }
 
-		public void Idle()
+		public bool Idle()
 		{
 			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.Idle;
+				return true;
 			}
+			return false;
 		}
 
-		public void Walking()
+		public bool Walking()
 		{
 			if (CanInterrupt)
 			{
 				CurrentState = LinkActionState.Walking;
+				return true;
 			}
+			return false;
 		}
 
 		private static readonly int damageDelay = 80;

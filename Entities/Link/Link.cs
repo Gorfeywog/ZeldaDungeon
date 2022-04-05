@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using ZeldaDungeon;
-using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Entities.Projectiles;
 using ZeldaDungeon.InventoryItems;
@@ -80,7 +75,8 @@ namespace ZeldaDungeon.Entities.Link
                 if (pickup is TriforcePiecePickup)
                 {
                     sound.PlaySound("TriforcePieceObtained");
-                } else
+                }
+                else
                 {
                     sound.PlaySound("ItemReceived");
                 }
@@ -93,7 +89,7 @@ namespace ZeldaDungeon.Entities.Link
         public void AddItem(IItem item, int quantity = 1)
         {
             inv.AddItem(item, quantity);
-            
+
         }
 
         public void UseItem(IItem item)
@@ -119,12 +115,17 @@ namespace ZeldaDungeon.Entities.Link
 
         public void Attack()
         {
-            stateMachine.Attack();
-            if (stateMachine.FullHealth)
+            bool success = stateMachine.Attack();
+            if (success)
             {
-                // TODO - make this spawn in a better centered way
-                g.CurrentRoom.RegisterEntity(new ThrownSword(Center, Direction, g));
+                // TODO - make both of these spawn in a better centered way 
+                g.CurrentRoom.RegisterEntity(new StaticSword(Center, Direction, g));
+                if (stateMachine.FullHealth)
+                {
+                    g.CurrentRoom.RegisterEntity(new ThrownSword(Center, Direction, g));
+                }
             }
+
         }
 
         private int speed = SpriteUtil.SCALE_FACTOR; // this should maybe be more dynamic
@@ -149,6 +150,7 @@ namespace ZeldaDungeon.Entities.Link
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            /*
             if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Attacking)
             {
                 Point size;
@@ -170,7 +172,8 @@ namespace ZeldaDungeon.Entities.Link
 
                 sword.Draw(spriteBatch, itemPos);
             }
-            else if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.PickingUp)
+            */
+            if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.PickingUp)
             {
                 int height = heldItem.CurrentLoc.Height;
                 Point destPoint = new Point(CurrentLoc.X, CurrentLoc.Y - height);
@@ -195,6 +198,6 @@ namespace ZeldaDungeon.Entities.Link
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
 
-        
+
     }
 }

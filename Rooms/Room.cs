@@ -28,6 +28,8 @@ namespace ZeldaDungeon.Rooms
         public Point LinkDefaultSpawn { get; private set; }
         public RoomStateMachine StateMachine { get; private set; }
         public bool HasTriforce { get; private set; }
+        public bool HaveUsedCandle { get; set; } // VERY BAD coupling, but best alternatives I could think of screamed "memory leak"
+                                                 // should be changed if we can think of anything not-awful to do this.
         public Room(Game1 g, string path)
         {
             this.G = g;
@@ -163,6 +165,7 @@ namespace ZeldaDungeon.Rooms
         public void PlayerEnters(ILink player)
         {
             StateMachine.EnterEffects();
+            HaveUsedCandle = false;
         }
         public void PlayerExits(ILink player)
         {

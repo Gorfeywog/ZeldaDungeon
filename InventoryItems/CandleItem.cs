@@ -27,9 +27,13 @@ namespace ZeldaDungeon.InventoryItems
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.CurrentRoom.RegisterEntity(proj);
+            if (!isRed)
+            {
+                g.CurrentRoom.HaveUsedCandle = true;
+            }
         }
 
-        public bool CanUseOn(ILink player) => true; 
+        public bool CanUseOn(ILink player) => isRed || g.CurrentRoom.HaveUsedCandle; 
         public bool Equals(IItem other)
         {
             if (other is CandleItem otherCandle)

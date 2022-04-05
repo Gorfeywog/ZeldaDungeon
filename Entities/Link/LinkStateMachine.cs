@@ -8,9 +8,20 @@ namespace ZeldaDungeon.Entities.Link
 	public class LinkStateMachine
 	{
 		public enum LinkActionState { PickingUp, UsingItem, Walking, Idle, Attacking };
-		public bool Damaged { get; private set; }
-		public bool FullHealth { get => !Damaged; }
-		int CurrentHealth;
+		private bool damaged;
+		public bool Damaged
+		{
+			get => damaged;
+			private set
+            {
+				HasNewSprite = (value != damaged);
+				damaged = value;
+            }
+		}
+		public bool FullHealth { get => CurrentHealth == MaxHealth; }
+		public int CurrentHealth { get; private set; } // measured in *half hearts*
+		public int MaxHealth { get; private set; } // measured in *half hearts*
+		private static readonly int maxMaxHealth = 20; // can only fit so much health on the screen
 		private Direction currentDirection;
 		public Direction CurrentDirection
 		{
@@ -45,7 +56,8 @@ namespace ZeldaDungeon.Entities.Link
 			CurrentState = LinkActionState.Idle;
 			currentDirection = Direction.Right;
 			HasNewSprite = true;
-			CurrentHealth = SpriteUtil.LINK_MAX_HEALTH;
+			MaxHealth = SpriteUtil.LINK_MAX_HEALTH;
+			CurrentHealth = MaxHealth;
 		}
 
 		public void ChangeDirection(Direction newDirection)
@@ -70,22 +82,31 @@ namespace ZeldaDungeon.Entities.Link
 			itemUseCountdown = itemUseDelay;
 		}
 
-		public void TakeDamage()
+		public void TakeDamage(int amt = 1)
 		{
 			if (damageCountdown == 0)
             {
-				CurrentHealth--;
+				CurrentHealth -= amt;
 				damageCountdown = damageDelay;
-				HasNewSprite = true;
+				Damaged = true;
 			}
-			if (CurrentHealth == 0)
+			if (CurrentHealth <= 0)
 			{
 				Debug.WriteLine("You Died!");
 				SoundManager.Instance.PlaySound("RupeesDecreasing");
+				// TODO - game over screen happens here
 			}
-
-			Damaged = true;
 		}
+		public void Heal(int amt)
+        {
+			CurrentHealth = Math.Min(CurrentHealth + amt, MaxHealth);
+        }
+		public void Heal() => Heal(MaxHealth);
+		public void UseHeartContainer()
+        {
+			MaxHealth = Math.Min(MaxHealth + 2, maxMaxHealth);
+			Heal(); // heart container confers a full heal
+        }
 
 		public void Idle()
 		{
@@ -115,7 +136,6 @@ namespace ZeldaDungeon.Entities.Link
 				if (damageCountdown == 0)
 				{
 					Damaged = false;
-					HasNewSprite = true;
 				}
 			}
 			if (itemUseCountdown > 0)
@@ -129,7 +149,7 @@ namespace ZeldaDungeon.Entities.Link
 		}
 		public ISprite LinkSprite()
 		{
-			HasNewSprite = false; // just generated a sprite; it must be up to date!
+			HasNewSprite = false;
 			LinkSpriteFactory fac = LinkSpriteFactory.Instance;
 			bool d = Damaged;
 			switch (CurrentState)

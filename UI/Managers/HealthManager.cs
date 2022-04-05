@@ -27,8 +27,12 @@ namespace ZeldaDungeon.UI
 
         public void Update()
         {
-           
-            hudHealth.Update();
+            int hp = g.Player.CurrentHealth;
+            int maxHp = g.Player.MaxHealth;
+            int full = hp / 2;
+            int half = hp % 2;
+            int empty = (maxHp / 2) - (full + half);
+            hudHealth.Update(full, half, empty);
         }
     }
 }

@@ -31,6 +31,8 @@ namespace ZeldaDungeon.Entities.Link
         public Rectangle CurrentLoc { get; set; }
         public Point Center { get => CurrentLoc.Center; }
         public Direction Direction { get => stateMachine.CurrentDirection; }
+        public int CurrentHealth { get => stateMachine.CurrentHealth; }
+        public int MaxHealth { get => stateMachine.MaxHealth; }
 
 
         public Link(Point position, Game1 g)
@@ -56,14 +58,18 @@ namespace ZeldaDungeon.Entities.Link
             stateMachine.ChangeDirection(nextDirection);
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int amt = 1)
         {
             if (!stateMachine.Damaged)
             {
                 sound.PlaySound("PlayerHurt");
-                stateMachine.TakeDamage();
+                stateMachine.TakeDamage(amt);
             }
         }
+
+        public void Heal(int amt = 1) => stateMachine.Heal(amt);
+        public void Heal() => stateMachine.Heal();
+        public void UseHeartContainer() => stateMachine.UseHeartContainer();
 
         public void PickUp(IPickup pickup)
         {

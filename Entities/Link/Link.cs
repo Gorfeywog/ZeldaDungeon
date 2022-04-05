@@ -112,7 +112,7 @@ namespace ZeldaDungeon.Entities.Link
             return inv;
         }
 
-        private static readonly int SWORD_OFFSET = 12;
+        private static readonly int SWORD_OFFSET = 13;
         public void Attack()
         {
             bool success = stateMachine.Attack();

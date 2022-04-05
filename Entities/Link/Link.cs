@@ -112,17 +112,31 @@ namespace ZeldaDungeon.Entities.Link
             return inv;
         }
 
-
+        private static readonly int SWORD_OFFSET = 12;
         public void Attack()
         {
             bool success = stateMachine.Attack();
             if (success)
             {
-                // TODO - make both of these spawn in a better centered way 
-                g.CurrentRoom.RegisterEntity(new StaticSword(Center, Direction, g));
+                Point size;
+                int width = (int)SpriteUtil.SpriteSize.SwordWidth * SpriteUtil.SCALE_FACTOR;
+                int length = (int)SpriteUtil.SpriteSize.SwordLength * SpriteUtil.SCALE_FACTOR;
+                if (Direction == Direction.Left || Direction == Direction.Right)
+                {
+                    size = new Point(length, width);
+                }
+                else
+                {
+                    size = new Point(width, length);
+                }
+                Rectangle swordPos = new Rectangle(CurrentLoc.Center, size); // not drawn, used for convenient math!
+                swordPos.Offset(CurrentLoc.Center - swordPos.Center);
+                int itemOffset = SWORD_OFFSET * SpriteUtil.SCALE_FACTOR;
+                Point pos = EntityUtils.Offset(swordPos.Location, Direction, itemOffset);
+                g.CurrentRoom.RegisterEntity(new StaticSword(pos, Direction, g));
                 if (stateMachine.FullHealth)
                 {
-                    g.CurrentRoom.RegisterEntity(new ThrownSword(Center, Direction, g));
+                    g.CurrentRoom.RegisterEntity(new ThrownSword(pos, Direction, g));
                 }
             }
 
@@ -150,29 +164,6 @@ namespace ZeldaDungeon.Entities.Link
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            /*
-            if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Attacking)
-            {
-                Point size;
-                int width = (int)SpriteUtil.SpriteSize.SwordWidth * SpriteUtil.SCALE_FACTOR;
-                int length = (int)SpriteUtil.SpriteSize.SwordLength * SpriteUtil.SCALE_FACTOR;
-                if (Direction == Direction.Left || Direction == Direction.Right)
-                {
-                    size = new Point(length, width);
-                }
-                else
-                {
-                    size = new Point(width, length);
-                }
-                Rectangle itemPos = new Rectangle(CurrentLoc.Center, size);
-                itemPos.Offset(CurrentLoc.Center - itemPos.Center);
-                int itemOffset = 12 * SpriteUtil.SCALE_FACTOR;
-                itemPos.Location = EntityUtils.Offset(itemPos.Location, Direction, itemOffset);
-                ISprite sword = ItemSpriteFactory.Instance.CreateSword(Direction);
-
-                sword.Draw(spriteBatch, itemPos);
-            }
-            */
             if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.PickingUp)
             {
                 int height = heldItem.CurrentLoc.Height;

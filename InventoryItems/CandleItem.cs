@@ -33,7 +33,7 @@ namespace ZeldaDungeon.InventoryItems
             }
         }
 
-        public bool CanUseOn(ILink player) => isRed || g.CurrentRoom.HaveUsedCandle; 
+        public bool CanUseOn(ILink player) => isRed || !g.CurrentRoom.HaveUsedCandle; 
         public bool Equals(IItem other)
         {
             if (other is CandleItem otherCandle)

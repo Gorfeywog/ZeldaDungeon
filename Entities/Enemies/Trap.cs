@@ -45,6 +45,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Move()
         {
+            if (!moving) { return; }
             Point newPt;
             if (attacking)
             {
@@ -60,7 +61,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
 
             }
-            else if (moving)
+            else
             {
                 newPt = EntityUtils.Offset(CurrentLoc.Location, dir, -SpriteUtil.SCALE_FACTOR);
                 if (CurrentLoc.Location != initPoint)
@@ -75,8 +76,8 @@ namespace ZeldaDungeon.Entities.Enemies
             }
 
         }
-
-        public void Attack()
+        public void Attack() { }
+        public void SpecialTrapAttack()
         {
             if (!attacking && !moving && !onCooldown)
             {
@@ -99,10 +100,6 @@ namespace ZeldaDungeon.Entities.Enemies
         public void Update()
         {
             TrapSprite.Update();
-            if (moving)
-            {
-                Move();
-            }
             if (onCooldown)
             {
                 cooldown--;

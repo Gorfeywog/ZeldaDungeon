@@ -36,9 +36,10 @@ namespace ZeldaDungeon.Entities.Enemies
             Collision = new CollisionHandler(r, this);
         }
 
-
+        private bool WillMove => currentFrame % MOVE_TIMER == 0;
         public void Move()
         {
+            if (!WillMove) { return; }
             //One in four chance to change directions
             int changeDirChance = 4;
             if (SpriteUtil.Rand.Next(changeDirChance) == 0)
@@ -95,10 +96,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         }
 
-        public void Attack()
-        {
-
-        }
+        public void Attack() { }
 
         public void TakeDamage()
         {
@@ -117,7 +115,7 @@ namespace ZeldaDungeon.Entities.Enemies
             RopeSprite.Draw(spriteBatch, CurrentLoc);
         }
 
-        private static int moveChance = 8;
+        private static int MOVE_TIMER = 8;
         public void Update()
         {
             if (RopeSprite.Damaged)
@@ -130,11 +128,6 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             RopeSprite.Update();
             currentFrame++;
-            if (currentFrame % moveChance == 0)
-            {
-                Move();
-            }
-
             Collision.Update();
         }
         public void DespawnEffect()

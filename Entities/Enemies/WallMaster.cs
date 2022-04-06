@@ -39,6 +39,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Move()
         {
+            if (!WillMove) { return; }
             //One in eight chance to change directions
             int changeDirChance = 60;
             if (SpriteUtil.Rand.Next(8) == 0 || currentFrame % changeDirChance == 0)
@@ -95,7 +96,8 @@ namespace ZeldaDungeon.Entities.Enemies
             WallMasterSprite.Draw(spriteBatch, CurrentLoc);
         }
 
-        private static readonly int moveChance = 8;
+        private static readonly int MOVE_TIMER = 8;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0;
         public void Update()
         {
             if (WallMasterSprite.Damaged)
@@ -108,11 +110,6 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             WallMasterSprite.Update();
             currentFrame++;
-            if (currentFrame % moveChance == 0)
-            {
-                Move();
-            }
-
             Collision.Update();
         }
         public void DespawnEffect()

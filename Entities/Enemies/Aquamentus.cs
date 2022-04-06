@@ -43,13 +43,18 @@ namespace ZeldaDungeon.Entities.Enemies
             currentFrame = 0;
         }
 
+        private static readonly int CHANGE_DIR_CHANCE = 4;
+        private static readonly int X_LIMIT = 2;
+        private static readonly int SPEED = 4;
         public void Move()
         {
+            if (!WillMove)
+            {
+                return;
+            }
             //One in four chance per move for aquamentus to change direction
-            int changeDirChance = 4;
-            int xLimit = 2;
-            int locChange = 4 * SpriteUtil.SCALE_FACTOR;
-            if (SpriteUtil.Rand.Next(changeDirChance) == 0)
+            int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
+            if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
             {
                 movingLeft = !movingLeft;
             }
@@ -61,7 +66,7 @@ namespace ZeldaDungeon.Entities.Enemies
                 {
                     CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
                 }
-                if (CurrentLoc.X < initX - xLimit * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+                if (CurrentLoc.X < initX - X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
                 {
                     movingLeft = !movingLeft;
                 }
@@ -72,7 +77,7 @@ namespace ZeldaDungeon.Entities.Enemies
                 {
                     CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
                 }
-                if (CurrentLoc.X > initX + xLimit * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
+                if (CurrentLoc.X > initX + X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
                 {
                     movingLeft = !movingLeft;
                 }
@@ -82,6 +87,10 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack()
         {
+            if (!WillAttack)
+            {
+                return;
+            }
             int fireballChange = SpriteUtil.Rand.Next(3) - 1;
             int fireballVel = -2 * SpriteUtil.SCALE_FACTOR;
             IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
@@ -115,7 +124,6 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             currentFrame++;
             AquamentusSprite.Update();
-            int moveChance = 8;
             if (AquamentusSprite.Damaged)
             {
                 damageCountdown--;
@@ -124,20 +132,14 @@ namespace ZeldaDungeon.Entities.Enemies
                     AquamentusSprite.Damaged = false;
                 }
             }
-            if (currentFrame % moveChance == 0)
-            {
-                Move();
-            }
-            int attackChance = 64;
-            int randChance = 4;
-            if (currentFrame % attackChance == 0 && SpriteUtil.Rand.Next(randChance) == 0)
-            {
-                Attack();
-            }
-
             Collision.Update();
 
         }
+        private static readonly int MOVE_TIMER = 8;
+        private static readonly int ATTACK_TIMER = 64;
+        private static readonly int ATTACK_CHANCE = 4;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0;
+        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0;
         public void DespawnEffect()
         {
             int rupeeRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);

@@ -87,9 +87,11 @@ namespace ZeldaDungeon.Rooms
             bool hasPickup = !G.Player.CanPickUp();
             foreach (var en in roomEntities)
             {
-                if (StateMachine.State != RoomState.Clock || !(en is IEnemy)) // enemies don't do stuff in clock state
+                en.Update();
+                if (en is IEnemy anEnemy && StateMachine.State != RoomState.Clock)
                 {
-                    en.Update();
+                    anEnemy.Move();
+                    anEnemy.Attack();
                 }
                 if (en.ReadyToDespawn)
                 {

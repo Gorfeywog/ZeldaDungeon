@@ -181,7 +181,7 @@ namespace ZeldaDungeon.Entities
                     DetectCollision(ActualEntity.CurrentLoc, trap.CurrentLoc);
                     if (XCollision || YCollision)
                     {
-                        trap.Attack();
+                        trap.SpecialTrapAttack();
                     }
                 }
                 

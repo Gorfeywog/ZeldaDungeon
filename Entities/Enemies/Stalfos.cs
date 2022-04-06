@@ -39,6 +39,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Move()
         {
+            if (!WillMove) { return; }
             int dirChance = 3;
             int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
             Rectangle newPos;
@@ -54,11 +55,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         }
 
-        public void Attack()
-        {
-
-        }
-
+        public void Attack() { }
         public void TakeDamage()
         {
             if (damageCountdown == 0)
@@ -75,6 +72,8 @@ namespace ZeldaDungeon.Entities.Enemies
             StalfosSprite.Draw(spriteBatch, CurrentLoc);
         }
 
+        private static readonly int MOVE_TIMER = 8;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0;
         public void Update()
         {
             if (StalfosSprite.Damaged)
@@ -87,12 +86,6 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             StalfosSprite.Update();
             currentFrame++;
-            int moveChance = 8;
-            if (currentFrame % moveChance == 0)
-            {
-                Move();
-            }
-
             Collision.Update();
         }
         public void DespawnEffect()

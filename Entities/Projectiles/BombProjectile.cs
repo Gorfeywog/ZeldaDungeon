@@ -4,20 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Entities.MiscEffects;
+using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Projectiles
 {
     public class BombProjectile : IProjectile
     {
-        private static int fuseTime = 60;
-        private bool isCloud = false;
-        private int timer = fuseTime; // counts down
+        private static readonly int FUSE_TIME = 60;
+        private int timer = FUSE_TIME; // counts down
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); 
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public bool ReadyToDespawn { get => timer <= 0; }
         private Game1 g;
+        private Room r => g.CurrentRoom;
         public BombProjectile(Point position, Game1 g)
         {
             int width = (int)SpriteUtil.SpriteSize.BombWidth;
@@ -29,21 +30,27 @@ namespace ZeldaDungeon.Entities.Projectiles
         {
             sprite.Draw(spriteBatch, CurrentLoc);
         }
-        private Direction[] doorDirections = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
-        private const float explodeDist = 80; 
+        private const float EXPLOSION_RADIUS = 30; 
         public void DespawnEffect()
         {
-            g.CurrentRoom.RegisterEntity(new SmokeCloud(CurrentLoc.Location));
-            foreach (var d in doorDirections)
+            r.RegisterEntity(new SmokeCloud(CurrentLoc.Location));
+            foreach (var entity in r.roomEntities)
             {
-                Point p = g.CurrentRoom.DoorPos(d) + new Point((int)SpriteUtil.SpriteSize.DoorX, 
-                    (int)SpriteUtil.SpriteSize.DoorY); // add 32, 32 to get center rather than topleft
-                Point offset = CurrentLoc.Center - p;
-                if (offset.ToVector2().Length() < explodeDist)
+                if (entity is IEnemy anEnemy && WillBeHit(anEnemy))
                 {
-                    g.ExplodeRoomDoor(d);
+                    anEnemy.TakeDamage();
+                }
+                if (entity is Door d && WillBeHit(d))
+                {
+                    g.ExplodeRoomDoor(d.Dir);
                 }
             }
+        }
+        private bool WillBeHit(IEntity target)
+        {
+            Point p = target.CurrentLoc.Center;
+            Point offset = CurrentLoc.Center - p;
+            return offset.ToVector2().Length() < EXPLOSION_RADIUS * SpriteUtil.SCALE_FACTOR;
         }
         public void OnHit(IEntity target) { }
         public void Update()

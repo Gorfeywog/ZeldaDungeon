@@ -94,7 +94,7 @@ namespace ZeldaDungeon.Entities.Link
 
         public void UseItem(IItem item)
         {
-            if (inv.HasItem(item))
+            if (inv.HasItem(item) && item.CanUseOn(this))
             {
                 stateMachine.UseItem();
                 inv.UseItem(item);

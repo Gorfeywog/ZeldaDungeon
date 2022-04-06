@@ -42,7 +42,7 @@ namespace ZeldaDungeon.Entities.Link
 
         public IDictionary<IItem, int> GetDict()
         {
-            return itemCount;
+            return new Dictionary<IItem, int>(itemCount); // return a copy, so they can't mutate
         }
     }
 }

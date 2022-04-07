@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
         public ISprite CloudSprite { get; private set; }
         public Rectangle CurrentLoc { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Floor; }
+        public bool isFriendly { get => false; }
+
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;
         private IEnemy contents;

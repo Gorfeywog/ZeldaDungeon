@@ -14,6 +14,8 @@ namespace ZeldaDungeon.Entities.Enemies
         private int currentFrame;
         private CollisionHandler Collision { get; set; }
         private int currentHealth;
+        public bool isFriendly { get => false; }
+
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;

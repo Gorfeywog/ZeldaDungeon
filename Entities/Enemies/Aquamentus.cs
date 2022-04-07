@@ -14,6 +14,8 @@ namespace ZeldaDungeon.Entities.Enemies
         public bool ReadyToDespawn { get; set; }
         public ISprite AquamentusSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
+        public bool isFriendly { get => false; }
+
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }

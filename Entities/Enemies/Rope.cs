@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
     {
         public ISprite RopeSprite { get; set; }
         public bool ReadyToDespawn { get; private set; }
+        public bool isFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
 

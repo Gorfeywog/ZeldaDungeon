@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
     {
         public ISprite WallMasterSprite { get; set; }
         public bool ReadyToDespawn { get; private set; }
+        public bool isFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
         private CollisionHandler Collision { get; set; }

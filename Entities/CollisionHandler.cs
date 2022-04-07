@@ -84,7 +84,7 @@ namespace ZeldaDungeon.Entities
         }
         private void HandleCollisionPlayerEnemy(ILink player, IEnemy enemy)
         {
-            if (DetectCollision(player.CurrentLoc, enemy.CurrentLoc))
+            if (DetectCollision(player.CurrentLoc, enemy.CurrentLoc) && !enemy.isFriendly)
             {
                 player.TakeDamage();
             }

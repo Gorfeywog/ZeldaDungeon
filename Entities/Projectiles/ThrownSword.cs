@@ -11,6 +11,8 @@ namespace ZeldaDungeon.Entities.Projectiles
 		private ISprite SwordSprite { get; set; }
 		public Rectangle CurrentLoc { get; set; }
 		public bool ReadyToDespawn { get; private set; }
+
+		private CollisionHandler collision;
 		public DrawLayer Layer { get => DrawLayer.Normal; }
 		private Direction orientation;
 		private static int maxFrame = 20;
@@ -36,6 +38,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 			orientation = dir;
 			currentFrame = 0;
 			this.g = g;
+			collision = new CollisionHandler(g.CurrentRoom, this);
 		}
 
 		public void Move()
@@ -51,7 +54,8 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public void Update()
 		{
 			currentFrame++;
-			if (currentFrame > maxFrame) { ReadyToDespawn = true; }
+			ReadyToDespawn = collision.WillHitBlock(CurrentLoc);
+			//if (currentFrame > maxFrame) { ReadyToDespawn = true; }
 			Move();
 			SwordSprite.Update();
 		}

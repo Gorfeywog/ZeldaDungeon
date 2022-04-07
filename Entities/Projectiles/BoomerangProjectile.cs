@@ -11,6 +11,8 @@ namespace ZeldaDungeon.Entities.Projectiles
     {
         public ISprite BoomerangSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
+
+        private CollisionHandler collision;
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private Point TopLeft
         {
@@ -49,6 +51,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             velocity = isMagic ? magicSpeed : normalSpeed;
             rand = new Random();
             currentFrame = 0;
+            collision = new CollisionHandler(g.CurrentRoom, this);
         }
 
         public void Move() // TODO - check for colliding with walls? 
@@ -62,7 +65,12 @@ namespace ZeldaDungeon.Entities.Projectiles
             else
             {
                 path = EntityUtils.Offset(new Point(), targetDir, 1);
+                if (collision.WillHitBlock(CurrentLoc))
+                {
+                    velocity = 0;
+                }
             }
+
             var pathVec = path.ToVector2();
             // if will reach the thrower, it ceases to exist
             if (pathVec.Length() < velocity && isReturning)
@@ -96,14 +104,14 @@ namespace ZeldaDungeon.Entities.Projectiles
                 else
                 {
                     velocity -= SpriteUtil.SCALE_FACTOR / 3;
-                    if (velocity == 0)
+                    if (velocity <= 0)
                     {
+                        velocity = 0;
                         isReturning = true;
                     }
                 }
             }
             Move();
-
             BoomerangSprite.Update();
         }
 
@@ -120,10 +128,12 @@ namespace ZeldaDungeon.Entities.Projectiles
             if (target is IEnemy en && friendly)
             {
                 en.TakeDamage();
+                if (!isReturning) velocity = 0;
             }
             else if (target is ILink link && !friendly)
             {
                 link.TakeDamage();
+                if (!isReturning) velocity = 0;
             }
         }
     }

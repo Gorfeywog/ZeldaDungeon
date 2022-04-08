@@ -112,7 +112,7 @@ namespace ZeldaDungeon
             }
             Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y + SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
-            spriteBatch.Begin(transformMatrix: translator);
+            spriteBatch.Begin(transformMatrix: translator, samplerState: SamplerState.PointClamp);
             CurrentRoom.DrawAll(spriteBatch);
             if (State == GameState.RoomTransition)
             {

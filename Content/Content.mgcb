@@ -289,6 +289,12 @@
 /processorParam:Quality=Best
 /build:SoundEffects/UpgradedMagicalBoomerangThrown.wav
 
+#begin SoundEffects/WalkingOnStairs.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/WalkingOnStairs.wav
+
 #begin uisprites.png
 /importer:TextureImporter
 /processor:TextureProcessor

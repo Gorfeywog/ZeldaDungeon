@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public Rectangle CurrentLoc { get; set; }
 		public bool ReadyToDespawn { get; private set; }
 		public DrawLayer Layer { get => DrawLayer.Normal; }
-		private static int maxFrame = 20;
+		private static int maxFrame = 12;
 		private int currentFrame;
 		private static readonly int speed = 2 * SpriteUtil.SCALE_FACTOR;
 		private Direction dir;

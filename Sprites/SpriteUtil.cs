@@ -7,7 +7,7 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 5; // Scale factor of destination rectangles 
+        public static readonly int SCALE_FACTOR = 4; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
 
         //Door positions
@@ -27,6 +27,7 @@ namespace ZeldaDungeon.Sprites
         public static readonly int GENERIC_RUPEE_ROLL_CAP = 10;
         public static readonly int GENERIC_RUPEE_THRESHOLD = 6;
         public static readonly int GENERIC_5_RUPEE_THRESHOLD = 9;
+        public static readonly int MAGIC_ARROW_THRESHOLD = 2;
 
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;

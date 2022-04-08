@@ -91,6 +91,13 @@ namespace ZeldaDungeon.Entities.Enemies
         public void DespawnEffect()
         {
             int rupeeRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
+            if (rupeeRoll > SpriteUtil.MAGIC_ARROW_THRESHOLD)
+            {
+                r.RegisterEntity(new ArrowPickup(CurrentLoc.Location, r.G, true));
+            } else
+            {
+                r.RegisterEntity(new ArrowPickup(CurrentLoc.Location, r.G, false));
+            }
             if (rupeeRoll > SpriteUtil.GENERIC_5_RUPEE_THRESHOLD)
             {
                 r.RegisterEntity(new RupeePickup(CurrentLoc.Location, 5));

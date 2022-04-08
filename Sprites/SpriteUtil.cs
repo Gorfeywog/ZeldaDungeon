@@ -44,6 +44,14 @@ namespace ZeldaDungeon.Sprites
         public static readonly int HUD_WIDTH = 256;
         public static readonly int HUD_HEIGHT = 56;
 
+        //Inventory sizes
+        public static readonly int INVENTORY_WIDTH = 256;
+        public static readonly int INVENTORY_HEIGHT = 88;
+
+        //Map sizes
+        public static readonly int MAP_WIDTH = 256;
+        public static readonly int MAP_HEIGHT = 88;
+
         //Global random number generator for use in all classes
         public static readonly Random Rand = new Random();
 

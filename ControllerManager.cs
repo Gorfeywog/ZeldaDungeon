@@ -41,6 +41,7 @@ namespace ZeldaDungeon
         {
             keyboardCon.RegisterCommand(Keys.Q, new Quit(g));
             keyboardCon.RegisterCommand(Keys.R, new Reset(g));
+            keyboardCon.RegisterCommand(Keys.Escape, new PauseMenu(g));
             ICommand linkUp = new MoveLink(g, Direction.Up);
             ICommand linkDown = new MoveLink(g, Direction.Down);
             ICommand linkLeft = new MoveLink(g, Direction.Left);

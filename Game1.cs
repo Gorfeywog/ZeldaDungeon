@@ -154,6 +154,11 @@ namespace ZeldaDungeon
             SetupPlayer();
         }
 
+        public void PauseMenu()
+        {
+            State = GameState.PauseMenu;
+        }
+
         public void TeleportToRoom(int index)
         {
             oldRoom = CurrentRoom;

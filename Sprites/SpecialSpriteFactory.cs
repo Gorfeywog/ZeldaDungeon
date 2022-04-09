@@ -16,6 +16,8 @@ namespace ZeldaDungeon.Sprites
     {
         private Texture2D wallsSprite;
         private Texture2D hudSprite;
+        private Texture2D inventorySprite;
+        private Texture2D mapSprite;
 
         private static SpecialSpriteFactory instance = new SpecialSpriteFactory();
 

@@ -1,15 +1,20 @@
 ﻿using System;
+using ZeldaDungeon;
+using ZeldaDungeon.Commands;
 
-public class OpenMenu
+namespace ZeldaDungeon.Commands
 {
-    private Game1 g;
-    public OpenMenu(Game1 g)
+    public class OpenMenu : ICommand
     {
-        this.g = g;
-    }
+        private Game1 g;
+        public OpenMenu(Game1 g)
+        {
+            this.g = g;
+        }
 
-    public void Execute()
-    {
-        g.PauseMenu();
+        public void Execute()
+        {
+            g.PauseMenu();
+        }
     }
 }

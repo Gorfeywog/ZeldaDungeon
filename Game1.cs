@@ -26,6 +26,8 @@ namespace ZeldaDungeon
         private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
         // TODO: declare a variable to draw the HUD Sprite somehow
         private HUD static_HUD;
+
+        private PauseMenu static_PauseMenu;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => Rooms.Count; }
         public Room CurrentRoom { get => Rooms[CurrentRoomIndex]; }
@@ -52,6 +54,7 @@ namespace ZeldaDungeon
             SetupRooms();
             SetupPlayer();
             static_HUD = new HUD(this);
+            static_PauseMenu = new PauseMenu(this);
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
             SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
@@ -94,6 +97,11 @@ namespace ZeldaDungeon
                         State = GameState.Normal;
                     }
                     break;
+                case GameState.PauseMenu:
+                    controllers.Update();
+                    static_HUD.Update();
+                    static_PauseMenu.Update();
+                    break;
             }
 
             base.Update(gameTime);
@@ -102,6 +110,7 @@ namespace ZeldaDungeon
         protected override void Draw(GameTime gameTime)
         {
             Point windowTopLeft = default; // default assignment just so it compiles; will never actually be used
+            Point pauseMenuTopLeft = new Point(windowTopLeft.X, windowTopLeft.Y - (SpriteUtil.HUD_HEIGHT + SpriteUtil.MAP_HEIGHT + SpriteUtil.INVENTORY_HEIGHT) * SpriteUtil.SCALE_FACTOR);
             if (State == GameState.Normal)
             {
                 windowTopLeft = CurrentRoom.TopLeft;
@@ -110,15 +119,26 @@ namespace ZeldaDungeon
             {
                 windowTopLeft = EntityUtils.Interpolate(oldRoom.TopLeft, CurrentRoom.TopLeft, roomTransFrame, roomTransFrameCount);
             }
+            else if (State == GameState.PauseMenu)
+            {
+                //windowTopLeft = EntityUtils.Interpolate(windowTopLeft, pauseMenuTopLeft, roomTransFrame, roomTransFrameCount);
+            }
             Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y + SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
             spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(spriteBatch);
+            Point hudOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            Point mapOffset = new Point(windowTopLeft.X, hudOffset.Y - SpriteUtil.MAP_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            Point inventoryOffset = new Point(windowTopLeft.X, mapOffset.Y - SpriteUtil.INVENTORY_HEIGHT * SpriteUtil.SCALE_FACTOR);
             if (State == GameState.RoomTransition)
             {
                 oldRoom.DrawAll(spriteBatch);
+            } 
+            else if (State == GameState.PauseMenu)
+            {
+                static_PauseMenu.Draw(spriteBatch, hudOffset, mapOffset, inventoryOffset);
             }
-            Point hudOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            
             static_HUD.Draw(spriteBatch, hudOffset);
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
@@ -153,7 +173,6 @@ namespace ZeldaDungeon
             SetupRooms();
             SetupPlayer();
         }
-
         public void PauseMenu()
         {
             State = GameState.PauseMenu;

@@ -71,27 +71,10 @@ namespace ZeldaDungeon.Entities.Enemies
 
             //Determines which way to move
             int locChange = 4 * SpriteUtil.SCALE_FACTOR;
-            switch (currDirection)
+            Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
+            if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))
             {
-                //TODO: implement collision checking.
-                case Direction.Left:
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
-                    break;
-
-                case Direction.Right:
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
-                    break;
-
-                case Direction.Up:
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
-                    break;
-
-                case Direction.Down:
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
-                    break;
-
-                default:
-                    break;
+                CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
             }
 
         }
@@ -103,6 +86,7 @@ namespace ZeldaDungeon.Entities.Enemies
             if (damageCountdown == 0)
             {
                 currentHealth--;
+                SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
 
@@ -133,9 +117,15 @@ namespace ZeldaDungeon.Entities.Enemies
         public void DespawnEffect()
         {
             int rupeeRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
+            int heartRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
+            if (heartRoll > SpriteUtil.HEART_THRESHOLD)
+            {
+                r.RegisterEntity(new HeartPickup(CurrentLoc.Location));
+            }
             if (rupeeRoll > SpriteUtil.GENERIC_5_RUPEE_THRESHOLD)
             {
-                r.RegisterEntity(new RupeePickup(CurrentLoc.Location, 5));
+                int count = 5;
+                r.RegisterEntity(new RupeePickup(CurrentLoc.Location, count));
             }
             else if (rupeeRoll > SpriteUtil.GENERIC_RUPEE_THRESHOLD)
             {

@@ -26,6 +26,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
         public void PickUp(ILink player)
         {
+            SoundManager.Instance.PlaySound("HealthHeart");
             player.Heal(2);
         }
         public void DespawnEffect() { }

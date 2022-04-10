@@ -128,18 +128,25 @@ namespace ZeldaDungeon
             spriteBatch.Begin(transformMatrix: translator);
             CurrentRoom.DrawAll(spriteBatch);
             Point hudOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            Point mapOffset = new Point(windowTopLeft.X, hudOffset.Y - SpriteUtil.MAP_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            Point inventoryOffset = new Point(windowTopLeft.X, mapOffset.Y - SpriteUtil.INVENTORY_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            if (State == GameState.RoomTransition)
+
+            Point inventoryOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            Point mapOffset = new Point(windowTopLeft.X, inventoryOffset.Y + SpriteUtil.INVENTORY_HEIGHT * SpriteUtil.SCALE_FACTOR);
+            Point temp = new Point(windowTopLeft.X, mapOffset.Y + (SpriteUtil.MAP_HEIGHT) * SpriteUtil.SCALE_FACTOR);
+            
+            if (State == GameState.Normal)
+            {
+                static_HUD.Draw(spriteBatch, hudOffset);
+            }
+            else if (State == GameState.RoomTransition)
             {
                 oldRoom.DrawAll(spriteBatch);
+                static_HUD.Draw(spriteBatch, hudOffset);
             } 
             else if (State == GameState.PauseMenu)
             {
-                static_PauseMenu.Draw(spriteBatch, hudOffset, mapOffset, inventoryOffset);
+                static_PauseMenu.Draw(spriteBatch, temp, mapOffset, inventoryOffset);
             }
             
-            static_HUD.Draw(spriteBatch, hudOffset);
             Player.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();
@@ -175,7 +182,15 @@ namespace ZeldaDungeon
         }
         public void PauseMenu()
         {
-            State = GameState.PauseMenu;
+            if (State == GameState.Normal)
+            {
+                State = GameState.PauseMenu;
+            } 
+            else if (State == GameState.PauseMenu)
+            {
+                State = GameState.Normal;
+            }
+
         }
 
         public void TeleportToRoom(int index)

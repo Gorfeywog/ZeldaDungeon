@@ -46,7 +46,7 @@ namespace ZeldaDungeon.UI
             HUDSprite.Draw(spriteBatch, destRectangle);
             MapSprite.Draw(spriteBatch, mapRec);
             InventorySprite.Draw(spriteBatch, inventoryRec);
-            mapManager.Draw(spriteBatch, HUDPos, new Point());
+            mapManager.Draw(spriteBatch, HUDPos, MapPos);
             healthManager.Draw(spriteBatch, HUDPos);
             rupeeManager.Draw(spriteBatch, HUDPos);
             keyManager.Draw(spriteBatch, HUDPos);

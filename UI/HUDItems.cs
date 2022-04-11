@@ -13,7 +13,6 @@ namespace ZeldaDungeon.UI
         private ISprite boomerang;
         private ISprite bow;
         private ISprite specialBoomerang;
-        private readonly int ITEM_NUM = 2;
         public HUDItems()
         {
             sword = ItemSpriteFactory.Instance.CreateSword(Entities.Direction.Up);

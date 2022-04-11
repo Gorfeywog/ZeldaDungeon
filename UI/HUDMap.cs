@@ -31,7 +31,7 @@ namespace ZeldaDungeon.UI
                     Point dest1 = gridTopLeft + new Point(i * scaledLen1, j * scaledHeight1);
                     Point size1 = new Point(scaledLen1, scaledHeight1);
                     Rectangle destRect1 = new Rectangle(dest1, size1);
-                    if (true)
+                    if (curRoom.RoomKnown)
                     {
                         room.Draw(spriteBatch, destRect1);
                     }
@@ -42,11 +42,11 @@ namespace ZeldaDungeon.UI
                     Point dest2 = dest1 + new Point(scaledOffsetX, scaledOffsetY);
                     Point size2 = new Point(scaledLen2, scaledHeight2);
                     Rectangle destRect2 = new Rectangle(dest2, size2);
-                    if (true)
+                    if (curRoom.HasLink)
                     {
                         linkIndic.Draw(spriteBatch, destRect2);
                     }
-                    else if (true)
+                    else if (curRoom.HasTriforce)
                     {
                         triforceIndic.Draw(spriteBatch, destRect2);
                     }

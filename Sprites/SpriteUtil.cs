@@ -7,7 +7,7 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 4; // Scale factor of destination rectangles 
+        public static readonly int SCALE_FACTOR = 5; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
 
         //Door positions
@@ -50,6 +50,20 @@ namespace ZeldaDungeon.Sprites
         //Inventory sizes
         public static readonly int INVENTORY_WIDTH = 256;
         public static readonly int INVENTORY_HEIGHT = 88;
+
+        // Offset between each item in pause menu's inventory
+        public static readonly int PAUSE_ITEM_OFFSET_X = 69;
+        public static readonly int PAUSE_ITEM_OFFSET_Y = 48;
+        public static readonly int PAUSE_ITEM_Y_GAP = 20;
+
+        // static positions for map, compass, and active item in inventory
+        public static readonly int ACTIVE_ITEM_X = 61;
+        public static readonly int ACTIVE_ITEM_Y = 45;
+        public static readonly int MAP_POS_X = 48;
+        public static readonly int MAP_POS_Y = 55;
+        public static readonly int COMPASS_POS_X = 48;
+        public static readonly int COMPASS_POS_Y = 95;
+
 
         //Map sizes
         public static readonly int MAP_WIDTH = 256;

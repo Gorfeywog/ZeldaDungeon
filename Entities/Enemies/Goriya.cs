@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Goriya : IEnemy
     {
         public bool ReadyToDespawn { get; private set; }
+        public bool isFriendly { get => false; }
 
         public ISprite GoriyaSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }

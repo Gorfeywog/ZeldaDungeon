@@ -10,6 +10,8 @@ namespace ZeldaDungeon.Entities.Enemies
         public ISprite OldManSprite { get; set; }
         public bool ReadyToDespawn => false;
 
+        public bool isFriendly { get => true; }
+
         public Rectangle CurrentLoc { get; set; }
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Normal; }

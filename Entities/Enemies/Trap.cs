@@ -11,6 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public Rectangle CurrentLoc { get; set; }
         public bool ReadyToDespawn => false;
 
+        public bool isFriendly { get => false; }
 
         private Point initPoint;
         private Direction dir;

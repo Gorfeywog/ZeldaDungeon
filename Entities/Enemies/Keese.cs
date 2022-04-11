@@ -16,6 +16,8 @@ namespace ZeldaDungeon.Entities.Enemies
         public CollisionHeight Height { get => CollisionHeight.High; }
         public DrawLayer Layer { get => DrawLayer.High; }
         public EntityList roomEntities;
+        public bool isFriendly { get => false; }
+
         public Rectangle CurrentLoc { get; set; }
         private int currentHealth;
         private int damageCountdown = 0;

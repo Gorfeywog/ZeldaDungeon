@@ -15,7 +15,7 @@ namespace ZeldaDungeon.Entities
         public Room CurrentRoom { get; }
         public int CurrentHealth { get; }
         public int MaxHealth { get; }
-
+        public bool SwordIsThrown { get; set; }
         public CollisionHeight Height { get; }
         public void ChangeDirection(Direction nextDirection);
         public void StartWalking();

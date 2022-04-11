@@ -17,7 +17,9 @@ namespace ZeldaDungeon.Entities.Pickups
         {
             int width = (int)SpriteUtil.SpriteSize.TriforceWidth;
             int height = (int)SpriteUtil.SpriteSize.TriforceLength;
-            CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            int offset = 8;
+            CurrentLoc = new Rectangle(new Point(position.X + (offset * SpriteUtil.SCALE_FACTOR), position.Y),
+                new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -84,6 +84,7 @@ namespace ZeldaDungeon.Entities.Enemies
             if (damageCountdown == 0)
             {
                 CurrentHealth--;
+                SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
             if (CurrentHealth == 0) ReadyToDespawn = true;

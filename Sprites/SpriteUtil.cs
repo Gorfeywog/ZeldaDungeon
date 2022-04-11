@@ -23,10 +23,13 @@ namespace ZeldaDungeon.Sprites
         public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
         public static readonly int GENERIC_MAX_HEALTH = 2;
 
-        // chances of rupee drops
-        public static readonly int GENERIC_RUPEE_ROLL_CAP = 10;
+        // chances of drops
+        public static readonly int GENERIC_RUPEE_ROLL_CAP = 11;
         public static readonly int GENERIC_RUPEE_THRESHOLD = 6;
         public static readonly int GENERIC_5_RUPEE_THRESHOLD = 9;
+        public static readonly int MAGIC_ARROW_THRESHOLD = 2;
+        public static readonly int BOMB_THRESHOLD = 7;
+        public static readonly int HEART_THRESHOLD = 8;
 
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;

@@ -56,7 +56,6 @@ namespace ZeldaDungeon.Entities.Projectiles
 			if (target is IEnemy en && !en.isFriendly)
 			{
 				en.TakeDamage();
-				ReadyToDespawn = true;
 			}
 		}
 

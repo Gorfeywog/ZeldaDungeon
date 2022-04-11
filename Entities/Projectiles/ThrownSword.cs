@@ -54,7 +54,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public void Update()
 		{
 			currentFrame++;
-			ReadyToDespawn = collision.WillHitBlock(CurrentLoc);
+			if (!ReadyToDespawn) ReadyToDespawn = collision.WillHitBlock(CurrentLoc);
 			Move();
 			SwordSprite.Update();
 		}

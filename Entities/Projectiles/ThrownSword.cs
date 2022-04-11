@@ -55,7 +55,6 @@ namespace ZeldaDungeon.Entities.Projectiles
 		{
 			currentFrame++;
 			ReadyToDespawn = collision.WillHitBlock(CurrentLoc);
-			//if (currentFrame > maxFrame) { ReadyToDespawn = true; }
 			Move();
 			SwordSprite.Update();
 		}
@@ -75,6 +74,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             {
 				g.CurrentRoom.RegisterEntity(new SwordProj(CurrentLoc.Location, d));
             }
+			g.Player.SwordIsThrown = false;
         }
 	}
 }

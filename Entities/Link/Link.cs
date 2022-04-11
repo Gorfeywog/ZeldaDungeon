@@ -18,7 +18,7 @@ namespace ZeldaDungeon.Entities.Link
         private LinkInventory inv { get; set; }
         private Game1 g;
         public Room CurrentRoom { get => g.CurrentRoom; }
-
+        public bool SwordIsThrown { get; set; }
         private CollisionHandler collision;
         private SoundManager sound;
         public CollisionHeight Height { get => CollisionHeight.Normal; }
@@ -116,7 +116,7 @@ namespace ZeldaDungeon.Entities.Link
         public void Attack()
         {
             bool success = stateMachine.Attack();
-            if (success)
+            if (success && !SwordIsThrown)
             {
                 Point size;
                 int width = (int)SpriteUtil.SpriteSize.SwordWidth * SpriteUtil.SCALE_FACTOR;
@@ -136,6 +136,7 @@ namespace ZeldaDungeon.Entities.Link
                 g.CurrentRoom.RegisterEntity(new StaticSword(pos, Direction, g));
                 if (stateMachine.FullHealth)
                 {
+                    SwordIsThrown = true;
                     g.CurrentRoom.RegisterEntity(new ThrownSword(pos, Direction, g));
                 }
             }

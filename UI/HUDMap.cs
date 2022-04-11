@@ -13,6 +13,7 @@ namespace ZeldaDungeon.UI
         private ISprite linkIndic;
         private ISprite triforceIndic;
         private ISprite room;
+        private int dim0 = 0, dim1 = 1;
         public HUDMap()
         {
             linkIndic = HUDSpriteFactory.Instance.CreateSmallMapLinkIndicator();
@@ -21,9 +22,9 @@ namespace ZeldaDungeon.UI
         }
         public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, MapRoomState[,] mapGrid)
         {
-            for (int i = 0; i < mapGrid.GetLength(0); i++)
+            for (int i = 0; i < mapGrid.GetLength(dim0); i++)
             {
-                for (int j = 0; j < mapGrid.GetLength(1); j++)
+                for (int j = 0; j < mapGrid.GetLength(dim1); j++)
                 {
                     var curRoom = mapGrid[i, j];
                     int scaledLen1 = (int)SpriteUtil.SpriteSize.SmallMapRoomWidth * SpriteUtil.SCALE_FACTOR;

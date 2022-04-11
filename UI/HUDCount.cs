@@ -25,6 +25,8 @@ namespace ZeldaDungeon.UI
             inventory = g.Player.GetInv();
             x = HUDSpriteFactory.Instance.CreateX();
             nums = new ISprite[TOTAL_NUM];
+
+            //Index corresponds to number being created
             nums[0] = HUDSpriteFactory.Instance.CreateNumber0();
             nums[1] = HUDSpriteFactory.Instance.CreateNumber1();
             nums[2] = HUDSpriteFactory.Instance.CreateNumber2();
@@ -56,7 +58,8 @@ namespace ZeldaDungeon.UI
                 {
                     dest = topLeft + new Point(i * scaledWidth, 0);
                     destRect = new Rectangle(dest, size);
-                    if (itemCount > 19 && i == pos1)
+                    int maxItemCount = 19;
+                    if (itemCount > maxItemCount && i == pos1)
                     {
                         nums[2].Draw(spriteBatch, destRect);
                         itemCount = itemCount - (TOTAL_NUM * 2);

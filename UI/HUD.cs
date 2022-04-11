@@ -18,7 +18,7 @@ namespace ZeldaDungeon.UI
         private RupeeManager rupeeManager;
         private KeyManager keyManager;
         private BombManager bombManager;
-        private ItemManager itemManager;
+        private ItemHUDManager itemHUDManager;
         private Game1 g;
         public HUD(Game1 g)
         {
@@ -29,7 +29,8 @@ namespace ZeldaDungeon.UI
             rupeeManager = new RupeeManager(g);
             keyManager = new KeyManager(g);
             bombManager = new BombManager(g);
-            itemManager = new ItemManager(g);
+            itemHUDManager = new ItemHUDManager(g);
+
         }
 
         public void Draw(SpriteBatch spriteBatch, Point HUDPos)
@@ -41,8 +42,8 @@ namespace ZeldaDungeon.UI
             rupeeManager.Draw(spriteBatch, HUDPos);
             keyManager.Draw(spriteBatch, HUDPos);
             bombManager.Draw(spriteBatch, HUDPos);
-            itemManager.Draw(spriteBatch, HUDPos, new Point());
-            
+            itemHUDManager.Draw(spriteBatch, HUDPos);
+
         }
 
         public void Update()
@@ -55,7 +56,7 @@ namespace ZeldaDungeon.UI
             rupeeManager.Update();
             keyManager.Update();
             bombManager.Update();
-            itemManager.Update();
+            itemHUDManager.Update();
         }
     }
 }

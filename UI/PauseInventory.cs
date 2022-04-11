@@ -11,31 +11,71 @@ namespace ZeldaDungeon.UI
 {
     class PauseInventory
     {
-        private ISprite sword;
         private ISprite boomerang;
         private ISprite bow;
         private ISprite specialBoomerang;
+        private ISprite compass;
+        private ISprite map;
+        private ISprite candle;
+        private bool special = true;
+        private bool redCandle = true;
         private IDictionary<IItem, int> itemDict;
         private LinkInventory inventory;
-        public PauseInventory()
+        private Game1 g;
+        public PauseInventory(Game1 g)
         {
-            sword = ItemSpriteFactory.Instance.CreateSword(Entities.Direction.Up);
+            this.g = g;
             boomerang = ItemSpriteFactory.Instance.CreateWoodenBoomerang();
             bow = ItemSpriteFactory.Instance.CreateBow();
             specialBoomerang = EnemySpriteFactory.Instance.CreateStaticMagicBoomerangSprite();
+            compass = ItemSpriteFactory.Instance.CreateCompass();
+            map = ItemSpriteFactory.Instance.CreateMap();
+            candle = ItemSpriteFactory.Instance.CreateCandle(redCandle);
+            candle = ItemSpriteFactory.Instance.CreateCandle(!redCandle);
             inventory = g.Player.GetInv();
-    }
+        }
 
-        public void Draw(SpriteBatch spriteBatch, Point itemTopLeft, IItem item)
+        public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
         {
             itemDict = inventory.GetDict();
+            
+            if (itemDict.ContainsKey(new BowItem()))
+            {
+                int scaledWidth = (int)SpriteUtil.SpriteSize.BowWidth * SpriteUtil.SCALE_FACTOR;
+                int scaledHeight = (int)SpriteUtil.SpriteSize.BowLength * SpriteUtil.SCALE_FACTOR;
+                Point dest = itemTopLeft;
+                Point size = new Point(scaledWidth, scaledHeight);
+                Rectangle destRect = new Rectangle(dest, size);
+                bow.Draw(spriteBatch, destRect);
+            }
+            // check for normal boomerang
+            if (itemDict.ContainsKey(new BoomerangItem(g, !special)))
+            {
 
-            int swordScaledWidth = (int)(SpriteUtil.SpriteSize.SwordWidth - 1) * SpriteUtil.SCALE_FACTOR;
-            int swordScaledHeight = (int)(SpriteUtil.SpriteSize.SwordLength - 2) * SpriteUtil.SCALE_FACTOR;
-            Point dest = itemTopLeft;
-            Point swordSize = new Point(swordScaledWidth, swordScaledHeight);
-            Rectangle destRect = new Rectangle(dest, swordSize);
-            sword.Draw(spriteBatch, destRect);
+            }
+            // check for special boomerang
+            if (itemDict.ContainsKey(new BoomerangItem(g, special)))
+            {
+
+            }
+            if (itemDict.ContainsKey(new CompassItem()))
+            {
+
+            }
+            if (itemDict.ContainsKey(new MapItem()))
+            {
+
+            }
+            if (itemDict.ContainsKey(new CandleItem(g, redCandle)))
+            {
+
+            }
+            if (itemDict.ContainsKey(new CandleItem(g, !redCandle)))
+            {
+
+            }
+            
+            
         }
 
         public void Update()

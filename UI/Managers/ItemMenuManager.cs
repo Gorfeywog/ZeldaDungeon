@@ -12,12 +12,9 @@ namespace ZeldaDungeon.UI.Managers
 
     class ItemMenuManager
     {
-        public static readonly int PAUSE_ITEM_BIG_OFFSET_X = 129;
-        public static readonly int PAUSE_ITEM_SMALL_OFFSET_X = 69;
-        public static readonly int PAUSE_ITEM_OFFSET_Y = 49;
+        public static readonly int FIRST_PAUSE_ITEM_OFFSET_X = 129;
         private Game1 g;
         private PauseInventory pauseItems;
-        private IItem item;
 
         public ItemMenuManager(Game1 g)
         {
@@ -26,8 +23,9 @@ namespace ZeldaDungeon.UI.Managers
         }
 
         public void Draw(SpriteBatch spriteBatch, Point pausePos)
-        { 
-
+        {
+            Point hudItemsTopLeft = pausePos + new Point(SpriteUtil.SCALE_FACTOR * FIRST_PAUSE_ITEM_OFFSET_X, SpriteUtil.SCALE_FACTOR * SpriteUtil.PAUSE_ITEM_OFFSET_Y);
+            pauseItems.Draw(spriteBatch, hudItemsTopLeft);
 
         }
 

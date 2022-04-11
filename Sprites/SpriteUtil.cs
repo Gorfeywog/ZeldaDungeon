@@ -7,7 +7,7 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 5; // Scale factor of destination rectangles 
+        public static readonly int SCALE_FACTOR = 4; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
 
         //Door positions
@@ -43,6 +43,14 @@ namespace ZeldaDungeon.Sprites
         //HUD sizes
         public static readonly int HUD_WIDTH = 256;
         public static readonly int HUD_HEIGHT = 56;
+
+        //Inventory sizes
+        public static readonly int INVENTORY_WIDTH = 256;
+        public static readonly int INVENTORY_HEIGHT = 88;
+
+        //Map sizes
+        public static readonly int MAP_WIDTH = 256;
+        public static readonly int MAP_HEIGHT = 88;
 
         //Global random number generator for use in all classes
         public static readonly Random Rand = new Random();

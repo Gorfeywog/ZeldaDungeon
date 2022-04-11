@@ -13,20 +13,26 @@ namespace ZeldaDungeon.UI
         public static readonly int MAP_GRID_LENGTH = 8;
         public static readonly int HUD_MAP_OFFSET_X = 16;
         public static readonly int HUD_MAP_OFFSET_Y = 8;
+        public static readonly int PAUSE_MAP_OFFSET_X = 126;
+        public static readonly int PAUSE_MAP_OFFSET_Y = 10;
         private Game1 g;
         private MapRoomState[,] mapGrid;
         private HUDMap hudMap;
+        private PauseMap pauseMap;
         public MapManager(Game1 g)
         {
             this.g = g;
             mapGrid = new MapRoomState[MAP_GRID_LENGTH, MAP_GRID_LENGTH];
             hudMap = new HUDMap();
+            pauseMap = new PauseMap();
         }
         public void Draw(SpriteBatch spriteBatch, Point hudPos, Point pausePos)
         {
             Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);
             hudMap.Draw(spriteBatch, hudMapTopLeft, mapGrid);
-            // TODO - add big map
+
+            Point pauseMapTopLeft = pausePos + new Point(PAUSE_MAP_OFFSET_X * SpriteUtil.SCALE_FACTOR, PAUSE_MAP_OFFSET_Y * SpriteUtil.SCALE_FACTOR);
+            pauseMap.Draw(spriteBatch, pauseMapTopLeft, mapGrid);
         }
 
         public void Update(bool hasMap, bool hasCompass)

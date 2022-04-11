@@ -16,6 +16,8 @@ namespace ZeldaDungeon.Sprites
     {
         private Texture2D wallsSprite;
         private Texture2D hudSprite;
+        private Texture2D inventorySprite;
+        private Texture2D mapSprite;
 
         private static SpecialSpriteFactory instance = new SpecialSpriteFactory();
 
@@ -34,6 +36,8 @@ namespace ZeldaDungeon.Sprites
         {
             wallsSprite = content.Load<Texture2D>("roomwalls");
             hudSprite = content.Load<Texture2D>("HUD_UI");
+            inventorySprite = content.Load<Texture2D>("Inventory_UI");
+            mapSprite = content.Load<Texture2D>("Map_UI");
         }
 
         public ISprite CreateWalls()
@@ -44,6 +48,16 @@ namespace ZeldaDungeon.Sprites
         public ISprite CreateHUD()
         {
             return new StaticSprite(hudSprite, new Rectangle(0, 0, SpriteUtil.HUD_WIDTH, SpriteUtil.HUD_HEIGHT));
+        }
+
+        public ISprite CreateInventory()
+        {
+            return new StaticSprite(inventorySprite, new Rectangle(0, 0, SpriteUtil.INVENTORY_WIDTH, SpriteUtil.INVENTORY_HEIGHT));
+        }
+
+        public ISprite CreateMap()
+        {
+            return new StaticSprite(mapSprite, new Rectangle(0, 0, SpriteUtil.MAP_WIDTH, SpriteUtil.MAP_HEIGHT));
         }
     }
 }

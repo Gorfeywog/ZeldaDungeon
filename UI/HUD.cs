@@ -41,7 +41,7 @@ namespace ZeldaDungeon.UI
             rupeeManager.Draw(spriteBatch, HUDPos);
             keyManager.Draw(spriteBatch, HUDPos);
             bombManager.Draw(spriteBatch, HUDPos);
-            itemManager.Draw(spriteBatch, HUDPos);
+            itemManager.Draw(spriteBatch, HUDPos, new Point());
             
         }
 

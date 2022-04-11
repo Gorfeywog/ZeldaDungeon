@@ -138,6 +138,7 @@ namespace ZeldaDungeon.Entities.Link
                 {
                     SwordIsThrown = true;
                     g.CurrentRoom.RegisterEntity(new ThrownSword(pos, Direction, g));
+                    sound.PlaySound("SwordZapSFX");
                 }
             }
 

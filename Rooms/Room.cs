@@ -146,18 +146,31 @@ namespace ZeldaDungeon.Rooms
         }
         public bool UnlockDoor(Direction dir) 
         {
-            SoundManager.Instance.PlaySound("DoorOpened");
-            return doors[dir].Unlock();
+            bool unlockingDoor = doors[dir].Unlock();
+            if (unlockingDoor)
+            {
+                SoundManager.Instance.PlaySound("DoorOpened");
+            }
+
+            return unlockingDoor;
         }
         public bool ExplodeDoor(Direction dir)
         {
-            SoundManager.Instance.PlaySound("DoorOpened");
-            return doors[dir].Explode();
+            bool explodingDoor = doors[dir].Explode();
+            if (explodingDoor)
+            {
+                SoundManager.Instance.PlaySound("DoorOpened");
+            }
+            return explodingDoor;
         }
         public bool OpenDoor(Direction dir)
         {
-            SoundManager.Instance.PlaySound("DoorOpened");
-            return doors[dir].Open();
+            bool openingDoor = doors[dir].Open();
+            if (openingDoor)
+            {
+                SoundManager.Instance.PlaySound("DoorOpened");
+            }
+            return openingDoor;
         }
         public void UseClock()
         {

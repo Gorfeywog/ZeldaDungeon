@@ -62,6 +62,7 @@ namespace ZeldaDungeon.Entities.Enemies
             if (damageCountdown == 0)
             {
                 currentHealth--;
+                SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
             if (currentHealth == 0) ReadyToDespawn = true;
@@ -91,9 +92,20 @@ namespace ZeldaDungeon.Entities.Enemies
         public void DespawnEffect()
         {
             int rupeeRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
+            int bombRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
+            int heartRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
+            if (bombRoll > SpriteUtil.BOMB_THRESHOLD)
+            {
+                r.RegisterEntity(new BombPickup(CurrentLoc.Location, r.G));
+            }
+            if (heartRoll > SpriteUtil.HEART_THRESHOLD)
+            {
+                r.RegisterEntity(new HeartPickup(CurrentLoc.Location));
+            }
             if (rupeeRoll > SpriteUtil.GENERIC_5_RUPEE_THRESHOLD)
             {
-                r.RegisterEntity(new RupeePickup(CurrentLoc.Location, 5));
+                int count = 5;
+                r.RegisterEntity(new RupeePickup(CurrentLoc.Location, count));
             }
             else if (rupeeRoll > SpriteUtil.GENERIC_RUPEE_THRESHOLD)
             {

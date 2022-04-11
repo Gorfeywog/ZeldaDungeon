@@ -7,7 +7,7 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 5; // Scale factor of destination rectangles 
+        public static readonly int SCALE_FACTOR = 4; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
 
         //Door positions
@@ -23,10 +23,13 @@ namespace ZeldaDungeon.Sprites
         public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
         public static readonly int GENERIC_MAX_HEALTH = 2;
 
-        // chances of rupee drops
-        public static readonly int GENERIC_RUPEE_ROLL_CAP = 10;
+        // chances of drops
+        public static readonly int GENERIC_RUPEE_ROLL_CAP = 11;
         public static readonly int GENERIC_RUPEE_THRESHOLD = 6;
         public static readonly int GENERIC_5_RUPEE_THRESHOLD = 9;
+        public static readonly int MAGIC_ARROW_THRESHOLD = 2;
+        public static readonly int BOMB_THRESHOLD = 7;
+        public static readonly int HEART_THRESHOLD = 8;
 
         //Default position of link
         public static readonly int LINK_DEFAULT_SPAWN = 32;
@@ -43,6 +46,28 @@ namespace ZeldaDungeon.Sprites
         //HUD sizes
         public static readonly int HUD_WIDTH = 256;
         public static readonly int HUD_HEIGHT = 56;
+
+        //Inventory sizes
+        public static readonly int INVENTORY_WIDTH = 256;
+        public static readonly int INVENTORY_HEIGHT = 88;
+
+        // Offset between each item in pause menu's inventory
+        public static readonly int PAUSE_ITEM_OFFSET_X = 69;
+        public static readonly int PAUSE_ITEM_OFFSET_Y = 48;
+        public static readonly int PAUSE_ITEM_Y_GAP = 20;
+
+        // static positions for map, compass, and active item in inventory
+        public static readonly int ACTIVE_ITEM_X = 61;
+        public static readonly int ACTIVE_ITEM_Y = 45;
+        public static readonly int MAP_POS_X = 48;
+        public static readonly int MAP_POS_Y = 55;
+        public static readonly int COMPASS_POS_X = 48;
+        public static readonly int COMPASS_POS_Y = 95;
+
+
+        //Map sizes
+        public static readonly int MAP_WIDTH = 256;
+        public static readonly int MAP_HEIGHT = 88;
 
         //Global random number generator for use in all classes
         public static readonly Random Rand = new Random();

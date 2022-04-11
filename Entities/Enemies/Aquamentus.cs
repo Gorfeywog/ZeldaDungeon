@@ -110,9 +110,12 @@ namespace ZeldaDungeon.Entities.Enemies
 				currentHealth--;
 				damageCountdown = SpriteUtil.DAMAGE_DELAY;
 				SoundManager.Instance.PlaySound("BossZapped");
+            }
+            if (currentHealth == 0)
+            {
+                ReadyToDespawn = true;
                 SoundManager.Instance.PlaySound("BossRoaring");
             }
-            if (currentHealth == 0) ReadyToDespawn = true;
 			AquamentusSprite.Damaged = true;
 
 		}
@@ -147,7 +150,8 @@ namespace ZeldaDungeon.Entities.Enemies
             int rupeeRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
             if (rupeeRoll > SpriteUtil.GENERIC_5_RUPEE_THRESHOLD)
             {
-                r.RegisterEntity(new RupeePickup(CurrentLoc.Location, 5));
+                int count = 5;
+                r.RegisterEntity(new RupeePickup(CurrentLoc.Location, count));
             }
             else if (rupeeRoll > SpriteUtil.GENERIC_RUPEE_THRESHOLD)
             {

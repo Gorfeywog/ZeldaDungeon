@@ -28,11 +28,18 @@ namespace ZeldaDungeon.UI
         }
         public void Draw(SpriteBatch spriteBatch, Point hudPos, Point pausePos)
         {
-            Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);
-            hudMap.Draw(spriteBatch, hudMapTopLeft, mapGrid);
+            if (g.State == GameState.Normal)
+            {
+                Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);
+                hudMap.Draw(spriteBatch, hudMapTopLeft, mapGrid);
+            } else if (g.State == GameState.PauseMenu)
+            {
+                Point pauseMapTopLeft = pausePos + new Point(PAUSE_MAP_OFFSET_X * SpriteUtil.SCALE_FACTOR, PAUSE_MAP_OFFSET_Y * SpriteUtil.SCALE_FACTOR);
+                pauseMap.Draw(spriteBatch, pauseMapTopLeft, mapGrid);
+            }
+            
 
-            Point pauseMapTopLeft = pausePos + new Point(PAUSE_MAP_OFFSET_X * SpriteUtil.SCALE_FACTOR, PAUSE_MAP_OFFSET_Y * SpriteUtil.SCALE_FACTOR);
-            pauseMap.Draw(spriteBatch, pauseMapTopLeft, mapGrid);
+            
         }
 
         public void Update(bool hasMap, bool hasCompass)
@@ -46,6 +53,7 @@ namespace ZeldaDungeon.UI
                     {
                         mapGrid[i, j] = new MapRoomState(false, false, false);
                     }
+                    
                     else
                     {
                         bool current = index == g.CurrentRoomIndex;

@@ -29,7 +29,6 @@ namespace ZeldaDungeon.UI
             this.g = g;
             InventorySprite = SpecialSpriteFactory.Instance.CreateInventory();
             MapSprite = SpecialSpriteFactory.Instance.CreateMap();
-            HUDSprite = SpecialSpriteFactory.Instance.CreateHUD();
             mapManager = new MapManager(g);
             healthManager = new HealthManager(g);
             rupeeManager = new RupeeManager(g);
@@ -43,7 +42,6 @@ namespace ZeldaDungeon.UI
             Rectangle inventoryRec = new Rectangle(InventoryPos, InventorySize);
             Rectangle mapRec = new Rectangle(MapPos, MapSize);
             Rectangle destRectangle = new Rectangle(HUDPos, HUDSize);
-            HUDSprite.Draw(spriteBatch, destRectangle);
             MapSprite.Draw(spriteBatch, mapRec);
             InventorySprite.Draw(spriteBatch, inventoryRec);
             mapManager.Draw(spriteBatch, HUDPos, MapPos);
@@ -57,7 +55,6 @@ namespace ZeldaDungeon.UI
         {
             InventorySprite.Update();
             MapSprite.Update();
-            HUDSprite.Update();
             bool hasMap = g.Player.HasItem(new MapItem());
             bool hasComp = g.Player.HasItem(new CompassItem());
             mapManager.Update(hasMap, hasComp);

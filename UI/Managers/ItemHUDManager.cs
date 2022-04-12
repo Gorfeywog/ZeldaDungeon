@@ -16,27 +16,28 @@ namespace ZeldaDungeon.UI.Managers
         public static readonly int HUD_ITEM2_OFFSET_X = 152;
 
         private Game1 g;
-        private HUDItems hudItems;
-        private IItem item;
+        private HUDItems hudItem;
+
 
         public ItemHUDManager(Game1 g)
         {
             this.g = g;
-            hudItems = new HUDItems();
+            hudItem = new HUDItems();
+            
         }
         public void Draw(SpriteBatch spriteBatch, Point hudPos)
         {
             Point hudItem1TopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_ITEM1_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_ITEM_OFFSET_Y);
             Point hudItem2TopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_ITEM2_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_ITEM_OFFSET_Y);
-            hudItems.Draw(spriteBatch, hudItem1TopLeft);
-            hudItems.Draw(spriteBatch, hudItem2TopLeft);
+            //hudItem.Draw(spriteBatch, hudItem1TopLeft);
+            hudItem.Draw(spriteBatch, hudItem2TopLeft);
 
 
         }
 
         public void Update()
         {
-            hudItems.Update();
+            hudItem.Update();
         }
     }
 }

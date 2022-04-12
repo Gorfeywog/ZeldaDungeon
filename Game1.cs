@@ -131,7 +131,7 @@ namespace ZeldaDungeon
 
             Point inventoryOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
             Point mapOffset = new Point(windowTopLeft.X, inventoryOffset.Y + SpriteUtil.INVENTORY_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            Point temp = new Point(windowTopLeft.X, mapOffset.Y + (SpriteUtil.MAP_HEIGHT) * SpriteUtil.SCALE_FACTOR);
+            Point hudPauseOffset = new Point(windowTopLeft.X, mapOffset.Y + (SpriteUtil.MAP_HEIGHT) * SpriteUtil.SCALE_FACTOR);
             
             if (State == GameState.Normal)
             {
@@ -144,7 +144,8 @@ namespace ZeldaDungeon
             } 
             else if (State == GameState.PauseMenu)
             {
-                static_PauseMenu.Draw(spriteBatch, temp, mapOffset, inventoryOffset);
+                static_PauseMenu.Draw(spriteBatch, hudPauseOffset, mapOffset, inventoryOffset);
+                static_HUD.Draw(spriteBatch, hudPauseOffset);
             }
             
             Player.Draw(spriteBatch);

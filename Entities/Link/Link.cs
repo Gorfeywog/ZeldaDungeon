@@ -191,6 +191,8 @@ namespace ZeldaDungeon.Entities.Link
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
 
+        
+
 
     }
 }

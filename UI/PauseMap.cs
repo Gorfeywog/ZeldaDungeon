@@ -34,7 +34,7 @@ namespace ZeldaDungeon.UI
 
         public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, MapRoomState[,] mapGrid)
         {
-            for (int i = 0; i < mapGrid.GetLength(0); i++)
+            /*for (int i = 0; i < mapGrid.GetLength(0); i++)
             {
                 for (int j = 0; j < mapGrid.GetLength(1); j++)
                 {
@@ -49,11 +49,11 @@ namespace ZeldaDungeon.UI
                         room_R.Draw(spriteBatch, destRect1);
                     }
                 }
-            }
+            }*/
         }
         public void Update()
         {
-            room_R.Update();
+            /*room_R.Update();
             room_LRUD.Update();
             room_L.Update();
             room_UD.Update();
@@ -61,7 +61,7 @@ namespace ZeldaDungeon.UI
             room_UL.Update();
             room_LRD.Update();
             room_DR.Update();
-            room_DL.Update();
+            room_DL.Update();*/
         }
     }
 }

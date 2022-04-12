@@ -10,6 +10,7 @@ namespace ZeldaDungeon.Entities.Link
     public class LinkInventory
     {
         private IDictionary<IItem, int> itemCount;
+        private int invSize = 0;
         
         public LinkInventory()
         {
@@ -32,8 +33,13 @@ namespace ZeldaDungeon.Entities.Link
         }
         public void AddItem(IItem item, int quantity = 1) // quantity must be positive or bad things may happen
         {
+            if (!itemCount.ContainsKey(item))
+            {
+                invSize++;
+            }
             int ct = itemCount.ContainsKey(item) ? itemCount[item] : 0;
             itemCount[item] = ct + quantity;
+            
         }
         public bool HasItem(IItem item)
         {
@@ -43,6 +49,11 @@ namespace ZeldaDungeon.Entities.Link
         public IDictionary<IItem, int> GetDict()
         {
             return new Dictionary<IItem, int>(itemCount); // return a copy, so they can't mutate
+        }
+        
+        public int getSize()
+        {
+            return invSize;
         }
     }
 }

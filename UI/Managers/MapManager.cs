@@ -28,6 +28,7 @@ namespace ZeldaDungeon.UI
         }
         public void Draw(SpriteBatch spriteBatch, Point hudPos, Point pausePos)
         {
+
             if (g.State == GameState.Normal)
             {
                 Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);

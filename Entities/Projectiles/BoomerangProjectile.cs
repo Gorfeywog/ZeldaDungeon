@@ -125,7 +125,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         public void OnHit(IEntity target)
         {
             bool friendly = thrower is ILink;
-            if (target is IEnemy en && !en.isFriendly)
+            if (target is IEnemy en && friendly)
             {
                 en.TakeDamage();
                 if (!isReturning) velocity = 0;

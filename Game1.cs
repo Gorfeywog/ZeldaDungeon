@@ -125,7 +125,7 @@ namespace ZeldaDungeon
 
         protected override void Draw(GameTime gameTime)
         {
-            Point roomTopLeft = default; // default assignment just so it compiles; will never actually be used
+            Point roomTopLeft;
             if (State != GameState.RoomTransition)
             {
                 roomTopLeft = CurrentRoom.TopLeft;
@@ -134,26 +134,22 @@ namespace ZeldaDungeon
             {
                 roomTopLeft = EntityUtils.Interpolate(oldRoom.TopLeft, CurrentRoom.TopLeft, transFrame, ROOM_TRANS_FRAME_COUNT);
             }
-            Point windowTopLeft = default; // default assignment just so it compiles; will never actually be used
+            Point adjustedRoomTopLeft = roomTopLeft + new Point(0, -SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
             Point pauseMenuOffset = new Point(0, SpriteUtil.SCALE_FACTOR * (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT));
             Point pauseMenuTopLeft = roomTopLeft - pauseMenuOffset;
-            windowTopLeft = State switch
+            Point windowTopLeft = State switch
             {
-                GameState.Normal => roomTopLeft,
-                GameState.RoomTransition => roomTopLeft,
-                GameState.PauseMenuTransitionTo => EntityUtils.Interpolate(CurrentRoom.TopLeft, pauseMenuTopLeft, transFrame, PAUSEMENU_TRANS_FRAME_COUNT),
-                GameState.PauseMenuTransitionAway => EntityUtils.Interpolate(pauseMenuTopLeft, CurrentRoom.TopLeft, transFrame, PAUSEMENU_TRANS_FRAME_COUNT),
-                GameState.PauseMenu => pauseMenuTopLeft
+                GameState.PauseMenuTransitionTo => EntityUtils.Interpolate(adjustedRoomTopLeft, pauseMenuTopLeft, transFrame, PAUSEMENU_TRANS_FRAME_COUNT),
+                GameState.PauseMenuTransitionAway => EntityUtils.Interpolate(pauseMenuTopLeft, adjustedRoomTopLeft, transFrame, PAUSEMENU_TRANS_FRAME_COUNT),
+                GameState.PauseMenu => pauseMenuTopLeft,
+                _ => adjustedRoomTopLeft // notably handles normal and room trans states
             };
-            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y + SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR, 0);
+            Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y, 0);
             GraphicsDevice.Clear(Color.Black); // this affects the old man room
             spriteBatch.Begin(transformMatrix: translator);
             int hudVertOffset = SpriteUtil.SCALE_FACTOR * SpriteUtil.ROOM_HEIGHT; // the pause menu is 1 room tall
             Point hudTopLeft = new Point(pauseMenuTopLeft.X, pauseMenuTopLeft.Y + hudVertOffset);
-
             Point inventoryOffset = new Point(windowTopLeft.X, windowTopLeft.Y - SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
-            Point mapOffset = new Point(windowTopLeft.X, inventoryOffset.Y + SpriteUtil.INVENTORY_HEIGHT * SpriteUtil.SCALE_FACTOR);
-
             if (State == GameState.Normal)
             {
                 CurrentRoom.DrawAll(spriteBatch);

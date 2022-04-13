@@ -97,6 +97,7 @@ namespace ZeldaDungeon
                     {
                         State = GameState.Normal;
                     }
+                    static_HUD.Update();
                     break;
                 case GameState.PauseMenuTransitionTo:
                 case GameState.PauseMenuTransitionAway:
@@ -112,6 +113,8 @@ namespace ZeldaDungeon
                             State = GameState.Normal;
                         }
                     }
+                    static_HUD.Update();
+                    static_PauseMenu.Update();
                     break;
                 case GameState.PauseMenu:
                     controllers.Update();

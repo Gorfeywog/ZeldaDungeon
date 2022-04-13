@@ -194,7 +194,7 @@ namespace ZeldaDungeon
             Rooms = new List<Room>();
             var paths = Directory.GetFiles(roomDataPath);
             Array.Sort(paths); 
-            foreach (string path in Directory.GetFiles(roomDataPath) )
+            foreach (string path in paths )
             {
                 if (path.EndsWith(".csv"))
                 {

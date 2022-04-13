@@ -28,7 +28,7 @@ namespace ZeldaDungeon.UI
             pauseMap.Draw(spriteBatch, pauseMapTopLeft, mapGrid);
         }
 
-        public void Update(bool hasMap, bool hasCompass)
+        public void Update(bool hasMap)
         {
         }
         

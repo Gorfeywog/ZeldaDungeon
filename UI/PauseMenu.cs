@@ -44,8 +44,7 @@ namespace ZeldaDungeon.UI
             inventorySprite.Update();
             mapSprite.Update();
             bool hasMap = g.Player.HasItem(new MapItem());
-            bool hasComp = g.Player.HasItem(new CompassItem());
-            mapManager.Update(hasMap, hasComp);
+            mapManager.Update(hasMap);
         }
     }
 }

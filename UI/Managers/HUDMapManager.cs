@@ -26,12 +26,8 @@ namespace ZeldaDungeon.UI
         }
         public void Draw(SpriteBatch spriteBatch, Point hudPos)
         {
-
-            if (g.State == GameState.Normal)
-            {
-                Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);
-                hudMap.Draw(spriteBatch, hudMapTopLeft, mapGrid);
-            }
+            Point hudMapTopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_MAP_OFFSET_Y);
+            hudMap.Draw(spriteBatch, hudMapTopLeft, mapGrid);
         }
 
         public void Update(bool hasMap, bool hasCompass)

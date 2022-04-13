@@ -24,7 +24,7 @@ namespace ZeldaDungeon.UI
         {
             this.g = g;
             HUDSprite = SpecialSpriteFactory.Instance.CreateHUD();
-            mapManager = new MapManager(g);
+            mapManager = new HUDMapManager(g);
             healthManager = new HealthManager(g);
             rupeeManager = new RupeeManager(g);
             keyManager = new KeyManager(g);

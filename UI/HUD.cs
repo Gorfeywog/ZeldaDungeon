@@ -13,7 +13,7 @@ namespace ZeldaDungeon.UI
     {
         private static readonly Point HUDSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
         private ISprite HUDSprite;
-        private MapManager mapManager;
+        private HUDMapManager mapManager;
         private HealthManager healthManager;
         private RupeeManager rupeeManager;
         private KeyManager keyManager;
@@ -37,7 +37,7 @@ namespace ZeldaDungeon.UI
         {
             Rectangle destRectangle = new Rectangle(HUDPos, HUDSize);
             HUDSprite.Draw(spriteBatch, destRectangle);
-            mapManager.Draw(spriteBatch, HUDPos, new Point());
+            mapManager.Draw(spriteBatch, HUDPos);
             healthManager.Draw(spriteBatch, HUDPos);
             rupeeManager.Draw(spriteBatch, HUDPos);
             keyManager.Draw(spriteBatch, HUDPos);

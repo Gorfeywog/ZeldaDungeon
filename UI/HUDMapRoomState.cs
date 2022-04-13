@@ -8,12 +8,12 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.UI
 {
-    class MapRoomState
+    class HUDMapRoomState
     {
         public bool HasLink { get; private set; }
         public bool HasTriforce { get; private set; }
         public bool RoomKnown { get; private set; }
-        public MapRoomState(bool hasLink, bool hasTriforce, bool roomKnown)
+        public HUDMapRoomState(bool hasLink, bool hasTriforce, bool roomKnown)
         {
             HasLink = hasLink;
             HasTriforce = hasTriforce;

@@ -20,7 +20,7 @@ namespace ZeldaDungeon.UI
             triforceIndic = HUDSpriteFactory.Instance.CreateSmallMapTriforceIndicator();
             room = HUDSpriteFactory.Instance.CreateSmallMapRoom();
         }
-        public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, MapRoomState[,] mapGrid)
+        public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, HUDMapRoomState[,] mapGrid)
         {
             for (int i = 0; i < mapGrid.GetLength(dim0); i++)
             {

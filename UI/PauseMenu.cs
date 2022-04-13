@@ -16,7 +16,7 @@ namespace ZeldaDungeon.UI
         private static readonly Point HUDSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
         private ISprite inventorySprite;
         private ISprite mapSprite;
-        private MapManager mapManager;
+        private PauseMapManager mapManager;
         private ItemMenuManager itemManager;
         private Game1 g;
         public PauseMenu(Game1 g)
@@ -24,7 +24,7 @@ namespace ZeldaDungeon.UI
             this.g = g;
             inventorySprite = SpecialSpriteFactory.Instance.CreateInventory();
             mapSprite = SpecialSpriteFactory.Instance.CreateMap();
-            mapManager = new MapManager(g);
+            mapManager = new PauseMapManager(g);
             itemManager = new ItemMenuManager(g);
         }
 
@@ -36,7 +36,7 @@ namespace ZeldaDungeon.UI
             mapSprite.Draw(spriteBatch, mapRec);
             inventorySprite.Draw(spriteBatch, inventoryRec);
             itemManager.Draw(spriteBatch, topLeft);
-            mapManager.Draw(spriteBatch, new Point(), mapPos); // TODO - REMOVE EVIL PLACEHOLDER. SPLIT CLASS UP.
+            mapManager.Draw(spriteBatch, mapPos); // TODO - REMOVE EVIL PLACEHOLDER. SPLIT CLASS UP.
 
         }
         public void Update()

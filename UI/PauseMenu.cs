@@ -14,25 +14,17 @@ namespace ZeldaDungeon.UI
         private static readonly Point InventorySize = new Point(SpriteUtil.INVENTORY_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.INVENTORY_HEIGHT * SpriteUtil.SCALE_FACTOR);
         private static readonly Point MapSize = new Point(SpriteUtil.MAP_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.MAP_HEIGHT * SpriteUtil.SCALE_FACTOR);
         private static readonly Point HUDSize = new Point(SpriteUtil.HUD_WIDTH * SpriteUtil.SCALE_FACTOR, SpriteUtil.HUD_HEIGHT * SpriteUtil.SCALE_FACTOR);
-        private ISprite inventorySPrite;
+        private ISprite inventorySprite;
         private ISprite mapSprite;
         private MapManager mapManager;
-        private HealthManager healthManager;
-        private RupeeManager rupeeManager;
-        private KeyManager keyManager;
-        private BombManager bombManager;
         private ItemMenuManager itemManager;
         private Game1 g;
         public PauseMenu(Game1 g)
         {
             this.g = g;
-            InventorySprite = SpecialSpriteFactory.Instance.CreateInventory();
-            MapSprite = SpecialSpriteFactory.Instance.CreateMap();
+            inventorySprite = SpecialSpriteFactory.Instance.CreateInventory();
+            mapSprite = SpecialSpriteFactory.Instance.CreateMap();
             mapManager = new MapManager(g);
-            healthManager = new HealthManager(g);
-            rupeeManager = new RupeeManager(g);
-            keyManager = new KeyManager(g);
-            bombManager = new BombManager(g);
             itemManager = new ItemMenuManager(g);
         }
 
@@ -42,14 +34,15 @@ namespace ZeldaDungeon.UI
             Point mapPos = topLeft + new Point(0, SpriteUtil.MAP_HEIGHT * SpriteUtil.SCALE_FACTOR);
             Rectangle mapRec = new Rectangle(mapPos, MapSize);
             mapSprite.Draw(spriteBatch, mapRec);
-            inventorySPrite.Draw(spriteBatch, inventoryRec);
+            inventorySprite.Draw(spriteBatch, inventoryRec);
+            itemManager.Draw(spriteBatch, topLeft);
             mapManager.Draw(spriteBatch, new Point(), mapPos); // TODO - REMOVE EVIL PLACEHOLDER. SPLIT CLASS UP.
 
         }
         public void Update()
         {
-            InventorySprite.Update();
-            MapSprite.Update();
+            inventorySprite.Update();
+            mapSprite.Update();
             bool hasMap = g.Player.HasItem(new MapItem());
             bool hasComp = g.Player.HasItem(new CompassItem());
             mapManager.Update(hasMap, hasComp);

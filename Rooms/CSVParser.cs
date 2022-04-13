@@ -205,10 +205,10 @@ namespace ZeldaDungeon.Rooms
         {
             return token switch
             {
-                "tu" => new LinkRoomTeleport(g, Direction.Up),
-                "tr" => new LinkRoomTeleport(g, Direction.Right),
-                "td" => new LinkRoomTeleport(g, Direction.Down),
-                "tl" => new LinkRoomTeleport(g, Direction.Left),
+                "tu" => new LinkRoomTeleport(g, Direction.Up, "WalkingOnStairs"),
+                "tr" => new LinkRoomTeleport(g, Direction.Right, "WalkingOnStairs"),
+                "td" => new LinkRoomTeleport(g, Direction.Down, "WalkingOnStairs"),
+                "tl" => new LinkRoomTeleport(g, Direction.Left, "WalkingOnStairs"),
                 "ou" => new OpenDoor(g, Direction.Up),
                 "or" => new OpenDoor(g, Direction.Right),
                 "od" => new OpenDoor(g, Direction.Down),

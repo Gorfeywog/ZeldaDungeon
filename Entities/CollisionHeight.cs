@@ -10,7 +10,8 @@ namespace ZeldaDungeon.Entities
     {
         Floor = 0,
         Normal = 10,
+        Projectile = 15,
         High = 20,
-        Ghost = 30
+        Ghost = 30,
     }
 }

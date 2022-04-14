@@ -115,6 +115,11 @@
 /processorParam:Quality=Best
 /build:Music/MiiTheme.wav
 
+#begin PixelEmulator-xq08.ttf
+/importer:
+/processor:
+/build:PixelEmulator-xq08.ttf
+
 #begin roomwalls.png
 /importer:TextureImporter
 /processor:TextureProcessor

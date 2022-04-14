@@ -21,7 +21,9 @@ namespace ZeldaDungeon.UI
         public bool HasDoor(Direction d) => doorDirections.Contains(d);
         public override string ToString()
         {
-            return "room known: " + RoomKnown + "\ndir: " + doorDirections;
+            string dirString = "";
+            foreach (var d in doorDirections) { dirString += d; }
+            return "room known: " + RoomKnown + "\ndir: " + dirString;
         }
     }
 }

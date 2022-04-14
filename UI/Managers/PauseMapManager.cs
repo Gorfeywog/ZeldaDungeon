@@ -33,9 +33,9 @@ namespace ZeldaDungeon.UI
         private static readonly Direction[] possible = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
         public void Update(bool hasMap) // (perhaps inaccurately to the original) pause map only appears at all if you have the map
         {
-            for (int i = 0; i < mapGrid.GetLength(0); i++)
+            for (int i = 0; i < MAP_GRID_LENGTH; i++)
             {
-                for (int j = 0; j < mapGrid.GetLength(1); j++)
+                for (int j = 0; j < MAP_GRID_LENGTH; j++)
                 {
                     int index = g.GridToRoomIndex(i, j);
                     if (!hasMap || index == -1 || g.Rooms[index].Type == RoomType.Ladder || !g.Rooms[index].Visited)
@@ -44,7 +44,7 @@ namespace ZeldaDungeon.UI
                     }
                     else
                     {
-                        Room r = g.Rooms[i];
+                        Room r = g.Rooms[index];
                         var directions = new HashSet<Direction>();
                         foreach (var d in possible)
                         {

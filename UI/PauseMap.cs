@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ZeldaDungeon.Entities;
-using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.UI
@@ -65,7 +60,6 @@ namespace ZeldaDungeon.UI
                     if (curRoom.RoomKnown)
                     {
                         SpriteFor(curRoom).Draw(spriteBatch, destRect);
-                        Debug.WriteLine(curRoom);
                     }
                 }
             }
@@ -88,12 +82,12 @@ namespace ZeldaDungeon.UI
             room_LUD.Update();
             room_RUD.Update();
             room_LRU.Update();
-            room_LR.Update();;
+            room_LR.Update(); ;
         }
         // only handles directions, not visibility
         // looks like a lot of code, but is basically just a binary search
         // either we have this here or we have basically the same code in UISpriteFactory instead
-        private ISprite SpriteFor(PauseMapRoomState state) 
+        private ISprite SpriteFor(PauseMapRoomState state)
         {
             if (state.HasDoor(Direction.Left))
             {

@@ -19,5 +19,9 @@ namespace ZeldaDungeon.UI
             this.doorDirections = new HashSet<Direction>(doorDirections);
         }
         public bool HasDoor(Direction d) => doorDirections.Contains(d);
+        public override string ToString()
+        {
+            return "room known: " + RoomKnown + "\ndir: " + doorDirections;
+        }
     }
 }

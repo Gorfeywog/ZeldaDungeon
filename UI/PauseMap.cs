@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,21 +65,30 @@ namespace ZeldaDungeon.UI
                     if (curRoom.RoomKnown)
                     {
                         SpriteFor(curRoom).Draw(spriteBatch, destRect);
+                        Debug.WriteLine(curRoom);
                     }
                 }
             }
         }
         public void Update()
         {
+            room_L.Update();
             room_R.Update();
             room_LRUD.Update();
-            room_L.Update();
             room_UD.Update();
             room_RU.Update();
             room_LU.Update();
             room_LRD.Update();
             room_RD.Update();
             room_LD.Update();
+            room_None.Update();
+            room_D.Update();
+            room_U.Update();
+            room_DL.Update();
+            room_LUD.Update();
+            room_RUD.Update();
+            room_LRU.Update();
+            room_LR.Update();;
         }
         // only handles directions, not visibility
         // looks like a lot of code, but is basically just a binary search

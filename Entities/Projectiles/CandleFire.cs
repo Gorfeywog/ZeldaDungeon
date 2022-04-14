@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         public void DespawnEffect() { }
         public void Update()
         {
-            if (timer > duration / 3) // it stops moving after travelling a while
+            if (timer > 2 * duration / 3) // it stops moving after travelling a while
             {
                 CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, d, speed), CurrentLoc.Size);
             }

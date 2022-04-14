@@ -37,7 +37,7 @@ namespace ZeldaDungeon.UI
                 for (int j = 0; j < mapGrid.GetLength(1); j++)
                 {
                     int index = g.GridToRoomIndex(i, j);
-                    if (!hasMap || index == -1 || g.Rooms[index].Type == RoomType.Ladder)
+                    if (!hasMap || index == -1 || g.Rooms[index].Type == RoomType.Ladder || !g.Rooms[index].Visited)
                     {
                         mapGrid[i, j] = new PauseMapRoomState(false, new HashSet<Direction>());
                     }

@@ -28,6 +28,7 @@ namespace ZeldaDungeon.Rooms
         public Point LinkDefaultSpawn { get; private set; }
         public RoomStateMachine StateMachine { get; private set; }
         public bool HasTriforce { get; private set; }
+        public bool Visited { get; private set; }
         public bool HaveUsedCandle { get; set; } // VERY BAD coupling, but best alternatives I could think of screamed "memory leak"
                                                  // should be changed if we can think of anything not-awful to do this.
         public Room(Game1 g, string path)
@@ -172,6 +173,11 @@ namespace ZeldaDungeon.Rooms
             }
             return openingDoor;
         }
+        public bool HasVisibleDoor(Direction dir)
+        {
+            bool hasDoor = doors.ContainsKey(dir);
+            return hasDoor && doors[dir].State != DoorState.BlockedHole && doors[dir].State != DoorState.None;
+        }
         public void UseClock()
         {
             StateMachine.UseClock();
@@ -181,6 +187,7 @@ namespace ZeldaDungeon.Rooms
         {
             StateMachine.EnterEffects();
             HaveUsedCandle = false;
+            Visited = true;
         }
         public void PlayerExits(ILink player)
         {

@@ -41,7 +41,6 @@ namespace ZeldaDungeon.UI
                     {
                         mapGrid[i, j] = new HUDMapRoomState(false, false, false);
                     }
-                    
                     else
                     {
                         bool current = index == g.CurrentRoomIndex;

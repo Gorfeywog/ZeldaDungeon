@@ -68,9 +68,17 @@ namespace ZeldaDungeon.Entities
                         pb.InitMovement(DetectDirection(pb));
                         return true;
                     }
-                    else if (en is IBlock block && height <= block.Height)
+                    if (en is IBlock block)
                     {
-                        return true;
+                        if (ActualEntity is IProjectile && block.Height == CollisionHeight.Projectile)
+                        {
+                            return false;
+                        }
+                        else if (height <= block.Height)
+                        {
+                            return true;
+                        }
+
                     }
                     else if (en is Trap trap && !ActualEntity.Equals(trap))
                     {

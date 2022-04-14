@@ -20,6 +20,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		private static readonly int magicSpeed = 5 * SpriteUtil.SCALE_FACTOR;
 		private int speed;
 		private Game1 g;
+		private CollisionHandler collision;
 
 		public ArrowProjectile(Point position, Direction dir, bool isMagic, Game1 g)
 		{
@@ -40,6 +41,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 			orientation = dir;
 			currentFrame = 0;
 			this.g = g;
+			collision = new CollisionHandler(g.CurrentRoom, this);
 		}
 
 		public void Move()
@@ -55,7 +57,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public void Update()
 		{
 			currentFrame++;
-			if (currentFrame > maxFrame) { ReadyToDespawn = true; }
+			if (collision.WillHitBlock(CurrentLoc)) { ReadyToDespawn = true; }
 			Move();
 			ArrowSprite.Update();
 		}

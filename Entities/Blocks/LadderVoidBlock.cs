@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.Blocks
     public class LadderVoidBlock : IBlock // used to emulate gravity
     {
         // notice: no sprite
-        public CollisionHeight Height { get => CollisionHeight.Normal; }
+        public CollisionHeight Height { get => CollisionHeight.Projectile; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         public LadderVoidBlock(Point position)

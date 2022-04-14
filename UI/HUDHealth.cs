@@ -18,9 +18,9 @@ namespace ZeldaDungeon.UI
         private int emptyCount = 0;
         public HUDHealth()
         {
-            fullHeart = HUDSpriteFactory.Instance.CreateFullHeart();
-            emptyHeart = HUDSpriteFactory.Instance.CreateEmptyHeart();
-            halfHeart = HUDSpriteFactory.Instance.CreateHalfHeart();
+            fullHeart = UISpriteFactory.Instance.CreateFullHeart();
+            emptyHeart = UISpriteFactory.Instance.CreateEmptyHeart();
+            halfHeart = UISpriteFactory.Instance.CreateHalfHeart();
         }
 
         public void Draw(SpriteBatch spriteBatch, Point heartTopLeft)

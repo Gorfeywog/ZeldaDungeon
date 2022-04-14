@@ -21,15 +21,15 @@ namespace ZeldaDungeon.UI
         private ISprite room_DL;
         public PauseMap()
         {
-            room_R = HUDSpriteFactory.Instance.CreateMapRoom0And7();
-            room_LRUD = HUDSpriteFactory.Instance.CreateMapRoom1And5And9And15();
-            room_L = HUDSpriteFactory.Instance.CreateMapRoom2And14();
-            room_UD = HUDSpriteFactory.Instance.CreateMapRoom3And12();
-            room_UR = HUDSpriteFactory.Instance.CreateMapRoom4();
-            room_UL = HUDSpriteFactory.Instance.CreateMapRoom6And11();
-            room_LRD = HUDSpriteFactory.Instance.CreateMapRoom8And10();
-            room_DR = HUDSpriteFactory.Instance.CreateMapRoom13();
-            room_DL = HUDSpriteFactory.Instance.CreateMapRoom16();
+            room_R = UISpriteFactory.Instance.CreateMapRoomR();
+            room_LRUD = UISpriteFactory.Instance.CreateMapRoomLRUD();
+            room_L = UISpriteFactory.Instance.CreateMapRoomL();
+            room_UD = UISpriteFactory.Instance.CreateMapRoomUD();
+            room_UR = UISpriteFactory.Instance.CreateMapRoomUR();
+            room_UL = UISpriteFactory.Instance.CreateMapRoomUL();
+            room_LRD = UISpriteFactory.Instance.CreateMapRoomLRD();
+            room_DR = UISpriteFactory.Instance.CreateMapRoomDR();
+            room_DL = UISpriteFactory.Instance.CreateMapRoomDL();
         }
 
         public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, HUDMapRoomState[,] mapGrid)

@@ -23,20 +23,20 @@ namespace ZeldaDungeon.UI
         public HUDCount(Game1 g)
         {
             inventory = g.Player.GetInv();
-            x = HUDSpriteFactory.Instance.CreateX();
+            x = UISpriteFactory.Instance.CreateX();
             nums = new ISprite[TOTAL_NUM];
 
             //Index corresponds to number being created
-            nums[0] = HUDSpriteFactory.Instance.CreateNumber0();
-            nums[1] = HUDSpriteFactory.Instance.CreateNumber1();
-            nums[2] = HUDSpriteFactory.Instance.CreateNumber2();
-            nums[3] = HUDSpriteFactory.Instance.CreateNumber3();
-            nums[4] = HUDSpriteFactory.Instance.CreateNumber4();
-            nums[5] = HUDSpriteFactory.Instance.CreateNumber5();
-            nums[6] = HUDSpriteFactory.Instance.CreateNumber6();
-            nums[7] = HUDSpriteFactory.Instance.CreateNumber7();
-            nums[8] = HUDSpriteFactory.Instance.CreateNumber8();
-            nums[9] = HUDSpriteFactory.Instance.CreateNumber9();
+            nums[0] = UISpriteFactory.Instance.CreateNumber0();
+            nums[1] = UISpriteFactory.Instance.CreateNumber1();
+            nums[2] = UISpriteFactory.Instance.CreateNumber2();
+            nums[3] = UISpriteFactory.Instance.CreateNumber3();
+            nums[4] = UISpriteFactory.Instance.CreateNumber4();
+            nums[5] = UISpriteFactory.Instance.CreateNumber5();
+            nums[6] = UISpriteFactory.Instance.CreateNumber6();
+            nums[7] = UISpriteFactory.Instance.CreateNumber7();
+            nums[8] = UISpriteFactory.Instance.CreateNumber8();
+            nums[9] = UISpriteFactory.Instance.CreateNumber9();
             
             
         }

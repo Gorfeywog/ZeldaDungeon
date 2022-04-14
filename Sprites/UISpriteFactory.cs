@@ -85,52 +85,69 @@ namespace ZeldaDungeon.Sprites
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(3, 3,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber0()
+        public ISprite CreateNumber(int n)
+        {
+            return n switch
+            {
+                0 => CreateNumber0(),
+                1 => CreateNumber1(),
+                2 => CreateNumber2(),
+                3 => CreateNumber3(),
+                4 => CreateNumber4(),
+                5 => CreateNumber5(),
+                6 => CreateNumber6(),
+                7 => CreateNumber7(),
+                8 => CreateNumber8(),
+                9 => CreateNumber9(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+        private ISprite CreateNumber0()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(1, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber1()
+        private ISprite CreateNumber1()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(2, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber2()
+        private ISprite CreateNumber2()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(3, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber3()
+        private ISprite CreateNumber3()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(4, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber4()
+        private ISprite CreateNumber4()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(5, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber5()
+        private ISprite CreateNumber5()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(6, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber6()
+        private ISprite CreateNumber6()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(7, 2,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber7()
+        private ISprite CreateNumber7()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(4, 3,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber8()
+        private ISprite CreateNumber8()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(5, 3,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));
         }
-        public ISprite CreateNumber9()
+        private ISprite CreateNumber9()
         {
             return new StaticSprite(UISpriteSheet, SpriteUtil.GridToRectangle(6, 3,
                 (int)SpriteUtil.SpriteSize.HUDNumberWidth, (int)SpriteUtil.SpriteSize.HUDNumberHeight));

@@ -20,23 +20,16 @@ namespace ZeldaDungeon.UI
         private readonly int SPRITE_NUM = 3;
         private LinkInventory inventory;
         private IDictionary<IItem, int> itemDict;
+        private const int RADIX = 10;
         public HUDCount(Game1 g)
         {
             inventory = g.Player.GetInv();
             x = UISpriteFactory.Instance.CreateX();
             nums = new ISprite[TOTAL_NUM];
-
-            //Index corresponds to number being created
-            nums[0] = UISpriteFactory.Instance.CreateNumber0();
-            nums[1] = UISpriteFactory.Instance.CreateNumber1();
-            nums[2] = UISpriteFactory.Instance.CreateNumber2();
-            nums[3] = UISpriteFactory.Instance.CreateNumber3();
-            nums[4] = UISpriteFactory.Instance.CreateNumber4();
-            nums[5] = UISpriteFactory.Instance.CreateNumber5();
-            nums[6] = UISpriteFactory.Instance.CreateNumber6();
-            nums[7] = UISpriteFactory.Instance.CreateNumber7();
-            nums[8] = UISpriteFactory.Instance.CreateNumber8();
-            nums[9] = UISpriteFactory.Instance.CreateNumber9();
+            for (int i = 0; i < RADIX; i++)
+            {
+                nums[i] = UISpriteFactory.Instance.CreateNumber(i);
+            }
             
             
         }

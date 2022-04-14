@@ -201,7 +201,6 @@ namespace ZeldaDungeon.Entities
                 if (b is SpecialTrigger st && DetectCollision(loc, b.CurrentLoc) && ActualEntity is ILink)
                 {
                     st.Trigger();
-                    SoundManager.Instance.PlaySound("WalkingOnStairs");
                 }
             }
         }

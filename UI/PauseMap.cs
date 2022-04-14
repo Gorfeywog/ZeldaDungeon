@@ -32,7 +32,7 @@ namespace ZeldaDungeon.UI
             room_DL = HUDSpriteFactory.Instance.CreateMapRoom16();
         }
 
-        public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, MapRoomState[,] mapGrid)
+        public void Draw(SpriteBatch spriteBatch, Point gridTopLeft, HUDMapRoomState[,] mapGrid)
         {
             /*for (int i = 0; i < mapGrid.GetLength(0); i++)
             {

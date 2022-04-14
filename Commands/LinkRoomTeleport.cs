@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ZeldaDungeon.Entities;
 
 namespace ZeldaDungeon.Commands
@@ -9,16 +7,22 @@ namespace ZeldaDungeon.Commands
     {
         private Game1 g;
         private Direction dir;
-        public LinkRoomTeleport(Game1 g, Direction dir)
+        private String sound;
+        public LinkRoomTeleport(Game1 g, Direction dir, String sound = "")
         {
             this.g = g;
             this.dir = dir;
+            this.sound = sound;
         }
 
         public void Execute()
         {
             int newIndex = g.DirToRoomIndex(dir);
             g.TeleportToRoom(newIndex);
+            if (sound != "")
+            {
+                SoundManager.Instance.PlaySound(sound);
+            }
         }
     }
 }

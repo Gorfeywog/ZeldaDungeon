@@ -23,10 +23,8 @@ namespace ZeldaDungeon
         private ControllerManager controllers;
         public ILink Player { get; private set; }
         public IList<Room> Rooms { get; private set; }
-        private EntityList CurrentRoomEntities { get => CurrentRoom.roomEntities; }
-        // TODO: declare a variable to draw the HUD Sprite somehow
         private HUD static_HUD;
-
+        private GameOverScreen gameOver;
         private PauseMenu static_PauseMenu;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => Rooms.Count; }
@@ -34,9 +32,11 @@ namespace ZeldaDungeon
 
         private static readonly int ROOM_TRANS_FRAME_COUNT = 90;
         private static readonly int PAUSEMENU_TRANS_FRAME_COUNT = 90;
+        private static readonly int LINK_DEATH_FRAME_COUNT = 300;
         private int transFrame;
         private Room oldRoom; // only used while transitioning between rooms
         public GameState State { get; private set; }
+        public SpriteFont zeldaFont;
 
         public Game1()
         {
@@ -56,6 +56,7 @@ namespace ZeldaDungeon
             SetupPlayer();
             static_HUD = new HUD(this);
             static_PauseMenu = new PauseMenu(this);
+            gameOver = new GameOverScreen(zeldaFont);
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
             SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
@@ -79,6 +80,10 @@ namespace ZeldaDungeon
             // https://www.sounds-resource.com/nes/legendofzelda/sound/598/
 
             SoundManager.Instance.LoadAllAudio(Content);
+
+            // font taken from https://www.fontspace.com/pixel-emulator-font-f21507
+
+            zeldaFont = Content.Load<SpriteFont>("pixelem");
 
         }
 
@@ -121,6 +126,19 @@ namespace ZeldaDungeon
                     static_HUD.Update();
                     static_PauseMenu.Update();
                     break;
+                case GameState.LinkDying:
+                    transFrame++;
+                    if (transFrame == LINK_DEATH_FRAME_COUNT)
+                    {
+                        State = GameState.GameOver;
+                    }
+                    Player.Update(); // make link spin
+                    static_HUD.Update();
+                    static_PauseMenu.Update();
+                    break;
+                case GameState.GameOver:
+                    controllers.Update();
+                    break;
             }
 
             base.Update(gameTime);
@@ -155,6 +173,7 @@ namespace ZeldaDungeon
             Point hudTopLeft = new Point(pauseMenuTopLeft.X, pauseMenuTopLeft.Y + pauseMenuHeight);
             switch (State)
             {
+                case GameState.LinkDying:
                 case GameState.Normal:
                     CurrentRoom.DrawAll(spriteBatch);
                     Player.Draw(spriteBatch);
@@ -176,6 +195,10 @@ namespace ZeldaDungeon
                 case GameState.PauseMenu:
                     static_PauseMenu.Draw(spriteBatch, pauseMenuTopLeft);
                     static_HUD.Draw(spriteBatch, hudTopLeft);
+                    break;
+                case GameState.GameOver:
+                    static_HUD.Draw(spriteBatch, hudTopLeft);
+                    gameOver.Draw(spriteBatch, adjustedRoomTopLeft);
                     break;
                 default:
                     break;
@@ -304,6 +327,12 @@ namespace ZeldaDungeon
         {
             Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, d, 1);
             return GridToRoomIndex(newGridPos);
+        }
+        public void Lose()
+        {
+            SoundManager.Instance.PlaySound("RupeesDecreasing");
+            State = GameState.LinkDying;
+            transFrame = 0;
         }
     }
 }

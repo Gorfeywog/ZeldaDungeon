@@ -45,6 +45,10 @@ namespace ZeldaDungeon.Entities.Projectiles
             {
                 en.TakeDamage();
             }
+            else if (target is ILink link)
+            {
+                link.TakeDamage();
+            }
         }
     }
 }

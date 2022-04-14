@@ -183,11 +183,11 @@ namespace ZeldaDungeon.Sprites
             int length = (int)SpriteUtil.SpriteSize.CandleLength;
             if (isRed)
             {
-                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, width, length));
+                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 7, width, length));
             }
             else
             {
-                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(1, 7, width, length));
+                return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, width, length));
             }
         }
         

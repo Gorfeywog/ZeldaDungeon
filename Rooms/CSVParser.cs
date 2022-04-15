@@ -219,8 +219,20 @@ namespace ZeldaDungeon.Rooms
                 "ki" => new SpawnPickup(r, new KeyPickup(itemSpawnPos)),
                 "bm1" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),
                 "hc" => new SpawnPickup(r, new HeartContainerPickup(itemSpawnPos)),
+                "" => new DummyCommand(),
                 _ => throw new ArgumentException()
             };
+        }
+        public ICollection<ICommand> ParseClearEffects()
+        {
+            var effects = new HashSet<ICommand>();
+            String effectsLine = lines[height + 4];
+            String[] effectsTokens = effectsLine.Split(',');
+            foreach (var token in effectsTokens)
+            {
+                effects.Add(ParseSpecialEffect(token));
+            }
+            return effects;
         }
     }
 }

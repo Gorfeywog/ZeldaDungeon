@@ -206,7 +206,7 @@ namespace ZeldaDungeon.Entities.Link
 				case LinkActionState.PickingUp:
 					return fac.CreatePickupLink(d);
 				case LinkActionState.Dying:
-					return fac.CreateDyingLink(true);
+					return fac.CreateDyingLink(d);
 				default: throw new ArgumentOutOfRangeException();
 			}
 		}

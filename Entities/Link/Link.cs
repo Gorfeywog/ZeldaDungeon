@@ -61,6 +61,7 @@ namespace ZeldaDungeon.Entities.Link
                 stateMachine.TakeDamage(amt);
                 if (stateMachine.CurrentHealth == 0)
                 {
+                    stateMachine.Die();
                     g.Lose();
                 }
             }

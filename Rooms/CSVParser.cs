@@ -23,6 +23,7 @@ namespace ZeldaDungeon.Rooms
      *      note that for top and bottom doors, Link spawns on the seam of two tiles. To account for this, these must be parsed
      *      as a floating point type! for the default door spawns, this is 2;5,7.5;8,13;5,7.5;2
      * 1 row of 1 entry, representing type of the room (0 for normal, 1 for 'ladder room', could extend to arbitrarily many room types
+     * 1 row of arbitrarily many entries that happen on room clear
      */
     public class CSVParser
     {
@@ -201,8 +202,10 @@ namespace ZeldaDungeon.Rooms
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+        // should only be called once room position has been parsed, since some commands depend on that
         private ICommand ParseSpecialEffect(string token)
         {
+            Point itemSpawnPos = r.LinkDoorSpawn(Direction.Right);
             return token switch
             {
                 "tu" => new LinkRoomTeleport(g, Direction.Up, "WalkingOnStairs"),
@@ -213,6 +216,9 @@ namespace ZeldaDungeon.Rooms
                 "or" => new OpenDoor(g, Direction.Right),
                 "od" => new OpenDoor(g, Direction.Down),
                 "ol" => new OpenDoor(g, Direction.Left),
+                "ki" => new SpawnPickup(r, new KeyPickup(itemSpawnPos)),
+                "bm1" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),
+                "hc" => new SpawnPickup(r, new HeartContainerPickup(itemSpawnPos)),
                 _ => throw new ArgumentException()
             };
         }

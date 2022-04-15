@@ -202,10 +202,9 @@ namespace ZeldaDungeon.Rooms
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        // should only be called once room position has been parsed, since some commands depend on that
         private ICommand ParseSpecialEffect(string token)
         {
-            Point itemSpawnPos = r.LinkDoorSpawn(Direction.Right);
+            Point itemSpawnPos = new Point(); // command will put them in a better spot
             return token switch
             {
                 "tu" => new LinkRoomTeleport(g, Direction.Up, "WalkingOnStairs"),
@@ -220,6 +219,7 @@ namespace ZeldaDungeon.Rooms
                 "bm1" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),
                 "hc" => new SpawnPickup(r, new HeartContainerPickup(itemSpawnPos)),
                 "" => new DummyCommand(),
+                "none" => new DummyCommand(),
                 _ => throw new ArgumentException()
             };
         }

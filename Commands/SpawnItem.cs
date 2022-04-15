@@ -18,6 +18,12 @@ namespace ZeldaDungeon.Commands
             this.pickup = pickup;
         }
 
-        public void Execute() => r.RegisterEntity(pickup);
+        public void Execute()
+        {
+            Point size = pickup.CurrentLoc.Size;
+            Point place = r.LinkDoorSpawn(Direction.Right); // right door area is valid in most rooms
+            pickup.CurrentLoc = new Rectangle(place, size);
+            r.RegisterEntity(pickup);
+        }
     }
 }

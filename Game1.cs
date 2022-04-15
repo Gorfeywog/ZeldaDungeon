@@ -232,6 +232,7 @@ namespace ZeldaDungeon
         {
             SoundEffect death = Content.Load<SoundEffect>("SoundEffects/MinecraftOof");
             death.Play();
+            State = GameState.Normal;
             SetupRooms();
             SetupPlayer();
         }

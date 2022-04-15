@@ -6,7 +6,7 @@ namespace ZeldaDungeon
 {
     public enum GameState
     {
-        Normal, RoomTransition, PauseMenu, PauseMenuTransitionTo, PauseMenuTransitionAway
+        Normal, RoomTransition, PauseMenu, PauseMenuTransitionTo, PauseMenuTransitionAway, LinkDying, GameOver
         // TODO - implement states for main menu and gameover?
     }
 }

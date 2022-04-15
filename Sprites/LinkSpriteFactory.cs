@@ -57,6 +57,11 @@ namespace ZeldaDungeon.Sprites
             return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0, 3, 16, 16), damaged);
         }
 
+        public ISprite CreateDyingLink(bool damaged = true)
+        {
+            Rectangle[] rects = { SpriteUtil.GridToRectangle(0, 2, 16, 16), SpriteUtil.GridToRectangle(0, 3, 16, 16) };
+            return new AnimatedSprite(linkSpriteSheet, rects, damaged);
+        }
         public ISprite CreateIdleUpLink(bool damaged = false)
         {
             return new StaticSprite(linkSpriteSheet, SpriteUtil.GridToRectangle(0, 0, 16, 16), damaged);

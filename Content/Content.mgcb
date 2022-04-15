@@ -115,6 +115,13 @@
 /processorParam:Quality=Best
 /build:Music/MiiTheme.wav
 
+#begin pixelem.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:pixelem.spritefont
+
 #begin roomwalls.png
 /importer:TextureImporter
 /processor:TextureProcessor

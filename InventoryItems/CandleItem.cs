@@ -19,7 +19,7 @@ namespace ZeldaDungeon.InventoryItems
             this.g = g;
             this.isRed = isRed;
         }
-        private static int offset = SpriteUtil.SCALE_FACTOR;
+        private static int offset = 16 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
             SoundManager.Instance.PlaySound("FlamesShot");

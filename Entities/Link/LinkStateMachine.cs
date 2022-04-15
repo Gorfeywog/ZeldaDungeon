@@ -9,7 +9,7 @@ namespace ZeldaDungeon.Entities.Link
 {
 	public class LinkStateMachine
 	{
-		public enum LinkActionState { PickingUp, UsingItem, Walking, Idle, Attacking };
+		public enum LinkActionState { PickingUp, UsingItem, Walking, Idle, Attacking, Dying };
 		private bool damaged;
 		public bool Damaged
 		{
@@ -108,12 +108,6 @@ namespace ZeldaDungeon.Entities.Link
 				damageCountdown = damageDelay;
 				Damaged = true;
 			}
-			if (CurrentHealth <= 0)
-			{
-				Debug.WriteLine("You Died!");
-				SoundManager.Instance.PlaySound("RupeesDecreasing");
-				// TODO - game over screen happens here
-			}
 		}
 		public void Heal(int amt)
         {
@@ -145,6 +139,11 @@ namespace ZeldaDungeon.Entities.Link
 			}
 			return false;
 		}
+		public bool Die()
+        {
+			CurrentState = LinkActionState.Dying;
+			return true;
+        }
 
 		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
@@ -206,6 +205,8 @@ namespace ZeldaDungeon.Entities.Link
 					};
 				case LinkActionState.PickingUp:
 					return fac.CreatePickupLink(d);
+				case LinkActionState.Dying:
+					return fac.CreateDyingLink(d);
 				default: throw new ArgumentOutOfRangeException();
 			}
 		}

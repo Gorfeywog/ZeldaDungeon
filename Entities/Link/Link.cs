@@ -59,6 +59,11 @@ namespace ZeldaDungeon.Entities.Link
             {
                 sound.PlaySound("PlayerHurt");
                 stateMachine.TakeDamage(amt);
+                if (stateMachine.CurrentHealth == 0)
+                {
+                    stateMachine.Die();
+                    g.Lose();
+                }
             }
         }
 
@@ -188,11 +193,9 @@ namespace ZeldaDungeon.Entities.Link
         {
             stateMachine.Idle();
         }
+
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
-
-        
-
 
     }
 }

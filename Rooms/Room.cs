@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
 using ZeldaDungeon.Entities.Blocks;
 using ZeldaDungeon.Entities.Enemies;
@@ -31,6 +32,7 @@ namespace ZeldaDungeon.Rooms
         public bool Visited { get; private set; }
         public bool HaveUsedCandle { get; set; } // VERY BAD coupling, but best alternatives I could think of screamed "memory leak"
                                                  // should be changed if we can think of anything not-awful to do this.
+        private ICollection<ICommand> roomClearEffects;
         public Room(Game1 g, string path)
         {
             this.G = g;
@@ -41,6 +43,7 @@ namespace ZeldaDungeon.Rooms
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             LinkDefaultSpawn = LinkDoorSpawn(Direction.Up);
             Type = parser.ParseRoomType();
+            roomClearEffects = parser.ParseClearEffects();
             entityBuffer = new List<IEntity>();
             if (Type == RoomType.Normal)
             {
@@ -86,6 +89,7 @@ namespace ZeldaDungeon.Rooms
             if (StateMachine.State == RoomState.PickUp) { return; } // time stops while Link holds up stuff
             var toBeRemoved = new List<IEntity>();
             bool hasPickup = !G.Player.CanPickUp();
+            bool anEnemyDied = false;
             foreach (var en in roomEntities)
             {
                 en.Update();
@@ -97,6 +101,7 @@ namespace ZeldaDungeon.Rooms
                 if (en.ReadyToDespawn)
                 {
                     toBeRemoved.Add(en);
+                    if (en is IEnemy) { anEnemyDied = true; }
                 }
                 else if (en is IPickup p && !hasPickup && p.CurrentLoc.Intersects(G.Player.CurrentLoc))
                 {
@@ -117,6 +122,18 @@ namespace ZeldaDungeon.Rooms
             foreach (var en in entityBuffer)
             {
                 roomEntities.Add(en);
+            }
+            if (anEnemyDied)
+            {
+                bool allEnemiesDead = true;
+                foreach (var enemy in roomEntities.Enemies())
+                {
+                    allEnemiesDead = false;
+                }
+                if (allEnemiesDead)
+                {
+                    ClearEffects();
+                }
             }
             entityBuffer.Clear();
         }
@@ -203,6 +220,13 @@ namespace ZeldaDungeon.Rooms
                 }
             }
             return false;
+        }
+        private void ClearEffects()
+        {
+            foreach (ICommand c in roomClearEffects)
+            {
+                c.Execute();
+            }
         }
     }
 }

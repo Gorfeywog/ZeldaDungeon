@@ -58,6 +58,8 @@ namespace ZeldaDungeon
                 Sounds.Add(newName, content.Load<SoundEffect>(parentEffect + newName));
             }
 
+            SoundEffect.MasterVolume = 0.5f;
+
             String parentSong = "Music\\";
             String[] songs = Directory.GetFiles(root + parentSong);
  

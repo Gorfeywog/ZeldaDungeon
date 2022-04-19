@@ -24,8 +24,8 @@ namespace ZeldaDungeon.UI.Managers
 
         public void Draw(SpriteBatch spriteBatch, Point pausePos)
         {
-            Point hudItemsTopLeft = pausePos + new Point(SpriteUtil.SCALE_FACTOR * FIRST_PAUSE_ITEM_OFFSET_X, SpriteUtil.SCALE_FACTOR * SpriteUtil.PAUSE_ITEM_OFFSET_Y);
-            pauseItems.Draw(spriteBatch, hudItemsTopLeft);
+            Point itemsTopLeft = pausePos + new Point(SpriteUtil.SCALE_FACTOR * FIRST_PAUSE_ITEM_OFFSET_X, SpriteUtil.SCALE_FACTOR * SpriteUtil.PAUSE_ITEM_OFFSET_Y);
+            pauseItems.Draw(spriteBatch, itemsTopLeft);
 
         }
 

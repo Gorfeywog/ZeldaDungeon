@@ -54,15 +54,15 @@ namespace ZeldaDungeon.Sprites
         // Offset between each item in pause menu's inventory
         public static readonly int PAUSE_ITEM_OFFSET_X = 72;
         public static readonly int PAUSE_ITEM_OFFSET_Y = 48;
-        public static readonly int PAUSE_ITEM_Y_GAP = 20;
+        public static readonly int PAUSE_ITEM_Y_GAP = 30;
 
         // static positions for items in inventory
         public static readonly int ACTIVE_ITEM_X = 61;
         public static readonly int ACTIVE_ITEM_Y = 45;
-        public static readonly int MAP_POS_X = 48;
-        public static readonly int MAP_POS_Y = 55;
-        public static readonly int COMPASS_POS_X = 48;
-        public static readonly int COMPASS_POS_Y = 95;
+        public static readonly int MAP_POS_X = 82;
+        public static readonly int MAP_POS_Y = -60;
+        public static readonly int COMPASS_POS_X = 82;
+        public static readonly int COMPASS_POS_Y = -100;
         
 
 

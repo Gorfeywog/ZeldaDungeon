@@ -26,7 +26,7 @@ namespace ZeldaDungeon.InventoryItems
             IProjectile proj = new ArrowProjectile(loc, player.Direction, isMagic, g);
             g.CurrentRoom.RegisterEntity(proj);
         }
-        public bool CanUseOn(ILink player) => player.HasItem(new BowItem());
+        public bool CanUseOn(ILink player) => player.HasItem(new BowItem(g));
         public bool Equals(IItem other)
         {
             if (other is ArrowItem otherArrow)
@@ -42,6 +42,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "arrow".GetHashCode() ^ g.GetHashCode() ^ isMagic.GetHashCode();
         }
+        public bool Selectable => false;
     }
 }
 

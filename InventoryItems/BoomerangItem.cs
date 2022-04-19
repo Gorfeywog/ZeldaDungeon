@@ -51,6 +51,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "boomerang".GetHashCode() ^ g.GetHashCode() ^ isMagic.GetHashCode();
         }
+        public bool Selectable => true;
     }
 }
 

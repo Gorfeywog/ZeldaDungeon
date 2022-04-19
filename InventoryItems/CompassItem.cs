@@ -19,5 +19,6 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "compass".GetHashCode();
         }
+        public bool Selectable => false;
     }
 }

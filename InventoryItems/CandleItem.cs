@@ -49,6 +49,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "candle".GetHashCode() ^ g.GetHashCode() ^ isRed.GetHashCode();
         }
+        public bool Selectable => true;
     }
 }
 

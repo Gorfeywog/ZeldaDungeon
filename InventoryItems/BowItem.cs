@@ -1,25 +1,38 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ZeldaDungeon.Entities;
-using ZeldaDungeon.Sprites;
+﻿using ZeldaDungeon.Entities;
 
 namespace ZeldaDungeon.InventoryItems
 {
     public class BowItem : IItem
     {
+        private ArrowItem normArr;
+        private ArrowItem magicArr;
+        private Game1 g;
         public bool Consumable { get => false; }
-        public BowItem() { }
-        public void UseOn(ILink player) { }
+        public BowItem(Game1 g)
+        {
+            this.g = g;
+            normArr = new ArrowItem(g, false);
+            magicArr = new ArrowItem(g, true);
+        }
+        public void UseOn(ILink player) // shoot the best available arrow
+        {
+            if (player.HasItem(magicArr))
+            {
+                player.UseItem(magicArr);
+            }
+            else if (player.HasItem(normArr))
+            {
+                player.UseItem(normArr);
+            }
+        }
 
-        public bool CanUseOn(ILink player) => true;
+        public bool CanUseOn(ILink player) => player.HasItem(normArr) || player.HasItem(magicArr);
         public bool Equals(IItem other)
         {
             return other is BowItem;
         }
 
         public override int GetHashCode() => "bow".GetHashCode();
+        public bool Selectable => true;
     }
 }

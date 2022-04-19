@@ -19,5 +19,6 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "rupee".GetHashCode();
         }
+        public bool Selectable => false;
     }
 }

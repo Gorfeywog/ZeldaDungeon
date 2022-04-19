@@ -19,5 +19,6 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "map".GetHashCode();
         }
+        public bool Selectable => false;
     }
 }

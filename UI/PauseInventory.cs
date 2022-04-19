@@ -69,7 +69,7 @@ namespace ZeldaDungeon.UI
             bCandle = ItemSpriteFactory.Instance.CreateCandle(!redCandle);
             bomb = ItemSpriteFactory.Instance.CreateBomb();
             boomerangI = new BoomerangItem(g, !special);
-            bowI = new BowItem();
+            bowI = new BowItem(g);
             specialBoomerangI = new BoomerangItem(g, special);
             compassI = new CompassItem();
             mapI = new MapItem();

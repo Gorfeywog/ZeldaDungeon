@@ -46,6 +46,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             return "bomb".GetHashCode() ^ g.GetHashCode();
         }
+        public bool Selectable => true;
     }
 }
 

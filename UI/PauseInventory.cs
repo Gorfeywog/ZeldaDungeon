@@ -218,7 +218,7 @@ namespace ZeldaDungeon.UI
         }
         private void DrawSelectionCursor()
         {
-            ISprite cursor;
+            ISprite cursor = ItemSpriteFactory.Instance.CreateSelectionIndicator();
             var selected = itemSelect.SelectedItem();
             if (selected == null) { return; }
             Point loc;

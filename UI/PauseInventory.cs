@@ -78,7 +78,7 @@ namespace ZeldaDungeon.UI
             bCandleI = new CandleItem(g, !redCandle);
             bombI = new BombItem(g);
             inventory = g.Player.GetInv();
-            itemSelect = g.ItemSelect;
+            itemSelect = g.Select;
         }
 
         public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
@@ -234,7 +234,7 @@ namespace ZeldaDungeon.UI
             {
                 scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
                 scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
-                loc = boomDest
+                loc = boomDest;
             }
             else if (selected.Equals(specialBoomerangI))
             {

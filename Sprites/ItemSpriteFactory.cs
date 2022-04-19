@@ -196,7 +196,7 @@ namespace ZeldaDungeon.Sprites
         {
             int width = (int)SpriteUtil.SpriteSize.SelectWidth;
             int length = (int)SpriteUtil.SpriteSize.SelectLength;
-            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 7, width, length);
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 7, width, length));
         }
         
     }

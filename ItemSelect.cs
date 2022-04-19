@@ -32,7 +32,18 @@ namespace ZeldaDungeon
             }
             else return selectables[selectionIndex];
         }
-        public void IncSelection() => selectionIndex = (selectionIndex + 1) % selectables.Count;
+        public void IncSelection()
+        {
+            if (selectables.Count == 0)
+            {
+                selectionIndex = -1;
+                return;
+            }
+            else
+            {
+                selectionIndex = (selectionIndex + 1) % selectables.Count;
+            }
+        }
         public void DecSelection()
         {
             if (selectionIndex > 0)

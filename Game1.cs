@@ -142,7 +142,7 @@ namespace ZeldaDungeon
                     controllers.Update();
                     break;
             }
-
+            Select.Update();
             base.Update(gameTime);
         }
 

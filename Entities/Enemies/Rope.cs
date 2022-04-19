@@ -29,7 +29,7 @@ namespace ZeldaDungeon.Entities.Enemies
             this.r = r;
             RopeSprite = EnemySpriteFactory.Instance.CreateRopeSpriteLeft();
             currDirection = Direction.Left;
-            currentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+            currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
             int width = (int)SpriteUtil.SpriteSize.RopeX;
             int height = (int)SpriteUtil.SpriteSize.RopeY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));

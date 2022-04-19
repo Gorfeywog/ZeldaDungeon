@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Entities.Enemies
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             currentFrame = 0;
             ReadyToDespawn = false;
-            currentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+            currentHealth = SpriteUtil.SMALL_MAX_HEALTH;
             Collision = new CollisionHandler(r, this);
         }
         private bool WillMove => currentFrame % MOVE_TIMER == 0;

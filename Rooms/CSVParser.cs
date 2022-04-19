@@ -215,6 +215,8 @@ namespace ZeldaDungeon.Rooms
                 "or" => new OpenDoor(g, Direction.Right),
                 "od" => new OpenDoor(g, Direction.Down),
                 "ol" => new OpenDoor(g, Direction.Left),
+                "prse" => new PlaySoundEffect(g, "Magical"),
+                "pkse" => new PlaySoundEffect(g, "KeyAppearance"),
                 "ki" => new SpawnPickup(r, new KeyPickup(itemSpawnPos)),
                 "bm1" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),
                 "hc" => new SpawnPickup(r, new HeartContainerPickup(itemSpawnPos)),

@@ -20,7 +20,7 @@ namespace ZeldaDungeon.InventoryItems
             this.g = g;
             this.isMagic = isMagic;
         }
-        private static int offset = 16 * SpriteUtil.SCALE_FACTOR;
+        private static int offset = 8 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
             if (isMagic)

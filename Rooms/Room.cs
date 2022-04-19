@@ -114,15 +114,12 @@ namespace ZeldaDungeon.Rooms
                     toBeRemoved.Add(en);
                 }
             }
-            foreach (var en in toBeRemoved)
+            foreach (var removable in toBeRemoved)
             {
-                roomEntities.Remove(en);
-                en.DespawnEffect();
+                removable.DespawnEffect();
+                roomEntities.Remove(removable);
             }
-            foreach (var en in entityBuffer)
-            {
-                roomEntities.Add(en);
-            }
+            DumpEntityBuffer();
             if (anEnemyDied)
             {
                 bool allEnemiesDead = true;
@@ -135,7 +132,7 @@ namespace ZeldaDungeon.Rooms
                     ClearEffects();
                 }
             }
-            entityBuffer.Clear();
+            DumpEntityBuffer(); // clear effects may have added more entities to buffer
         }
 
         public Point DoorPos(Direction dir)
@@ -227,6 +224,15 @@ namespace ZeldaDungeon.Rooms
             {
                 c.Execute();
             }
+        }
+
+        private void DumpEntityBuffer()
+        {
+            foreach (var en in entityBuffer)
+            {
+                roomEntities.Add(en);
+            }
+            entityBuffer.Clear();
         }
     }
 }

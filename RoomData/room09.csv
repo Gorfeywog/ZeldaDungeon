@@ -3,7 +3,7 @@ wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 wr,wr,bfb,bfb,bfb;ge,bfb,bfb,bfb,bfb,bfb;ge,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,npb,npb,bfb,bfb,bfb,bfb,bfb,bfb,npb,npb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb;ge,bfb,bfb,bfb,bfb,bfb;ge,bfb,bfb,bfb,wr,wr
-wr,wr,bfb,bfb,bfb,bfb,bfb,npb,npb,bfb,bfb,bfb,bfb;mi,bfb,wr,wr
+wr,wr,bfb,bfb,bfb,bfb,bfb,npb,npb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,npb,npb,bfb;ge,bfb,bfb,bfb,bfb,bfb,npb,npb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,wr,wr
@@ -13,4 +13,4 @@ wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 od,hd,ld,od
 2;5,7.5;8,13;5,7.5;2
 0
-none
+ki,pkse

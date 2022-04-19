@@ -29,9 +29,7 @@ namespace ZeldaDungeon.UI.Managers
         {
             Point hudItem1TopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_ITEM1_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_ITEM_OFFSET_Y);
             Point hudItem2TopLeft = hudPos + new Point(SpriteUtil.SCALE_FACTOR * HUD_ITEM2_OFFSET_X, SpriteUtil.SCALE_FACTOR * HUD_ITEM_OFFSET_Y);
-            //hudItem.Draw(spriteBatch, hudItem1TopLeft);
-            hudItem.Draw(spriteBatch, hudItem2TopLeft);
-
+            hudItem.Draw(spriteBatch, hudItem1TopLeft, hudItem2TopLeft, g.Select.SelectedItem());
 
         }
 

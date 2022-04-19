@@ -30,6 +30,11 @@ namespace ZeldaDungeon
             mouseCon = new MouseController();
             keyboardCon = new KeyboardController();
         }
+        public void Reset()
+        {
+            mouseCon = new MouseController();
+            keyboardCon = new KeyboardController();
+        }
         public void Update()
         {
             mouseCon.UpdateState();

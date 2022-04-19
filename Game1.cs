@@ -235,6 +235,8 @@ namespace ZeldaDungeon
             State = GameState.Normal;
             SetupRooms();
             SetupPlayer();
+            controllers.Reset();
+            controllers.RegisterCommands();
         }
         public void PauseMenu()
         {

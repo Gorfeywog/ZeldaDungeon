@@ -56,6 +56,7 @@ namespace ZeldaDungeon.UI
         private int rCandleX = 0, rCandleY = 0;
         private int bCandleX = 0, bCandleY = 0;
         private int bombX = 0, bombY = 0;
+        private ItemSelect itemSelect;
 
         public PauseInventory(Game1 g)
         {
@@ -77,6 +78,7 @@ namespace ZeldaDungeon.UI
             bCandleI = new CandleItem(g, !redCandle);
             bombI = new BombItem(g);
             inventory = g.Player.GetInv();
+            itemSelect = new ItemSelect(g.Player);
         }
 
         public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
@@ -204,7 +206,7 @@ namespace ZeldaDungeon.UI
                 Rectangle destRect = new Rectangle(mapDest, size);
                 map.Draw(spriteBatch, destRect);
             }
-
+            DrawSelectionCursor();
             if (i > 4)
             {
                 j = 1;
@@ -214,7 +216,55 @@ namespace ZeldaDungeon.UI
 
 
         }
-
+        private void DrawSelectionCursor()
+        {
+            ISprite cursor;
+            var selected = itemSelect.SelectedItem();
+            if (selected == null) { return; }
+            Point loc;
+            int scaledWidth;
+            int scaledHeight;
+            if (selected.Equals(bowI))
+            {
+                scaledWidth = (int)SpriteUtil.SpriteSize.BowWidth * SpriteUtil.SCALE_FACTOR;
+                scaledHeight = (int)SpriteUtil.SpriteSize.BowLength * SpriteUtil.SCALE_FACTOR;
+                loc = bowDest;
+            }
+            else if (selected.Equals(boomerangI))
+            {
+                scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
+                scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
+                loc = boomDest
+            }
+            else if (selected.Equals(specialBoomerangI))
+            {
+                scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
+                scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
+                loc = specBoomDest;
+            }
+            else if (selected.Equals(rCandleI))
+            {
+                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
+                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
+                loc = rCandleDest;
+            }
+            else if (selected.Equals(bCandleI))
+            {
+                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
+                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
+                loc = bCandleDest;
+            }
+            else if (selected.Equals(bombI))
+            {
+                scaledWidth = (int)SpriteUtil.SpriteSize.BombWidth * SpriteUtil.SCALE_FACTOR;
+                scaledHeight = (int)SpriteUtil.SpriteSize.BombLength * SpriteUtil.SCALE_FACTOR;
+                loc = bombDest;
+            }
+            else
+            {
+                return;
+            }
+        }
         public void Update()
         {
 

@@ -225,7 +225,6 @@ namespace ZeldaDungeon.Rooms
                 c.Execute();
             }
         }
-
         private void DumpEntityBuffer()
         {
             foreach (var en in entityBuffer)

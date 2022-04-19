@@ -78,7 +78,7 @@ namespace ZeldaDungeon.UI
             bCandleI = new CandleItem(g, !redCandle);
             bombI = new BombItem(g);
             inventory = g.Player.GetInv();
-            itemSelect = new ItemSelect(g.Player);
+            itemSelect = g.ItemSelect;
         }
 
         public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
@@ -206,7 +206,7 @@ namespace ZeldaDungeon.UI
                 Rectangle destRect = new Rectangle(mapDest, size);
                 map.Draw(spriteBatch, destRect);
             }
-            DrawSelectionCursor();
+            DrawSelectionCursor(spriteBatch);
             if (i > 4)
             {
                 j = 1;
@@ -216,7 +216,7 @@ namespace ZeldaDungeon.UI
 
 
         }
-        private void DrawSelectionCursor()
+        private void DrawSelectionCursor(SpriteBatch spriteBatch)
         {
             ISprite cursor = ItemSpriteFactory.Instance.CreateSelectionIndicator();
             var selected = itemSelect.SelectedItem();
@@ -264,6 +264,9 @@ namespace ZeldaDungeon.UI
             {
                 return;
             }
+            var size = new Point(scaledWidth, scaledHeight);
+            var rect = new Rectangle(loc, size);
+            cursor.Draw(spriteBatch, rect);
         }
         public void Update()
         {

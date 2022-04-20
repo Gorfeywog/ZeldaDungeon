@@ -53,7 +53,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 
 		public void OnHit(IEntity target)
 		{
-			if (target is IEnemy en && !en.isFriendly)
+			if (target is IEnemy en && !en.IsFriendly)
 			{
 				en.TakeDamage();
 			}

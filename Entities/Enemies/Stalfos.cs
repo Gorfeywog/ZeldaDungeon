@@ -9,9 +9,9 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class Stalfos : IEnemy
     {
-        public ISprite StalfosSprite { get; set; }
+        private ISprite StalfosSprite { get; set; }
         public bool ReadyToDespawn { get; private set; }
-        public bool isFriendly { get => false; }
+        public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
 
@@ -21,7 +21,6 @@ namespace ZeldaDungeon.Entities.Enemies
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;
         private int CurrentHealth;
-        private static readonly int damageDelay = 80;
         private int damageCountdown = 0;
         private Room r;
 

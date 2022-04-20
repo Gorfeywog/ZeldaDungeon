@@ -11,9 +11,9 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Goriya : IEnemy
     {
         public bool ReadyToDespawn { get; private set; }
-        public bool isFriendly { get => false; }
+        public bool IsFriendly { get => false; }
 
-        public ISprite GoriyaSprite { get; set; }
+        private ISprite GoriyaSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Normal; }
@@ -23,10 +23,8 @@ namespace ZeldaDungeon.Entities.Enemies
         private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
         private Room r;
         private IProjectile boomerang;
-        private bool isRed;
-
+        private bool isRed; // solely cosmetic at the moment
         private Direction currDirection;
-        private static readonly int damageDelay = 80;
         private int damageCountdown = 0;
         private int CurrentHealth;
 
@@ -60,59 +58,15 @@ namespace ZeldaDungeon.Entities.Enemies
             //One in four chance to change directions
             if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
             {
-                switch (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE))
+                currDirection = SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) switch
                 {
-                    case 0:
-                        currDirection = Direction.Left;
-                        if (isRed)
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
-                        }
-                        else
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
-                        }
-                        break;
-
-                    case 1:
-                        currDirection = Direction.Right;
-                        if (isRed)
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteRight();
-                        }
-                        else
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteRight();
-                        }
-                        break;
-
-                    case 2:
-                        currDirection = Direction.Up;
-                        if (isRed)
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteUp();
-                        }
-                        else
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteUp();
-                        }
-                        break;
-
-                    case 3:
-                        currDirection = Direction.Down;
-                        if (isRed)
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteDown();
-                        }
-                        else
-                        {
-                            GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteDown();
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
+                    0 => Direction.Left,
+                    1 => Direction.Right,
+                    2 => Direction.Up,
+                    3 => Direction.Down,
+                    _ => currDirection,
+                };
+                GoriyaSprite = EnemySpriteFactory.Instance.CreateGoriyaSprite(currDirection, isRed);
             }
 
             //Determines which way to move

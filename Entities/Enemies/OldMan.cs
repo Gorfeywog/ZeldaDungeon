@@ -7,13 +7,12 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class OldMan : IEnemy
     {
-        public ISprite OldManSprite { get; set; }
+        private ISprite OldManSprite { get; set; }
         public bool ReadyToDespawn => false;
 
-        public bool isFriendly { get => true; }
+        public bool IsFriendly { get => true; }
 
         public Rectangle CurrentLoc { get; set; }
-        private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;
@@ -25,27 +24,14 @@ namespace ZeldaDungeon.Entities.Enemies
             CurrentLoc = new Rectangle(new Point(position.X - (offset * SpriteUtil.SCALE_FACTOR), position.Y),
                 new Point((int)SpriteUtil.SpriteSize.OldManX * SpriteUtil.SCALE_FACTOR,
                 (int)SpriteUtil.SpriteSize.OldManY * SpriteUtil.SCALE_FACTOR));
-            Collision = new CollisionHandler(r, this);
         }
+        public void Move() { }
 
-        public void UpdateList(EntityList roomEntities)
-        {
-            this.roomEntities = roomEntities;
-        }
-
-        public void Move()
-        {
-
-        }
-
-        public void Attack()
-        {
-
-        }
+        public void Attack() { }
 
         public void TakeDamage()
         {
-
+            // TODO - if damaged enough, make fireballs happen!
         }
 
         public void Draw(SpriteBatch spriteBatch)

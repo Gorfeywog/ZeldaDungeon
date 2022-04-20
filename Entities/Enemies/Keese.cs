@@ -9,14 +9,14 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class Keese : IEnemy
     {
-        public ISprite KeeseSprite { get; set; }
+        private ISprite KeeseSprite { get; set; }
         public bool ReadyToDespawn { get; private set; }
 
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.High; }
         public DrawLayer Layer { get => DrawLayer.High; }
         public EntityList roomEntities;
-        public bool isFriendly { get => false; }
+        public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
         private int currentHealth;

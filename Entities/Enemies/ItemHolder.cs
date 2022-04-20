@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public IEnemy Underlying { get; private set; }
         public Rectangle CurrentLoc { get => Underlying.CurrentLoc; set => Underlying.CurrentLoc = value; }
         public CollisionHeight Height => Underlying.Height;
-        public bool isFriendly => Underlying.isFriendly;
+        public bool IsFriendly => Underlying.IsFriendly;
 
         public DrawLayer Layer => Underlying.Layer;
         private IPickup heldItem { get; set; }

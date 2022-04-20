@@ -2,11 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using ZeldaDungeon.Commands;
 using ZeldaDungeon.Entities;
-using ZeldaDungeon.Entities.Blocks;
-using ZeldaDungeon.Entities.Enemies;
 using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Sprites;
 
@@ -38,7 +35,7 @@ namespace ZeldaDungeon.Rooms
             this.G = g;
             var parser = new CSVParser(path, this, g);
             this.GridPos = parser.ParsePos();
-            roomEntities = parser.ParseRoomLayout(gridSize, TopLeft);        
+            roomEntities = parser.ParseRoomLayout(gridSize, TopLeft);
             DoorState[] states = parser.ParseDoorState();
             linkDoorSpawns = parser.ParseLinkSpawns(gridSize);
             LinkDefaultSpawn = LinkDoorSpawn(Direction.Up);
@@ -54,7 +51,7 @@ namespace ZeldaDungeon.Rooms
                     doors[d] = new Door(DoorPos(d), d, states[i]);
                     roomEntities.Add(doors[d]);
                 }
-               roomEntities.Add(new Walls(TopLeft));
+                roomEntities.Add(new Walls(TopLeft));
             }
             StateMachine = new RoomStateMachine();
             HasTriforce = DetectTriforce(); // currently never changed in case triforce disappears
@@ -62,7 +59,7 @@ namespace ZeldaDungeon.Rooms
         public void DrawAll(SpriteBatch spriteBatch)
         {
             var drawLists = new Dictionary<DrawLayer, List<IEntity>>();
-            var layers = (DrawLayer[]) Enum.GetValues(typeof(DrawLayer));
+            var layers = (DrawLayer[])Enum.GetValues(typeof(DrawLayer));
             Array.Sort(layers);
             foreach (DrawLayer layer in layers)
             {
@@ -159,7 +156,7 @@ namespace ZeldaDungeon.Rooms
             };
             return TopLeft + linkDoorSpawns[index];
         }
-        public bool UnlockDoor(Direction dir) 
+        public bool UnlockDoor(Direction dir)
         {
             bool unlockingDoor = doors[dir].Unlock();
             if (unlockingDoor)

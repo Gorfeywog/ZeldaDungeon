@@ -17,7 +17,7 @@ namespace ZeldaDungeon.Rooms
         public Rectangle CurrentLoc { get; set; }
         public bool ReadyToDespawn { get => false; }
         public void DespawnEffect() { }
-        public DrawLayer Layer { get => DrawLayer.High; } // this is weird. doors are weird.
+        public DrawLayer Layer { get => DrawLayer.VeryHigh; } // this is weird. doors are weird.
         private DoorState state;
         public DoorState State 
         {

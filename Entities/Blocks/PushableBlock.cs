@@ -9,8 +9,7 @@ namespace ZeldaDungeon.Entities.Blocks
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock();
         public CollisionHeight Height { get => CollisionHeight.Normal; }
-        public CollisionHandler Collision { get; set; }
-        public EntityList roomEntities;
+        public CollisionHandler Collision { get; private set; }
         private static readonly int MAX_HOLD_TIME = 60;
         private bool CanBeMoved { get => amountMoved < (int)SpriteUtil.SpriteSize.GenericBlockY && lengthHeld >= MAX_HOLD_TIME; }
         private int amountMoved;

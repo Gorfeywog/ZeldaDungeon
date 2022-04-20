@@ -12,18 +12,18 @@ namespace ZeldaDungeon.InventoryItems
     public class BoomerangItem : IItem
 	{
         public bool Consumable { get => true; }
-        private bool isMagic;
+        public bool IsMagic { get; private set; }
         private Game1 g;
         public BoomerangItem(Game1 g, bool isMagic)
         {
 
             this.g = g;
-            this.isMagic = isMagic;
+            this.IsMagic = isMagic;
         }
         private static int offset = 8 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
         {
-            if (isMagic)
+            if (IsMagic)
             {
                 SoundManager.Instance.PlaySound("UpgradedMagicalBoomerangThrown");
             } else
@@ -31,7 +31,7 @@ namespace ZeldaDungeon.InventoryItems
                 SoundManager.Instance.PlaySound("MagicalBoomerangThrown");
             }
             Point loc = EntityUtils.Offset(player.Center, player.Direction, offset);
-            IProjectile proj = new BoomerangProjectile(player, player.Direction, isMagic, g);
+            IProjectile proj = new BoomerangProjectile(player, player.Direction, IsMagic, g);
             g.CurrentRoom.RegisterEntity(proj);
         }
 
@@ -40,7 +40,7 @@ namespace ZeldaDungeon.InventoryItems
         {
             if (other is BoomerangItem otherBoom)
             {
-                return this.g == otherBoom.g && (this.isMagic == otherBoom.isMagic);
+                return this.g == otherBoom.g && (this.IsMagic == otherBoom.IsMagic);
             }
             else
             {
@@ -49,8 +49,9 @@ namespace ZeldaDungeon.InventoryItems
         }
         public override int GetHashCode()
         {
-            return "boomerang".GetHashCode() ^ g.GetHashCode() ^ isMagic.GetHashCode();
+            return "boomerang".GetHashCode() ^ g.GetHashCode() ^ IsMagic.GetHashCode();
         }
+        public bool Selectable => true;
     }
 }
 

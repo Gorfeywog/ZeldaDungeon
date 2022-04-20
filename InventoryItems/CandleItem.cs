@@ -13,11 +13,11 @@ namespace ZeldaDungeon.InventoryItems
 	{
         public bool Consumable { get => false; }
         private Game1 g;
-        private bool isRed; // red ones can be used more than once per room
+        public bool IsRed { get; private set; } // red ones can be used more than once per room
         public CandleItem(Game1 g, bool isRed)
         {
             this.g = g;
-            this.isRed = isRed;
+            this.IsRed = isRed;
         }
         private static int offset = 16 * SpriteUtil.SCALE_FACTOR;
         public void UseOn(ILink player)
@@ -27,18 +27,18 @@ namespace ZeldaDungeon.InventoryItems
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.CurrentRoom.RegisterEntity(proj);
-            if (!isRed)
+            if (!IsRed)
             {
                 g.CurrentRoom.HaveUsedCandle = true;
             }
         }
 
-        public bool CanUseOn(ILink player) => isRed || !g.CurrentRoom.HaveUsedCandle; 
+        public bool CanUseOn(ILink player) => IsRed || !g.CurrentRoom.HaveUsedCandle; 
         public bool Equals(IItem other)
         {
             if (other is CandleItem otherCandle)
             {
-                return this.g == otherCandle.g && (this.isRed == otherCandle.isRed);
+                return this.g == otherCandle.g && (this.IsRed == otherCandle.IsRed);
             }
             else
             {
@@ -47,8 +47,9 @@ namespace ZeldaDungeon.InventoryItems
         }
         public override int GetHashCode()
         {
-            return "candle".GetHashCode() ^ g.GetHashCode() ^ isRed.GetHashCode();
+            return "candle".GetHashCode() ^ g.GetHashCode() ^ IsRed.GetHashCode();
         }
+        public bool Selectable => true;
     }
 }
 

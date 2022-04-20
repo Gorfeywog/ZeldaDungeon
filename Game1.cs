@@ -37,6 +37,7 @@ namespace ZeldaDungeon
         private Room oldRoom; // only used while transitioning between rooms
         public GameState State { get; private set; }
         public SpriteFont zeldaFont;
+        public ItemSelect Select { get; private set; }
 
         public Game1()
         {
@@ -54,6 +55,7 @@ namespace ZeldaDungeon
             graphics.ApplyChanges();
             SetupRooms();
             SetupPlayer();
+            Select = new ItemSelect(Player);
             static_HUD = new HUD(this);
             static_PauseMenu = new PauseMenu(this);
             gameOver = new GameOverScreen(zeldaFont);
@@ -140,7 +142,7 @@ namespace ZeldaDungeon
                     controllers.Update();
                     break;
             }
-
+            Select.Update();
             base.Update(gameTime);
         }
 
@@ -235,6 +237,8 @@ namespace ZeldaDungeon
             State = GameState.Normal;
             SetupRooms();
             SetupPlayer();
+            controllers.Reset();
+            controllers.RegisterCommands();
         }
         public void PauseMenu()
         {

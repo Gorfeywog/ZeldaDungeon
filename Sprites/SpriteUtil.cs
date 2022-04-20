@@ -155,7 +155,9 @@ namespace ZeldaDungeon.Sprites
             SmallMapIndicOffsetY = 0,
             EnemyDeathX = 15,
             EnemyDeathY = 16,
-            HUDItemWidth = 8
+            HUDItemWidth = 8,
+            SelectWidth = 8,
+            SelectLength = 16
 
         } 
 

@@ -190,6 +190,14 @@ namespace ZeldaDungeon.Sprites
                 return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, width, length));
             }
         }
+        // note that this sprite was handmade instead of being pulled from a spritesheet
+        // it's pretty ugly.
+        public ISprite CreateSelectionIndicator()
+        {
+            int width = (int)SpriteUtil.SpriteSize.SelectWidth;
+            int length = (int)SpriteUtil.SpriteSize.SelectLength;
+            return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(2, 7, width, length));
+        }
         
     }
 }

@@ -185,7 +185,7 @@ namespace ZeldaDungeon.Rooms
                 "ci1" => new Candle(pos, g, false),
                 "ci2" => new Candle(pos, g, true),
                 "bomi" => new BombPickup(pos, g),
-                "bowi" => new BowPickup(pos),
+                "bowi" => new BowPickup(pos, g),
                 "cli" => new ClockPickup(pos),
                 "coi" => new CompassPickup(pos),
                 "fi" => new FairyPickup(pos),

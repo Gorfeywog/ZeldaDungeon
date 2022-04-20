@@ -13,5 +13,6 @@ namespace ZeldaDungeon.InventoryItems
         public void UseOn(ILink player);
         public bool CanUseOn(ILink player);
         public bool Consumable { get; }
+        public bool Selectable { get; }
     }
 }

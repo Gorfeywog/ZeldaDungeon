@@ -11,15 +11,16 @@ namespace ZeldaDungeon.Entities.Pickups
     public class BowPickup : IPickup
     {
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBow();
-
+        private Game1 g;
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
-        public BowPickup(Point position)
+        public BowPickup(Point position, Game1 g)
         {
             int width = (int)SpriteUtil.SpriteSize.BowWidth;
 			int height = (int)SpriteUtil.SpriteSize.BowLength;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            this.g = g;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -28,7 +29,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
         public void PickUp(ILink player)
         {
-            player.AddItem(new BowItem());
+            player.AddItem(new BowItem(g));
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

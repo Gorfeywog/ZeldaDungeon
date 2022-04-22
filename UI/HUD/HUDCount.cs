@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using ZeldaDungeon.Sprites;
@@ -6,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ZeldaDungeon.Entities.Link;
 using ZeldaDungeon.InventoryItems;
-
 namespace ZeldaDungeon.UI
 {
     class HUDCount
@@ -33,7 +31,6 @@ namespace ZeldaDungeon.UI
             
             
         }
-
         public void Draw(SpriteBatch spriteBatch, Point topLeft, IItem item)
         {
             
@@ -71,7 +68,7 @@ namespace ZeldaDungeon.UI
                         nums[itemCount].Draw(spriteBatch, destRect);
                     }
                 }
-                
+
             }
             else
             {
@@ -91,4 +88,3 @@ namespace ZeldaDungeon.UI
         }
     }
 }
-© 2022 GitHub, Inc.

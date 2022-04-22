@@ -20,10 +20,10 @@ namespace ZeldaDungeon.Sprites
 
         //Default max health values
         public static readonly int LINK_MAX_HEALTH = 6;
-        public static readonly int AQUAMENTUS_MAX_HEALTH = 10;
-        public static readonly int SMALL_MAX_HEALTH = 1;
-        public static readonly int MEDIUM_MAX_HEALTH = 2;
-        public static readonly int LARGE_MAX_HEALTH = 3;
+        public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
+        public static readonly int SMALL_MAX_HEALTH = 2;
+        public static readonly int MEDIUM_MAX_HEALTH = 5;
+        public static readonly int LARGE_MAX_HEALTH = 7;
 
         // chances of drops
         public static readonly int GENERIC_RUPEE_ROLL_CAP = 11;

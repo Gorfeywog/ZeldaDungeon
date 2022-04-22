@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ZeldaDungeon.Sprites;
 using static ZeldaDungeon.Sprites.SpriteUtil;
+using ZeldaDungeon.Entities;
+using static ZeldaDungeon.Entities.Direction;
 
 namespace ZeldaDungeon.Sprites
 {
@@ -103,8 +101,22 @@ namespace ZeldaDungeon.Sprites
         {
             return new StaticSprite(enemySpriteSheet, GridToRectangle(1, 7, 16, 16));
         }
+        public ISprite CreateGoriyaSprite(Direction dir, bool isRed)
+        {
+            return (dir, isRed) switch
+            {
+                (Up, true) => CreateRedGoriyaSpriteUp(),
+                (Down, true) => CreateRedGoriyaSpriteDown(),
+                (Left, true) => CreateRedGoriyaSpriteLeft(),
+                (Right, true) => CreateRedGoriyaSpriteRight(),
+                (Up, false) => CreateBlueGoriyaSpriteUp(),
+                (Down, false) => CreateBlueGoriyaSpriteDown(),
+                (Left, false) => CreateBlueGoriyaSpriteLeft(),
+                (Right, false) => CreateBlueGoriyaSpriteRight()
+            };
+        }
 
-        public ISprite CreateBlueGoriyaSpriteLeft()
+        private ISprite CreateBlueGoriyaSpriteLeft()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -113,7 +125,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateBlueGoriyaSpriteRight()
+        private ISprite CreateBlueGoriyaSpriteRight()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -122,7 +134,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateBlueGoriyaSpriteUp()
+        private ISprite CreateBlueGoriyaSpriteUp()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -131,7 +143,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateBlueGoriyaSpriteDown()
+        private ISprite CreateBlueGoriyaSpriteDown()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -140,7 +152,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateRedGoriyaSpriteLeft()
+        private ISprite CreateRedGoriyaSpriteLeft()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -149,7 +161,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateRedGoriyaSpriteRight()
+        private ISprite CreateRedGoriyaSpriteRight()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -158,7 +170,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateRedGoriyaSpriteUp()
+        private ISprite CreateRedGoriyaSpriteUp()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;
@@ -167,7 +179,7 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
-        public ISprite CreateRedGoriyaSpriteDown()
+        private ISprite CreateRedGoriyaSpriteDown()
         {
             int width = (int)SpriteSize.GoriyaX;
             int height = (int)SpriteSize.GoriyaY;

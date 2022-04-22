@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using ZeldaDungeon.Entities.MiscEffects;
 using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Entities.Projectiles;
@@ -12,17 +11,15 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Aquamentus : IEnemy
     {
         public bool ReadyToDespawn { get; set; }
-        public ISprite AquamentusSprite { get; set; }
+        private ISprite AquamentusSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
-        public bool isFriendly { get => false; }
+        public bool IsFriendly { get => false; }
 
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private int currentHealth;
         private int initX;
-        private EntityList roomEntities;
-        private Random rand;
         private bool movingLeft;
         private int currentFrame;
         private Room r;
@@ -54,13 +51,11 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 return;
             }
-            //One in four chance per move for aquamentus to change direction
             int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
             if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
             {
                 movingLeft = !movingLeft;
             }
-
             if (movingLeft)
             {
                 if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
@@ -107,18 +102,18 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-				currentHealth--;
-				damageCountdown = SpriteUtil.DAMAGE_DELAY;
-				SoundManager.Instance.PlaySound("BossZapped");
+                currentHealth--;
+                damageCountdown = SpriteUtil.DAMAGE_DELAY;
+                SoundManager.Instance.PlaySound("BossZapped");
             }
             if (currentHealth == 0)
             {
                 ReadyToDespawn = true;
                 SoundManager.Instance.PlaySound("BossRoaring");
             }
-			AquamentusSprite.Damaged = true;
+            AquamentusSprite.Damaged = true;
 
-		}
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {

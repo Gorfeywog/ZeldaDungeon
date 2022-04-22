@@ -9,17 +9,16 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class WallMaster : IEnemy
     {
-        public ISprite WallMasterSprite { get; set; }
+        private ISprite WallMasterSprite { get; set; }
         public bool ReadyToDespawn { get; private set; }
-        public bool isFriendly { get => false; }
+        public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.Ghost; }
         public DrawLayer Layer { get => DrawLayer.High; }
         private int currentFrame;
-        private int CurrentHealth;
-        private static readonly int damageDelay = 80;
+        private int currentHealth;
         private Room r;
         private int damageCountdown = 0;
         private Direction currDirection;
@@ -34,14 +33,14 @@ namespace ZeldaDungeon.Entities.Enemies
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             currentFrame = 0;
             Collision = new CollisionHandler(r, this);
-            CurrentHealth = SpriteUtil.LARGE_MAX_HEALTH;
+            currentHealth = SpriteUtil.LARGE_MAX_HEALTH;
 
         }
 
         public void Move()
         {
             if (!WillMove) { return; }
-            //One in eight chance to change directions
+            // One in eight chance to change directions
             int changeDirChance = 60;
             if (SpriteUtil.Rand.Next(8) == 0 || currentFrame % changeDirChance == 0)
             {
@@ -84,11 +83,11 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                CurrentHealth--;
+                currentHealth--;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
-            if (CurrentHealth == 0) ReadyToDespawn = true;
+            if (currentHealth == 0) ReadyToDespawn = true;
             WallMasterSprite.Damaged = true;
 
         }

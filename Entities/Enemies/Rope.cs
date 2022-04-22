@@ -9,9 +9,9 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class Rope : IEnemy
     {
-        public ISprite RopeSprite { get; set; }
+        private ISprite RopeSprite { get; set; }
         public bool ReadyToDespawn { get; private set; }
-        public bool isFriendly { get => false; }
+        public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
 
@@ -38,14 +38,13 @@ namespace ZeldaDungeon.Entities.Enemies
         }
 
         private bool WillMove => currentFrame % MOVE_TIMER == 0;
+        private static readonly int CHANGE_DIR_CHANCE = 4;
         public void Move()
         {
             if (!WillMove) { return; }
-            //One in four chance to change directions
-            int changeDirChance = 4;
-            if (SpriteUtil.Rand.Next(changeDirChance) == 0)
+            if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
             {
-                switch (SpriteUtil.Rand.Next(changeDirChance))
+                switch (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE))
                 {
                     case 0:
                         currDirection = Direction.Left;
@@ -70,7 +69,7 @@ namespace ZeldaDungeon.Entities.Enemies
                 }
             }
 
-            //Determines which way to move
+            // Determines which way to move
             int locChange = 4 * SpriteUtil.SCALE_FACTOR;
             Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
             if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))

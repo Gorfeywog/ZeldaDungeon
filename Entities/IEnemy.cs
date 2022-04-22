@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities
     {
         public CollisionHeight Height { get; } 
 
-        public bool isFriendly { get; }
+        public bool IsFriendly { get; }
 
         public void Attack();
 

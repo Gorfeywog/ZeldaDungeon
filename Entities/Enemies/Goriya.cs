@@ -31,14 +31,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public Goriya(Point position, Room r, bool isRed)
         {
             this.isRed = isRed;
-            if (isRed)
-            {
-                GoriyaSprite = EnemySpriteFactory.Instance.CreateRedGoriyaSpriteLeft();
-            }
-            else
-            {
-                GoriyaSprite = EnemySpriteFactory.Instance.CreateBlueGoriyaSpriteLeft();
-            }
+            GoriyaSprite = EnemySpriteFactory.Instance.CreateGoriyaSprite(Direction.Left, isRed);
             int width = (int)SpriteUtil.SpriteSize.GoriyaX;
             int height = (int)SpriteUtil.SpriteSize.GoriyaY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));

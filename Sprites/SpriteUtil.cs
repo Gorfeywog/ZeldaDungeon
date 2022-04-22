@@ -45,6 +45,10 @@ namespace ZeldaDungeon.Sprites
 
         public static readonly int DAMAGE_DELAY = 80;
 
+        // screen size
+        public static readonly int MENU_HEIGHT = 232;
+        public static readonly int MENU_WIDTH = 256;
+
         //HUD sizes
         public static readonly int HUD_WIDTH = 256;
         public static readonly int HUD_HEIGHT = 56;

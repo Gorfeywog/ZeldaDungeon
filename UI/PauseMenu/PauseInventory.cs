@@ -19,7 +19,6 @@ namespace ZeldaDungeon.UI
         private ISprite specialBoomerang;
         private ISprite compass;
         private ISprite map;
-        private ISprite rCandle;
         private ISprite bCandle;
         private IItem boomerangI;
         private IItem bowI;
@@ -27,7 +26,6 @@ namespace ZeldaDungeon.UI
         private IItem specialBoomerangI;
         private IItem compassI;
         private IItem mapI;
-        private IItem rCandleI;
         private IItem bCandleI;
         private bool special = true;
         private bool redCandle = true;
@@ -35,14 +33,12 @@ namespace ZeldaDungeon.UI
         private bool boomerangDrawn = false;
         private bool bombDrawn = false;
         private bool specialBoomerangDrawn = false;
-        private bool rCandleDrawn = false;
         private bool bCandleDrawn = false;
         private IDictionary<IItem, int> itemDict;
         private Point bowDest;
         private Point boomDest;
         private Point specBoomDest;
         private Point bombDest;
-        private Point rCandleDest;
         private Point bCandleDest;
         private Point mapDest;
         private Point compDest;
@@ -53,7 +49,6 @@ namespace ZeldaDungeon.UI
         private int bowX = 0, bowY = 0;
         private int boomX = 0, boomY = 0;
         private int specBoomX = 0, specBoomY = 0;
-        private int rCandleX = 0, rCandleY = 0;
         private int bCandleX = 0, bCandleY = 0;
         private int bombX = 0, bombY = 0;
         private ItemSelect itemSelect;
@@ -66,7 +61,6 @@ namespace ZeldaDungeon.UI
             specialBoomerang = EnemySpriteFactory.Instance.CreateStaticMagicBoomerangSprite();
             compass = ItemSpriteFactory.Instance.CreateCompass();
             map = ItemSpriteFactory.Instance.CreateMap();
-            rCandle = ItemSpriteFactory.Instance.CreateCandle(redCandle);
             bCandle = ItemSpriteFactory.Instance.CreateCandle(!redCandle);
             bomb = ItemSpriteFactory.Instance.CreateBomb();
             boomerangI = new BoomerangItem(g, !special);
@@ -74,11 +68,11 @@ namespace ZeldaDungeon.UI
             specialBoomerangI = new BoomerangItem(g, special);
             compassI = new CompassItem();
             mapI = new MapItem();
-            rCandleI = new CandleItem(g, redCandle);
             bCandleI = new CandleItem(g, !redCandle);
             bombI = new BombItem(g);
             inventory = g.Player.GetInv();
             itemSelect = g.Select;
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
@@ -86,7 +80,8 @@ namespace ZeldaDungeon.UI
             itemDict = inventory.GetDict();
             int scaledWidth;
             int scaledHeight;
-            
+            Point size;
+            Rectangle destRect;
 
 
             if (itemDict.ContainsKey(bowI))
@@ -100,8 +95,8 @@ namespace ZeldaDungeon.UI
                     i++;
                 }
                 bowDest = itemTopLeft + new Point(bowX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, bowY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(bowDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(bowDest, size);
                 bow.Draw(spriteBatch, destRect);
                 bowDrawn = true;
                 
@@ -117,8 +112,8 @@ namespace ZeldaDungeon.UI
                     i++;
                 }
                 boomDest = itemTopLeft + new Point(boomX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, boomY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(boomDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(boomDest, size);
                 boomerang.Draw(spriteBatch, destRect);
                 boomerangDrawn = true;
             }
@@ -133,27 +128,11 @@ namespace ZeldaDungeon.UI
                     i++;
                 }
                 specBoomDest = itemTopLeft + new Point(specBoomX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, specBoomY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(specBoomDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(specBoomDest, size);
                 specialBoomerang.Draw(spriteBatch, destRect);
                 specialBoomerangDrawn = true;
 
-            }
-            if (itemDict.ContainsKey(rCandleI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
-                if (!rCandleDrawn)
-                {
-                    rCandleX = i;
-                    rCandleY = j;
-                    i++;
-                }
-                rCandleDest = itemTopLeft + new Point(rCandleX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, rCandleY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(rCandleDest, size);
-                rCandle.Draw(spriteBatch, destRect);
-                rCandleDrawn = true;
             }
             if (itemDict.ContainsKey(bCandleI))
             {
@@ -166,8 +145,8 @@ namespace ZeldaDungeon.UI
                     i++;
                 }
                 bCandleDest = itemTopLeft + new Point(bCandleX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, bCandleY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(bCandleDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(bCandleDest, size);
                 bCandle.Draw(spriteBatch, destRect);
                 bCandleDrawn = true;
             }
@@ -182,8 +161,8 @@ namespace ZeldaDungeon.UI
                     i++;
                 }
                 bombDest = itemTopLeft + new Point(bombX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, bombY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(bombDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(bombDest, size);
                 bomb.Draw(spriteBatch, destRect);
                 bombDrawn = true;
             }
@@ -193,8 +172,8 @@ namespace ZeldaDungeon.UI
                 scaledWidth = (int)SpriteUtil.SpriteSize.CompassWidth * SpriteUtil.SCALE_FACTOR;
                 scaledHeight = (int)SpriteUtil.SpriteSize.CompassLength * SpriteUtil.SCALE_FACTOR;
                 compDest = itemTopLeft - compassTopLeft;
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(compDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(compDest, size);
                 compass.Draw(spriteBatch, destRect);
             }
             if (itemDict.ContainsKey(mapI))
@@ -202,8 +181,8 @@ namespace ZeldaDungeon.UI
                 scaledWidth = (int)SpriteUtil.SpriteSize.MapWidth * SpriteUtil.SCALE_FACTOR;
                 scaledHeight = (int)SpriteUtil.SpriteSize.MapLength * SpriteUtil.SCALE_FACTOR;
                 mapDest = itemTopLeft - mapTopLeft;
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(mapDest, size);
+                size = new Point(scaledWidth, scaledHeight);
+                destRect = new Rectangle(mapDest, size);
                 map.Draw(spriteBatch, destRect);
             }
             DrawSelectionCursor(spriteBatch);
@@ -211,6 +190,16 @@ namespace ZeldaDungeon.UI
             {
                 j = 1;
                 i = 0;
+            }
+            if (inventory.Size == 0)
+            {
+                i = 0;
+                j = 0;
+                bowDrawn = false;
+                boomerangDrawn = false;
+                bombDrawn = false;
+                specialBoomerangDrawn = false;
+                bCandleDrawn = false;
             }
             
 
@@ -242,12 +231,6 @@ namespace ZeldaDungeon.UI
                 scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
                 loc = specBoomDest;
             }
-            else if (selected.Equals(rCandleI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
-                loc = rCandleDest;
-            }
             else if (selected.Equals(bCandleI))
             {
                 scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
@@ -270,7 +253,7 @@ namespace ZeldaDungeon.UI
         }
         public void Update()
         {
-
+            inventory = g.Player.GetInv();
         }
     }
 }

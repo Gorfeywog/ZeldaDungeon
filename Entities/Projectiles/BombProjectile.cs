@@ -38,7 +38,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             {
                 if (entity is IEnemy anEnemy && WillBeHit(anEnemy))
                 {
-                    anEnemy.TakeDamage();
+                    anEnemy.TakeDamage(DamageLevel.Heavy);
                 }
                 if (entity is Door d && WillBeHit(d))
                 {

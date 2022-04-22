@@ -21,8 +21,10 @@ namespace ZeldaDungeon.UI
         private LinkInventory inventory;
         private IDictionary<IItem, int> itemDict;
         private const int RADIX = 10;
+        private Game1 g;
         public HUDCount(Game1 g)
         {
+            this.g = g;
             inventory = g.Player.GetInv();
             x = UISpriteFactory.Instance.CreateX();
             nums = new ISprite[TOTAL_NUM];
@@ -30,13 +32,13 @@ namespace ZeldaDungeon.UI
             {
                 nums[i] = UISpriteFactory.Instance.CreateNumber(i);
             }
-
-
+            
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, Point topLeft, IItem item)
         {
-
+            
             itemDict = inventory.GetDict();
             int scaledWidth = (int)SpriteUtil.SpriteSize.HUDNumberWidth * SpriteUtil.SCALE_FACTOR;
             Point dest = topLeft + new Point(xPos * scaledWidth, 0);
@@ -47,30 +49,12 @@ namespace ZeldaDungeon.UI
             {
                 int itemCount = itemDict[item];
 
-                for (int i = 1; i < SPRITE_NUM; i++)
-                {
-                    dest = topLeft + new Point(i * scaledWidth, 0);
-                    destRect = new Rectangle(dest, size);
-                    int maxItemCount = 19;
-                    if (itemCount > maxItemCount && i == pos1)
-                    {
-                        nums[2].Draw(spriteBatch, destRect);
-                        itemCount = itemCount - (TOTAL_NUM * 2);
-                    }
-                    else if (itemCount > 9 && i == pos1)
-                    {
-                        nums[1].Draw(spriteBatch, destRect);
-                        itemCount = itemCount - TOTAL_NUM;
-                    }
-                    else if (i == pos1)
-                    {
-                        nums[0].Draw(spriteBatch, destRect);
-                    }
-                    else
-                    {
-                        nums[itemCount].Draw(spriteBatch, destRect);
-                    }
-                }
+                dest = topLeft + new Point(pos1 * scaledWidth, 0);
+                destRect = new Rectangle(dest, size);
+                nums[itemCount / 10].Draw(spriteBatch, destRect);
+                dest = topLeft + new Point(pos2 * scaledWidth, 0);
+                destRect = new Rectangle(dest, size);
+                nums[itemCount % 10].Draw(spriteBatch, destRect);
 
             }
             else
@@ -82,12 +66,12 @@ namespace ZeldaDungeon.UI
                     nums[0].Draw(spriteBatch, destRect);
                 }
             }
-
+            
         }
 
         public void Update()
         {
-
+            inventory = g.Player.GetInv();
         }
     }
 }

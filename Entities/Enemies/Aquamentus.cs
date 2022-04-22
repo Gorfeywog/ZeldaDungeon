@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class Aquamentus : IEnemy
     {
-        public bool ReadyToDespawn { get; set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
         private ISprite AquamentusSprite { get; set; }
         public Rectangle CurrentLoc { get; set; }
         public bool IsFriendly { get => false; }
@@ -24,13 +24,12 @@ namespace ZeldaDungeon.Entities.Enemies
         private int currentFrame;
         private Room r;
         private int damageCountdown = 0;
-
+        private int stunCountdown = 0;
 
 
         public Aquamentus(Point position, Room r)
         {
             AquamentusSprite = EnemySpriteFactory.Instance.CreateAquamentusSprite();
-            ReadyToDespawn = false;
             int width = (int)SpriteUtil.SpriteSize.AquamentusX;
             int height = (int)SpriteUtil.SpriteSize.AquamentusY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
@@ -98,18 +97,20 @@ namespace ZeldaDungeon.Entities.Enemies
             r.RegisterEntity(fireballDown);
         }
 
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                currentHealth--;
+                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                {
+                    stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
+                }
+                else
+                {
+                    currentHealth -= (int)level;
+                }
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
                 SoundManager.Instance.PlaySound("BossZapped");
-            }
-            if (currentHealth == 0)
-            {
-                ReadyToDespawn = true;
-                SoundManager.Instance.PlaySound("BossRoaring");
             }
             AquamentusSprite.Damaged = true;
 
@@ -124,6 +125,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             currentFrame++;
             AquamentusSprite.Update();
+            if (stunCountdown > 0) { stunCountdown--; }
             if (AquamentusSprite.Damaged)
             {
                 damageCountdown--;
@@ -138,10 +140,11 @@ namespace ZeldaDungeon.Entities.Enemies
         private static readonly int MOVE_TIMER = 8;
         private static readonly int ATTACK_TIMER = 64;
         private static readonly int ATTACK_CHANCE = 4;
-        private bool WillMove => currentFrame % MOVE_TIMER == 0;
-        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0 && stunCountdown == 0;
+        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0 && stunCountdown == 0;
         public void DespawnEffect()
         {
+            SoundManager.Instance.PlaySound("BossRoaring");
             int rupeeRoll = SpriteUtil.Rand.Next(SpriteUtil.GENERIC_RUPEE_ROLL_CAP);
             if (rupeeRoll > SpriteUtil.GENERIC_5_RUPEE_THRESHOLD)
             {

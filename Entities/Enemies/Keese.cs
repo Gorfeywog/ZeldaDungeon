@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Keese : IEnemy
     {
         private ISprite KeeseSprite { get; set; }
-        public bool ReadyToDespawn { get; private set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
 
         private CollisionHandler Collision { get; set; }
         public CollisionHeight Height { get => CollisionHeight.High; }
@@ -34,7 +34,6 @@ namespace ZeldaDungeon.Entities.Enemies
             currentFrame = 0;
             Collision = new CollisionHandler(r, this);
             currentHealth = SpriteUtil.SMALL_MAX_HEALTH;
-            ReadyToDespawn = false;
         }
 
         private bool WillMove => currentFrame % MOVE_TIMER == 0;
@@ -52,16 +51,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                currentHealth--;
+                currentHealth -= (int)level; // keeses take damage from boomerangs!
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
-
-            if (currentHealth == 0) ReadyToDespawn = true;
             KeeseSprite.Damaged = true;
         }
 

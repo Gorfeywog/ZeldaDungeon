@@ -44,6 +44,7 @@ namespace ZeldaDungeon.Sprites
 
 
         public static readonly int DAMAGE_DELAY = 80;
+        public static readonly int BOOM_STUN_LENGTH = 20;
 
         //HUD sizes
         public static readonly int HUD_WIDTH = 256;

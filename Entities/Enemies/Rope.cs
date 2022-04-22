@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Rope : IEnemy
     {
         private ISprite RopeSprite { get; set; }
-        public bool ReadyToDespawn { get; private set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
         public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
@@ -81,16 +81,15 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                currentHealth--;
+                currentHealth -= (int)level;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
 
-            if (currentHealth == 0) ReadyToDespawn = true;
             RopeSprite.Damaged = true;
         }
 

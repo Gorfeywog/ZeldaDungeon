@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage() { }
+        public void TakeDamage(DamageLevel level) { }
 
         public void Draw(SpriteBatch spriteBatch)
         {

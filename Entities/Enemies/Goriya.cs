@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
 {
     public class Goriya : IEnemy
     {
-        public bool ReadyToDespawn { get; private set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
         public bool IsFriendly { get => false; }
 
         private ISprite GoriyaSprite { get; set; }
@@ -26,7 +26,8 @@ namespace ZeldaDungeon.Entities.Enemies
         private bool isRed; // solely cosmetic at the moment
         private Direction currDirection;
         private int damageCountdown = 0;
-        private int CurrentHealth;
+        private int stunCountdown = 0;
+        private int currentHealth;
 
         public Goriya(Point position, Room r, bool isRed)
         {
@@ -39,7 +40,7 @@ namespace ZeldaDungeon.Entities.Enemies
             currDirection = Direction.Left;
             currentFrame = 0;
             Collision = new CollisionHandler(r, this);
-            CurrentHealth = SpriteUtil.LARGE_MAX_HEALTH;
+            currentHealth = SpriteUtil.LARGE_MAX_HEALTH;
         }
         private static readonly int CHANGE_DIR_CHANCE = 4;
         public void Move()
@@ -81,15 +82,21 @@ namespace ZeldaDungeon.Entities.Enemies
             r.RegisterEntity(boomerang);
         }
 
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                CurrentHealth--;
+                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                {
+                    stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
+                }
+                else
+                {
+                    currentHealth -= (int)level;
+                }
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
-            if (CurrentHealth == 0) ReadyToDespawn = true;
             GoriyaSprite.Damaged = true;
         }
 
@@ -98,20 +105,21 @@ namespace ZeldaDungeon.Entities.Enemies
             GoriyaSprite.Draw(spriteBatch, CurrentLoc);
         }
         private static readonly int MOVE_TIMER = 8;
-        private bool WillMove => currentFrame % MOVE_TIMER == 0 && !IsAttacking;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0 && !IsAttacking && stunCountdown == 0;
         private static readonly int ATTACK_TIMER = 128;
         private static readonly int ATTACK_CHANCE = 2;
-        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0;
+        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0 && stunCountdown == 0;
         public void Update()
         {
             if (GoriyaSprite.Damaged)
             {
                 damageCountdown--;
-                if (damageCountdown == 0)
+                if (damageCountdown <= 0)
                 {
                     GoriyaSprite.Damaged = false;
                 }
             }
+            if (stunCountdown > 0) { stunCountdown--; }
             currentFrame++;
             GoriyaSprite.Update();
             Collision.Update();

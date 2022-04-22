@@ -16,6 +16,6 @@ namespace ZeldaDungeon.Entities
 
         public void Move();
 
-        public void TakeDamage();
+        public void TakeDamage(DamageLevel level);
     }
 }

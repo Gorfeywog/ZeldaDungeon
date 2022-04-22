@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,12 +32,15 @@ namespace ZeldaDungeon.Rooms
         private const int height = 11;
         private string[] lines;
         private Room r;
+        private SpriteFont font;
         private Game1 g;
         public CSVParser(String path, Room r, Game1 g)
         {
             lines = System.IO.File.ReadAllLines(path);
             this.r = r;
             this.g = g;
+            font = g.zeldaFont;
+            
         }
         // array corresponds to the room's grid, list stores every entity on a tile
         // all rows and columns must have the prescribed dimensions
@@ -198,6 +202,7 @@ namespace ZeldaDungeon.Rooms
                 "wbi" => new BoomerangPickup(pos, g, false),
                 "wbi1" => new BoomerangPickup(pos, g, false),
                 "wbi2" => new BoomerangPickup(pos, g, true),
+                "mm" => new MainMenu(pos, font),
                 "" => null,
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -225,6 +230,7 @@ namespace ZeldaDungeon.Rooms
                 "" => new DummyCommand(),
                 "none" => new DummyCommand(),
                 _ => throw new ArgumentException()
+                
             };
         }
         public ICollection<ICommand> ParseClearEffects()

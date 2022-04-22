@@ -38,6 +38,7 @@ namespace ZeldaDungeon
         public GameState State { get; private set; }
         public SpriteFont zeldaFont;
         public ItemSelect Select { get; private set; }
+        private bool mainMenu;
 
         public Game1()
         {
@@ -59,7 +60,9 @@ namespace ZeldaDungeon
             static_HUD = new HUD(this);
             static_PauseMenu = new PauseMenu(this);
             gameOver = new GameOverScreen(zeldaFont);
+            mainMenu = true;
             controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
+            controllers.RegisterMainMenuCommands(mainMenu);
             SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
 
@@ -91,12 +94,14 @@ namespace ZeldaDungeon
 
         protected override void Update(GameTime gameTime)
         {
+            
             switch (State) {
                 case GameState.Normal:
                     controllers.Update();
                     CurrentRoom.UpdateAll();
                     Player.Update();
                     static_HUD.Update();
+                    controllers.RegisterMainMenuCommands(mainMenu);
                     break;
                 case GameState.RoomTransition:
                     transFrame++;
@@ -227,7 +232,7 @@ namespace ZeldaDungeon
                     Rooms.Add(new Room(this, path));
                 }
             }
-            CurrentRoomIndex = 1;
+            CurrentRoomIndex = 17;
         }
 
         public void Reset()
@@ -237,8 +242,10 @@ namespace ZeldaDungeon
             State = GameState.Normal;
             SetupRooms();
             SetupPlayer();
+            mainMenu = true;
             controllers.Reset();
             controllers.RegisterCommands();
+            controllers.RegisterMainMenuCommands(mainMenu);
         }
         public void PauseMenu()
         {
@@ -279,6 +286,7 @@ namespace ZeldaDungeon
                 Player.ChangeRoom(CurrentRoom);
                 CurrentRoom.PlayerEnters(Player);
             }
+            mainMenu = false;
         }
 
         public void UnlockRoomDoor(Direction dir) // TODO - condense this set of three methods into one

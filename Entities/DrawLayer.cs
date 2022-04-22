@@ -10,6 +10,9 @@ namespace ZeldaDungeon.Entities
         Low = 5,
         Normal = 10,
         High = 20,
-        VeryHigh = 30
+        VeryHigh = 30,
+        MainMenu = 40,
+
+
     }
 }

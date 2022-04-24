@@ -20,7 +20,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private int currentHealth;
         private int initX;
-        private bool movingLeft;
+        private Direction currDirection;
         private int currentFrame;
         private Room r;
         private int damageCountdown = 0;
@@ -36,65 +36,45 @@ namespace ZeldaDungeon.Entities.Enemies
             Collision = new CollisionHandler(r, this);
             initX = position.X;
             currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
-            movingLeft = true;
             this.r = r;
             currentFrame = 0;
         }
 
         private static readonly int CHANGE_DIR_CHANCE = 4;
-        private static readonly int X_LIMIT = 2;
-        private static readonly int SPEED = 4;
+        private static readonly int X_LIMIT = 8;
+        private static readonly int SPEED = 8;
         public void Move()
         {
             if (!WillMove)
             {
                 return;
             }
-            int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
+            //One in four chance to change directions
             if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
             {
-                movingLeft = !movingLeft;
+                currDirection = SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) switch
+                {
+                    0 => Direction.Left,
+                    1 => Direction.Right,
+                    2 => Direction.Up,
+                    3 => Direction.Down,
+                    _ => currDirection,
+                };
             }
-            if (movingLeft)
-            {
-                if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
 
-                {
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
-                }
-                if (CurrentLoc.X < initX - X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
-                {
-                    movingLeft = !movingLeft;
-                }
-            }
-            else
+            //Determines which way to move
+            int locChange = 4 * SpriteUtil.SCALE_FACTOR;
+            Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
+            if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))
             {
-                if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size)))
-                {
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
-                }
-                if (CurrentLoc.X > initX + X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
-                {
-                    movingLeft = !movingLeft;
-                }
+                CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
             }
 
         }
 
         public void Attack()
         {
-            if (!WillAttack)
-            {
-                return;
-            }
-            int fireballChange = SpriteUtil.Rand.Next(3) - 1;
-            int fireballVel = -2 * SpriteUtil.SCALE_FACTOR;
-            IProjectile fireballUp = new BowserFire(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballStraight = new BowserFire(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballDown = new BowserFire(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            r.RegisterEntity(fireballUp);
-            r.RegisterEntity(fireballStraight);
-            r.RegisterEntity(fireballDown);
+
         }
 
         public void TakeDamage(DamageLevel level)

@@ -73,13 +73,7 @@ namespace ZeldaDungeon
             keyboardCon.RegisterCommand(Keys.X, new LinkUseSelectedItem(g));
             keyboardCon.RegisterCommand(Keys.OemOpenBrackets, new IncItemSelect(g));
             keyboardCon.RegisterCommand(Keys.OemCloseBrackets, new DecItemSelect(g));
-            
 
-            //Sets up locations to click to move between doors with mouse
-            mouseCon.RegisterCommand(new Rectangle(xCenter, yTop, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Up));
-            mouseCon.RegisterCommand(new Rectangle(xCenter, yBottom, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Down));
-            mouseCon.RegisterCommand(new Rectangle(xLeft, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Left));
-            mouseCon.RegisterCommand(new Rectangle(xRight, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Right));
         }
         public void RegisterMainMenuCommands(bool mainMenu)
         {
@@ -89,7 +83,7 @@ namespace ZeldaDungeon
             }
             else
             {
-                keyboardCon.RegisterCommand(Keys.D1, new DoNothing());
+                keyboardCon.RegisterCommand(Keys.D1, new DummyCommand());
 
             }
         }

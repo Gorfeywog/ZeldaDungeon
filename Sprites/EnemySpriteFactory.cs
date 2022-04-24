@@ -57,7 +57,7 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.KoopaX;
             int height = (int)SpriteSize.KoopaY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(0, 182, width, height), new Rectangle(18, 182, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(26, 222, width, height), new Rectangle(44, 222, width, height) };
             return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 

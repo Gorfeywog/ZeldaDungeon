@@ -21,11 +21,13 @@ namespace ZeldaDungeon.UI
         private LinkInventory inventory;
         private IDictionary<IItem, int> itemDict;
         private const int RADIX = 10;
+        private Game1 g;
         public HUDCount(Game1 g)
         {
             inventory = g.Player.GetInv();
             x = UISpriteFactory.Instance.CreateX();
             nums = new ISprite[TOTAL_NUM];
+            this.g = g;
             for (int i = 0; i < RADIX; i++)
             {
                 nums[i] = UISpriteFactory.Instance.CreateNumber(i);
@@ -67,7 +69,7 @@ namespace ZeldaDungeon.UI
 
         public void Update()
         {
-
+            inventory = g.Player.GetInv();
         }
     }
 }

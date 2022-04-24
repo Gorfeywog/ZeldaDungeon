@@ -71,8 +71,6 @@ namespace ZeldaDungeon.Sprites
         public static readonly int COMPASS_POS_X = 82;
         public static readonly int COMPASS_POS_Y = -100;
         
-
-
         //Map sizes
         public static readonly int MAP_WIDTH = 256;
         public static readonly int MAP_HEIGHT = 88;
@@ -170,9 +168,11 @@ namespace ZeldaDungeon.Sprites
             EnemyDeathY = 16,
             HUDItemWidth = 8,
             SelectWidth = 8,
-            SelectLength = 16
+            SelectLength = 16,
+            InventoryItemX = 8,
+            InventoryItemY = 14
 
-        } 
+    } 
 
         private static readonly int gridX = 40;
         private static readonly int gridY = 40;

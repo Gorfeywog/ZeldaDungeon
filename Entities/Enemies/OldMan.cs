@@ -16,6 +16,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;
+        private int timesHit = 0;
         public OldMan(Point position, Room r)
         {
             OldManSprite = EnemySpriteFactory.Instance.CreateOldManSprite();
@@ -29,9 +30,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        private const int TIMES_HIT_FOR_FIRE = 5;
+        public void TakeDamage(DamageLevel level)
         {
-            // TODO - if damaged enough, make fireballs happen!
+            timesHit++;
+            if (timesHit == TIMES_HIT_FOR_FIRE)
+            {
+                // TODO - make this shoot fireballs or something
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -127,7 +127,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             bool friendly = thrower is ILink;
             if (target is IEnemy en && friendly)
             {
-                en.TakeDamage();
+                en.TakeDamage(DamageLevel.Boomerang);
                 if (!isReturning) velocity = 0;
             }
             else if (target is ILink link && !friendly)

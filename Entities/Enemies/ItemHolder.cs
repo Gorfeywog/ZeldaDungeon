@@ -27,7 +27,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() => Underlying.Attack();
 
-        public void TakeDamage() => Underlying.TakeDamage();
+        public void TakeDamage(DamageLevel level) => Underlying.TakeDamage(level);
 
         public void Draw(SpriteBatch spriteBatch)
         {

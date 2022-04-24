@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
     public class WallMaster : IEnemy
     {
         private ISprite WallMasterSprite { get; set; }
-        public bool ReadyToDespawn { get; private set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
         public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
@@ -21,8 +21,8 @@ namespace ZeldaDungeon.Entities.Enemies
         private int currentHealth;
         private Room r;
         private int damageCountdown = 0;
+        private int stunCountdown = 0;
         private Direction currDirection;
-
         public WallMaster(Point position, Room r)
         {
             this.r = r;
@@ -79,15 +79,22 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                currentHealth--;
+                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                {
+                    stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
+                }
+                else
+                {
+                    currentHealth -= (int)level;
+                }
+                damageCountdown = SpriteUtil.DAMAGE_DELAY;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
-            if (currentHealth == 0) ReadyToDespawn = true;
             WallMasterSprite.Damaged = true;
 
         }
@@ -98,9 +105,10 @@ namespace ZeldaDungeon.Entities.Enemies
         }
 
         private static readonly int MOVE_TIMER = 8;
-        private bool WillMove => currentFrame % MOVE_TIMER == 0;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0 && stunCountdown == 0;
         public void Update()
         {
+            if (stunCountdown > 0) { stunCountdown--; }
             if (WallMasterSprite.Damaged)
             {
                 damageCountdown--;

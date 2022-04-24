@@ -55,7 +55,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		{
 			if (target is IEnemy en && !en.IsFriendly)
 			{
-				en.TakeDamage();
+				en.TakeDamage(DamageLevel.Boomerang);
 			}
 		}
 

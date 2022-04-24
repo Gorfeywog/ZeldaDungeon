@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Gel : IEnemy
     {
         public ISprite GelSprite { get; set; }
-        public bool ReadyToDespawn { get; private set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
         private int currentFrame;
         private CollisionHandler Collision { get; set; }
         private int currentHealth;
@@ -31,7 +31,6 @@ namespace ZeldaDungeon.Entities.Enemies
             int height = (int)SpriteUtil.SpriteSize.GelY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             currentFrame = 0;
-            ReadyToDespawn = false;
             currentHealth = SpriteUtil.SMALL_MAX_HEALTH;
             Collision = new CollisionHandler(r, this);
         }
@@ -57,15 +56,14 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                currentHealth--;
+                currentHealth -= (int)level; // gels take damage from boomerangs!
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
-            if (currentHealth == 0) ReadyToDespawn = true;
             GelSprite.Damaged = true;
         }
 

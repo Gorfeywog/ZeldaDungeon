@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Enemies
     public class Stalfos : IEnemy
     {
         private ISprite StalfosSprite { get; set; }
-        public bool ReadyToDespawn { get; private set; }
+        public bool ReadyToDespawn { get => currentHealth <= 0; }
         public bool IsFriendly { get => false; }
 
         public Rectangle CurrentLoc { get; set; }
@@ -20,8 +20,9 @@ namespace ZeldaDungeon.Entities.Enemies
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;
-        private int CurrentHealth;
+        private int currentHealth;
         private int damageCountdown = 0;
+        private int stunCountdown = 0;
         private Room r;
 
         public Stalfos(Point position, Room r)
@@ -31,11 +32,9 @@ namespace ZeldaDungeon.Entities.Enemies
             int width = (int)SpriteUtil.SpriteSize.StalfosX;
             int height = (int)SpriteUtil.SpriteSize.StalfosY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            CurrentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
+            currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
             currentFrame = 0;
-            Collision = new CollisionHandler(r, this);
-            ReadyToDespawn = false;
-        }
+            Collision = new CollisionHandler(r, this);        }
 
         public void Move()
         {
@@ -56,15 +55,21 @@ namespace ZeldaDungeon.Entities.Enemies
         }
 
         public void Attack() { }
-        public void TakeDamage()
+        public void TakeDamage(DamageLevel level)
         {
             if (damageCountdown == 0)
             {
-                CurrentHealth--;
+                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                {
+                    stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
+                }
+                else
+                {
+                    currentHealth -= (int)level;
+                }
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
-            if (CurrentHealth == 0) ReadyToDespawn = true;
             StalfosSprite.Damaged = true;
         }
 
@@ -74,9 +79,10 @@ namespace ZeldaDungeon.Entities.Enemies
         }
 
         private static readonly int MOVE_TIMER = 8;
-        private bool WillMove => currentFrame % MOVE_TIMER == 0;
+        private bool WillMove => currentFrame % MOVE_TIMER == 0 && stunCountdown == 0;
         public void Update()
         {
+            if (stunCountdown > 0) { stunCountdown--; }
             if (StalfosSprite.Damaged)
             {
                 damageCountdown--;

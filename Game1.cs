@@ -216,6 +216,7 @@ namespace ZeldaDungeon
         public void SetupPlayer()
         {
             Player = new Link(CurrentRoom.LinkDefaultSpawn, this);
+            
             Player.ChangeRoom(CurrentRoom);
             CurrentRoom.PlayerEnters(Player);
         }
@@ -242,6 +243,8 @@ namespace ZeldaDungeon
             State = GameState.Normal;
             SetupRooms();
             SetupPlayer();
+            static_HUD = new HUD(this);
+            static_PauseMenu = new PauseMenu(this);
             mainMenu = true;
             controllers.Reset();
             controllers.RegisterCommands();

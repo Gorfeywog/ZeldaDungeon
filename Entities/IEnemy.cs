@@ -16,6 +16,8 @@ namespace ZeldaDungeon.Entities
 
         public void Move();
 
-        public void TakeDamage();
+        public void Knockback(Direction direction);
+
+        public void TakeDamage(Direction direction = Direction.None);
     }
 }

@@ -122,17 +122,17 @@ namespace ZeldaDungeon.Entities.Projectiles
                 link.AddItem(new BoomerangItem(g, isMagic));
             }
         }
-        public void OnHit(IEntity target)
+        public void OnHit(IEntity target, Direction direction)
         {
             bool friendly = thrower is ILink;
             if (target is IEnemy en && friendly)
             {
-                en.TakeDamage();
+                en.TakeDamage(direction);
                 if (!isReturning) velocity = 0;
             }
             else if (target is ILink link && !friendly)
             {
-                link.TakeDamage();
+                link.TakeDamage(direction);
                 if (!isReturning) velocity = 0;
             }
         }

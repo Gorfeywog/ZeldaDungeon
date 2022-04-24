@@ -9,6 +9,7 @@ namespace ZeldaDungeon.Sprites
     {
         public static readonly int SCALE_FACTOR = 4; // Scale factor of destination rectangles 
         public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
+        public static readonly int KNOCKBACK_SPEED = 6; // Amount entity is knocked back on hit
 
         //Door positions
         public static readonly int X_POS_CENTER = 112;

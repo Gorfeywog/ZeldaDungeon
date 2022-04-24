@@ -94,7 +94,7 @@ namespace ZeldaDungeon.Entities
         {
             if (DetectCollision(player.CurrentLoc, enemy.CurrentLoc) && !enemy.isFriendly)
             {
-                player.TakeDamage();
+                player.TakeDamage(DetectDirection(enemy));
             }
         }
 
@@ -102,7 +102,7 @@ namespace ZeldaDungeon.Entities
         {
             if (DetectCollision(player.CurrentLoc, proj.CurrentLoc))
             {
-                proj.OnHit(player);
+                proj.OnHit(player, DetectDirection(proj));
             }
         }
 
@@ -123,7 +123,7 @@ namespace ZeldaDungeon.Entities
         {
             if (DetectCollision(enemy.CurrentLoc, proj.CurrentLoc))
             {
-                proj.OnHit(enemy);
+                proj.OnHit(enemy, DetectDirection(proj));
             }
         }
 

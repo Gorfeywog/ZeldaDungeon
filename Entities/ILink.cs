@@ -21,7 +21,8 @@ namespace ZeldaDungeon.Entities
         public void StartWalking();
         public void StopWalking();
         public void ChangeRoom(Room r);
-        public void TakeDamage(int amt = 1);
+        public void TakeDamage(Direction direction, int amt = 1);
+        public void Knockback(Direction direction);
         public void Heal(int amt = 1);
         public void Heal();
         public void UseHeartContainer();

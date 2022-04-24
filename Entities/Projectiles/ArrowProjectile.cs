@@ -62,11 +62,11 @@ namespace ZeldaDungeon.Entities.Projectiles
 			ArrowSprite.Update();
 		}
 
-		public void OnHit(IEntity target)
+		public void OnHit(IEntity target, Direction direction)
         {
 			if (target is IEnemy en)
             {
-				en.TakeDamage();
+				en.TakeDamage(direction);
 				ReadyToDespawn = true;
             }
         }

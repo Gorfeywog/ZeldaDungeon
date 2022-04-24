@@ -57,16 +57,48 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        public void TakeDamage(Direction direction)
         {
             if (damageCountdown == 0)
             {
+                Knockback(direction);
                 currentHealth--;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
             if (currentHealth == 0) ReadyToDespawn = true;
             GelSprite.Damaged = true;
+        }
+
+        public void Knockback(Direction direction)
+        {
+            Rectangle newPos;
+            int locChange = SpriteUtil.KNOCKBACK_SPEED * SpriteUtil.SCALE_FACTOR;
+            for (int i = 0; i < 2; i++)
+            {
+                switch (direction)
+                {
+                    case Direction.Down:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
+                        break;
+                    case Direction.Up:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+                        break;
+                    case Direction.Left:
+                        newPos = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
+                        break;
+                    case Direction.Right:
+                        newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+                        break;
+                    default:
+                        newPos = CurrentLoc;
+                        break;
+                }
+                if (!Collision.WillHitBlock(newPos))
+                {
+                    CurrentLoc = newPos;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

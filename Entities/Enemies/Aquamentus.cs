@@ -103,7 +103,7 @@ namespace ZeldaDungeon.Entities.Enemies
             r.RegisterEntity(fireballDown);
         }
 
-        public void TakeDamage()
+        public void TakeDamage(Direction direction)
         {
             if (damageCountdown == 0)
             {
@@ -119,6 +119,8 @@ namespace ZeldaDungeon.Entities.Enemies
 			AquamentusSprite.Damaged = true;
 
 		}
+
+        public void Knockback(Direction direction) { }
 
         public void Draw(SpriteBatch spriteBatch)
         {

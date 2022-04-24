@@ -39,11 +39,11 @@ namespace ZeldaDungeon.Entities.Projectiles
             sprite.Update();
             timer--;
         }
-        public void OnHit(IEntity target)
+        public void OnHit(IEntity target, Direction direction)
         {
             if (target is IEnemy en)
             {
-                en.TakeDamage();
+                en.TakeDamage(direction);
             }
         }
     }

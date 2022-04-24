@@ -12,6 +12,6 @@ namespace ZeldaDungeon.Commands
             this.g = g;
         }
 
-        public void Execute() => g.Player.TakeDamage();
+        public void Execute() => g.Player.TakeDamage(Entities.Direction.Down);
     }
 }

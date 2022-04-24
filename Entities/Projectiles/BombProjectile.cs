@@ -38,7 +38,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             {
                 if (entity is IEnemy anEnemy && WillBeHit(anEnemy))
                 {
-                    anEnemy.TakeDamage();
+                    anEnemy.TakeDamage(Direction.Down);
                 }
                 if (entity is Door d && WillBeHit(d))
                 {
@@ -52,7 +52,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             Point offset = CurrentLoc.Center - p;
             return offset.ToVector2().Length() < EXPLOSION_RADIUS * SpriteUtil.SCALE_FACTOR;
         }
-        public void OnHit(IEntity target) { }
+        public void OnHit(IEntity target, Direction direction) { }
         public void Update()
         {
             sprite.Update();

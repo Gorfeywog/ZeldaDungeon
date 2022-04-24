@@ -55,11 +55,11 @@ namespace ZeldaDungeon.Entities.Projectiles
 		}
 		public void DespawnEffect() { }
 
-		public void OnHit(IEntity target)
+		public void OnHit(IEntity target, Direction direction)
 		{
 			if (target is ILink link)
 			{
-				link.TakeDamage();
+				link.TakeDamage(direction);
 				ReadyToDespawn = true;
 			}
 		}

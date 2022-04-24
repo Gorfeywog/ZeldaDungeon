@@ -6,6 +6,6 @@ namespace ZeldaDungeon.Entities
 {
     public enum Direction
     {
-        Up, Down, Left, Right, NE, SE, NW, SW
+        Up, Down, Left, Right, NE, SE, NW, SW, None
     }
 }

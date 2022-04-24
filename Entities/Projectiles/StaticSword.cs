@@ -50,11 +50,11 @@ namespace ZeldaDungeon.Entities.Projectiles
 			SwordSprite.Update();
 		}
 
-		public void OnHit(IEntity target)
+		public void OnHit(IEntity target, Direction direction)
         {
 			if (target is IEnemy en)
             {
-				en.TakeDamage();
+				en.TakeDamage(direction);
             }
         }
 		public void DespawnEffect() { }

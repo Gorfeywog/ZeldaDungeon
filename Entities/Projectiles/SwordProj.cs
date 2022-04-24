@@ -51,7 +51,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 		}
 		public void DespawnEffect() { }
 
-		public void OnHit(IEntity target)
+		public void OnHit(IEntity target, Direction direction)
 		{
 			if (target is IEnemy en && !en.isFriendly)
 			{

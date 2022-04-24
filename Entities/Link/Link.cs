@@ -53,12 +53,44 @@ namespace ZeldaDungeon.Entities.Link
             stateMachine.ChangeDirection(nextDirection);
         }
 
-        public void TakeDamage(int amt = 1)
+        public void TakeDamage(Direction direction, int amt = 1)
         {
             if (!stateMachine.Damaged)
             {
+                Knockback(direction);
                 sound.PlaySound("PlayerHurt");
-                stateMachine.TakeDamage(amt);
+               // stateMachine.TakeDamage(amt);
+            }
+        }
+
+        public void Knockback(Direction direction)
+        {
+            Rectangle newPos;
+            int locChange = SpriteUtil.KNOCKBACK_SPEED * SpriteUtil.SCALE_FACTOR;
+            for (int i = 0; i < 2; i++)
+            {
+                switch (direction)
+                {
+                    case Direction.Down:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
+                        break;
+                    case Direction.Up:
+                        newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+                        break;
+                    case Direction.Left:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+                        break;
+                    case Direction.Right:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
+                        break;
+                    default:
+                        newPos = CurrentLoc;
+                        break;
+                }
+                if (!collision.WillHitBlock(newPos))
+                {
+                    CurrentLoc = newPos;
+                }
             }
         }
 

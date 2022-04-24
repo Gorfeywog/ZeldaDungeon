@@ -80,7 +80,7 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Attack() { }
 
-        public void TakeDamage()
+        public void TakeDamage(Direction direction)
         {
             if (damageCountdown == 0)
             {
@@ -91,6 +91,10 @@ namespace ZeldaDungeon.Entities.Enemies
             if (CurrentHealth == 0) ReadyToDespawn = true;
             WallMasterSprite.Damaged = true;
 
+        }
+
+        public void Knockback(Direction direction)
+        {
         }
 
         public void Draw(SpriteBatch spriteBatch)

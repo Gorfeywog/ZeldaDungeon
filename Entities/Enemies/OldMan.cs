@@ -43,11 +43,12 @@ namespace ZeldaDungeon.Entities.Enemies
 
         }
 
-        public void TakeDamage()
+        public void TakeDamage(Direction direction)
         {
 
         }
 
+        public void Knockback(Direction direction) { }
         public void Draw(SpriteBatch spriteBatch)
         {
             OldManSprite.Draw(spriteBatch, CurrentLoc);

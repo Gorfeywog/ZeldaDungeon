@@ -21,9 +21,10 @@ namespace ZeldaDungeon.Entities.Enemies
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public EntityList roomEntities;
         private int CurrentHealth;
-        private static readonly int damageDelay = 80;
         private int damageCountdown = 0;
+        private int Knockbacks = 0;
         private Room r;
+        private Direction direction;
 
         public Stalfos(Point position, Room r)
         {
@@ -32,7 +33,8 @@ namespace ZeldaDungeon.Entities.Enemies
             int width = (int)SpriteUtil.SpriteSize.StalfosX;
             int height = (int)SpriteUtil.SpriteSize.StalfosY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+            //CurrentHealth = SpriteUtil.GENERIC_MAX_HEALTH;
+            CurrentHealth = 12;
             currentFrame = 0;
             Collision = new CollisionHandler(r, this);
             ReadyToDespawn = false;
@@ -40,33 +42,75 @@ namespace ZeldaDungeon.Entities.Enemies
 
         public void Move()
         {
-            if (!WillMove) { return; }
-            int dirChance = 3;
-            int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
-            Rectangle newPos;
-            if (SpriteUtil.Rand.Next(dirChance) == 0)
+            if (Knockbacks > 0)
             {
-                newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size); ;
+                Knockback(direction);
+                Knockbacks--;
             }
             else
             {
-                newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+                if (!WillMove) { return; }
+                int dirChance = 3;
+                int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+                Rectangle newPos;
+                if (SpriteUtil.Rand.Next(dirChance) == 0)
+                {
+                    newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size); ;
+                }
+                else
+                {
+                    newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+                }
+                if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
             }
-            if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
+
 
         }
 
         public void Attack() { }
-        public void TakeDamage()
+        public void TakeDamage(Direction direction)
         {
             if (damageCountdown == 0)
             {
+                this.direction = direction;
+                Knockbacks = 3;
                 CurrentHealth--;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }
             if (CurrentHealth == 0) ReadyToDespawn = true;
             StalfosSprite.Damaged = true;
+        }
+
+        public void Knockback(Direction direction)
+        {
+            Rectangle newPos;
+            int locChange = SpriteUtil.KNOCKBACK_SPEED * SpriteUtil.SCALE_FACTOR;
+            for (int i = 0; i < 2; i++)
+            {
+                switch (direction)
+                {
+                    case Direction.Down:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
+                        break;
+                    case Direction.Up:
+                        newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y - locChange), CurrentLoc.Size);
+                        break;
+                    case Direction.Left:
+                        newPos = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
+                        break;
+                    case Direction.Right:
+                        newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
+                        break;
+                    default:
+                        newPos = CurrentLoc;
+                        break;
+                }
+                if (!Collision.WillHitBlock(newPos))
+                {
+                    CurrentLoc = newPos;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

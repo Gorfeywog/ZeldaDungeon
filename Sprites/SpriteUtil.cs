@@ -50,6 +50,9 @@ namespace ZeldaDungeon.Sprites
         public static readonly int HUD_WIDTH = 256;
         public static readonly int HUD_HEIGHT = 56;
 
+        // Main Menu sizes
+        public static readonly int MENU_WIDTH = 256;
+        public static readonly int MENU_HEIGHT = 232;
         //Inventory sizes
         public static readonly int INVENTORY_WIDTH = 256;
         public static readonly int INVENTORY_HEIGHT = 88;

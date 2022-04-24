@@ -68,24 +68,24 @@ namespace ZeldaDungeon
             keyboardCon.RegisterCommand(Keys.N, linkAttack);
             keyboardCon.RegisterCommand(Keys.O, new DecRoom(g));
             keyboardCon.RegisterCommand(Keys.P, new IncRoom(g));
-            keyboardCon.RegisterCommand(Keys.D1, new LinkUseItem(g, new BombItem(g)));
-            keyboardCon.RegisterCommand(Keys.D2, new LinkUseItem(g, new ArrowItem(g, false)));
-            keyboardCon.RegisterCommand(Keys.D3, new LinkUseItem(g, new ArrowItem(g, true)));
-            keyboardCon.RegisterCommand(Keys.D4, new LinkUseItem(g, new CandleItem(g, true)));
-            keyboardCon.RegisterCommand(Keys.D5, new LinkUseItem(g, new BoomerangItem(g, false)));
-            keyboardCon.RegisterCommand(Keys.D6, new LinkUseItem(g, new BoomerangItem(g, true)));
-            keyboardCon.RegisterCommand(Keys.D7, new LinkUseItem(g, new CandleItem(g, false)));
             keyboardCon.RegisterCommand(Keys.M, new MuteBackground(g));
             keyboardCon.RegisterCommand(Keys.L, new DamageLink(g));
             keyboardCon.RegisterCommand(Keys.X, new LinkUseSelectedItem(g));
             keyboardCon.RegisterCommand(Keys.OemOpenBrackets, new IncItemSelect(g));
             keyboardCon.RegisterCommand(Keys.OemCloseBrackets, new DecItemSelect(g));
 
-            //Sets up locations to click to move between doors with mouse
-            mouseCon.RegisterCommand(new Rectangle(xCenter, yTop, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Up));
-            mouseCon.RegisterCommand(new Rectangle(xCenter, yBottom, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Down));
-            mouseCon.RegisterCommand(new Rectangle(xLeft, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Left));
-            mouseCon.RegisterCommand(new Rectangle(xRight, yCenter, xDoorSize, yDoorSize), new LinkUseDoor(g, Direction.Right));
+        }
+        public void RegisterMainMenuCommands(bool mainMenu)
+        {
+            if (mainMenu)
+            {
+                keyboardCon.RegisterCommand(Keys.D1, new StartDungeon(g, Direction.Up));
+            }
+            else
+            {
+                keyboardCon.RegisterCommand(Keys.D1, new DummyCommand());
+
+            }
         }
     }
 }

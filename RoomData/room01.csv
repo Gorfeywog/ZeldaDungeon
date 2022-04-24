@@ -10,7 +10,7 @@ wr,wr,bfb,bfb,bfb,bsb,bsb,bsb,bsb,bsb,bsb,bfb,bfb,bfb,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 2;5
-od,od,od,ld
+od,cd,od,ld
 2;5,7.5;8,13;5,7.5;2
 0
 none

@@ -85,6 +85,7 @@ namespace ZeldaDungeon
             else
             {
                 keyboardCon.RegisterCommand(Keys.D1, new DummyCommand());
+                keyboardCon.RegisterCommand(Keys.D2, new DummyCommand());
 
             }
         }

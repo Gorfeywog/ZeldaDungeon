@@ -10,6 +10,9 @@ namespace ZeldaDungeon.Sprites
     public class EnemySpriteFactory
     {
         private Texture2D enemySpriteSheet;
+        private Texture2D bowserSpriteSheet;
+        private Texture2D rickSpriteSheet;
+        private Texture2D gameNWatchSpriteSheet;
 
         private static EnemySpriteFactory instance = new EnemySpriteFactory();
         
@@ -26,8 +29,46 @@ namespace ZeldaDungeon.Sprites
         public void LoadAllTextures(ContentManager content)
         {
             enemySpriteSheet = content.Load<Texture2D>("enemysprites");
+            //bowserSpriteSheet = content.Load<Texture2D>("bowsersprites");
+            //rickSpriteSheet = content.Load<Texture2D>("rick");
+            //gameNWatchSpriteSheet = content.Load<Texture2D>("gameNWatch");
         }
 
+        public ISprite CreateBowserSprite()
+        {
+            int width = (int)SpriteSize.BowserX;
+            int height = (int)SpriteSize.BowserY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(0, 209, width, height), new Rectangle(34, 209, width, height) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateKoopaSprite()
+        {
+            int width = (int)SpriteSize.KoopaX;
+            int height = (int)SpriteSize.KoopaY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(0, 182, width, height), new Rectangle(18, 182, width, height) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateRickAstleySprite()
+        {
+            int width = (int)SpriteSize.RickX;
+            int height = (int)SpriteSize.RickY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(0, 209, width, height), new Rectangle(34, 209, width, height) };
+            return new AnimatedSprite(rickSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateMrGameNWatchSprite()
+        {
+            int width = (int)SpriteSize.GameNWatchX;
+            int height = (int)SpriteSize.GameNWatchY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(352, 21, width, height), new Rectangle(378, 21, width, height) };
+            return new AnimatedSprite(gameNWatchSpriteSheet, sourceRectangles);
+        }
         public ISprite CreateKeeseSprite()
         {
             int width = (int)SpriteSize.KeeseX;

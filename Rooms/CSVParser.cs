@@ -174,6 +174,7 @@ namespace ZeldaDungeon.Rooms
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),
                 "wbb" => new WhiteBrickBlock(pos),
+                "bsr" => new Bowser(pos, r),
                 "aqe" => new Aquamentus(pos, r),
                 "ge" => new Gel(pos, r), 
                 "gre" => new Goriya(pos, r, true),

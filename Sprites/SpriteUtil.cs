@@ -21,6 +21,7 @@ namespace ZeldaDungeon.Sprites
         //Default max health values
         public static readonly int LINK_MAX_HEALTH = 6;
         public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
+        public static readonly int BOWSER_MAX_HEALTH = 20;
         public static readonly int SMALL_MAX_HEALTH = 2;
         public static readonly int MEDIUM_MAX_HEALTH = 5;
         public static readonly int LARGE_MAX_HEALTH = 7;
@@ -83,6 +84,14 @@ namespace ZeldaDungeon.Sprites
         //occasionally be used while in different directions, so X and Y would be confusing for these items
         public enum SpriteSize
         {
+            KoopaX = 15,
+            KoopaY = 23,
+            GameNWatchX = 21,
+            GameNWatchY = 21,
+            RickX = 0,
+            RickY = 0,
+            BowserX = 32,
+            BowserY = 32,
             OldManX = 16,
             OldManY = 16,
             DoorX = 32,

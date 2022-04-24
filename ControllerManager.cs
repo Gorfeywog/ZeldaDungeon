@@ -80,10 +80,11 @@ namespace ZeldaDungeon
             if (mainMenu)
             {
                 keyboardCon.RegisterCommand(Keys.D1, new StartDungeon(g, Direction.Up));
+                keyboardCon.RegisterCommand(Keys.D2, new StartTower(g, Direction.Right));
             }
             else
             {
-                keyboardCon.RegisterCommand(Keys.D2, new StartTower(g, Direction.Right));
+                keyboardCon.RegisterCommand(Keys.D1, new DummyCommand());
 
             }
         }

@@ -9,8 +9,8 @@ wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,bfb,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
 wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr,wr
-2;5
-od,ld,nd,nd
+3;5
+nd,ld,nd,nd
 2;5,7.5;8,13;5,7.5;2
 0
 ki,pkse

@@ -29,9 +29,9 @@ namespace ZeldaDungeon.Sprites
         public void LoadAllTextures(ContentManager content)
         {
             enemySpriteSheet = content.Load<Texture2D>("enemysprites");
-            //bowserSpriteSheet = content.Load<Texture2D>("bowsersprites");
-            //rickSpriteSheet = content.Load<Texture2D>("rick");
-            //gameNWatchSpriteSheet = content.Load<Texture2D>("gameNWatch");
+            bowserSpriteSheet = content.Load<Texture2D>("bowsersprites");
+            rickSpriteSheet = content.Load<Texture2D>("rick");
+            gameNWatchSpriteSheet = content.Load<Texture2D>("gameNWatch");
         }
 
         public ISprite CreateBowserSprite()
@@ -40,6 +40,15 @@ namespace ZeldaDungeon.Sprites
             int height = (int)SpriteSize.BowserY;
 
             Rectangle[] sourceRectangles = { new Rectangle(0, 209, width, height), new Rectangle(34, 209, width, height) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateBowserFireSprite()
+        {
+            int width = (int)SpriteSize.BowserFireX;
+            int height = (int)SpriteSize.BowserFireY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(102, 242, width, height), new Rectangle(102, 252, width, height) };
             return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
@@ -57,7 +66,7 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.RickX;
             int height = (int)SpriteSize.RickY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(0, 209, width, height), new Rectangle(34, 209, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(5, 5, width, height), new Rectangle(59, 5, width, height) };
             return new AnimatedSprite(rickSpriteSheet, sourceRectangles);
         }
 

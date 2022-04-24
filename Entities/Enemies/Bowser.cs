@@ -89,9 +89,9 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             int fireballChange = SpriteUtil.Rand.Next(3) - 1;
             int fireballVel = -2 * SpriteUtil.SCALE_FACTOR;
-            IProjectile fireballUp = new Fireball(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballStraight = new Fireball(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballDown = new Fireball(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
+            IProjectile fireballUp = new BowserFire(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
+            IProjectile fireballStraight = new BowserFire(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
+            IProjectile fireballDown = new BowserFire(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
             r.RegisterEntity(fireballUp);
             r.RegisterEntity(fireballStraight);
             r.RegisterEntity(fireballDown);

@@ -22,7 +22,7 @@ namespace ZeldaDungeon.UI
         private Point mapTopLeft = new Point((int)SpriteUtil.MAP_POS_X * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.MAP_POS_Y * SpriteUtil.SCALE_FACTOR);
         private Point compassTopLeft = new Point((int)SpriteUtil.COMPASS_POS_X * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.COMPASS_POS_Y * SpriteUtil.SCALE_FACTOR);
         private ItemSelect itemSelect;
-        private int j, k, boomerangIndex = 0, bowIndex = 1, magicBoomIndex = 2, compassIndex = 3, mapIndex = 4, candleIndex = 5, bombIndex = 6;
+        private int j, k, compassIndex = 3, mapIndex = 4;
 
 
         public PauseInventory(Game1 g)

@@ -22,8 +22,8 @@ namespace ZeldaDungeon.Entities.Projectiles
 		public BowserFire(Point position, int xChange, int yChange)
 		{
 			BowserFireSprite = EnemySpriteFactory.Instance.CreateBowserFireSprite(); // note that it lives on the enemies sheet
-			int width = (int)SpriteUtil.SpriteSize.FireballX;
-			int height = (int)SpriteUtil.SpriteSize.FireballY;
+			int width = (int)SpriteUtil.SpriteSize.BowserFireX;
+			int height = (int)SpriteUtil.SpriteSize.BowserFireY;
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
 			this.xChange = xChange;
 			this.yChange = yChange;

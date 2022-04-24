@@ -12,9 +12,9 @@ namespace ZeldaDungeon.UI
     class PauseInventory
     {
         private static readonly int RADIX = 7;
-        private ISprite[] sprites = new ISprite[7];
-        private IItem[] items = new IItem[7];
-        private Point[] dests = new Point[7];
+        private ISprite[] sprites = new ISprite[RADIX];
+        private IItem[] items = new IItem[RADIX];
+        private Point[] dests = new Point[RADIX];
         private IDictionary<IItem, int> itemDict;
         private bool special = true;
         private LinkInventory inventory;

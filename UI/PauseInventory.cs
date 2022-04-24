@@ -22,7 +22,7 @@ namespace ZeldaDungeon.UI
         private Point mapTopLeft = new Point((int)SpriteUtil.MAP_POS_X * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.MAP_POS_Y * SpriteUtil.SCALE_FACTOR);
         private Point compassTopLeft = new Point((int)SpriteUtil.COMPASS_POS_X * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.COMPASS_POS_Y * SpriteUtil.SCALE_FACTOR);
         private ItemSelect itemSelect;
-        private int j, k;
+        private int j, k, boomerangIndex = 0, bowIndex = 1, magicBoomIndex = 2, compassIndex = 3, mapIndex = 4, candleIndex = 5, bombIndex = 6;
 
 
         public PauseInventory(Game1 g)
@@ -50,13 +50,11 @@ namespace ZeldaDungeon.UI
         public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
         {
             itemDict = inventory.GetDict();
-            int scaledWidth, scaledHeight, boomerangIndex = 0, bowIndex = 1, magicBoomIndex = 2, compassIndex = 3, mapIndex = 4, candleIndex = 5, bombIndex = 6;
-            Point dest = new Point();
+            int scaledWidth, scaledHeight;
             Point size = new Point();
             Rectangle destRect;
             j = 0;
             k = 0;
-
 
             for (int i = 0; i < RADIX; i++)
             {
@@ -64,9 +62,9 @@ namespace ZeldaDungeon.UI
                 {
                     scaledWidth = (int)SpriteUtil.SpriteSize.InventoryItemX * SpriteUtil.SCALE_FACTOR;
                     scaledHeight = (int)SpriteUtil.SpriteSize.InventoryItemY * SpriteUtil.SCALE_FACTOR;
-                    dest = itemTopLeft + new Point(j * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, k * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
+                    dests[i] = itemTopLeft + new Point(j * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, k * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
                     size = new Point(scaledWidth, scaledHeight);
-                    destRect = new Rectangle(dest, size);
+                    destRect = new Rectangle(dests[i], size);
                     sprites[i].Draw(spriteBatch, destRect);
                     j++;
                     if (j > 4)
@@ -74,64 +72,45 @@ namespace ZeldaDungeon.UI
                         j = 0;
                         k++;
                     }
-                    if (i == boomerangIndex)
-                    {
-                        dests[i] = dest;
-                    } else if (i == bowIndex)
-                    {
-                        dests[i] = dest;
-                    } else if (i == magicBoomIndex)
-                    {
-                        dests[i] = dest;
-                    } else if (i == candleIndex)
-                    {
-                        dests[i] = dest;
-                    } else if (i == bombIndex)
-                    {
-                        dests[i] = dest;
-                    }
-
                 } else if (itemDict.ContainsKey(items[i]) && i == compassIndex)
                 {
                     scaledWidth = (int)SpriteUtil.SpriteSize.CompassWidth * SpriteUtil.SCALE_FACTOR;
                     scaledHeight = (int)SpriteUtil.SpriteSize.CompassLength * SpriteUtil.SCALE_FACTOR;
-                    dest = itemTopLeft - compassTopLeft;
+                    dests[i] = itemTopLeft - compassTopLeft;
                     size = new Point(scaledWidth, scaledHeight);
-                    destRect = new Rectangle(dest, size);
+                    destRect = new Rectangle(dests[i], size);
                     sprites[i].Draw(spriteBatch, destRect);
-                    dests[i] = dest;
                 } else if (itemDict.ContainsKey(items[i]) && i == mapIndex)
                 {
                     scaledWidth = (int)SpriteUtil.SpriteSize.MapWidth * SpriteUtil.SCALE_FACTOR;
                     scaledHeight = (int)SpriteUtil.SpriteSize.MapLength * SpriteUtil.SCALE_FACTOR;
-                    dest = itemTopLeft - mapTopLeft;
+                    dests[i] = itemTopLeft - mapTopLeft;
                     size = new Point(scaledWidth, scaledHeight);
-                    destRect = new Rectangle(dest, size);
+                    destRect = new Rectangle(dests[i], size);
                     sprites[i].Draw(spriteBatch, destRect);
-                    dests[i] = dest;
                 }
             }
-            
-
-
+            DrawSelectionCursor(spriteBatch, itemTopLeft);
         }
-        private void DrawSelectionCursor(SpriteBatch spriteBatch)
+        private void DrawSelectionCursor(SpriteBatch spriteBatch, Point itemTopLeft)
         {
             ISprite cursor = ItemSpriteFactory.Instance.CreateSelectionIndicator();
             var selected = itemSelect.SelectedItem();
-            if (selected == null) { return; }
             Point loc = new Point();
             int scaledWidth = (int)SpriteUtil.SpriteSize.InventoryItemX * SpriteUtil.SCALE_FACTOR;
             int scaledHeight = (int)SpriteUtil.SpriteSize.InventoryItemY * SpriteUtil.SCALE_FACTOR;
-            for (int i = 0; i < RADIX; i++)
+            if (selected == null)
             {
-                if (selected.Equals(items[i]))
+                loc = itemTopLeft;
+            }
+            else
+            {
+                for (int i = 0; i < RADIX; i++)
                 {
-                    loc = dests[i];
-                }
-                else
-                {
-                    return;
+                    if (selected.Equals(items[i]))
+                    {
+                        loc = dests[i];
+                    }
                 }
             }
             var size = new Point(scaledWidth, scaledHeight);

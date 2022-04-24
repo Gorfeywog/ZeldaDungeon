@@ -243,6 +243,7 @@ namespace ZeldaDungeon
             State = GameState.Normal;
             SetupRooms();
             SetupPlayer();
+            Select = new ItemSelect(Player);
             static_HUD = new HUD(this);
             static_PauseMenu = new PauseMenu(this);
             mainMenu = true;

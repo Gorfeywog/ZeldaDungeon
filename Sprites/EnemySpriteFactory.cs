@@ -13,6 +13,7 @@ namespace ZeldaDungeon.Sprites
         private Texture2D bowserSpriteSheet;
         private Texture2D rickSpriteSheet;
         private Texture2D gameNWatchSpriteSheet;
+        private Texture2D musicSpriteSheet;
 
         private static EnemySpriteFactory instance = new EnemySpriteFactory();
         
@@ -32,6 +33,16 @@ namespace ZeldaDungeon.Sprites
             bowserSpriteSheet = content.Load<Texture2D>("Bowser (1)");
             rickSpriteSheet = content.Load<Texture2D>("rick");
             gameNWatchSpriteSheet = content.Load<Texture2D>("gameNWatch");
+            musicSpriteSheet = content.Load<Texture2D>("Music Devil");
+        }
+
+        public ISprite CreateGoombaSprite()
+        {
+            int width = (int)SpriteSize.GoombaX;
+            int height = (int)SpriteSize.GoombaY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(26, 56, width, height), new Rectangle(44, 56, width, height) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateBowserSprite()
@@ -70,6 +81,17 @@ namespace ZeldaDungeon.Sprites
             new Rectangle(3, 53, width, height), new Rectangle(53, 53, width, height), new Rectangle(103, 53, width, height), new Rectangle(103, 3, width, height),
             new Rectangle(103, 58, width, height), new Rectangle(103, 103, width, height)};
             return new AnimatedSprite(rickSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateMusicNoteSprite()
+        {
+            int width = (int)SpriteSize.MusicX;
+            int height = (int)SpriteSize.MusicY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(8, 3, width, height), new Rectangle(40, 3, width, height), new Rectangle(72, 3, width, height),
+            new Rectangle(106, 3, width, height), new Rectangle(137, 3, width, height), new Rectangle(168, 3, width, height), new Rectangle(199, 3, width, height)
+            };
+            return new AnimatedSprite(musicSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateMrGameNWatchSprite()

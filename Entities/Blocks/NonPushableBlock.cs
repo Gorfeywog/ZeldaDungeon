@@ -6,7 +6,7 @@ namespace ZeldaDungeon.Entities.Blocks
 {
     public class NonPushableBlock : IBlock
     {
-        private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock();
+        private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock1();
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }

@@ -54,14 +54,14 @@ namespace ZeldaDungeon.Entities.Enemies
             }
             //TODO: Change projectiles to music notes and add "Never Gonna Give You Up" Boss Music
             int fireballVel = 2 * SpriteUtil.SCALE_FACTOR;
-            IProjectile fireballN = new BowserFire(CurrentLoc.Location, 0, -fireballVel);
-            IProjectile fireballS = new BowserFire(CurrentLoc.Location, 0, fireballVel);
-            IProjectile fireballE = new BowserFire(CurrentLoc.Location, fireballVel, 0);
-            IProjectile fireballW = new BowserFire(CurrentLoc.Location, -fireballVel,0);
-            IProjectile fireballSE = new BowserFire(CurrentLoc.Location, fireballVel, fireballVel);
-            IProjectile fireballSW = new BowserFire(CurrentLoc.Location, -fireballVel, fireballVel);
-            IProjectile fireballNE = new BowserFire(CurrentLoc.Location, fireballVel, -fireballVel);
-            IProjectile fireballNW = new BowserFire(CurrentLoc.Location, -fireballVel, -fireballVel);
+            IProjectile fireballN = new MusicNotes(CurrentLoc.Location, 0, -fireballVel);
+            IProjectile fireballS = new MusicNotes(CurrentLoc.Location, 0, fireballVel);
+            IProjectile fireballE = new MusicNotes(CurrentLoc.Location, fireballVel, 0);
+            IProjectile fireballW = new MusicNotes(CurrentLoc.Location, -fireballVel,0);
+            IProjectile fireballSE = new MusicNotes(CurrentLoc.Location, fireballVel, fireballVel);
+            IProjectile fireballSW = new MusicNotes(CurrentLoc.Location, -fireballVel, fireballVel);
+            IProjectile fireballNE = new MusicNotes(CurrentLoc.Location, fireballVel, -fireballVel);
+            IProjectile fireballNW = new MusicNotes(CurrentLoc.Location, -fireballVel, -fireballVel);
             r.RegisterEntity(fireballN);
             r.RegisterEntity(fireballS);
             r.RegisterEntity(fireballE);

@@ -65,16 +65,19 @@ namespace ZeldaDungeon.Entities.Enemies
 
             if (Collision.WillHitBlock(newPos))
             {
-                int LeftWall = r.RoomPos.X + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR;
-                int RightWall = LeftWall + 8 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR;
-                int topWall = r.RoomPos.Y + 2 * (int)SpriteUtil.SpriteSize.GenericBlockY * SpriteUtil.SCALE_FACTOR;
-                int BottomWall = topWall + 7 * (int)SpriteUtil.SpriteSize.GenericBlockY * SpriteUtil.SCALE_FACTOR;
+                int wallWidth = 2;
+                int roomWidth = 8;
+                int roomHeight = 5;
+                int LeftWall = r.RoomPos.X + wallWidth * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR;
+                int RightWall = LeftWall + roomWidth * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR;
+                int topWall = r.RoomPos.Y + wallWidth * (int)SpriteUtil.SpriteSize.GenericBlockY * SpriteUtil.SCALE_FACTOR;
+                int BottomWall = topWall + roomHeight * (int)SpriteUtil.SpriteSize.GenericBlockY * SpriteUtil.SCALE_FACTOR;
 
                 switch (currDirection)
                 {
                     case Direction.SW:
                         if (newPos.X <= LeftWall) currDirection = Direction.SE;
-                        if (newPos.Y >= BottomWall + 72) currDirection = Direction.NW;
+                        if (newPos.Y >= BottomWall) currDirection = Direction.NW;
                         break;
                     case Direction.NW:
                         if (newPos.X <= LeftWall) currDirection = Direction.NE;
@@ -86,7 +89,8 @@ namespace ZeldaDungeon.Entities.Enemies
                         break;
                     case Direction.SE:
                         if (newPos.X >= RightWall) currDirection = Direction.SW;
-                        if (newPos.Y >= BottomWall + 72) currDirection = Direction.NE;
+                        if (newPos.Y >= BottomWall) currDirection = Direction.NE;
+                        Debug.Write("Wall is "+BottomWall+" newPos is "+newPos.Y);
                         break;
                 }
             }

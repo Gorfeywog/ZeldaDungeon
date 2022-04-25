@@ -232,7 +232,7 @@ namespace ZeldaDungeon.Rooms
             "pkse" => new PlaySoundEffect(g, "KeyAppearance"),
                 "hi" => new SpawnPickup(r, new HeartPickup(itemSpawnPos)),
                 "ci1" => new SpawnPickup(r, new Candle(itemSpawnPos, g, false)),
-                "tpi" => new SpawnPickup(r, new TriforcePiecePickup(itemSpawnPos)),
+                "tpi" => new SpawnPickup(r, new TriforcePiecePickup(itemSpawnPos, g)),
                 "bowi" => new SpawnPickup(r, new BowPickup(itemSpawnPos, g)),
             "wbi" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),
                 "ki" => new SpawnPickup(r, new KeyPickup(itemSpawnPos)),

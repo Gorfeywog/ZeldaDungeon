@@ -86,8 +86,8 @@ namespace ZeldaDungeon.Sprites
         {
             HammerX = 15,
             HammerY = 15,
-            KoopaX = 15,
-            KoopaY = 23,
+            KoopaX = 17,
+            KoopaY = 25,
             GameNWatchX = 21,
             GameNWatchY = 21,
             RickX = 43,

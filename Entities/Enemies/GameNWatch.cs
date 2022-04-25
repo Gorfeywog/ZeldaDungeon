@@ -65,28 +65,28 @@ namespace ZeldaDungeon.Entities.Enemies
 
             if (Collision.WillHitBlock(newPos))
             {
-                int LeftWall = r.RoomPos.X + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX;
-                int RightWall = LeftWall + 8 * (int)SpriteUtil.SpriteSize.GenericBlockX;
-                int topWall = r.RoomPos.Y + 2 * (int)SpriteUtil.SpriteSize.GenericBlockY;
-                int BottomWall = topWall + 7 * (int)SpriteUtil.SpriteSize.GenericBlockY;
+                int LeftWall = r.RoomPos.X + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR;
+                int RightWall = LeftWall + 8 * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR;
+                int topWall = r.RoomPos.Y + 2 * (int)SpriteUtil.SpriteSize.GenericBlockY * SpriteUtil.SCALE_FACTOR;
+                int BottomWall = topWall + 7 * (int)SpriteUtil.SpriteSize.GenericBlockY * SpriteUtil.SCALE_FACTOR;
 
                 switch (currDirection)
                 {
                     case Direction.SW:
-                        if (newPos.X <= LeftWall + 120) currDirection = Direction.SE;
-                        if (newPos.Y >= BottomWall) currDirection = Direction.NW;
+                        if (newPos.X <= LeftWall) currDirection = Direction.SE;
+                        if (newPos.Y >= BottomWall + 72) currDirection = Direction.NW;
                         break;
                     case Direction.NW:
-                        if (newPos.X <= LeftWall + 120) currDirection = Direction.NE;
-                        if (newPos.Y <= topWall + 120) currDirection = Direction.SW;
+                        if (newPos.X <= LeftWall) currDirection = Direction.NE;
+                        if (newPos.Y <= topWall) currDirection = Direction.SW;
                         break;
                     case Direction.NE:
                         if (newPos.X >= RightWall) currDirection = Direction.NW;
-                        if (newPos.Y <= topWall + 120) currDirection = Direction.SE;
+                        if (newPos.Y <= topWall) currDirection = Direction.SE;
                         break;
                     case Direction.SE:
                         if (newPos.X >= RightWall) currDirection = Direction.SW;
-                        if (newPos.Y >= BottomWall) currDirection = Direction.NE;
+                        if (newPos.Y >= BottomWall + 72) currDirection = Direction.NE;
                         break;
                 }
             }

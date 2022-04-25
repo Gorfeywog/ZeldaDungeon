@@ -19,7 +19,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private int currentHealth;
-        private int initX;
+        private int height, width;
         private Direction direction;
         private int currentFrame;
         private Room r;
@@ -32,19 +32,18 @@ namespace ZeldaDungeon.Entities.Enemies
         public KoopaTroopa(Point position, Room r)
         {
             KoopaTroopaSprite = EnemySpriteFactory.Instance.CreateKoopaSprite();
-            int width = (int)SpriteUtil.SpriteSize.BowserX;
-            int height = (int)SpriteUtil.SpriteSize.BowserY;
+            width = (int)SpriteUtil.SpriteSize.KoopaX;
+            height = (int)SpriteUtil.SpriteSize.KoopaY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             Collision = new CollisionHandler(r, this);
-            initX = position.X;
             currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
             isThrowing = false;
             this.r = r;
             currentFrame = 0;
+            direction = Direction.Down;
         }
 
         private static readonly int CHANGE_DIR_CHANCE = 4;
-        private static readonly int X_LIMIT = 2;
         private static readonly int SPEED = 4;
         public void Move()
         {
@@ -53,32 +52,17 @@ namespace ZeldaDungeon.Entities.Enemies
                 return;
             }
             int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
-            if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
+            direction = SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) switch
             {
-                movingLeft = !movingLeft;
-            }
-            if (movingLeft)
-            {
-                if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
-
-                {
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
-                }
-                if (CurrentLoc.X < initX - X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
-                {
-                    movingLeft = !movingLeft;
-                }
-            }
-            else
-            {
-                if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size)))
-                {
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
-                }
-                if (CurrentLoc.X > initX + X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
-                {
-                    movingLeft = !movingLeft;
-                }
+                0 => Direction.Left,
+                1 => Direction.Right,
+                2 => Direction.Up,
+                3 => Direction.Down,
+                _ => direction,
+            };
+            Point newPos = EntityUtils.Offset(CurrentLoc.Location, direction, locChange);
+            if (!Collision.WillHitBlock(new Rectangle(newPos.X, newPos.Y, height, width))){
+                CurrentLoc = new Rectangle(newPos.X, newPos.Y, height, width);
             }
 
         }
@@ -89,7 +73,15 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 return;
             }
-            hammer = new BoomerangProjectile(this, currDirection, false, r.G);
+
+            hammer = direction switch
+            {
+                Direction.Up => new Hammer(new Point(CurrentLoc.X, CurrentLoc.Y), 0, SPEED),
+                Direction.Right => new Hammer(new Point(CurrentLoc.X, CurrentLoc.Y), SPEED, 0),
+                Direction.Left => new Hammer(new Point(CurrentLoc.X, CurrentLoc.Y), -SPEED, 0),
+                Direction.Down => new Hammer(new Point(CurrentLoc.X, CurrentLoc.Y), 0, -SPEED),
+                _ => new Hammer(new Point(CurrentLoc.X, CurrentLoc.Y), SPEED, 0),
+            };
             r.RegisterEntity(hammer);
         }
 

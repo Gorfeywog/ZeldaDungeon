@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ZeldaDungeon.InventoryItems;
 using ZeldaDungeon.Sprites;
-using ZeldaDungeon.UI.Managers;
 
 namespace ZeldaDungeon.UI
 {
@@ -13,9 +8,11 @@ namespace ZeldaDungeon.UI
     {
         private SpriteFont font;
         private const int OFFSET = 10;
-        public WinScreen(SpriteFont font)
+        private bool tower;
+        public WinScreen(SpriteFont font, bool beatTower)
         {
             this.font = font;
+            this.tower = beatTower;
         }
         public void Draw(SpriteBatch spriteBatch, Point topLeft)
         {
@@ -25,7 +22,9 @@ namespace ZeldaDungeon.UI
             Vector2 center = topLeftVec + new Vector2(scaledRoomWidth / 2.0f, scaledRoomHeight / 2.0f);
             Vector2 centerOffset = new Vector2(OFFSET * SpriteUtil.SCALE_FACTOR, 0);
             center = center - centerOffset;
-            spriteBatch.DrawString(font, "YOU WIN.\nPRESS R TO RESTART.", center, Color.Red);
+            var winMessage = tower ? "Congratulations on defeating the power tower!\nPRESS R TO RESTART"
+                : "Congratulations on recovering the triforce!\nPRESS R TO RESTART.";
+            spriteBatch.DrawString(font, winMessage, center, Color.Red);
         }
     }
 }

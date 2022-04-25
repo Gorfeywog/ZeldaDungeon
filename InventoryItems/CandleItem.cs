@@ -13,7 +13,7 @@ namespace ZeldaDungeon.InventoryItems
 	{
         public bool Consumable { get => false; }
         private Game1 g;
-        public bool IsRed { get; private set; } // red ones can be used more than once per room
+        public bool IsRed { get; private set; } 
         public CandleItem(Game1 g, bool isRed)
         {
             this.g = g;
@@ -23,7 +23,6 @@ namespace ZeldaDungeon.InventoryItems
         public void UseOn(ILink player)
         {
             SoundManager.Instance.PlaySound("FlamesShot");
-            // uses player.CurrentLoc.Location rather than player.Center since is about the size of Link
             Point loc = EntityUtils.Offset(player.CurrentLoc.Location, player.Direction, offset);
             IProjectile proj = new CandleFire(loc, player.Direction);
             g.CurrentRoom.RegisterEntity(proj);

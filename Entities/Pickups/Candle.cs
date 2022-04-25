@@ -13,7 +13,7 @@ namespace ZeldaDungeon.Entities.Pickups
 	{
         private ISprite sprite;
         private Game1 g;
-        private bool isRed; // red ones can be used more than once per room
+        private bool isRed; 
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }

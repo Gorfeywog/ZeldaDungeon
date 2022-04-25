@@ -17,6 +17,7 @@ namespace ZeldaDungeon.UI
         private ISprite rCandle;
         private ISprite bCandle;
         private ISprite bomb;
+         
         public HUDItems()
         {
             sword = ItemSpriteFactory.Instance.CreateSword(Entities.Direction.Up);
@@ -35,8 +36,11 @@ namespace ZeldaDungeon.UI
             Point size = new Point(scaledWidth, scaledHeight);
             Rectangle swordDestRect = new Rectangle(swordTopLeft, size);
             sword.Draw(spriteBatch, swordDestRect);
-            if (selection == null) { return; } // only proceed if have an item selected!
-            Rectangle itemDestRect = new Rectangle(itemTopLeft, size); // TODO - make it use its own size, not sword size
+            if (selection == null ) { return; } 
+            scaledWidth = (int)SpriteUtil.SpriteSize.InventoryItemX * SpriteUtil.SCALE_FACTOR;
+            scaledHeight = (int)SpriteUtil.SpriteSize.InventoryItemY * SpriteUtil.SCALE_FACTOR;
+            size = new Point(scaledWidth, scaledHeight);
+            Rectangle itemDestRect = new Rectangle(itemTopLeft, size); 
             ISprite sprite;
             if (selection is BoomerangItem b)
             {
@@ -56,7 +60,7 @@ namespace ZeldaDungeon.UI
             }
             else
             {
-                return; // can't draw if we don't have a sprite for it
+                return; 
             }
             sprite.Draw(spriteBatch, itemDestRect);
         }

@@ -7,7 +7,7 @@ namespace ZeldaDungeon
     public class ItemSelect
     {
         private ILink link;
-        private int selectionIndex = -1; // may be -1 for no selection
+        private int selectionIndex = -1; 
         private IList<IItem> selectables;
 
         public ItemSelect(ILink link)
@@ -16,10 +16,9 @@ namespace ZeldaDungeon
         }
         public void Update()
         {
-            // regenerating selectables every frame is probably a bad idea for performance, but there are worse ideas in this game
             selectables = Selectables();
         }
-        public IItem SelectedItem() // may return null
+        public IItem SelectedItem() 
         {
             if (selectionIndex == -1)
             {
@@ -27,7 +26,7 @@ namespace ZeldaDungeon
             }
             else if (selectionIndex >= selectables.Count)
             {
-                selectionIndex = -1; // bad selection! reset to nothing!
+                selectionIndex = -1;
                 return null;
             }
             else return selectables[selectionIndex];
@@ -67,12 +66,11 @@ namespace ZeldaDungeon
         }
         private static int CompareItemsByMagic(IItem x, IItem y)
         {
-            if (!x.Selectable || !y.Selectable) { return 0; } // who cares about order if neither can be selected?
+            if (!x.Selectable || !y.Selectable) { return 0; } 
             return SortScore(x) - SortScore(y);
         }
-        // used to sort items following the same (fairly arbitrary) ordering used in the pause menu
+        // used to sort items following the same ordering used in the pause menu
         // ordered as: bow, boomerang, magic boomerang, red candle, blue candle, bomb
-        // do not try to apply any real meaning to these.
         private static int SortScore(IItem x)
         {
             int score = 0;

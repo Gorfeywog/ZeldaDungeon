@@ -23,7 +23,7 @@ namespace ZeldaDungeon.UI
             this.g = g;
             mapGrid = new PauseMapRoomState[MAP_GRID_LENGTH, MAP_GRID_LENGTH];
             pauseMap = new PauseMap();
-            Update(false); // prevent a tricky crash
+            Update(false); 
         }
         public void Draw(SpriteBatch spriteBatch, Point pausePos)
         {
@@ -31,7 +31,7 @@ namespace ZeldaDungeon.UI
             pauseMap.Draw(spriteBatch, pauseMapTopLeft, mapGrid);
         }
         private static readonly Direction[] possible = { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
-        public void Update(bool hasMap) // (perhaps inaccurately to the original) pause map only appears at all if you have the map
+        public void Update(bool hasMap) 
         {
             for (int i = 0; i < MAP_GRID_LENGTH; i++)
             {

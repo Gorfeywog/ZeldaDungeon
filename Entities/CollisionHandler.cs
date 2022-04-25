@@ -50,7 +50,7 @@ namespace ZeldaDungeon.Entities
         {
             if (!nextLoc.Intersects(CurrentRoom.RoomPos))
             {
-                return true; // cannot escape the room!
+                return true; 
             }
             foreach (Door d in RoomEntities.Doors()) 
             {
@@ -125,7 +125,7 @@ namespace ZeldaDungeon.Entities
             if (d.State == DoorState.Locked && player.HasItem(key))
             {
                 player.UseItem(key);
-                CurrentRoom.G.UnlockRoomDoor(d.Dir); // CurrentRoom.G here is bad but the alternatives seem worse
+                CurrentRoom.G.UnlockRoomDoor(d.Dir); 
             }
             if (d.CanPass)
             {
@@ -143,7 +143,6 @@ namespace ZeldaDungeon.Entities
         
         private bool DetectCollision(Rectangle rectangle1, Rectangle rectangle2)
         {
-            // If entity1 starts before entity2 finishes and vice versa, you know theres an x-value that matches. If the same thing happens with the y-values, there is collision.
             XCollision = (rectangle1.X < (rectangle2.X + rectangle2.Width - (2 * SpriteUtil.SCALE_FACTOR))
                 && rectangle2.X < (rectangle1.X + rectangle1.Width - (2 * SpriteUtil.SCALE_FACTOR)));
             YCollision = (rectangle1.Y < (rectangle2.Y + rectangle2.Height - (2 * SpriteUtil.SCALE_FACTOR))
@@ -174,20 +173,22 @@ namespace ZeldaDungeon.Entities
                 actualEntityBigY = true;
                 dy = ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height - CurrentEntityLoc.Y;
             }
-            // If dx > dy, we know it's either a top or bottom collision.
             if (dx > dy)
             {
+
                 // If dy is positive, the actualEntity was hit from the top.
                 // If negative, it was hit from the bottom.
                 if (!actualEntityBigY) return Direction.Up;
+
                 else return Direction.Down;
             }
-            // If dy > dx, we know it's either a left or right collision.
             else
             {
+
                 // If dx is positive, the actualEntity was hit from the left.
                 // If negative, it was hit from the right.
                 if (!actualEntityBigX) return Direction.Left;
+
                 else return Direction.Right;
             }
         }
@@ -214,7 +215,7 @@ namespace ZeldaDungeon.Entities
         {
             if (!(ActualEntity is ILink))
             {
-                return; // only happens for Link
+                return; 
             }
             Rectangle loc = ActualEntity.CurrentLoc;
             foreach (IBlock b in RoomEntities.Blocks())

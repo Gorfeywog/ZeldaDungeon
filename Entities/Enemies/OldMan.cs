@@ -20,7 +20,6 @@ namespace ZeldaDungeon.Entities.Enemies
         public OldMan(Point position, Room r)
         {
             OldManSprite = EnemySpriteFactory.Instance.CreateOldManSprite();
-            //TODO Fix old man being drawn off center in a less concrete manner
             int offset = 8;
             CurrentLoc = new Rectangle(new Point(position.X - (offset * SpriteUtil.SCALE_FACTOR), position.Y),
                 new Point((int)SpriteUtil.SpriteSize.OldManX * SpriteUtil.SCALE_FACTOR,

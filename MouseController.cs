@@ -23,7 +23,7 @@ namespace ZeldaDungeon
         }
         public void ExecuteCommands()
         {
-            if (state.LeftButton == ButtonState.Pressed // only do stuff on buttonpress
+            if (state.LeftButton == ButtonState.Pressed 
                 && oldState.LeftButton == ButtonState.Released) {
                 Point pos = state.Position;
                 Point oldPos = oldState.Position;
@@ -36,7 +36,7 @@ namespace ZeldaDungeon
                 }
             }
         }
-        public void RegisterCommand(Rectangle r, ICommand c) // activates on left click in r
+        public void RegisterCommand(Rectangle r, ICommand c) 
         {
             commands[r] = c;
         }

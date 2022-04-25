@@ -4,9 +4,8 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Blocks
 {
-    public class LadderVoidBlock : IBlock // used to emulate gravity
+    public class LadderVoidBlock : IBlock 
     {
-        // notice: no sprite
         public CollisionHeight Height { get => CollisionHeight.Projectile; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }

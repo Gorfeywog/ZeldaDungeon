@@ -55,7 +55,6 @@ namespace ZeldaDungeon
             ICommand linkStopDown = new StopLink(g, Direction.Down);
             ICommand linkStopLeft = new StopLink(g, Direction.Left);
             ICommand linkStopRight = new StopLink(g, Direction.Right);
-            ICommand linkAttack = new LinkAttack(g);
             keyboardCon.RegisterHoldCommand(Keys.W, linkUp, linkStopUp);
             keyboardCon.RegisterHoldCommand(Keys.Up, linkUp, linkStopUp);
             keyboardCon.RegisterHoldCommand(Keys.A, linkLeft, linkStopLeft);
@@ -64,12 +63,8 @@ namespace ZeldaDungeon
             keyboardCon.RegisterHoldCommand(Keys.Down, linkDown, linkStopDown);
             keyboardCon.RegisterHoldCommand(Keys.D, linkRight, linkStopRight);
             keyboardCon.RegisterHoldCommand(Keys.Right, linkRight, linkStopRight);
-            keyboardCon.RegisterCommand(Keys.Z, linkAttack);
-            keyboardCon.RegisterCommand(Keys.N, linkAttack);
-            keyboardCon.RegisterCommand(Keys.O, new DecRoom(g));
-            keyboardCon.RegisterCommand(Keys.P, new IncRoom(g));
             keyboardCon.RegisterCommand(Keys.M, new MuteBackground(g));
-            keyboardCon.RegisterCommand(Keys.L, new DamageLink(g));
+            keyboardCon.RegisterCommand(Keys.K, new LinkUseSelectedItem(g));
             keyboardCon.RegisterCommand(Keys.X, new LinkUseSelectedItem(g));
             keyboardCon.RegisterCommand(Keys.OemOpenBrackets, new IncItemSelect(g));
             keyboardCon.RegisterCommand(Keys.OemCloseBrackets, new DecItemSelect(g));
@@ -77,16 +72,21 @@ namespace ZeldaDungeon
         }
         public void RegisterMainMenuCommands(bool mainMenu)
         {
+            ICommand linkAttack = new LinkAttack(g);
             if (mainMenu)
             {
+                keyboardCon.RegisterCommand(Keys.Z, new DummyCommand());
+                keyboardCon.RegisterCommand(Keys.J, new DummyCommand());
                 keyboardCon.RegisterCommand(Keys.D1, new StartDungeon(g, Direction.Up));
                 keyboardCon.RegisterCommand(Keys.D2, new StartTower(g, Direction.Right));
-            }
+
+            } 
             else
             {
+                keyboardCon.RegisterCommand(Keys.Z, linkAttack);
+                keyboardCon.RegisterCommand(Keys.J, linkAttack);
                 keyboardCon.RegisterCommand(Keys.D1, new DummyCommand());
                 keyboardCon.RegisterCommand(Keys.D2, new DummyCommand());
-
             }
         }
     }

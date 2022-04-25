@@ -4,7 +4,7 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Blocks
 {
-    public class RoomVoidBlock : IBlock // this is used to go under walls for collision logic.
+    public class RoomVoidBlock : IBlock 
     {
         private ISprite sprite = BlockSpriteFactory.Instance.CreateBlueUnwalkableGapBlock();
         public CollisionHeight Height { get => CollisionHeight.High; }

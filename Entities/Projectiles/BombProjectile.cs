@@ -12,7 +12,7 @@ namespace ZeldaDungeon.Entities.Projectiles
     public class BombProjectile : IProjectile
     {
         private static readonly int FUSE_TIME = 60;
-        private int timer = FUSE_TIME; // counts down
+        private int timer = FUSE_TIME; 
         private ISprite sprite = ItemSpriteFactory.Instance.CreateBomb(); 
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Normal; }

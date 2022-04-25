@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Sprites
     {
         private Texture2D spritesheet;
         private Rectangle[] sourceRectangles;
-        private int frameNo; // index of current frame in the array
+        private int frameNo; 
         private int currentWait;
 
         private static readonly Color[] damageColors = { Color.Red, Color.White };

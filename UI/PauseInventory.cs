@@ -11,72 +11,38 @@ namespace ZeldaDungeon.UI
 {
     class PauseInventory
     {
-        private int i = 0;
-        private int j = 0;
-        private ISprite boomerang;
-        private ISprite bow;
-        private ISprite bomb;
-        private ISprite specialBoomerang;
-        private ISprite compass;
-        private ISprite map;
-        private ISprite rCandle;
-        private ISprite bCandle;
-        private IItem boomerangI;
-        private IItem bowI;
-        private IItem bombI;
-        private IItem specialBoomerangI;
-        private IItem compassI;
-        private IItem mapI;
-        private IItem rCandleI;
-        private IItem bCandleI;
-        private bool special = true;
-        private bool redCandle = true;
-        private bool bowDrawn = false;
-        private bool boomerangDrawn = false;
-        private bool bombDrawn = false;
-        private bool specialBoomerangDrawn = false;
-        private bool rCandleDrawn = false;
-        private bool bCandleDrawn = false;
+        private static readonly int RADIX = 7;
+        private ISprite[] sprites = new ISprite[RADIX];
+        private IItem[] items = new IItem[RADIX];
+        private Point[] dests = new Point[RADIX];
         private IDictionary<IItem, int> itemDict;
-        private Point bowDest;
-        private Point boomDest;
-        private Point specBoomDest;
-        private Point bombDest;
-        private Point rCandleDest;
-        private Point bCandleDest;
-        private Point mapDest;
-        private Point compDest;
+        private bool special = true;
         private LinkInventory inventory;
         private Game1 g;
         private Point mapTopLeft = new Point((int)SpriteUtil.MAP_POS_X * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.MAP_POS_Y * SpriteUtil.SCALE_FACTOR);
         private Point compassTopLeft = new Point((int)SpriteUtil.COMPASS_POS_X * SpriteUtil.SCALE_FACTOR, (int)SpriteUtil.COMPASS_POS_Y * SpriteUtil.SCALE_FACTOR);
-        private int bowX = 0, bowY = 0;
-        private int boomX = 0, boomY = 0;
-        private int specBoomX = 0, specBoomY = 0;
-        private int rCandleX = 0, rCandleY = 0;
-        private int bCandleX = 0, bCandleY = 0;
-        private int bombX = 0, bombY = 0;
         private ItemSelect itemSelect;
+        private int j, k, compassIndex = 3, mapIndex = 4;
+
 
         public PauseInventory(Game1 g)
         {
             this.g = g;
-            boomerang = ItemSpriteFactory.Instance.CreateWoodenBoomerang();
-            bow = ItemSpriteFactory.Instance.CreateBow();
-            specialBoomerang = EnemySpriteFactory.Instance.CreateStaticMagicBoomerangSprite();
-            compass = ItemSpriteFactory.Instance.CreateCompass();
-            map = ItemSpriteFactory.Instance.CreateMap();
-            rCandle = ItemSpriteFactory.Instance.CreateCandle(redCandle);
-            bCandle = ItemSpriteFactory.Instance.CreateCandle(!redCandle);
-            bomb = ItemSpriteFactory.Instance.CreateBomb();
-            boomerangI = new BoomerangItem(g, !special);
-            bowI = new BowItem(g);
-            specialBoomerangI = new BoomerangItem(g, special);
-            compassI = new CompassItem();
-            mapI = new MapItem();
-            rCandleI = new CandleItem(g, redCandle);
-            bCandleI = new CandleItem(g, !redCandle);
-            bombI = new BombItem(g);
+            sprites[0] = ItemSpriteFactory.Instance.CreateWoodenBoomerang();
+            sprites[1] = ItemSpriteFactory.Instance.CreateBow(); 
+            sprites[2] = EnemySpriteFactory.Instance.CreateStaticMagicBoomerangSprite();
+            sprites[3] = ItemSpriteFactory.Instance.CreateCompass();
+            sprites[4] = ItemSpriteFactory.Instance.CreateMap(); 
+            sprites[5] = ItemSpriteFactory.Instance.CreateCandle(false); 
+            sprites[6] = ItemSpriteFactory.Instance.CreateBomb(); 
+
+            items[0] = new BoomerangItem(g, !special);
+            items[1] = new BowItem(g);
+            items[2] = new BoomerangItem(g, special);  
+            items[3] = new CompassItem();
+            items[4] = new MapItem();
+            items[5] = new CandleItem(g, false);
+            items[6] = new BombItem(g);
             inventory = g.Player.GetInv();
             itemSelect = g.Select;
         }
@@ -84,193 +50,78 @@ namespace ZeldaDungeon.UI
         public void Draw(SpriteBatch spriteBatch, Point itemTopLeft)
         {
             itemDict = inventory.GetDict();
-            int scaledWidth;
-            int scaledHeight;
-            
+            int scaledWidth, scaledHeight;
+            Point size = new Point();
+            Rectangle destRect;
+            j = 0;
+            k = 0;
 
-
-            if (itemDict.ContainsKey(bowI))
+            for (int i = 0; i < RADIX; i++)
             {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BowWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BowLength * SpriteUtil.SCALE_FACTOR;
-                if (!bowDrawn) 
+                if (itemDict.ContainsKey(items[i]) && i != compassIndex && i != mapIndex)  
                 {
-                    bowX = i;
-                    bowY = j;
-                    i++;
-                }
-                bowDest = itemTopLeft + new Point(bowX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, bowY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(bowDest, size);
-                bow.Draw(spriteBatch, destRect);
-                bowDrawn = true;
-                
-            }
-            if (itemDict.ContainsKey(boomerangI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
-                if (!boomerangDrawn)
+                    scaledWidth = (int)SpriteUtil.SpriteSize.InventoryItemX * SpriteUtil.SCALE_FACTOR;
+                    scaledHeight = (int)SpriteUtil.SpriteSize.InventoryItemY * SpriteUtil.SCALE_FACTOR;
+                    dests[i] = itemTopLeft + new Point(j * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, k * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
+                    size = new Point(scaledWidth, scaledHeight);
+                    destRect = new Rectangle(dests[i], size);
+                    sprites[i].Draw(spriteBatch, destRect);
+                    j++;
+                    if (j > 4)
+                    {
+                        j = 0;
+                        k++;
+                    }
+                } else if (itemDict.ContainsKey(items[i]) && i == compassIndex)
                 {
-                    boomX = i;
-                    boomY = j;
-                    i++;
-                }
-                boomDest = itemTopLeft + new Point(boomX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, boomY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(boomDest, size);
-                boomerang.Draw(spriteBatch, destRect);
-                boomerangDrawn = true;
-            }
-            if (itemDict.ContainsKey(specialBoomerangI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
-                if (!specialBoomerangDrawn)
+                    scaledWidth = (int)SpriteUtil.SpriteSize.CompassWidth * SpriteUtil.SCALE_FACTOR;
+                    scaledHeight = (int)SpriteUtil.SpriteSize.CompassLength * SpriteUtil.SCALE_FACTOR;
+                    dests[i] = itemTopLeft - compassTopLeft;
+                    size = new Point(scaledWidth, scaledHeight);
+                    destRect = new Rectangle(dests[i], size);
+                    sprites[i].Draw(spriteBatch, destRect);
+                } else if (itemDict.ContainsKey(items[i]) && i == mapIndex)
                 {
-                    specBoomX = i;
-                    specBoomY = j;
-                    i++;
+                    scaledWidth = (int)SpriteUtil.SpriteSize.MapWidth * SpriteUtil.SCALE_FACTOR;
+                    scaledHeight = (int)SpriteUtil.SpriteSize.MapLength * SpriteUtil.SCALE_FACTOR;
+                    dests[i] = itemTopLeft - mapTopLeft;
+                    size = new Point(scaledWidth, scaledHeight);
+                    destRect = new Rectangle(dests[i], size);
+                    sprites[i].Draw(spriteBatch, destRect);
                 }
-                specBoomDest = itemTopLeft + new Point(specBoomX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, specBoomY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(specBoomDest, size);
-                specialBoomerang.Draw(spriteBatch, destRect);
-                specialBoomerangDrawn = true;
-
             }
-            if (itemDict.ContainsKey(rCandleI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
-                if (!rCandleDrawn)
-                {
-                    rCandleX = i;
-                    rCandleY = j;
-                    i++;
-                }
-                rCandleDest = itemTopLeft + new Point(rCandleX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, rCandleY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(rCandleDest, size);
-                rCandle.Draw(spriteBatch, destRect);
-                rCandleDrawn = true;
-            }
-            if (itemDict.ContainsKey(bCandleI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
-                if (!bCandleDrawn)
-                {
-                    bCandleX = i;
-                    bCandleY = j;
-                    i++;
-                }
-                bCandleDest = itemTopLeft + new Point(bCandleX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, bCandleY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(bCandleDest, size);
-                bCandle.Draw(spriteBatch, destRect);
-                bCandleDrawn = true;
-            }
-            if (itemDict.ContainsKey(bombI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BombWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BombLength * SpriteUtil.SCALE_FACTOR;
-                if (!bombDrawn)
-                {
-                    bombX = i;
-                    bombY = j;
-                    i++;
-                }
-                bombDest = itemTopLeft + new Point(bombX * (int)SpriteUtil.PAUSE_ITEM_OFFSET_X, bombY * ((int)SpriteUtil.PAUSE_ITEM_OFFSET_Y + SpriteUtil.PAUSE_ITEM_Y_GAP));
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(bombDest, size);
-                bomb.Draw(spriteBatch, destRect);
-                bombDrawn = true;
-            }
-
-            if (itemDict.ContainsKey(compassI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CompassWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CompassLength * SpriteUtil.SCALE_FACTOR;
-                compDest = itemTopLeft - compassTopLeft;
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(compDest, size);
-                compass.Draw(spriteBatch, destRect);
-            }
-            if (itemDict.ContainsKey(mapI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.MapWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.MapLength * SpriteUtil.SCALE_FACTOR;
-                mapDest = itemTopLeft - mapTopLeft;
-                Point size = new Point(scaledWidth, scaledHeight);
-                Rectangle destRect = new Rectangle(mapDest, size);
-                map.Draw(spriteBatch, destRect);
-            }
-            DrawSelectionCursor(spriteBatch);
-            if (i > 4)
-            {
-                j = 1;
-                i = 0;
-            }
-            
-
-
+            DrawSelectionCursor(spriteBatch, itemTopLeft);
         }
-        private void DrawSelectionCursor(SpriteBatch spriteBatch)
+        private void DrawSelectionCursor(SpriteBatch spriteBatch, Point itemTopLeft)
         {
             ISprite cursor = ItemSpriteFactory.Instance.CreateSelectionIndicator();
             var selected = itemSelect.SelectedItem();
-            if (selected == null) { return; }
-            Point loc;
-            int scaledWidth;
-            int scaledHeight;
-            if (selected.Equals(bowI))
+            Point loc = new Point();
+            int scaledWidth = (int)SpriteUtil.SpriteSize.InventoryItemX * SpriteUtil.SCALE_FACTOR;
+            int scaledHeight = (int)SpriteUtil.SpriteSize.InventoryItemY * SpriteUtil.SCALE_FACTOR;
+            if (selected == null)
             {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BowWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BowLength * SpriteUtil.SCALE_FACTOR;
-                loc = bowDest;
-            }
-            else if (selected.Equals(boomerangI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
-                loc = boomDest;
-            }
-            else if (selected.Equals(specialBoomerangI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BoomerangX * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BoomerangY * SpriteUtil.SCALE_FACTOR;
-                loc = specBoomDest;
-            }
-            else if (selected.Equals(rCandleI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
-                loc = rCandleDest;
-            }
-            else if (selected.Equals(bCandleI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.CandleWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.CandleLength * SpriteUtil.SCALE_FACTOR;
-                loc = bCandleDest;
-            }
-            else if (selected.Equals(bombI))
-            {
-                scaledWidth = (int)SpriteUtil.SpriteSize.BombWidth * SpriteUtil.SCALE_FACTOR;
-                scaledHeight = (int)SpriteUtil.SpriteSize.BombLength * SpriteUtil.SCALE_FACTOR;
-                loc = bombDest;
+                loc = itemTopLeft;
             }
             else
             {
-                return;
+                for (int i = 0; i < RADIX; i++)
+                {
+                    if (selected.Equals(items[i]))
+                    {
+                        loc = dests[i];
+                    }
+                }
             }
             var size = new Point(scaledWidth, scaledHeight);
             var rect = new Rectangle(loc, size);
             cursor.Draw(spriteBatch, rect);
+
+
         }
         public void Update()
         {
-
+            inventory = g.Player.GetInv();
         }
     }
 }

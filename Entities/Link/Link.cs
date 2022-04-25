@@ -13,8 +13,7 @@ namespace ZeldaDungeon.Entities.Link
 
         private LinkStateMachine stateMachine;
         private ISprite linkSprite;
-        private IPickup heldItem; // null if he has never held an item up, may hold stale data
-                                  // note that it's a pickup and not a real item
+        private IPickup heldItem; 
         private LinkInventory inv { get; set; }
         private Game1 g;
         public Room CurrentRoom { get => g.CurrentRoom; }
@@ -134,7 +133,7 @@ namespace ZeldaDungeon.Entities.Link
                 {
                     size = new Point(width, length);
                 }
-                Rectangle swordPos = new Rectangle(CurrentLoc.Center, size); // not drawn, used for convenient math!
+                Rectangle swordPos = new Rectangle(CurrentLoc.Center, size); 
                 swordPos.Offset(CurrentLoc.Center - swordPos.Center);
                 int itemOffset = SWORD_OFFSET * SpriteUtil.SCALE_FACTOR;
                 Point pos = EntityUtils.Offset(swordPos.Location, Direction, itemOffset);
@@ -149,13 +148,13 @@ namespace ZeldaDungeon.Entities.Link
 
         }
 
-        private int speed = SpriteUtil.SCALE_FACTOR; // this should maybe be more dynamic
+        private int speed = SpriteUtil.SCALE_FACTOR; 
         public void Update()
         {
             stateMachine.Update();
             if (stateMachine.HasNewSprite)
             {
-                linkSprite = stateMachine.LinkSprite(); // only get a new sprite if we need to
+                linkSprite = stateMachine.LinkSprite(); 
             }
             linkSprite.Update();
             if (stateMachine.CurrentState == LinkStateMachine.LinkActionState.Walking)

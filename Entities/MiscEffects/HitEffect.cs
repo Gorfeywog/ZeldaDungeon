@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.MiscEffects
     public class HitEffect : IEntity
     {
         private static int effectTime = 56;
-        private int timer = effectTime; // counts down
+        private int timer = effectTime; 
         private ISprite sprite = EnemySpriteFactory.Instance.CreateHitEffectSprite();
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Normal; }

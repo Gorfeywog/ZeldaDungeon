@@ -10,8 +10,8 @@ namespace ZeldaDungeon.Entities.MiscEffects
     
     public class SmokeCloud : IEntity
     {
-        private static int smokeTime = 56; // 7*8 for 7 stages of cloud
-        private int timer = smokeTime; // counts down
+        private static int smokeTime = 56; 
+        private int timer = smokeTime; 
         private ISprite sprite = EnemySpriteFactory.Instance.CreateCloudSprite();
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Normal; }

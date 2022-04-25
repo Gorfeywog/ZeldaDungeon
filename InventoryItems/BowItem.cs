@@ -14,7 +14,7 @@ namespace ZeldaDungeon.InventoryItems
             normArr = new ArrowItem(g, false);
             magicArr = new ArrowItem(g, true);
         }
-        public void UseOn(ILink player) // shoot the best available arrow
+        public void UseOn(ILink player) 
         {
             if (player.HasItem(magicArr))
             {

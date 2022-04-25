@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Entities.MiscEffects
     public class EnemyDeath : IEntity
     {
         private static int effectTime = 30;
-        private int timer = effectTime; // counts down
+        private int timer = effectTime; 
         private ISprite sprite = EnemySpriteFactory.Instance.CreateEnemyDeathSprite();
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Normal; }

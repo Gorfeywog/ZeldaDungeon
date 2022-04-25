@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Diagnostics;
 using ZeldaDungeon.Entities.MiscEffects;
 using ZeldaDungeon.Entities.Pickups;
@@ -20,65 +21,76 @@ namespace ZeldaDungeon.Entities.Enemies
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private int currentHealth;
-        private int initX;
         private Direction currDirection;
         private int currentFrame;
         private Room r;
         private int damageCountdown = 0;
         private int stunCountdown = 0;
-        int verticalDirection = 1;
-        int horizontalDirection = 1;
+        Rectangle newPos;
 
 
         public GameNWatch(Point position, Room r)
         {
             GameNWatchSprite = EnemySpriteFactory.Instance.CreateMrGameNWatchSprite();
-            int width = (int)SpriteUtil.SpriteSize.BowserX;
-            int height = (int)SpriteUtil.SpriteSize.BowserY;
+            int width = (int)SpriteUtil.SpriteSize.GameNWatchX;
+            int height = (int)SpriteUtil.SpriteSize.GameNWatchY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             Collision = new CollisionHandler(r, this);
-            initX = position.X;
             currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
             this.r = r;
             currentFrame = 0;
+            currDirection = Direction.SW;
         }
 
-        private static readonly int CHANGE_DIR_CHANCE = 4;
-        private static readonly int X_LIMIT = 8;
-        private static readonly int SPEED = 8;
+        private static readonly int SPEED = 1;
         public void Move()
         {
-            if (!WillMove)
-            {
-                return;
-            }
-            //One in four chance to change directions
-            if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
-            {
-                currDirection = SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) switch
-                {
-                    0 => Direction.Left,
-                    1 => Direction.Right,
-                    2 => Direction.Up,
-                    3 => Direction.Down,
-                    _ => currDirection,
-                };
-            }
-
-            //Determines which way to move
             int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
-            // Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
 
-            Rectangle newPos = new Rectangle(CurrentLoc.X + (horizontalDirection * locChange), CurrentLoc.Y + (verticalDirection * locChange), CurrentLoc.Width, CurrentLoc.Height);
+            switch (currDirection)
+            {
+                case Direction.SW:
+                    newPos = new Rectangle(CurrentLoc.X - locChange, CurrentLoc.Y + locChange, CurrentLoc.Width, CurrentLoc.Height);
+                    break;
+                case Direction.NW:
+                    newPos = new Rectangle(CurrentLoc.X - locChange, CurrentLoc.Y - locChange, CurrentLoc.Width, CurrentLoc.Height);
+                    break;
+                case Direction.NE:
+                    newPos = new Rectangle(CurrentLoc.X + locChange, CurrentLoc.Y - locChange, CurrentLoc.Width, CurrentLoc.Height);
+                    break;
+                case Direction.SE:
+                    newPos = new Rectangle(CurrentLoc.X + locChange, CurrentLoc.Y + locChange, CurrentLoc.Width, CurrentLoc.Height);
+                    break;
+            }
+
             if (Collision.WillHitBlock(newPos))
             {
-                Direction collisionDirection = Collision.DetectDirection(newPos);
-                if (collisionDirection == Direction.Down || collisionDirection == Direction.Up) verticalDirection *= -1;
-                else if (collisionDirection == Direction.Left || collisionDirection == Direction.Right) horizontalDirection *= -1;
-                newPos = new Rectangle(CurrentLoc.X + (horizontalDirection * locChange), CurrentLoc.Y + (verticalDirection * locChange), CurrentLoc.Width, CurrentLoc.Height);
-                Debug.Write(collisionDirection);
+                int LeftWall = r.RoomPos.X + 2 * (int)SpriteUtil.SpriteSize.GenericBlockX;
+                int RightWall = LeftWall + 8 * (int)SpriteUtil.SpriteSize.GenericBlockX;
+                int topWall = r.RoomPos.Y + 2 * (int)SpriteUtil.SpriteSize.GenericBlockY;
+                int BottomWall = topWall + 7 * (int)SpriteUtil.SpriteSize.GenericBlockY;
+
+                switch (currDirection)
+                {
+                    case Direction.SW:
+                        if (newPos.X <= LeftWall + 120) currDirection = Direction.SE;
+                        if (newPos.Y >= BottomWall) currDirection = Direction.NW;
+                        break;
+                    case Direction.NW:
+                        if (newPos.X <= LeftWall + 120) currDirection = Direction.NE;
+                        if (newPos.Y <= topWall + 120) currDirection = Direction.SW;
+                        break;
+                    case Direction.NE:
+                        if (newPos.X >= RightWall) currDirection = Direction.NW;
+                        if (newPos.Y <= topWall + 120) currDirection = Direction.SE;
+                        break;
+                    case Direction.SE:
+                        if (newPos.X >= RightWall) currDirection = Direction.SW;
+                        if (newPos.Y >= BottomWall) currDirection = Direction.NE;
+                        break;
+                }
             }
-            if (!Collision.WillHitBlock(newPos))
+            else
             {
                 CurrentLoc = newPos;
             }
@@ -130,11 +142,9 @@ namespace ZeldaDungeon.Entities.Enemies
             Collision.Update();
 
         }
-        private static readonly int MOVE_TIMER = 8;
+
         private static readonly int ATTACK_TIMER = 64;
         private static readonly int ATTACK_CHANCE = 4;
-        private bool WillMove => currentFrame % MOVE_TIMER == 0 && stunCountdown == 0;
-        private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0 && stunCountdown == 0;
         public void DespawnEffect()
         {
             SoundManager.Instance.PlaySound("BossRoaring");

@@ -141,14 +141,14 @@ namespace ZeldaDungeon.Entities
 
         public Direction DetectDirection(Rectangle CurrentEntityLoc)
         {
-            bool actBigX = false;
-            bool actBigY = false;
+            bool actualEntityBigX = false;
+            bool actualEntityBigY = false;
             if (CurrentEntityLoc.X < ActualEntity.CurrentLoc.X)
             {
                 dx = - ActualEntity.CurrentLoc.X + CurrentEntityLoc.X + CurrentEntityLoc.Width;
             } else
             {
-                actBigX = true;
+                actualEntityBigX = true;
                 dx = ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width - CurrentEntityLoc.X;
             }
 
@@ -158,7 +158,7 @@ namespace ZeldaDungeon.Entities
             }
             else
             {
-                actBigY = true;
+                actualEntityBigY = true;
                 dy = ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height - CurrentEntityLoc.Y;
             }
             // If dx > dy, we know it's either a top or bottom collision.
@@ -166,7 +166,7 @@ namespace ZeldaDungeon.Entities
             {
                 // If dy is positive, the actualEntity was hit from the top.
                 // If negative, it was hit from the bottom.
-                if (!actBigY) return Direction.Up;
+                if (!actualEntityBigY) return Direction.Up;
                 else return Direction.Down;
             }
             // If dy > dx, we know it's either a left or right collision.
@@ -174,7 +174,7 @@ namespace ZeldaDungeon.Entities
             {
                 // If dx is positive, the actualEntity was hit from the left.
                 // If negative, it was hit from the right.
-                if (!actBigX) return Direction.Left;
+                if (!actualEntityBigX) return Direction.Left;
                 else return Direction.Right;
             }
         }

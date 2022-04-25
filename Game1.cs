@@ -25,7 +25,7 @@ namespace ZeldaDungeon
         public IList<Room> Rooms { get; private set; }
         private HUD static_HUD;
         private GameOverScreen gameOver;
-        private WinScreen winScreen; // not initialized until you win
+        private WinScreen winScreen; 
         private PauseMenu static_PauseMenu;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => Rooms.Count; }
@@ -35,7 +35,7 @@ namespace ZeldaDungeon
         private static readonly int PAUSEMENU_TRANS_FRAME_COUNT = 90;
         private static readonly int LINK_DEATH_FRAME_COUNT = 300;
         private int transFrame;
-        private Room oldRoom; // only used while transitioning between rooms
+        private Room oldRoom; 
         public GameState State { get; private set; }
         public SpriteFont zeldaFont;
         public ItemSelect Select { get; private set; }
@@ -52,7 +52,7 @@ namespace ZeldaDungeon
         protected override void Initialize()
         {
             base.Initialize();
-            graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR;  // make window the size of a room, so there's no weird dead space
+            graphics.PreferredBackBufferWidth = SpriteUtil.ROOM_WIDTH * SpriteUtil.SCALE_FACTOR; 
             graphics.PreferredBackBufferHeight = (SpriteUtil.ROOM_HEIGHT + SpriteUtil.HUD_HEIGHT) * SpriteUtil.SCALE_FACTOR; 
             graphics.ApplyChanges();
             SetupRooms();
@@ -62,7 +62,7 @@ namespace ZeldaDungeon
             static_PauseMenu = new PauseMenu(this);
             gameOver = new GameOverScreen(zeldaFont);
             mainMenu = true;
-            controllers.RegisterCommands(); // has to be after SetupPlayer, since some commands use Link directly
+            controllers.RegisterCommands(); 
             controllers.RegisterMainMenuCommands(mainMenu);
             SoundManager.Instance.PlayMusic("MiiTheme", true);
         }
@@ -140,7 +140,7 @@ namespace ZeldaDungeon
                     {
                         State = GameState.GameOver;
                     }
-                    Player.Update(); // make link spin
+                    Player.Update(); 
                     static_HUD.Update();
                     static_PauseMenu.Update();
                     break;
@@ -175,10 +175,10 @@ namespace ZeldaDungeon
                 GameState.PauseMenuTransitionTo => EntityUtils.Interpolate(adjustedRoomTopLeft, pauseMenuTopLeft, transFrame, PAUSEMENU_TRANS_FRAME_COUNT),
                 GameState.PauseMenuTransitionAway => EntityUtils.Interpolate(pauseMenuTopLeft, adjustedRoomTopLeft, transFrame, PAUSEMENU_TRANS_FRAME_COUNT),
                 GameState.PauseMenu => pauseMenuTopLeft,
-                _ => adjustedRoomTopLeft // notably handles normal and room trans states
+                _ => adjustedRoomTopLeft 
             };
             Matrix translator = Matrix.CreateTranslation(-windowTopLeft.X, -windowTopLeft.Y, 0);
-            GraphicsDevice.Clear(Color.Black); // this affects the old man room
+            GraphicsDevice.Clear(Color.Black); 
             spriteBatch.Begin(transformMatrix: translator, samplerState:  SamplerState.PointClamp);
             Point hudTopLeft = new Point(pauseMenuTopLeft.X, pauseMenuTopLeft.Y + pauseMenuHeight);
             switch (State)
@@ -291,7 +291,7 @@ namespace ZeldaDungeon
             if (newIndex > -1)
             {
                 State = GameState.RoomTransition;
-                transFrame = 0; // count-up instead of count-down for ease of drawing
+                transFrame = 0;
                 oldRoom = CurrentRoom;
                 CurrentRoomIndex = newIndex;
                 Player.CurrentLoc = new Rectangle(CurrentRoom.LinkDoorSpawn(EntityUtils.OppositeOf(dir)), Player.CurrentLoc.Size);
@@ -336,12 +336,11 @@ namespace ZeldaDungeon
         }
 
         public int GridToRoomIndex(Point p) => GridToRoomIndex(p.X, p.Y);
-        public int GridToRoomIndex(int x, int y) // if no such room exists return -1 as an error value
+        public int GridToRoomIndex(int x, int y) 
         {
             for (int i = 0; i < RoomCount; i++)
             {
                 Room r = Rooms[i];
-                // using a loop here is maybe not ideal, but there will only ever be ~20 rooms
                 if (r.GridPos.X == x && r.GridPos.Y == y)
                 {
                     return i;
@@ -362,8 +361,8 @@ namespace ZeldaDungeon
         }
         public void Win(bool beatTower)
         {
-            // sound is played by the triforce, not here
             State = beatTower ? GameState.WinTower : GameState.WinTriforce;
+            SoundManager.Instance.StopMusic();
             winScreen = new WinScreen(zeldaFont, beatTower);
         }
     }

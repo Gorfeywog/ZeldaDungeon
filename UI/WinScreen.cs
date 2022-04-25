@@ -7,7 +7,7 @@ namespace ZeldaDungeon.UI
     public class WinScreen
     {
         private SpriteFont font;
-        private const int OFFSET = 10;
+        private const int OFFSET = 65;
         private bool tower;
         public WinScreen(SpriteFont font, bool beatTower)
         {
@@ -22,9 +22,9 @@ namespace ZeldaDungeon.UI
             Vector2 center = topLeftVec + new Vector2(scaledRoomWidth / 2.0f, scaledRoomHeight / 2.0f);
             Vector2 centerOffset = new Vector2(OFFSET * SpriteUtil.SCALE_FACTOR, 0);
             center = center - centerOffset;
-            var winMessage = tower ? "Congratulations on defeating the power tower!\nPRESS R TO RESTART"
-                : "Congratulations on recovering the triforce!\nPRESS R TO RESTART.";
-            spriteBatch.DrawString(font, winMessage, center, Color.Red);
+            var winMessage = tower ? "Congratulations! You defeated the power tower!\n\n     PRESS R TO RESTART OR Q TO QUIT"
+                : "Congratulations! You recovered the triforce!\n\n     PRESS R TO RESTART OR Q TO QUIT";
+            spriteBatch.DrawString(font, winMessage, center, Color.Gold);
         }
     }
 }

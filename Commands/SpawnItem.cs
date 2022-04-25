@@ -21,7 +21,7 @@ namespace ZeldaDungeon.Commands
         public void Execute()
         {
             Point size = pickup.CurrentLoc.Size;
-            Point place = r.LinkDoorSpawn(Direction.Right); // right door area is valid in most rooms
+            Point place = r.LinkDoorSpawn(Direction.Right); // valid location for all item drops after room clears used
             pickup.CurrentLoc = new Rectangle(place, size);
             r.RegisterEntity(pickup);
         }

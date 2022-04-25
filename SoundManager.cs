@@ -43,16 +43,14 @@ namespace ZeldaDungeon
             Sounds = new Dictionary<String, SoundEffect>();
             Music = new Dictionary<String, Song>();
 
-            String root = "Content\\";  //Root of content
-            String parentEffect = "SoundEffects\\";         //Parent directory of files
-            String fileExtension = ".xnb";            //File extension at end of files 
+            String root = "Content\\";
+            String parentEffect = "SoundEffects\\";
+            String fileExtension = ".xnb";
             String[] effects = Directory.GetFiles(root + parentEffect);
 
             for (int i = 0; i < effects.Length; i++)
             {
-                //Removes the root from the string
                 String newName = effects[i].Substring(root.Length + parentEffect.Length);
-                //Removes the file extension from the string
                 newName = newName.Substring(0, newName.Length - fileExtension.Length);
 
                 Sounds.Add(newName, content.Load<SoundEffect>(parentEffect + newName));
@@ -65,9 +63,7 @@ namespace ZeldaDungeon
  
             for (int i = 0; i < songs.Length; i++)
             {
-                //Removes the root from the string
                 String newName = songs[i].Substring(root.Length + parentSong.Length);
-                //Removes the file extension from the string
                 newName = newName.Substring(0, newName.Length - fileExtension.Length);
 
                 if (!Music.ContainsKey(newName))
@@ -77,6 +73,10 @@ namespace ZeldaDungeon
             }
 
 
+        }
+        public void StopMusic()
+        {
+            MediaPlayer.Stop();
         }
 
     }

@@ -55,7 +55,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                currentHealth -= (int)level; // keeses take damage from boomerangs!
+                currentHealth -= (int)level;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }

@@ -7,8 +7,8 @@ namespace ZeldaDungeon.Sprites
 {
     class SpriteUtil
     {
-        public static readonly int SCALE_FACTOR = 4; // Scale factor of destination rectangles 
-        public static readonly int WAIT_TIME = 8; // how many Updates to wait between cycling frame
+        public static readonly int SCALE_FACTOR = 4; 
+        public static readonly int WAIT_TIME = 8; 
 
         //Door positions
         public static readonly int X_POS_CENTER = 112;
@@ -78,8 +78,7 @@ namespace ZeldaDungeon.Sprites
         //Global random number generator for use in all classes
         public static readonly Random Rand = new Random();
 
-        //Length is correspondent to height, it is named length because items can
-        //occasionally be used while in different directions, so X and Y would be confusing for these items
+        
         public enum SpriteSize
         {
             KoopaX = 15,
@@ -176,7 +175,7 @@ namespace ZeldaDungeon.Sprites
 
         private static readonly int gridX = 40;
         private static readonly int gridY = 40;
-        public static Rectangle GridToRectangle(int x, int y, int width, int height) // convert grid position to position in pixels
+        public static Rectangle GridToRectangle(int x, int y, int width, int height) 
         {
             return new Rectangle(gridX * x, gridY * y, width, height);
         }

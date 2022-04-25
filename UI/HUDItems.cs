@@ -36,7 +36,7 @@ namespace ZeldaDungeon.UI
             Point size = new Point(scaledWidth, scaledHeight);
             Rectangle swordDestRect = new Rectangle(swordTopLeft, size);
             sword.Draw(spriteBatch, swordDestRect);
-            if (selection == null ) { return; } // only proceed if have an item selected!
+            if (selection == null ) { return; } 
             scaledWidth = (int)SpriteUtil.SpriteSize.InventoryItemX * SpriteUtil.SCALE_FACTOR;
             scaledHeight = (int)SpriteUtil.SpriteSize.InventoryItemY * SpriteUtil.SCALE_FACTOR;
             size = new Point(scaledWidth, scaledHeight);
@@ -60,7 +60,7 @@ namespace ZeldaDungeon.UI
             }
             else
             {
-                return; // can't draw if we don't have a sprite for it
+                return; 
             }
             sprite.Draw(spriteBatch, itemDestRect);
         }

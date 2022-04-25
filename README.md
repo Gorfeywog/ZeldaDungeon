@@ -2,7 +2,39 @@
 CSE3902 Project
 The Beedles - Caleb Bucci, Josh Harper, Nick Jones, Ronnie Marashdeh, Luke Van De Weghe
 
-Sprint_3: 
+Commands to Play the Game:
+	- Movement - up, down, left, and right arrows are used to move Link. The player can also use "A", "S", "W", "D" as well.
+	- Sword Attack - "Z" or "J"
+	- Sidearm Attack - "X" or "K"
+	- Open pause menu - "esc"
+	- Move item selection to the left in the inventory - "["
+	- Move item selection to the right in the inventory - "]"
+	- Mute background music - "M"
+	- Enter the dungeon from Main Menu - "1" (this does not include a num pad)
+	- Reset game - "R"
+	- Quit game - "Q"
+
+Notable Changes from Original Game:
+	- The wall master enemy was changed from orthogonal movement to diagonal movement. The group decided to make it a flying enemy, 
+	  similar to the keese, rather than a walking enemy. Also, the enemy does not drag Link back to the first room. Instead,
+	  it just hurts Link, similar to other enemies.
+	- We changed the positions of where items are dropped to balance the dungeon for the player.
+	- We created a Power Tower that the player can go through instead of the original dungeon.
+		
+Current Bugs Known:
+	- Doors are sensitive. Link can enter rooms through a large hit box for each door. This is helpful for speed runners.
+	- No knockback.
+	- Link occasionally can't move right after room transitions.
+	- Old man room doesn't shoot fireballs at Link after Link attacks the old man.
+	- Items drop in unreachable locations if enemies die in those locations (white dungeon room is the main concern for this).
+	- Level # is not displayed on the HUD.
+
+Explanation on Boomerang and Sword Projectile Stuns:
+	- The boomerang and four projectiles that come off of a sword projectile stun enemies that are medium sized and above (stalfos, goriya, aquamentes, etc.), and they
+	  hurt small enemies (keese and gels).e
+
+
+Navigating File Structure in Project:
 	To navigate our implementation for creating interfaces and classes for different parts of our game framework, one can go through the folder structure outlined below:
 		- Commands - Contain classes that implement what each input from the user does on the screen. These classes will be called in the KeyboardController, 
 					 which implements the IController interface.
@@ -23,9 +55,9 @@ Sprint_3:
 					A few additions for this folder came along with sprint 3. For example, the SpriteUtil and SpecialSpriteFactory are notable new classes that have been implemented.
 					The SpriteUtil class eliminates many magic numbers throughout the project and establishes positions and sizes for the sprites necessary in the game.
 					The SpecialSpriteFactory is used to handle how the sprite for the walls are handled.
+		- UI - Contains all implementation for the HUD, pause menu, win screen, and game over screen. This contains a folder of managers that ensures all necessary classes for the UI are used.
+			   This is done for encapsulation in our UI implementation.
 
-If you would like to test the functionality in a larger or smaller window, you can change the SCALE_FACTOR constant on line 10 of the SpriteUtil class. This will adjust everything
-in the game to be larger or smaller for you to see and test.
+If you would like to test the functionality in a larger or smaller window, you can change the SCALE_FACTOR constant on line 10 of the SpriteUtil class. 
+This will adjust everything in the game to be larger or smaller for you to see and test.
 
-Notable changes from the original NES game includes the wall master enemy was changed from orthogonal movement to diagonal movement. The group decided to make it a flying enemy, 
-similar to the keese, rather than a walking enemy.

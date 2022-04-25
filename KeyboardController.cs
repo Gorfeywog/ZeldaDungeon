@@ -33,7 +33,7 @@ namespace ZeldaDungeon
         {
             foreach (Keys k in state.GetPressedKeys())
             {
-                if (regCommands.ContainsKey(k) && oldState.IsKeyUp(k)) // check old state so we only press it once
+                if (regCommands.ContainsKey(k) && oldState.IsKeyUp(k)) 
                 {
                     regCommands[k].Execute();
                 }

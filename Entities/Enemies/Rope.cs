@@ -69,7 +69,6 @@ namespace ZeldaDungeon.Entities.Enemies
                 }
             }
 
-            // Determines which way to move
             int locChange = 4 * SpriteUtil.SCALE_FACTOR;
             Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
             if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))

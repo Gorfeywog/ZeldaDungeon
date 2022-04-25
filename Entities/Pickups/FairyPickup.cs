@@ -26,7 +26,6 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
         public void PickUp(ILink player)
         {
-            // do nothing, for now
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

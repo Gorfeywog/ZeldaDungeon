@@ -35,7 +35,7 @@ namespace ZeldaDungeon.UI
             mapSprite.Draw(spriteBatch, mapRec);
             inventorySprite.Draw(spriteBatch, inventoryRec);
             itemMenuManager.Draw(spriteBatch, topLeft);
-            mapManager.Draw(spriteBatch, mapPos); // TODO - REMOVE EVIL PLACEHOLDER. SPLIT CLASS UP.
+            mapManager.Draw(spriteBatch, mapPos); 
 
         }
         public void Update()

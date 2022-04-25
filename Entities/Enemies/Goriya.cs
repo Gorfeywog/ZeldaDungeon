@@ -23,7 +23,7 @@ namespace ZeldaDungeon.Entities.Enemies
         private bool IsAttacking { get => (boomerang != null) && !boomerang.ReadyToDespawn; }
         private Room r;
         private IProjectile boomerang;
-        private bool isRed; // solely cosmetic at the moment
+        private bool isRed;
         private Direction currDirection;
         private int damageCountdown = 0;
         private int stunCountdown = 0;
@@ -49,7 +49,6 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 return;
             }
-            //One in four chance to change directions
             if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
             {
                 currDirection = SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) switch
@@ -63,7 +62,6 @@ namespace ZeldaDungeon.Entities.Enemies
                 GoriyaSprite = EnemySpriteFactory.Instance.CreateGoriyaSprite(currDirection, isRed);
             }
 
-            //Determines which way to move
             int locChange = 4 * SpriteUtil.SCALE_FACTOR;
             Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
             if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))
@@ -86,7 +84,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                if (level == DamageLevel.Boomerang)
                 {
                     stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
                 }

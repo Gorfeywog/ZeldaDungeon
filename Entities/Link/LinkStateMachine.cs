@@ -21,9 +21,9 @@ namespace ZeldaDungeon.Entities.Link
 			}
 		}
 		public bool FullHealth { get => CurrentHealth == MaxHealth; }
-		public int CurrentHealth { get; private set; } // measured in *half hearts*
-		public int MaxHealth { get; private set; } // measured in *half hearts*
-		private static readonly int maxMaxHealth = 20; // can only fit so much health on the screen
+		public int CurrentHealth { get; private set; } 
+		public int MaxHealth { get; private set; } 
+		private static readonly int maxMaxHealth = 20; 
 		private Direction currentDirection;
 		public Direction CurrentDirection
 		{
@@ -50,7 +50,7 @@ namespace ZeldaDungeon.Entities.Link
 				currentState = value;
 			}
 		}
-		public bool HasNewSprite { get; private set; } // used to avoid generating new sprite every frame
+		public bool HasNewSprite { get; private set; } 
 		private bool CanInterrupt { get => currentState == LinkActionState.Idle || currentState == LinkActionState.Walking; }
 
 
@@ -117,7 +117,7 @@ namespace ZeldaDungeon.Entities.Link
 		public void UseHeartContainer()
         {
 			MaxHealth = Math.Min(MaxHealth + 2, maxMaxHealth);
-			Heal(); // heart container confers a full heal
+			Heal(); 
         }
 
 		public bool Idle()
@@ -147,7 +147,7 @@ namespace ZeldaDungeon.Entities.Link
 
 		private static readonly int damageDelay = 80;
 		private int damageCountdown = 0;
-		public static readonly int itemUseDelay = 20; // also used for attacks
+		public static readonly int itemUseDelay = 20; 
 		private int itemUseCountdown = 0;
 		public void Update()
 		{
@@ -164,7 +164,7 @@ namespace ZeldaDungeon.Entities.Link
 				itemUseCountdown--;
 				if (itemUseCountdown == 0)
 				{
-					CurrentState = LinkActionState.Idle; // ignores current state, unlike Idle()
+					CurrentState = LinkActionState.Idle; 
 				}
 			}
 		}

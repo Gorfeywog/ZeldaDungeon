@@ -25,7 +25,8 @@ namespace ZeldaDungeon
         public IList<Room> Rooms { get; private set; }
         private HUD static_HUD;
         private GameOverScreen gameOver;
-        private WinScreen winScreen; 
+        private WinScreen winScreen; // not initialized until you win
+        private bool beatTower; // not initialized until you win
         private PauseMenu static_PauseMenu;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => Rooms.Count; }
@@ -34,6 +35,7 @@ namespace ZeldaDungeon
         private static readonly int ROOM_TRANS_FRAME_COUNT = 90;
         private static readonly int PAUSEMENU_TRANS_FRAME_COUNT = 90;
         private static readonly int LINK_DEATH_FRAME_COUNT = 300;
+        private static readonly int WIN_DELAY_FRAME_COUNT = 100;
         private int transFrame;
         private Room oldRoom; 
         public GameState State { get; private set; }
@@ -144,6 +146,16 @@ namespace ZeldaDungeon
                     static_HUD.Update();
                     static_PauseMenu.Update();
                     break;
+                case GameState.WinDelay:
+                    transFrame++;
+                    if (transFrame == WIN_DELAY_FRAME_COUNT)
+                    {
+                        State = beatTower ? GameState.WinTower : GameState.WinTriforce;
+                    }
+                    Player.Update();
+                    static_HUD.Update();
+                    static_PauseMenu.Update();
+                    break;
                 case GameState.GameOver:
                 case GameState.WinTower:
                 case GameState.WinTriforce:
@@ -183,6 +195,7 @@ namespace ZeldaDungeon
             Point hudTopLeft = new Point(pauseMenuTopLeft.X, pauseMenuTopLeft.Y + pauseMenuHeight);
             switch (State)
             {
+                case GameState.WinDelay:
                 case GameState.LinkDying:
                 case GameState.Normal:
                     CurrentRoom.DrawAll(spriteBatch);
@@ -361,9 +374,11 @@ namespace ZeldaDungeon
         }
         public void Win(bool beatTower)
         {
-            State = beatTower ? GameState.WinTower : GameState.WinTriforce;
             SoundManager.Instance.StopMusic();
+            State = GameState.WinDelay;
+            this.beatTower = beatTower;
             winScreen = new WinScreen(zeldaFont, beatTower);
+            transFrame = 0;
         }
     }
 }

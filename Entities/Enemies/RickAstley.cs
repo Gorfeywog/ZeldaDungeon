@@ -30,8 +30,8 @@ namespace ZeldaDungeon.Entities.Enemies
         public RickAstley(Point position, Room r)
         {
             RickAstleySprite = EnemySpriteFactory.Instance.CreateRickAstleySprite();
-            int width = (int)SpriteUtil.SpriteSize.BowserX;
-            int height = (int)SpriteUtil.SpriteSize.BowserY;
+            int width = (int)SpriteUtil.SpriteSize.RickX;
+            int height = (int)SpriteUtil.SpriteSize.RickY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             Collision = new CollisionHandler(r, this);
             initX = position.X;
@@ -40,44 +40,9 @@ namespace ZeldaDungeon.Entities.Enemies
             this.r = r;
             currentFrame = 0;
         }
-
-        private static readonly int CHANGE_DIR_CHANCE = 4;
-        private static readonly int X_LIMIT = 2;
-        private static readonly int SPEED = 4;
         public void Move()
         {
-            if (!WillMove)
-            {
-                return;
-            }
-            int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
-            if (SpriteUtil.Rand.Next(CHANGE_DIR_CHANCE) == 0)
-            {
-                movingLeft = !movingLeft;
-            }
-            if (movingLeft)
-            {
-                if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size)))
-
-                {
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X - locChange, CurrentLoc.Y), CurrentLoc.Size);
-                }
-                if (CurrentLoc.X < initX - X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
-                {
-                    movingLeft = !movingLeft;
-                }
-            }
-            else
-            {
-                if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size)))
-                {
-                    CurrentLoc = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
-                }
-                if (CurrentLoc.X > initX + X_LIMIT * (int)SpriteUtil.SpriteSize.GenericBlockX * SpriteUtil.SCALE_FACTOR)
-                {
-                    movingLeft = !movingLeft;
-                }
-            }
+            // Rick Astley is a singer, not a fighter.
 
         }
 
@@ -87,14 +52,24 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 return;
             }
-            int fireballChange = SpriteUtil.Rand.Next(3) - 1;
-            int fireballVel = -2 * SpriteUtil.SCALE_FACTOR;
-            IProjectile fireballUp = new BowserFire(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballStraight = new BowserFire(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballDown = new BowserFire(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            r.RegisterEntity(fireballUp);
-            r.RegisterEntity(fireballStraight);
-            r.RegisterEntity(fireballDown);
+            //TODO: Change projectiles to music notes and add "Never Gonna Give You Up" Boss Music
+            int fireballVel = 2 * SpriteUtil.SCALE_FACTOR;
+            IProjectile fireballN = new BowserFire(CurrentLoc.Location, 0, -fireballVel);
+            IProjectile fireballS = new BowserFire(CurrentLoc.Location, 0, fireballVel);
+            IProjectile fireballE = new BowserFire(CurrentLoc.Location, fireballVel, 0);
+            IProjectile fireballW = new BowserFire(CurrentLoc.Location, -fireballVel,0);
+            IProjectile fireballSE = new BowserFire(CurrentLoc.Location, fireballVel, fireballVel);
+            IProjectile fireballSW = new BowserFire(CurrentLoc.Location, -fireballVel, fireballVel);
+            IProjectile fireballNE = new BowserFire(CurrentLoc.Location, fireballVel, -fireballVel);
+            IProjectile fireballNW = new BowserFire(CurrentLoc.Location, -fireballVel, -fireballVel);
+            r.RegisterEntity(fireballN);
+            r.RegisterEntity(fireballS);
+            r.RegisterEntity(fireballE);
+            r.RegisterEntity(fireballW);
+            r.RegisterEntity(fireballSE);
+            r.RegisterEntity(fireballSW);
+            r.RegisterEntity(fireballNE);
+            r.RegisterEntity(fireballNW);
         }
 
         public void TakeDamage(DamageLevel level)
@@ -124,7 +99,7 @@ namespace ZeldaDungeon.Entities.Enemies
         public void Update()
         {
             currentFrame++;
-            RickAstleySprite.Update();
+            if (currentFrame % 2 == 0) RickAstleySprite.Update();
             if (stunCountdown > 0) { stunCountdown--; }
             if (RickAstleySprite.Damaged)
             {
@@ -137,10 +112,8 @@ namespace ZeldaDungeon.Entities.Enemies
             Collision.Update();
 
         }
-        private static readonly int MOVE_TIMER = 8;
         private static readonly int ATTACK_TIMER = 64;
         private static readonly int ATTACK_CHANCE = 4;
-        private bool WillMove => currentFrame % MOVE_TIMER == 0 && stunCountdown == 0;
         private bool WillAttack => currentFrame % ATTACK_TIMER == 0 && SpriteUtil.Rand.Next(ATTACK_CHANCE) == 0 && stunCountdown == 0;
         public void DespawnEffect()
         {

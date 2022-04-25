@@ -48,7 +48,7 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.BowserFireX;
             int height = (int)SpriteSize.BowserFireY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(128, 282, width, height), new Rectangle(128, 292, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(128+ width, 282 + height, -width, -height), new Rectangle(128 + width, 292 + height, -width, -height) };
             return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
@@ -66,7 +66,9 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.RickX;
             int height = (int)SpriteSize.RickY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(5, 5, width, height), new Rectangle(59, 5, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(3, 3, width, height), new Rectangle(58, 3, width, height), new Rectangle(103, 3, width, height),
+            new Rectangle(3, 53, width, height), new Rectangle(53, 53, width, height), new Rectangle(103, 53, width, height), new Rectangle(103, 3, width, height),
+            new Rectangle(103, 58, width, height), new Rectangle(103, 103, width, height)};
             return new AnimatedSprite(rickSpriteSheet, sourceRectangles);
         }
 

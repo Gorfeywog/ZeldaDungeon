@@ -64,8 +64,6 @@ namespace ZeldaDungeon
             keyboardCon.RegisterHoldCommand(Keys.Down, linkDown, linkStopDown);
             keyboardCon.RegisterHoldCommand(Keys.D, linkRight, linkStopRight);
             keyboardCon.RegisterHoldCommand(Keys.Right, linkRight, linkStopRight);
-            keyboardCon.RegisterCommand(Keys.Z, linkAttack);
-            keyboardCon.RegisterCommand(Keys.N, linkAttack);
             keyboardCon.RegisterCommand(Keys.O, new DecRoom(g));
             keyboardCon.RegisterCommand(Keys.P, new IncRoom(g));
             keyboardCon.RegisterCommand(Keys.M, new MuteBackground(g));
@@ -77,14 +75,19 @@ namespace ZeldaDungeon
         }
         public void RegisterMainMenuCommands(bool mainMenu)
         {
+            ICommand linkAttack = new LinkAttack(g);
             if (mainMenu)
             {
+                keyboardCon.RegisterCommand(Keys.Z, new DummyCommand());
+                keyboardCon.RegisterCommand(Keys.N, new DummyCommand());
                 keyboardCon.RegisterCommand(Keys.D1, new StartDungeon(g, Direction.Up));
                 keyboardCon.RegisterCommand(Keys.D2, new StartTower(g, Direction.Right));
 
             }
             else
             {
+                keyboardCon.RegisterCommand(Keys.Z, linkAttack);
+                keyboardCon.RegisterCommand(Keys.N, linkAttack);
                 keyboardCon.RegisterCommand(Keys.D1, new DummyCommand());
                 keyboardCon.RegisterCommand(Keys.D2, new DummyCommand());
             }

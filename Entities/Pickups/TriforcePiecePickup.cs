@@ -13,12 +13,14 @@ namespace ZeldaDungeon.Entities.Pickups
         public Rectangle CurrentLoc { get; set; }
         public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
-        public TriforcePiecePickup(Point position)
+        private Game1 g;
+        private const int OFFSET = 8; // so it draws centered
+        public TriforcePiecePickup(Point position, Game1 g)
         {
             int width = (int)SpriteUtil.SpriteSize.TriforceWidth;
             int height = (int)SpriteUtil.SpriteSize.TriforceLength;
-            int offset = 8;
-            CurrentLoc = new Rectangle(new Point(position.X + (offset * SpriteUtil.SCALE_FACTOR), position.Y),
+            this.g = g;
+            CurrentLoc = new Rectangle(new Point(position.X + (OFFSET * SpriteUtil.SCALE_FACTOR), position.Y),
                 new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -28,7 +30,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public void Update() => sprite.Update();
         public void PickUp(ILink player)
         {
-            // do nothing, for now
+            g.Win(false);
         }
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;

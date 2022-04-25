@@ -25,6 +25,7 @@ namespace ZeldaDungeon
         public IList<Room> Rooms { get; private set; }
         private HUD static_HUD;
         private GameOverScreen gameOver;
+        private WinScreen winScreen; // not initialized until you win
         private PauseMenu static_PauseMenu;
         public int CurrentRoomIndex { get; private set; }
         public int RoomCount { get => Rooms.Count; }
@@ -144,6 +145,8 @@ namespace ZeldaDungeon
                     static_PauseMenu.Update();
                     break;
                 case GameState.GameOver:
+                case GameState.WinTower:
+                case GameState.WinTriforce:
                     controllers.Update();
                     break;
             }
@@ -206,6 +209,11 @@ namespace ZeldaDungeon
                 case GameState.GameOver:
                     static_HUD.Draw(spriteBatch, hudTopLeft);
                     gameOver.Draw(spriteBatch, adjustedRoomTopLeft);
+                    break;
+                case GameState.WinTower:
+                case GameState.WinTriforce:
+                    static_HUD.Draw(spriteBatch, hudTopLeft);
+                    winScreen.Draw(spriteBatch, adjustedRoomTopLeft);
                     break;
                 default:
                     break;
@@ -294,7 +302,7 @@ namespace ZeldaDungeon
             mainMenu = false;
         }
 
-        public void UnlockRoomDoor(Direction dir) // TODO - condense this set of three methods into one
+        public void UnlockRoomDoor(Direction dir)
         {
             Point newGridPos = EntityUtils.Offset(CurrentRoom.GridPos, dir, 1);
             int newIndex = GridToRoomIndex(newGridPos);
@@ -351,6 +359,12 @@ namespace ZeldaDungeon
             SoundManager.Instance.PlaySound("RupeesDecreasing");
             State = GameState.LinkDying;
             transFrame = 0;
+        }
+        public void Win(bool beatTower)
+        {
+            // sound is played by the triforce, not here
+            State = beatTower ? GameState.WinTower : GameState.WinTriforce;
+            winScreen = new WinScreen(zeldaFont, beatTower);
         }
     }
 }

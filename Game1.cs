@@ -249,6 +249,8 @@ namespace ZeldaDungeon
             controllers.Reset();
             controllers.RegisterCommands();
             controllers.RegisterMainMenuCommands(mainMenu);
+            SoundManager.Instance.PlayMusic("MiiTheme", true);
+
         }
         public void PauseMenu()
         {

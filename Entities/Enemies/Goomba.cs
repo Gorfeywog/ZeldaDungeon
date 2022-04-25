@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Entities.Enemies
             int width = (int)SpriteUtil.SpriteSize.StalfosX;
             int height = (int)SpriteUtil.SpriteSize.StalfosY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
-            currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
+            currentHealth = SpriteUtil.SMALL_MAX_HEALTH;
             currentFrame = 0;
             Collision = new CollisionHandler(r, this);
         }

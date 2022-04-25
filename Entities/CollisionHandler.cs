@@ -15,6 +15,7 @@ namespace ZeldaDungeon.Entities
     
     public class CollisionHandler
     {
+
         private Room CurrentRoom { get; set; }
         private EntityList RoomEntities { get => CurrentRoom.roomEntities; }
         private IEntity ActualEntity;
@@ -70,7 +71,19 @@ namespace ZeldaDungeon.Entities
                     }
                     if (en is IBlock block)
                     {
-                        if (ActualEntity is IProjectile && block.Height == CollisionHeight.Projectile)
+                        if (en is FireBlock fb)
+                        {
+                            if(ActualEntity is ILink link)
+                            {
+                                link.TakeDamage();
+                            }
+                            else if (ActualEntity is IEnemy enemy)
+                            {
+                                enemy.TakeDamage(DamageLevel.Normal);
+                            }
+                            return false;    
+                        }
+                        else if (ActualEntity is IProjectile && block.Height == CollisionHeight.Projectile)
                         {
                             return false;
                         }

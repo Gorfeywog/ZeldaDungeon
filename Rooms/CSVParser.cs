@@ -161,6 +161,7 @@ namespace ZeldaDungeon.Rooms
             return token switch
             {
                 "spt" => new SpecialTrigger(pos),
+                "sptr" => new SpecialTrigger(pos, true),
                 "npb" => new NonPushableBlock(pos),
                 "wr" => new RoomVoidBlock(pos),
                 "bfb" => new BlueFloorBlock(pos),
@@ -175,6 +176,7 @@ namespace ZeldaDungeon.Rooms
                 "s1b" => new Statue1Block(pos),
                 "s2b" => new Statue2Block(pos),
                 "wbb" => new WhiteBrickBlock(pos),
+                "wbbf" => new WhiteBrickBlockFloor(pos),
                 "bsr" => new Bowser(pos, r),
                 "gmb" => new Goomba(pos, r),
                 "aqe" => new Aquamentus(pos, r),
@@ -228,7 +230,8 @@ namespace ZeldaDungeon.Rooms
             "ol" => new OpenDoor(g, Direction.Left),
             "prse" => new PlaySoundEffect(g, "Magical"),
             "pkse" => new PlaySoundEffect(g, "KeyAppearance"),
-            "bowi" => new SpawnPickup(r, new BowPickup(itemSpawnPos, g)),
+                "tpi" => new SpawnPickup(r, new TriforcePiecePickup(itemSpawnPos)),
+                "bowi" => new SpawnPickup(r, new BowPickup(itemSpawnPos, g)),
             "wbi" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),
                 "ki" => new SpawnPickup(r, new KeyPickup(itemSpawnPos)),
                 "bm1" => new SpawnPickup(r, new BoomerangPickup(itemSpawnPos, g, false)),

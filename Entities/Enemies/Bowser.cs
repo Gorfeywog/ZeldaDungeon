@@ -78,7 +78,11 @@ namespace ZeldaDungeon.Entities.Enemies
                     movingLeft = !movingLeft;
                 }
             }
-
+            int locYChange = locChange * (SpriteUtil.Rand.Next(3) - 1);
+            if (!Collision.WillHitBlock(new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locYChange), CurrentLoc.Size)))
+            {
+                CurrentLoc = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locYChange), CurrentLoc.Size);
+            }
         }
 
         public void Attack()

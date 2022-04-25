@@ -82,7 +82,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (!attacking && !moving && !onCooldown)
             {
-                dir = Collision.DetectDirection(g.Player);
+                dir = Collision.DetectDirection(g.Player.CurrentLoc);
                 attacking = true;
                 moving = true;
             }

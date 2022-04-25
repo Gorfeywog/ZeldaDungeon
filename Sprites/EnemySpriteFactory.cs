@@ -13,6 +13,7 @@ namespace ZeldaDungeon.Sprites
         private Texture2D bowserSpriteSheet;
         private Texture2D rickSpriteSheet;
         private Texture2D gameNWatchSpriteSheet;
+        private Texture2D musicSpriteSheet;
 
         private static EnemySpriteFactory instance = new EnemySpriteFactory();
         
@@ -29,9 +30,19 @@ namespace ZeldaDungeon.Sprites
         public void LoadAllTextures(ContentManager content)
         {
             enemySpriteSheet = content.Load<Texture2D>("enemysprites");
-            //bowserSpriteSheet = content.Load<Texture2D>("bowsersprites");
-            //rickSpriteSheet = content.Load<Texture2D>("rick");
-            //gameNWatchSpriteSheet = content.Load<Texture2D>("gameNWatch");
+            bowserSpriteSheet = content.Load<Texture2D>("Bowser (1)");
+            rickSpriteSheet = content.Load<Texture2D>("rick");
+            gameNWatchSpriteSheet = content.Load<Texture2D>("gameNWatch");
+            musicSpriteSheet = content.Load<Texture2D>("Music Devil");
+        }
+
+        public ISprite CreateGoombaSprite()
+        {
+            int width = (int)SpriteSize.GoombaX;
+            int height = (int)SpriteSize.GoombaY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(26, 56, width, height), new Rectangle(44, 56, width, height) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateBowserSprite()
@@ -39,7 +50,16 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.BowserX;
             int height = (int)SpriteSize.BowserY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(0, 209, width, height), new Rectangle(34, 209, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(26, 249, width, height), new Rectangle(60, 249, width, height) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateBowserFireSprite()
+        {
+            int width = (int)SpriteSize.BowserFireX;
+            int height = (int)SpriteSize.BowserFireY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(128+ width, 282 + height, -width, -height), new Rectangle(128 + width, 292 + height, -width, -height) };
             return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
@@ -48,7 +68,8 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.KoopaX;
             int height = (int)SpriteSize.KoopaY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(0, 182, width, height), new Rectangle(18, 182, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(25, 221, width, height), new Rectangle(43, 221, width, height), new Rectangle(62, 221, width, height),
+            new Rectangle(80, 221, width, height)};
             return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
@@ -57,8 +78,21 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.RickX;
             int height = (int)SpriteSize.RickY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(0, 209, width, height), new Rectangle(34, 209, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(3, 3, width, height), new Rectangle(58, 3, width, height), new Rectangle(103, 3, width, height),
+            new Rectangle(3, 53, width, height), new Rectangle(53, 53, width, height), new Rectangle(103, 53, width, height), new Rectangle(103, 3, width, height),
+            new Rectangle(103, 58, width, height), new Rectangle(103, 103, width, height)};
             return new AnimatedSprite(rickSpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateMusicNoteSprite()
+        {
+            int width = (int)SpriteSize.MusicX;
+            int height = (int)SpriteSize.MusicY;
+
+            Rectangle[] sourceRectangles = { new Rectangle(8, 3, width, height), new Rectangle(40, 3, width, height), new Rectangle(72, 3, width, height),
+            new Rectangle(106, 3, width, height), new Rectangle(137, 3, width, height), new Rectangle(168, 3, width, height), new Rectangle(199, 3, width, height)
+            };
+            return new AnimatedSprite(musicSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateMrGameNWatchSprite()
@@ -95,6 +129,15 @@ namespace ZeldaDungeon.Sprites
             Rectangle[] sourceRectangles = { GridToRectangle(0, 11, width, height), GridToRectangle(1, 11, width, height),
                 GridToRectangle(2, 11, width, height), GridToRectangle(3, 11, width, height)};
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateHammerSprite()
+        {
+            int width = 9;
+            int height = 17;
+
+            Rectangle[] sourceRectangles = { new Rectangle(39, 17, width, height), new Rectangle(44, 121, height, width), new Rectangle(65, 117, width, height), new Rectangle(80, 121, height, width) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateGelSprite()

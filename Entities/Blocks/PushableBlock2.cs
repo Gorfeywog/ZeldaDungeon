@@ -1,24 +1,24 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ZeldaDungeon.Rooms;
 using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Blocks
 {
-    public class PushableBlock : IBlock
+    public class PushableBlock2 : IBlock
     {
-        private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock();
+        private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock1();
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public CollisionHandler Collision { get; private set; }
         private static readonly int MAX_HOLD_TIME = 60;
-        private bool CanBeMoved { get => amountMoved < (int)SpriteUtil.SpriteSize.GenericBlockY && lengthHeld >= MAX_HOLD_TIME; }
+        private bool CanBeMoved { get => amountMoved < (2 * (int)SpriteUtil.SpriteSize.GenericBlockY) && lengthHeld >= MAX_HOLD_TIME; }
         private int amountMoved;
         private int lengthHeld;
 
         public DrawLayer Layer { get => DrawLayer.Normal; }
         public Rectangle CurrentLoc { get; set; }
         private Rectangle newLoc;
-        public PushableBlock(Point position, Room r)
+        public PushableBlock2(Point position, Room r)
         {
             int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
             int height = (int)SpriteUtil.SpriteSize.GenericBlockY;

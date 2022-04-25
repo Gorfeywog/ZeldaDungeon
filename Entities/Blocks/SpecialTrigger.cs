@@ -7,16 +7,21 @@ namespace ZeldaDungeon.Entities.Blocks
 {
     public class SpecialTrigger : IBlock
     {
+        private bool hasTriggered;
+        private bool Repeatable;
         public CollisionHeight Height { get => CollisionHeight.Floor; }
         public DrawLayer Layer { get => DrawLayer.Low; }
         private ICommand effect;
         public Rectangle CurrentLoc { get; set; }
-        public SpecialTrigger(Point position)
+        public SpecialTrigger(Point position, bool Repeatable = false)
         {
             int width = (int)SpriteUtil.SpriteSize.GenericBlockX / 2; 
             int height = (int)SpriteUtil.SpriteSize.GenericBlockY / 2;
-            Point adjustedPosition = position + new Point(width, height); 
-            CurrentLoc = new Rectangle(adjustedPosition, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR)); ;
+
+            Point adjustedPosition = position + new Point(width, height); // spawn it in center, not in top left
+            CurrentLoc = new Rectangle(adjustedPosition, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
+            hasTriggered = false;
+            this.Repeatable = Repeatable;
         }
         public void Draw(SpriteBatch spriteBatch) { }
         public void Update() { }
@@ -24,7 +29,11 @@ namespace ZeldaDungeon.Entities.Blocks
         public bool ReadyToDespawn => false;
         public void Trigger()
         {
-            if (effect != null) effect.Execute();
+            if (effect != null && (!hasTriggered || Repeatable))
+            {
+                hasTriggered = true;
+                effect.Execute();
+            }
         }
         public void RegisterEffect(ICommand effect)
         {

@@ -4,13 +4,14 @@ using ZeldaDungeon.Sprites;
 
 namespace ZeldaDungeon.Entities.Blocks
 {
-    public class NonPushableBlock : IBlock
+    public class WhiteBrickBlockFloor : IBlock
     {
-        private ISprite sprite = BlockSpriteFactory.Instance.CreatePushableBlock1();
-        public CollisionHeight Height { get => CollisionHeight.Normal; }
-        public DrawLayer Layer { get => DrawLayer.Normal; }
+
+        private ISprite sprite = BlockSpriteFactory.Instance.CreateWhiteBrickBlock();
+        public CollisionHeight Height { get => CollisionHeight.Floor; }
+        public DrawLayer Layer { get => DrawLayer.Floor; }
         public Rectangle CurrentLoc { get; set; }
-        public NonPushableBlock(Point position)
+        public WhiteBrickBlockFloor(Point position)
         {
             int width = (int)SpriteUtil.SpriteSize.GenericBlockX;
             int height = (int)SpriteUtil.SpriteSize.GenericBlockY;
@@ -23,6 +24,8 @@ namespace ZeldaDungeon.Entities.Blocks
         public void Update() => sprite.Update();
         public void DespawnEffect() { }
         public bool ReadyToDespawn => false;
+
     }
 }
+
 

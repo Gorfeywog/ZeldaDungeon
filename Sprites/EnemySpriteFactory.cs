@@ -108,6 +108,15 @@ namespace ZeldaDungeon.Sprites
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
         }
 
+        public ISprite CreateHammerSprite()
+        {
+            int width = 9;
+            int height = 17;
+
+            Rectangle[] sourceRectangles = { new Rectangle(39, 17, width, height), new Rectangle(44, 121, height, width), new Rectangle(65, 117, width, height), new Rectangle(80, 121, height, width) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
+        }
+
         public ISprite CreateGelSprite()
         {
             int width = (int)SpriteSize.GelX;

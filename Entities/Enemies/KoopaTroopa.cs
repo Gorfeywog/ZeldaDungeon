@@ -20,11 +20,13 @@ namespace ZeldaDungeon.Entities.Enemies
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private int currentHealth;
         private int initX;
-        private bool movingLeft;
+        private Direction direction;
         private int currentFrame;
         private Room r;
         private int damageCountdown = 0;
         private int stunCountdown = 0;
+        private bool isThrowing;
+        private IProjectile hammer;
 
 
         public KoopaTroopa(Point position, Room r)
@@ -36,7 +38,7 @@ namespace ZeldaDungeon.Entities.Enemies
             Collision = new CollisionHandler(r, this);
             initX = position.X;
             currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
-            movingLeft = true;
+            isThrowing = false;
             this.r = r;
             currentFrame = 0;
         }
@@ -87,14 +89,8 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 return;
             }
-            int fireballChange = SpriteUtil.Rand.Next(3) - 1;
-            int fireballVel = -2 * SpriteUtil.SCALE_FACTOR;
-            IProjectile fireballUp = new BowserFire(CurrentLoc.Location, fireballVel, (1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballStraight = new BowserFire(CurrentLoc.Location, fireballVel, fireballChange * SpriteUtil.SCALE_FACTOR);
-            IProjectile fireballDown = new BowserFire(CurrentLoc.Location, fireballVel, (-1 + fireballChange) * SpriteUtil.SCALE_FACTOR);
-            r.RegisterEntity(fireballUp);
-            r.RegisterEntity(fireballStraight);
-            r.RegisterEntity(fireballDown);
+            hammer = new BoomerangProjectile(this, currDirection, false, r.G);
+            r.RegisterEntity(hammer);
         }
 
         public void TakeDamage(DamageLevel level)

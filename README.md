@@ -11,6 +11,7 @@ Commands to Play the Game:
 	- Move item selection to the right in the inventory - "]"
 	- Mute background music - "M"
 	- Enter the dungeon from Main Menu - "1" (this does not include a num pad)
+	- Enter the power tower from Main Menu - "2" (this does not include a num pad)
 	- Reset game - "R"
 	- Quit game - "Q"
 
@@ -28,10 +29,11 @@ Current Bugs Known:
 	- Old man room doesn't shoot fireballs at Link after Link attacks the old man.
 	- Items drop in unreachable locations if enemies die in those locations (white dungeon room is the main concern for this).
 	- Level # is not displayed on the HUD.
+	- No fairies.
 
 Explanation on Boomerang and Sword Projectile Stuns:
-	- The boomerang and four projectiles that come off of a sword projectile stun enemies that are medium sized and above (stalfos, goriya, aquamentes, etc.), and they
-	  hurt small enemies (keese and gels).e
+	- The boomerang and four projectiles that come off of a sword projectile stun enemies that are medium sized and above 
+	    (stalfos, goriya, aquamentus, etc.), and they hurt small enemies (keese and gels).
 
 
 Navigating File Structure in Project:
@@ -40,7 +42,7 @@ Navigating File Structure in Project:
 					 which implements the IController interface.
 		- Content - Contains the texture atlases created by the group to hold all essential sprites. The texture atlases were created by a script that Luke wrote, which 
 					makes the accessing of sprites much easier.
-		- Entities - Contains the bulk of our implementations for sprint_2: interfaces for each game framework's function, state machine for Link, and classes that implement
+		- Entities - Interfaces for each game framework's function, state machine for Link, and classes that implement
 					 the function of the blocks, items, enemies, and projectiles. This now contains a folder called "Pickups" to denote the items a player can pick up and interact 
 					 with. 
 					 All implementations regarding collision are also contained within the entities folder. At the moment, our implementation for CollisionHandler has every enemy 

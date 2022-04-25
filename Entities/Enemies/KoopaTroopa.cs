@@ -19,7 +19,6 @@ namespace ZeldaDungeon.Entities.Enemies
         public CollisionHeight Height { get => CollisionHeight.Normal; }
         public DrawLayer Layer { get => DrawLayer.Normal; }
         private int currentHealth;
-        private int height, width;
         private Direction direction;
         private int currentFrame;
         private Room r;
@@ -32,8 +31,8 @@ namespace ZeldaDungeon.Entities.Enemies
         public KoopaTroopa(Point position, Room r)
         {
             KoopaTroopaSprite = EnemySpriteFactory.Instance.CreateKoopaSprite();
-            width = (int)SpriteUtil.SpriteSize.KoopaX;
-            height = (int)SpriteUtil.SpriteSize.KoopaY;
+            int width = (int)SpriteUtil.SpriteSize.KoopaX;
+            int height = (int)SpriteUtil.SpriteSize.KoopaY;
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             Collision = new CollisionHandler(r, this);
             currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
@@ -61,8 +60,8 @@ namespace ZeldaDungeon.Entities.Enemies
                 _ => direction,
             };
             Point newPos = EntityUtils.Offset(CurrentLoc.Location, direction, locChange);
-            if (!Collision.WillHitBlock(new Rectangle(newPos.X, newPos.Y, height, width))){
-                CurrentLoc = new Rectangle(newPos.X, newPos.Y, height, width);
+            if (!Collision.WillHitBlock(new Rectangle(new Point(newPos.X, newPos.Y), CurrentLoc.Size))){
+                CurrentLoc = new Rectangle(new Point(newPos.X, newPos.Y), CurrentLoc.Size);
             }
 
         }
@@ -89,7 +88,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                if (level == DamageLevel.Boomerang)
                 {
                     stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
                 }

@@ -65,7 +65,7 @@ namespace ZeldaDungeon.Entities
                 {
                     if (en is PushableBlock pb && ActualEntity is ILink)
                     {
-                        pb.InitMovement(DetectDirection(pb));
+                        pb.InitMovement(DetectDirection(pb.CurrentLoc));
                         return true;
                     }
                     if (en is IBlock block)
@@ -139,27 +139,27 @@ namespace ZeldaDungeon.Entities
             return XCollision && YCollision;
         }
 
-        public Direction DetectDirection(IEntity CurrentEntity)
+        public Direction DetectDirection(Rectangle CurrentEntityLoc)
         {
             bool actBigX = false;
             bool actBigY = false;
-            if (CurrentEntity.CurrentLoc.X < ActualEntity.CurrentLoc.X)
+            if (CurrentEntityLoc.X < ActualEntity.CurrentLoc.X)
             {
-                dx = - ActualEntity.CurrentLoc.X + CurrentEntity.CurrentLoc.X + CurrentEntity.CurrentLoc.Width;
+                dx = - ActualEntity.CurrentLoc.X + CurrentEntityLoc.X + CurrentEntityLoc.Width;
             } else
             {
                 actBigX = true;
-                dx = ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width - CurrentEntity.CurrentLoc.X;
+                dx = ActualEntity.CurrentLoc.X + ActualEntity.CurrentLoc.Width - CurrentEntityLoc.X;
             }
 
-            if (CurrentEntity.CurrentLoc.Y < ActualEntity.CurrentLoc.Y)
+            if (CurrentEntityLoc.Y < ActualEntity.CurrentLoc.Y)
             {
-                dy = - ActualEntity.CurrentLoc.Y + CurrentEntity.CurrentLoc.Y + CurrentEntity.CurrentLoc.Height;
+                dy = - ActualEntity.CurrentLoc.Y + CurrentEntityLoc.Y + CurrentEntityLoc.Height;
             }
             else
             {
                 actBigY = true;
-                dy = ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height - CurrentEntity.CurrentLoc.Y;
+                dy = ActualEntity.CurrentLoc.Y + ActualEntity.CurrentLoc.Height - CurrentEntityLoc.Y;
             }
             // If dx > dy, we know it's either a top or bottom collision.
             if (dx > dy)

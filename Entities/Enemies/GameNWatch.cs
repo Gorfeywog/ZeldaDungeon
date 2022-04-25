@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 using ZeldaDungeon.Entities.MiscEffects;
 using ZeldaDungeon.Entities.Pickups;
 using ZeldaDungeon.Entities.Projectiles;
@@ -25,6 +26,8 @@ namespace ZeldaDungeon.Entities.Enemies
         private Room r;
         private int damageCountdown = 0;
         private int stunCountdown = 0;
+        int verticalDirection = 1;
+        int horizontalDirection = 1;
 
 
         public GameNWatch(Point position, Room r)
@@ -63,11 +66,21 @@ namespace ZeldaDungeon.Entities.Enemies
             }
 
             //Determines which way to move
-            int locChange = 4 * SpriteUtil.SCALE_FACTOR;
-            Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
-            if (!Collision.WillHitBlock(new Rectangle(newPos, CurrentLoc.Size)))
+            int locChange = SPEED * SpriteUtil.SCALE_FACTOR;
+            // Point newPos = EntityUtils.Offset(CurrentLoc.Location, currDirection, locChange);
+
+            Rectangle newPos = new Rectangle(CurrentLoc.X + (horizontalDirection * locChange), CurrentLoc.Y + (verticalDirection * locChange), CurrentLoc.Width, CurrentLoc.Height);
+            if (Collision.WillHitBlock(newPos))
             {
-                CurrentLoc = new Rectangle(newPos, CurrentLoc.Size);
+                Direction collisionDirection = Collision.DetectDirection(newPos);
+                if (collisionDirection == Direction.Down || collisionDirection == Direction.Up) verticalDirection *= -1;
+                else if (collisionDirection == Direction.Left || collisionDirection == Direction.Right) horizontalDirection *= -1;
+                newPos = new Rectangle(CurrentLoc.X + (horizontalDirection * locChange), CurrentLoc.Y + (verticalDirection * locChange), CurrentLoc.Width, CurrentLoc.Height);
+                Debug.Write(collisionDirection);
+            }
+            if (!Collision.WillHitBlock(newPos))
+            {
+                CurrentLoc = newPos;
             }
 
         }

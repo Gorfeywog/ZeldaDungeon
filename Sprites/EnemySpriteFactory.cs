@@ -68,7 +68,8 @@ namespace ZeldaDungeon.Sprites
             int width = (int)SpriteSize.KoopaX;
             int height = (int)SpriteSize.KoopaY;
 
-            Rectangle[] sourceRectangles = { new Rectangle(26, 222, width, height), new Rectangle(44, 222, width, height) };
+            Rectangle[] sourceRectangles = { new Rectangle(25, 221, width, height), new Rectangle(43, 221, width, height), new Rectangle(62, 221, width, height),
+            new Rectangle(80, 221, width, height)};
             return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
@@ -128,6 +129,15 @@ namespace ZeldaDungeon.Sprites
             Rectangle[] sourceRectangles = { GridToRectangle(0, 11, width, height), GridToRectangle(1, 11, width, height),
                 GridToRectangle(2, 11, width, height), GridToRectangle(3, 11, width, height)};
             return new AnimatedSprite(enemySpriteSheet, sourceRectangles);
+        }
+
+        public ISprite CreateHammerSprite()
+        {
+            int width = 9;
+            int height = 17;
+
+            Rectangle[] sourceRectangles = { new Rectangle(39, 17, width, height), new Rectangle(44, 121, height, width), new Rectangle(65, 117, width, height), new Rectangle(80, 121, height, width) };
+            return new AnimatedSprite(bowserSpriteSheet, sourceRectangles);
         }
 
         public ISprite CreateGelSprite()

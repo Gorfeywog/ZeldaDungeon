@@ -84,8 +84,10 @@ namespace ZeldaDungeon.Sprites
         //occasionally be used while in different directions, so X and Y would be confusing for these items
         public enum SpriteSize
         {
-            KoopaX = 15,
-            KoopaY = 23,
+            HammerX = 15,
+            HammerY = 15,
+            KoopaX = 17,
+            KoopaY = 25,
             GameNWatchX = 21,
             GameNWatchY = 21,
             RickX = 43,

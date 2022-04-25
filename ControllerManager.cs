@@ -65,7 +65,7 @@ namespace ZeldaDungeon
             keyboardCon.RegisterHoldCommand(Keys.Right, linkRight, linkStopRight);
             keyboardCon.RegisterCommand(Keys.M, new MuteBackground(g));
             keyboardCon.RegisterCommand(Keys.K, new LinkUseSelectedItem(g));
-            keyboardCon.RegisterCommand(Keys.N, new LinkUseSelectedItem(g));
+            keyboardCon.RegisterCommand(Keys.X, new LinkUseSelectedItem(g));
             keyboardCon.RegisterCommand(Keys.OemOpenBrackets, new IncItemSelect(g));
             keyboardCon.RegisterCommand(Keys.OemCloseBrackets, new DecItemSelect(g));
 

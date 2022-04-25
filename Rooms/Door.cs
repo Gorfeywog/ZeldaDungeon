@@ -10,14 +10,12 @@ namespace ZeldaDungeon.Rooms
 {
     public class Door : IEntity
     {
-        // we may want to split up doors into 2 sprites, since the alternatives look weird
-        // either Link is above the doorframe itself (stupid), or under the door entirely (worse?)
         private ISprite sprite;
         public Direction Dir { get; private set; }
         public Rectangle CurrentLoc { get; set; }
         public bool ReadyToDespawn { get => false; }
         public void DespawnEffect() { }
-        public DrawLayer Layer { get => DrawLayer.VeryHigh; } // this is weird. doors are weird.
+        public DrawLayer Layer { get => DrawLayer.VeryHigh; } 
         private DoorState state;
         public DoorState State 
         {
@@ -43,7 +41,6 @@ namespace ZeldaDungeon.Rooms
         }
         public void Update() => sprite.Update();
 
-        // return value is whether anything was actually unlocked/blown up for each of these
         public bool Unlock()
         {
             if (State == DoorState.Locked)

@@ -149,7 +149,7 @@ namespace ZeldaDungeon.Sprites
                 };
             }
         }
-        public ISprite CreateSword(Direction dir) // TODO - should have a version that cycles colors
+        public ISprite CreateSword(Direction dir) 
         {
             int width = (int)SpriteUtil.SpriteSize.SwordWidth;
             int length = (int)SpriteUtil.SpriteSize.SwordLength;
@@ -163,7 +163,7 @@ namespace ZeldaDungeon.Sprites
                 _ => throw new ArgumentException()
             };
         }
-        public ISprite CreateSwordProj(Direction dir) // TODO - should cycle colors
+        public ISprite CreateSwordProj(Direction dir) 
         {
             int width = (int)SpriteUtil.SpriteSize.SwordProjWidth;
             int height = (int)SpriteUtil.SpriteSize.SwordProjHeight;
@@ -190,8 +190,7 @@ namespace ZeldaDungeon.Sprites
                 return new StaticSprite(itemSpriteSheet, SpriteUtil.GridToRectangle(0, 7, width, length));
             }
         }
-        // note that this sprite was handmade instead of being pulled from a spritesheet
-        // it's pretty ugly.
+        
         public ISprite CreateSelectionIndicator()
         {
             int width = (int)SpriteUtil.SpriteSize.SelectWidth;

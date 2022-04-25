@@ -10,7 +10,7 @@ namespace ZeldaDungeon.Entities.Projectiles
     public class CandleFire : IProjectile
     {
         private static int duration = 60;
-        private int timer = duration; // counts down
+        private int timer = duration; 
         private ISprite sprite = BlockSpriteFactory.Instance.CreateFireBlock(); 
         private Game1 g;
         private Direction d;
@@ -32,7 +32,7 @@ namespace ZeldaDungeon.Entities.Projectiles
         public void DespawnEffect() { }
         public void Update()
         {
-            if (timer > 2 * duration / 3) // it stops moving after travelling a while
+            if (timer > 2 * duration / 3) 
             {
                 CurrentLoc = new Rectangle(EntityUtils.Offset(CurrentLoc.Location, d, speed), CurrentLoc.Size);
             }

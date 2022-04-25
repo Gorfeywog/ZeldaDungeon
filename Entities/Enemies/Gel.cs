@@ -41,17 +41,16 @@ namespace ZeldaDungeon.Entities.Enemies
             int movingNum = SpriteUtil.Rand.Next(5);
             int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
             Rectangle newPos;
-            if (movingNum < 2) // 2 in 5 chance to move in x direction
+            if (movingNum < 2) 
             {
                 newPos = new Rectangle(new Point(CurrentLoc.X + locChange, CurrentLoc.Y), CurrentLoc.Size);
                 if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
             }
-            else if (movingNum > 2) // 2 in 5 chance to move in y direction
+            else if (movingNum > 2) 
             {
                 newPos = new Rectangle(new Point(CurrentLoc.X, CurrentLoc.Y + locChange), CurrentLoc.Size);
                 if (!Collision.WillHitBlock(newPos)) CurrentLoc = newPos;
             }
-            // 1 in 5 chance to not move at all
         }
 
         public void Attack() { }
@@ -60,7 +59,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                currentHealth -= (int)level; // gels take damage from boomerangs!
+                currentHealth -= (int)level;
                 SoundManager.Instance.PlaySound("EnemyZapped");
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
             }

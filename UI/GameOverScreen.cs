@@ -12,7 +12,7 @@ namespace ZeldaDungeon.UI
     public class GameOverScreen
     {
         private SpriteFont font;
-        private const int OFFSET = 10;
+        private const int OFFSET = 50;
         public GameOverScreen(SpriteFont font)
         {
             this.font = font;
@@ -25,7 +25,7 @@ namespace ZeldaDungeon.UI
             Vector2 center = topLeftVec + new Vector2(scaledRoomWidth / 2.0f, scaledRoomHeight / 2.0f);
             Vector2 centerOffset = new Vector2(OFFSET * SpriteUtil.SCALE_FACTOR, 0);
             center = center - centerOffset;
-            spriteBatch.DrawString(font, "YOU LOSE.\nPRESS R TO RESTART.", center, Color.Red);
+            spriteBatch.DrawString(font, "          YOU LOSE.\n\nPRESS R TO RESTART OR Q TO QUIT", center, Color.Red);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                if (level == DamageLevel.Boomerang) 
                 {
                     stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
                 }

@@ -41,7 +41,6 @@ namespace ZeldaDungeon.Entities
         {
             sprite.Draw(spriteBatch, CurrentLoc);
             spriteBatch.DrawString(menuFont, "  PRESS 1 TO ENTER DUNGEON\nPRESS 2 TO ENTER POWER TOWER", textPos1, Color.Black);
-            // TODO: Need to find a way to draw the text on the same layer as the menu sprite.
         }
         public void Update() => sprite.Update();        
     }

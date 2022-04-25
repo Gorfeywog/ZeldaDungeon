@@ -84,9 +84,7 @@ namespace ZeldaDungeon.UI
             room_LRU.Update();
             room_LR.Update(); ;
         }
-        // only handles directions, not visibility
-        // looks like a lot of code, but is basically just a binary search
-        // either we have this here or we have basically the same code in UISpriteFactory instead
+        
         private ISprite SpriteFor(PauseMapRoomState state)
         {
             if (state.HasDoor(Direction.Left))

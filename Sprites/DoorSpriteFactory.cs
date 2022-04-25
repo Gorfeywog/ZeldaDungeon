@@ -36,7 +36,6 @@ namespace ZeldaDungeon.Sprites
 
         public ISprite CreateDoor(Direction dir, DoorState state) 
         {
-            // we abuse the grid layout to simplify the selection / avoid a nested switch
             int directionIndex = dir switch
             {
                 Direction.Down => 0,

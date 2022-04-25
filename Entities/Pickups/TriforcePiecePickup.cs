@@ -14,7 +14,7 @@ namespace ZeldaDungeon.Entities.Pickups
         public DrawLayer Layer { get => DrawLayer.Low; }
         public bool HoldsUp { get => true; }
         private Game1 g;
-        private const int OFFSET = 8; // so it draws centered
+        private const int OFFSET = 11; 
         public TriforcePiecePickup(Point position, Game1 g)
         {
             int width = (int)SpriteUtil.SpriteSize.TriforceWidth;

@@ -40,7 +40,6 @@ namespace ZeldaDungeon.Entities.Enemies
         public void Move()
         {
             if (!WillMove) { return; }
-            // One in eight chance to change directions
             int changeDirChance = 60;
             if (SpriteUtil.Rand.Next(8) == 0 || currentFrame % changeDirChance == 0)
             {
@@ -83,7 +82,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (damageCountdown == 0)
             {
-                if (level == DamageLevel.Boomerang) // stun for boomerang hits
+                if (level == DamageLevel.Boomerang) 
                 {
                     stunCountdown = SpriteUtil.BOOM_STUN_LENGTH;
                 }

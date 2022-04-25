@@ -30,10 +30,10 @@ namespace ZeldaDungeon.Entities.Projectiles
         private Direction targetDir;
         private int velocity; 
         private Random rand;
-        private bool isReturning = false; // toggles to true when it turns around
+        private bool isReturning = false; 
         private bool isMagic;
         private int currentFrame;
-        private Game1 g; // needed to give Link his boomerang back after throwing it away
+        private Game1 g; 
         private int magicSpeed = 4 * SpriteUtil.SCALE_FACTOR;
         private int normalSpeed = 3 * SpriteUtil.SCALE_FACTOR;
         public BoomerangProjectile(IEntity thrower, Direction dir, bool isMagic, Game1 g)
@@ -54,7 +54,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             collision = new CollisionHandler(g.CurrentRoom, this);
         }
 
-        public void Move() // TODO - check for colliding with walls? 
+        public void Move() 
         {
             Point path;
             if (isReturning)
@@ -72,7 +72,6 @@ namespace ZeldaDungeon.Entities.Projectiles
             }
 
             var pathVec = path.ToVector2();
-            // if will reach the thrower, it ceases to exist
             if (pathVec.Length() < velocity && isReturning)
             {
                 ReadyToDespawn = true;
@@ -115,7 +114,7 @@ namespace ZeldaDungeon.Entities.Projectiles
             BoomerangSprite.Update();
         }
 
-        public void DespawnEffect() // give Link his boomerang back
+        public void DespawnEffect() 
         {
             if (thrower is ILink link)
             {

@@ -21,7 +21,7 @@ namespace ZeldaDungeon.Entities.Projectiles
 
 		public Fireball(Point position, int xChange, int yChange)
 		{
-			FireballSprite = EnemySpriteFactory.Instance.CreateFireballSprite(); // note that it lives on the enemies sheet
+			FireballSprite = EnemySpriteFactory.Instance.CreateFireballSprite(); 
 			int width = (int)SpriteUtil.SpriteSize.FireballX;            
 			int height = (int)SpriteUtil.SpriteSize.FireballY;            
 			CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));

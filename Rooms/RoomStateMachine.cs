@@ -11,7 +11,7 @@ namespace ZeldaDungeon.Rooms
     public class RoomStateMachine
     {
         private int resetTimer = 0;
-        private static readonly int clockTime = 600; // TODO - figure out the real value
+        private static readonly int clockTime = 600; 
 
         public RoomState State { get; private set; }
         public RoomStateMachine()
@@ -48,7 +48,7 @@ namespace ZeldaDungeon.Rooms
             }
         }
     }
-    public enum RoomState // should pickup + clock be possible?
+    public enum RoomState 
     {
         Normal, PickUp, Clock
     }

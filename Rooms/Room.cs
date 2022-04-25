@@ -11,24 +11,23 @@ namespace ZeldaDungeon.Rooms
 {
     public class Room
     {
-        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); // may be empty for a room without walls
-        public EntityList roomEntities; // holds the walls and the doors, but **not** Link.
-        private IList<IEntity> entityBuffer; // hold entities until can safely add to roomEntities
+        private IDictionary<Direction, Door> doors = new Dictionary<Direction, Door>(); 
+        public EntityList roomEntities; 
+        private IList<IEntity> entityBuffer; 
         private static readonly int gridSize = 16 * SpriteUtil.SCALE_FACTOR;
-        private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; // the order matters; based off structure of the csv files
+        private static readonly Direction[] directions = { Direction.Left, Direction.Down, Direction.Right, Direction.Up }; 
         public Game1 G { get; private set; }
         public RoomType Type { get; private set; }
         public Point GridPos { get; private set; }
         public Point TopLeft { get => GridPos * new Point(16, 11) * new Point(gridSize); }
         private static Point RoomSize { get => new Point(16 * gridSize, 11 * gridSize); }
         public Rectangle RoomPos { get => new Rectangle(TopLeft, RoomSize); }
-        private Point[] linkDoorSpawns; // these are relative, not absolute!
+        private Point[] linkDoorSpawns; 
         public Point LinkDefaultSpawn { get; private set; }
         public RoomStateMachine StateMachine { get; private set; }
         public bool HasTriforce { get; private set; }
         public bool Visited { get; private set; }
-        public bool HaveUsedCandle { get; set; } // VERY BAD coupling, but best alternatives I could think of screamed "memory leak"
-                                                 // should be changed if we can think of anything not-awful to do this.
+        public bool HaveUsedCandle { get; set; } 
         private ICollection<ICommand> roomClearEffects;
         public Room(Game1 g, string path)
         {
@@ -54,7 +53,7 @@ namespace ZeldaDungeon.Rooms
                 roomEntities.Add(new Walls(TopLeft));
             }
             StateMachine = new RoomStateMachine();
-            HasTriforce = DetectTriforce(); // currently never changed in case triforce disappears
+            HasTriforce = DetectTriforce(); 
         }
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -83,7 +82,7 @@ namespace ZeldaDungeon.Rooms
         public void UpdateAll()
         {
             StateMachine.Update();
-            if (StateMachine.State == RoomState.PickUp) { return; } // time stops while Link holds up stuff
+            if (StateMachine.State == RoomState.PickUp) { return; } 
             var toBeRemoved = new List<IEntity>();
             bool hasPickup = !G.Player.CanPickUp();
             bool anEnemyDied = false;
@@ -129,7 +128,7 @@ namespace ZeldaDungeon.Rooms
                     ClearEffects();
                 }
             }
-            DumpEntityBuffer(); // clear effects may have added more entities to buffer
+            DumpEntityBuffer(); 
         }
 
         public Point DoorPos(Direction dir)

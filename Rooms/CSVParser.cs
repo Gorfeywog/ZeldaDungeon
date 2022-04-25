@@ -47,7 +47,7 @@ namespace ZeldaDungeon.Rooms
         private IList<String>[,] ParseRoomTokens()
         {
             IList<String>[,] tokens = new IList<String>[width, height];
-            for (int i = 0; i < height; i++) // height *should* match lines.Length
+            for (int i = 0; i < height; i++) 
             {
                 string[] lineBlocks = lines[i].Split(',');
                 for (int j = 0; j < width; j++)
@@ -87,7 +87,7 @@ namespace ZeldaDungeon.Rooms
                     roomEntities.Add(combinedEnt);
                     k += 2;
                 }
-                else if (ent is SpecialTrigger trigger) // no need to check bounds. CSV contract guarantees safe.
+                else if (ent is SpecialTrigger trigger) 
                 {
                     trigger.RegisterEffect(ParseSpecialEffect(tokens[k + 1]));
                     roomEntities.Add(trigger);
@@ -135,7 +135,7 @@ namespace ZeldaDungeon.Rooms
             return new Point(rawX, rawY);
         }
 
-        public Point[] ParseLinkSpawns(int tileSize) // tileSize should be 32 at the default scale, for instance
+        public Point[] ParseLinkSpawns(int tileSize) 
         {
             var spawns = new Point[4];
             string[] spawnsRow = lines[height + 2].Split(',');
@@ -210,7 +210,7 @@ namespace ZeldaDungeon.Rooms
         }
         private ICommand ParseSpecialEffect(string token)
         {
-            Point itemSpawnPos = new Point(); // command will put them in a better spot
+            Point itemSpawnPos = new Point(); 
             return token switch
             {
             "tu" => new LinkRoomTeleport(g, Direction.Up, "WalkingOnStairs"),

@@ -49,10 +49,15 @@ namespace ZeldaDungeon.Sprites
             return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 2, 
                 (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
         }
-        public ISprite CreatePushableBlock()
+        public ISprite CreatePushableBlock1()
         {
             return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 1, 
                 (int) SpriteUtil.SpriteSize.GenericBlockX, (int) SpriteUtil.SpriteSize.GenericBlockY));
+        }
+        public ISprite CreatePushableBlock2()
+        {
+            return new StaticSprite(blockSpriteSheet, SpriteUtil.GridToRectangle(0, 1,
+                (int)SpriteUtil.SpriteSize.GenericBlockX, (int)SpriteUtil.SpriteSize.GenericBlockY));
         }
         public ISprite CreateStairsBlock()
         {

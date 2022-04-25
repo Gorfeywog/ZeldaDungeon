@@ -63,7 +63,7 @@ namespace ZeldaDungeon.Entities
             {
                 if (DetectCollision(nextLoc, en.CurrentLoc))
                 {
-                    if (en is PushableBlock pb && ActualEntity is ILink)
+                    if (en is PushableBlock1 pb && ActualEntity is ILink)
                     {
                         pb.InitMovement(DetectDirection(pb.CurrentLoc));
                         return true;

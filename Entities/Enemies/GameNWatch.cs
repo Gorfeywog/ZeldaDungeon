@@ -90,7 +90,6 @@ namespace ZeldaDungeon.Entities.Enemies
                     case Direction.SE:
                         if (newPos.X >= RightWall) currDirection = Direction.SW;
                         if (newPos.Y >= BottomWall) currDirection = Direction.NE;
-                        Debug.Write("Wall is "+BottomWall+" newPos is "+newPos.Y);
                         break;
                 }
             }

@@ -35,7 +35,7 @@ namespace ZeldaDungeon.Entities.Enemies
             CurrentLoc = new Rectangle(position, new Point(width * SpriteUtil.SCALE_FACTOR, height * SpriteUtil.SCALE_FACTOR));
             Collision = new CollisionHandler(r, this);
             initX = position.X;
-            currentHealth = SpriteUtil.MEDIUM_MAX_HEALTH;
+            currentHealth = SpriteUtil.ASTLEY_MAX_HEALTH;
             movingLeft = true;
             this.r = r;
             currentFrame = 0;
@@ -52,7 +52,7 @@ namespace ZeldaDungeon.Entities.Enemies
             {
                 return;
             }
-            //TODO: Change projectiles to music notes and add "Never Gonna Give You Up" Boss Music
+
             int fireballVel = 2 * SpriteUtil.SCALE_FACTOR;
             IProjectile fireballN = new MusicNotes(CurrentLoc.Location, 0, -fireballVel);
             IProjectile fireballS = new MusicNotes(CurrentLoc.Location, 0, fireballVel);
@@ -85,7 +85,7 @@ namespace ZeldaDungeon.Entities.Enemies
                     currentHealth -= (int)level;
                 }
                 damageCountdown = SpriteUtil.DAMAGE_DELAY;
-                SoundManager.Instance.PlaySound("BossZapped");
+                SoundManager.Instance.PlaySound("MinecraftOof");
             }
             RickAstleySprite.Damaged = true;
 

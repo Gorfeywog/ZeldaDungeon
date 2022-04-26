@@ -17,7 +17,7 @@ namespace ZeldaDungeon.Entities.Enemies
         private Direction dir;
         private int speed;
         private int cooldown;
-        private const int MaxCooldown = 20;
+        private const int MaxCooldown = 25;
         private Room r;
         private Game1 g;
         private bool attacking;

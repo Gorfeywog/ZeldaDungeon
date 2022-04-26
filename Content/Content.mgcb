@@ -175,6 +175,18 @@
 /processorParam:Quality=Best
 /build:Music/MiiTheme.wav
 
+#begin Music/Pokemon.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Pokemon.wav
+
+#begin Music/RickRoll.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/RickRoll.wav
+
 #begin pixelem.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

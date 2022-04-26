@@ -21,6 +21,7 @@ namespace ZeldaDungeon.Sprites
         //Default max health values
         public static readonly int LINK_MAX_HEALTH = 6;
         public static readonly int AQUAMENTUS_MAX_HEALTH = 20;
+        public static readonly int ASTLEY_MAX_HEALTH = 20;
         public static readonly int BOWSER_MAX_HEALTH = 20;
         public static readonly int SMALL_MAX_HEALTH = 2;
         public static readonly int MEDIUM_MAX_HEALTH = 5;

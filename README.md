@@ -30,6 +30,7 @@ Current Bugs Known:
 	- Items drop in unreachable locations if enemies die in those locations (white dungeon room is the main concern for this).
 	- Level # is not displayed on the HUD.
 	- No fairies.
+	- Power tower first room shows up on map in dungeon
 
 Explanation on Boomerang and Sword Projectile Stuns:
 	- The boomerang and four projectiles that come off of a sword projectile stun enemies that are medium sized and above 

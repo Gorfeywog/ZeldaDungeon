@@ -41,7 +41,8 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (!WillMove) { return; }
             int changeDirChance = 60;
-            if (SpriteUtil.Rand.Next(8) == 0 || currentFrame % changeDirChance == 0)
+            int numOfDirections = 8;
+            if (SpriteUtil.Rand.Next(numOfDirections) == 0 || currentFrame % changeDirChance == 0)
             {
                 switch (currDirection)
                 {

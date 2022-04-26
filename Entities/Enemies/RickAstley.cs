@@ -53,23 +53,23 @@ namespace ZeldaDungeon.Entities.Enemies
                 return;
             }
 
-            int fireballVel = 2 * SpriteUtil.SCALE_FACTOR;
-            IProjectile fireballN = new MusicNotes(CurrentLoc.Location, 0, -fireballVel);
-            IProjectile fireballS = new MusicNotes(CurrentLoc.Location, 0, fireballVel);
-            IProjectile fireballE = new MusicNotes(CurrentLoc.Location, fireballVel, 0);
-            IProjectile fireballW = new MusicNotes(CurrentLoc.Location, -fireballVel,0);
-            IProjectile fireballSE = new MusicNotes(CurrentLoc.Location, fireballVel, fireballVel);
-            IProjectile fireballSW = new MusicNotes(CurrentLoc.Location, -fireballVel, fireballVel);
-            IProjectile fireballNE = new MusicNotes(CurrentLoc.Location, fireballVel, -fireballVel);
-            IProjectile fireballNW = new MusicNotes(CurrentLoc.Location, -fireballVel, -fireballVel);
-            r.RegisterEntity(fireballN);
-            r.RegisterEntity(fireballS);
-            r.RegisterEntity(fireballE);
-            r.RegisterEntity(fireballW);
-            r.RegisterEntity(fireballSE);
-            r.RegisterEntity(fireballSW);
-            r.RegisterEntity(fireballNE);
-            r.RegisterEntity(fireballNW);
+            int noteVel = 2 * SpriteUtil.SCALE_FACTOR;
+            IProjectile noteN = new MusicNotes(CurrentLoc.Location, 0, -noteVel);
+            IProjectile noteS = new MusicNotes(CurrentLoc.Location, 0, noteVel);
+            IProjectile noteE = new MusicNotes(CurrentLoc.Location, noteVel, 0);
+            IProjectile noteW = new MusicNotes(CurrentLoc.Location, -noteVel,0);
+            IProjectile noteSE = new MusicNotes(CurrentLoc.Location, noteVel, noteVel);
+            IProjectile noteSW = new MusicNotes(CurrentLoc.Location, -noteVel, noteVel);
+            IProjectile noteNE = new MusicNotes(CurrentLoc.Location, noteVel, -noteVel);
+            IProjectile noteNW = new MusicNotes(CurrentLoc.Location, -noteVel, -noteVel);
+            r.RegisterEntity(noteN);
+            r.RegisterEntity(noteS);
+            r.RegisterEntity(noteE);
+            r.RegisterEntity(noteW);
+            r.RegisterEntity(noteSE);
+            r.RegisterEntity(noteSW);
+            r.RegisterEntity(noteNE);
+            r.RegisterEntity(noteNW);
         }
 
         public void TakeDamage(DamageLevel level)

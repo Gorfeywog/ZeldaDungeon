@@ -40,7 +40,7 @@ namespace ZeldaDungeon.Entities.Enemies
         {
             if (!WillMove) { return; }
             int dirChance = 3;
-            int locChange = (4 * SpriteUtil.Rand.Next(3) - 4) * SpriteUtil.SCALE_FACTOR;
+            int locChange = (4 * SpriteUtil.Rand.Next(dirChance) - 4) * SpriteUtil.SCALE_FACTOR;
             Rectangle newPos;
             if (SpriteUtil.Rand.Next(dirChance) == 0)
             {

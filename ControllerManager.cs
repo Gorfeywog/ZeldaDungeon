@@ -55,8 +55,6 @@ namespace ZeldaDungeon
             ICommand linkStopDown = new StopLink(g, Direction.Down);
             ICommand linkStopLeft = new StopLink(g, Direction.Left);
             ICommand linkStopRight = new StopLink(g, Direction.Right);
-            keyboardCon.RegisterCommand(Keys.P, new IncRoom(g));
-            keyboardCon.RegisterCommand(Keys.O, new DecRoom(g));
             keyboardCon.RegisterHoldCommand(Keys.W, linkUp, linkStopUp);
             keyboardCon.RegisterHoldCommand(Keys.Up, linkUp, linkStopUp);
             keyboardCon.RegisterHoldCommand(Keys.A, linkLeft, linkStopLeft);
